@@ -1,5 +1,10 @@
+// URL for talking to the backend
+export const URL = 'https://comp3200-backend.herokuapp.com/'
+
 export const ROUTES = {
-    login: '*',
-    register: '/register',
-    home: '*'
+    home: '*',
+    user: {
+        login: '*',
+        register: '/register',
+    }
 }
