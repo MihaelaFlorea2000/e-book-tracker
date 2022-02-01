@@ -252,8 +252,9 @@ const LinkContainer = styled.div`
 
 const LinkSpan = styled.span`
   color: ${theme.palette.primary.main};
-  font-weight: bold;
+  font-family: 'PoppinsSemiBold', sans-serif;
   text-decoration: none;
+  transition: color 0.5s;
   
   :hover {
     color: ${theme.palette.secondary.main};

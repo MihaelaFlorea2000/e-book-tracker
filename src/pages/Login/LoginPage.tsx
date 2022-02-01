@@ -169,7 +169,7 @@ const TitleContainer = styled.div`
 `
 
 const Title = styled.h1`
-    margin: 5px 0;
+  margin: 5px 0;
 `
 
 const Subtitle = styled.div`
@@ -198,8 +198,9 @@ const LinkContainer = styled.div`
 
 const LinkSpan = styled.span`
   color: ${theme.palette.primary.main};
-  font-weight: bold;
+  font-family: 'PoppinsSemiBold', sans-serif;
   text-decoration: none;
+  transition: color 0.5s;
   
   :hover {
     color: ${theme.palette.secondary.main};

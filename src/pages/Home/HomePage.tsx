@@ -1,11 +1,13 @@
 import styled from "@emotion/styled";
 import React from "react";
+import Menu from "../../components/Menu";
 
 const HomePage = () => {
 
     return (
         <Page>
-            <div>Home</div>
+            <Menu />
+
         </Page>
     )
 }
