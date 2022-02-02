@@ -1,3 +1,4 @@
+import { observer } from 'mobx-react';
 import React from 'react';
 import { BrowserRouter, Route, Routes} from 'react-router-dom';
 import { ROUTES } from './config/config';
@@ -27,4 +28,4 @@ function App() {
     );
 }
 
-export default App;
+export default observer(App);

@@ -13,6 +13,11 @@
     font-family: 'PoppinsRegular', sans-serif;
 }
 
+body {
+    margin: 0;
+    padding: 0;
+}
+
 a {
     text-decoration: none;
     color: inherit;

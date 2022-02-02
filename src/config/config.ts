@@ -6,5 +6,11 @@ export const ROUTES = {
     user: {
         login: '*',
         register: '/register',
-    }
+    },
+    library: '/library',
+    track: '/track',
+    explore: '/explore',
+    friends: '/friends',
+    settings: '/settings',
+    profile: '/profile'
 }

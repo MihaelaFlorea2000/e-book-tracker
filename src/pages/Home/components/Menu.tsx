@@ -1,10 +1,10 @@
 import styled from "@emotion/styled";
 import React from "react";
-import {theme} from "../utils/style/styleConfig";
-
+import {theme} from "../../../utils/style/styleConfig";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHome, faCompass, faUserFriends, faCog, faChartBar, faBook} from '@fortawesome/free-solid-svg-icons'
 import { NavLink } from "react-router-dom";
+import { observer } from "mobx-react";
 
 
 const Menu = () => {
@@ -16,7 +16,7 @@ const Menu = () => {
             </LogoContainer>
             <MenuLinkContainer>
                 <MenuLink>
-                    <NavLink to={"/"}>
+                    <NavLink to={"/library"}>
                         <MenuLinkContent>
                             <IconContainer><FontAwesomeIcon className="fa-fw" icon={faHome}/></IconContainer>
                             <MenuText>Home</MenuText>
@@ -60,10 +60,9 @@ const Menu = () => {
     )
 }
 
-export default Menu;
+export default observer(Menu);
 
 const MenuContainer = styled.div`
-  position: fixed;
   height: 100vh;
   display: flex;
   flex-flow: column;
@@ -123,5 +122,4 @@ const IconContainer = styled.div`
 `
 
 const MenuText = styled.div`
-    //display: none;
 `

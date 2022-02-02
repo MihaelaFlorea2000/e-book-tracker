@@ -22,6 +22,7 @@ import {Visibility, VisibilityOff } from "@mui/icons-material";
 import MainStore from "../../stores/MainStore";
 import { theme } from "../../utils/style/styleConfig";
 import axiosConfig from "../../config/axiosConfig";
+import { observer } from "mobx-react";
 
 // Data submitted in the form
 interface FormState {
@@ -142,7 +143,7 @@ const LoginPage = () => {
     )
 }
 
-export default LoginPage;
+export default observer(LoginPage);
 
 const Page = styled.div`
   background-color: ${theme.palette.primary.light};

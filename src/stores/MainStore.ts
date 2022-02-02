@@ -1,55 +1,61 @@
 import {makeAutoObservable} from "mobx";
 import jwt_decode from "jwt-decode";
-import {AuthTokenDataStructure} from "../config/interfaces";
 
 class MainStore {
-    private isAuthenticated: boolean = false;
+
+    private authStatus: boolean = false;
 
     public constructor() {
         makeAutoObservable(this);
 
-        this.setAuthentication();
+        this.setAuthStatus();
     }
 
-    public login(token: string) {
-        localStorage.setItem("token", token);
 
-        this.setAuthentication();
+    // Login user
+    public login(authToken: string) {
+        localStorage.setItem("user", authToken);
+
+        this.setAuthStatus();
     }
 
+    // Logout user
     public logout() {
-        localStorage.removeItem("token");
+        localStorage.removeItem("user");
 
-        this.isAuthenticated = false;
+        this.authStatus = false;
     }
 
+    // Check if user is logged in
     public isAuth() {
-        return this.isAuthenticated;
+        return this.authStatus;
     }
 
-    public getAuthToken() {
-        return localStorage.getItem('token') as string;
+    // Return token
+    public getToken() {
+        return localStorage.getItem('user') as string;
     }
 
-    private setAuthentication(): boolean {
-        let token = this.parseAuthToken()
-
-        if (token !== false) {
-
-            this.isAuthenticated = true;
+    // Set authentication status
+    private setAuthStatus(): boolean {
+        let tokenOk = this.checkToken();
+        if (tokenOk) {
+            this.authStatus = true;
 
             return true;
 
         } else {
-            this.isAuthenticated = false;
+            this.authStatus = false;
 
             return false;
         }
     }
 
-    private parseAuthToken(): AuthTokenDataStructure | boolean {
+    // Check if token is ok
+    private checkToken(): boolean {
         try {
-            return jwt_decode(this.getAuthToken()) as AuthTokenDataStructure
+            jwt_decode(this.getToken());
+            return true;
         } catch (err) {
             return false;
         }
