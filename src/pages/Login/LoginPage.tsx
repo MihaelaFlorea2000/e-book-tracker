@@ -23,6 +23,7 @@ import MainStore from "../../stores/MainStore";
 import { theme } from "../../utils/style/styleConfig";
 import axiosConfig from "../../config/axiosConfig";
 import { observer } from "mobx-react";
+import LoadingButton from "@mui/lab/LoadingButton";
 
 // Data submitted in the form
 interface FormState {
@@ -44,25 +45,28 @@ const loginSchema = yup.object({
 const LoginPage = () => {
 
     // Handling form submission
+    const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+
     const { register, handleSubmit, formState: { errors }, setError, clearErrors  } = useForm<FormState>({
         resolver: yupResolver(loginSchema),
     });
 
     const onSubmit = async (data : FormState) => {
         if (!!errors) {
+            setIsSubmitting(true);
             try {
                 const res = await axiosConfig().post( "/pg/users/login", data);
                 if (res.data.status) {
                     MainStore.login(res.data.token);
-                    window.location.reload();
                 } else {
+                    setIsSubmitting(false);
                     setError('errorMessage', {
                         type: 'manual',
                         message: res.data.message
                     })
                 }
             } catch (err:any) {
-                console.log(err.response.data)
+                setIsSubmitting(false);
                 setError('errorMessage', {
                     type: 'manual',
                     message: err.response.data.message
@@ -133,7 +137,10 @@ const LoginPage = () => {
                         } />
                         <LinkContainer>Don't have an account? <NavLink to={"/register"}><LinkSpan>Register for free </LinkSpan></NavLink></LinkContainer>
                         <ButtonContainer>
-                            <Button type="submit" variant="contained" size="large" onClick={() => clearErrors()}>Submit</Button>
+                            {isSubmitting
+                                ? <LoadingButton loading variant="outlined" size="large" >Submit</LoadingButton>
+                                : <Button type="submit" variant="contained" size="large" onClick={() => clearErrors()}>Submit</Button>
+                            }
                         </ButtonContainer>
                     </FormContainer>
 

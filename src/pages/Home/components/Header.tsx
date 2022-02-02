@@ -1,8 +1,8 @@
 import styled from "@emotion/styled";
 import InputAdornment from "@mui/material/InputAdornment";
 import TextField from "@mui/material/TextField";
-import React from "react";
-import {faBell, faSearch} from '@fortawesome/free-solid-svg-icons'
+import React, {useState} from "react";
+import {faBars, faBell, faSearch} from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import { theme } from "../../../utils/style/styleConfig";
 import UserStore from "../../../stores/UserStore";
@@ -11,9 +11,12 @@ import Box from "@mui/material/Box";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { NavLink } from "react-router-dom";
+import MainStore from "../../../stores/MainStore";
+import CircularProgress from "@mui/material/CircularProgress";
+import MobileMenu from "./Menu/MobileMenu";
+import { device } from "../../../config/config";
 
 const Header = () => {
-
 
     let user = UserStore.getCurrentUser();
 
@@ -27,16 +30,25 @@ const Header = () => {
         setAnchorElUser(null);
     };
 
+    const handleLogOut = () => {
+        MainStore.logout();
+        handleCloseUserMenu();
+    };
+
+
     if (user === undefined) {
         return (
-            <div>
-                Loading
-            </div>
+            <LoadingContainer>
+                <CircularProgress color="primary" size={50} thickness={8}/>
+            </LoadingContainer>
         )
     }
 
     return (
         <Container>
+            <HamburgerContainer>
+                <MobileMenu />
+            </HamburgerContainer>
             <SearchContainer>
                 <StyledTextField
                     id="search"
@@ -79,8 +91,8 @@ const Header = () => {
                         <MenuItem onClick={handleCloseUserMenu}>
                             <NavLink to={"/settings"}><SettingText>Account Settings</SettingText></NavLink>
                         </MenuItem>
-                        <MenuItem onClick={handleCloseUserMenu}>
-                            <NavLink to={"/logout"}><SettingText>Logout</SettingText></NavLink>
+                        <MenuItem onClick={handleLogOut}>
+                            <NavLink to={"/"}><SettingText>Logout</SettingText></NavLink>
                         </MenuItem>
                     </StyledMenu>
                 </Box>
@@ -91,15 +103,30 @@ const Header = () => {
 
 export default observer(Header);
 
+const LoadingContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+`
+
 const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 20px;
+  
+  @media only screen and ${device.tablet} {
+    padding: 15px 10px;
+  }
 `
 
 const SearchContainer = styled.div`
   width: 40%;
+  
+  @media only screen and ${device.tablet} {
+    width: 45%;
+  }
 `
 
 const IconContainer = styled.div`
@@ -164,5 +191,10 @@ const UserName = styled.h4`
   margin: 0;
   border-bottom: 1px solid ${theme.palette.primary.light};
 `
-
-
+const HamburgerContainer = styled.div`
+  display: none;
+  
+  @media only screen and ${device.tablet} {
+    display: flex;
+  }
+`

@@ -1,13 +1,11 @@
 import styled from "@emotion/styled";
 import React from "react";
-import {theme} from "../../../utils/style/styleConfig";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHome, faCompass, faUserFriends, faCog, faChartBar, faBook} from '@fortawesome/free-solid-svg-icons'
-import { NavLink } from "react-router-dom";
-import { observer } from "mobx-react";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faBook, faChartBar, faCog, faCompass, faHome, faUserFriends} from "@fortawesome/free-solid-svg-icons";
+import {NavLink} from "react-router-dom";
+import {theme} from "../../../../utils/style/styleConfig";
 
-
-const Menu = () => {
+const MenuBar = () => {
 
     return (
         <MenuContainer>
@@ -60,7 +58,7 @@ const Menu = () => {
     )
 }
 
-export default observer(Menu);
+export default MenuBar;
 
 const MenuContainer = styled.div`
   height: 100vh;

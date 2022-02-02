@@ -3,7 +3,7 @@ import React from "react";
 import { theme } from "../../utils/style/styleConfig";
 import Header from "./components/Header";
 import HomeRoutes from "./components/HomeRoutes";
-import Menu from "./components/Menu";
+import Menu from "./components/Menu/DesktopMenu";
 import {observer} from "mobx-react";
 
 
@@ -30,6 +30,7 @@ const Container = styled.div`
 const Page = styled.div`
   display: flex;
   width: 100vw;
+  height: 100vh;
   flex-flow: column;
   margin: 0;
   background-color: ${theme.palette.primary.light};
