@@ -4,6 +4,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faBook, faChartBar, faCog, faCompass, faHome, faUserFriends} from "@fortawesome/free-solid-svg-icons";
 import {NavLink} from "react-router-dom";
 import {theme} from "../../../../utils/style/styleConfig";
+import { device } from "../../../../config/config";
 
 const MenuBar = () => {
 
@@ -70,6 +71,10 @@ const MenuContainer = styled.div`
   padding-bottom: 20px;
   width: 160px;
   border-right: 1px solid ${theme.palette.primary.light};
+  
+  @media only screen and ${device.tablet} {
+    width: 60vw;
+  }
 `
 const LogoContainer = styled.div`
   display: flex;
@@ -91,6 +96,11 @@ const MenuLinkContainer = styled.div`
   height: 100vh;
   background-color: ${theme.palette.info.light};
   padding: 20px;
+
+  @media only screen and ${device.tablet} {
+    font-size: 1.1rem;
+    gap: 15px;
+  }
 `
 
 const MenuLink = styled.div`
