@@ -14,4 +14,9 @@ export const theme = createTheme({
             main: '#9094a3'
         }
     }
-})
+});
+
+export const border = {
+    borderRadius: "10px",
+    border: `1px solid ${theme.palette.primary.light}`
+}

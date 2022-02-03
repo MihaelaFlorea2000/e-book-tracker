@@ -19,7 +19,7 @@ import TextField from "@mui/material/TextField";
 import Alert from "@mui/material/Alert";
 import {Visibility, VisibilityOff } from "@mui/icons-material";
 
-import { theme } from "../../utils/style/styleConfig";
+import { theme } from "../../utils/style/themeConfig";
 import axiosConfig from "../../config/axiosConfig";
 
 // Data submitted in the form

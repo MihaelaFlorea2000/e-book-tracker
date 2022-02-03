@@ -8,6 +8,7 @@ import SettingsPage from "../../Settings/SettingsPage";
 import TrackPage from "../../Track/TrackPage";
 import {observer} from "mobx-react";
 import ProfilePage from "../../Profile/ProfilePage";
+import UploadPage from "../../Upload/Upload";
 
 const HomeRoutes = () => {
 
@@ -19,6 +20,7 @@ const HomeRoutes = () => {
             <Route path={ROUTES.friends} element={<FriendsPage/>}/>
             <Route path={ROUTES.settings} element={<SettingsPage/>}/>
             <Route path={ROUTES.profile} element={<ProfilePage/>}/>
+            <Route path={ROUTES.upload} element={<UploadPage/>}/>
         </Routes>
     );
 }

@@ -20,7 +20,7 @@ import Alert from "@mui/material/Alert";
 import {Visibility, VisibilityOff } from "@mui/icons-material";
 
 import MainStore from "../../stores/MainStore";
-import { theme } from "../../utils/style/styleConfig";
+import { theme } from "../../utils/style/themeConfig";
 import axiosConfig from "../../config/axiosConfig";
 import { observer } from "mobx-react";
 import LoadingButton from "@mui/lab/LoadingButton";

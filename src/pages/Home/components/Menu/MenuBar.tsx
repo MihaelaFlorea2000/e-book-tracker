@@ -3,7 +3,7 @@ import React from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faBook, faChartBar, faCog, faCompass, faHome, faUserFriends} from "@fortawesome/free-solid-svg-icons";
 import {NavLink} from "react-router-dom";
-import {theme} from "../../../../utils/style/styleConfig";
+import {border, theme} from "../../../../utils/style/themeConfig";
 import { device } from "../../../../config/config";
 
 const MenuBar = () => {
@@ -70,7 +70,7 @@ const MenuContainer = styled.div`
   gap: 20px;
   padding-bottom: 20px;
   width: 160px;
-  border-right: 1px solid ${theme.palette.primary.light};
+  border-right: ${border.border};
   
   @media only screen and ${device.tablet} {
     width: 60vw;
@@ -83,7 +83,7 @@ const LogoContainer = styled.div`
   font-size: 2.5rem;
   color: ${theme.palette.primary.main};
   padding: 30px;
-  border-bottom: 1px solid ${theme.palette.primary.light};
+  border-bottom: ${border.border};
 `
 
 const MenuLinkContainer = styled.div`
@@ -114,7 +114,7 @@ const MenuLinkContent = styled.div`
   gap: 10px;
   color: ${theme.palette.info.main};
   transition: color 0.5s, background 0.5s;
-  border-radius: 10px;
+  border-radius: ${border.borderRadius};
   padding: 10px;
   width: 115px;
   :hover {

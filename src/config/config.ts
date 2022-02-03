@@ -13,7 +13,8 @@ export const ROUTES = {
     explore: '/explore',
     friends: '/friends',
     settings: '/settings',
-    profile: '/profile'
+    profile: '/profile',
+    upload: '/upload'
 }
 
 // Breakpoints for media queries

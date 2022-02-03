@@ -4,7 +4,7 @@ import TextField from "@mui/material/TextField";
 import React, {useState} from "react";
 import {faBars, faBell, faSearch} from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import { theme } from "../../../utils/style/styleConfig";
+import {border, theme } from "../../../utils/style/themeConfig";
 import UserStore from "../../../stores/UserStore";
 import { observer } from "mobx-react";
 import Box from "@mui/material/Box";
@@ -138,9 +138,9 @@ const IconContainer = styled.div`
 
 const StyledTextField = styled(TextField)`
   background-color: white;
-  border-radius: 10px;
+  border-radius: ${border.borderRadius};
   fieldset {
-    border-radius: 10px;
+    border-radius: ${border.borderRadius};
   }
 `
 
@@ -157,7 +157,7 @@ const NotificationContainer = styled.div`
   background-color: white;
   padding: 15px;
   font-size: 1.5rem;
-  border-radius: 10px;
+  border-radius: ${border.borderRadius};
   transition: color 0.5s;
   cursor: pointer;
   
@@ -181,7 +181,7 @@ const SettingText = styled.div`
 const StyledMenu = styled(Menu)`
   padding: 0;
   > div {
-    border-radius: 10px;
+    border-radius: ${border.borderRadius};
   }
 `
 
@@ -189,7 +189,7 @@ const UserName = styled.h4`
   padding: 15px 16px;
   font-size: 1.1rem;
   margin: 0;
-  border-bottom: 1px solid ${theme.palette.primary.light};
+  border-bottom: ${border.border};
 `
 const HamburgerContainer = styled.div`
   display: none;
