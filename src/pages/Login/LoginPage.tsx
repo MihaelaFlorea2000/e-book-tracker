@@ -26,7 +26,7 @@ import { observer } from "mobx-react";
 import LoadingButton from "@mui/lab/LoadingButton";
 
 // Data submitted in the form
-interface FormState {
+interface FormInterface {
     email: string,
     password: string,
     errorMessage: string
@@ -47,11 +47,11 @@ const LoginPage = () => {
     // Handling form submission
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
-    const { register, handleSubmit, formState: { errors }, setError, clearErrors  } = useForm<FormState>({
+    const { register, handleSubmit, formState: { errors }, setError, clearErrors  } = useForm<FormInterface>({
         resolver: yupResolver(loginSchema),
     });
 
-    const onSubmit = async (data : FormState) => {
+    const onSubmit = async (data : FormInterface) => {
         if (!!errors) {
             setIsSubmitting(true);
             try {
