@@ -14,7 +14,7 @@ export interface UserInterface {
 
 // Book Information
 export interface BookInterface {
-    id: number,
+    id?: number,
     userId: number,
     title: string,
     authors: string[],
@@ -26,6 +26,21 @@ export interface BookInterface {
     language: string,
     rating: number,
     file: string,
+    fileName: string,
+    series: string
+}
+
+// Metadata
+export interface MetadataInterface {
+    title: string,
+    authors: string[],
+    description: string,
+    coverImage: string,
+    tags: string[],
+    publisher: string,
+    pubDate: string,
+    language: string,
+    rating: number,
     fileName: string,
     series: string
 }

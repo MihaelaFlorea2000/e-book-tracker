@@ -5,6 +5,7 @@ import {faBook, faChartBar, faCog, faCompass, faHome, faUserFriends} from "@fort
 import {NavLink} from "react-router-dom";
 import {border, theme} from "../../../../utils/style/themeConfig";
 import { device } from "../../../../config/config";
+import { observer } from "mobx-react";
 
 const MenuBar = () => {
 
@@ -59,7 +60,7 @@ const MenuBar = () => {
     )
 }
 
-export default MenuBar;
+export default observer(MenuBar);
 
 const MenuContainer = styled.div`
   height: 100vh;

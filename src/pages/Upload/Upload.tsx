@@ -10,6 +10,11 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import ePub from "epubjs";
 import Alert from "@mui/material/Alert";
 import {ErrorMessage} from "@hookform/error-message";
+import { MetadataInterface } from "../../config/interfaces";
+import UserStore from "../../stores/UserStore";
+import MetadataForm from "./components/MetadataForm";
+import {border, theme } from "../../utils/style/themeConfig";
+import TextField from "@mui/material/TextField";
 
 interface UploadFormInterface {
     files: FileList,
@@ -36,7 +41,7 @@ const UploadPage = () => {
     // Upload form
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const [success, setSuccess] = useState<boolean>(false);
-    const [metadata, setMetadata] = useState<object>({});
+    const [metadata, setMetadata] = useState<MetadataInterface | undefined>(undefined);
     const [filePreview, setFilePreview] = useState<string>("");
 
     const { register, handleSubmit, formState: { errors }, setError, clearErrors  } = useForm<UploadFormInterface>({
@@ -50,8 +55,24 @@ const UploadPage = () => {
             if (contents !== null) {
                 const Book = ePub(contents);
                 const bookMetadata = await Book.loaded.metadata;
-                console.log(bookMetadata);
-                setMetadata(bookMetadata);
+                const coverUrl = await Book.coverUrl();
+
+                const metadataObject : MetadataInterface = {
+                    title: bookMetadata.title,
+                    authors: [bookMetadata.creator],
+                    description: bookMetadata.description,
+                    coverImage: coverUrl === null ? '' : coverUrl,
+                    tags: [],
+                    publisher: bookMetadata.publisher,
+                    pubDate: bookMetadata.pubdate,
+                    language: bookMetadata.language,
+                    rating: 0,
+                    fileName: file.name,
+                    series: ''
+                }
+
+                console.log(metadataObject);
+                setMetadata(metadataObject);
             }
         };
 
@@ -87,45 +108,45 @@ const UploadPage = () => {
     return (
         <Page>
             <Title>Upload book</Title>
-                <UploadForm onSubmit={handleSubmit(onSubmit)}>
-                    <UploadContainer>
-                        <ButtonContainer>
-                            <UploadButton>
-                                <Button variant="contained" component="label" startIcon={<FontAwesomeIcon icon={faFileUpload}/>}>
-                                    Upload file
-                                    <input
-                                        id="file"
-                                        type="file"
-                                        {...register('files', {
-                                            onChange: (Event) => {updatePreview(Event.target.files)}
-                                        })}
-                                        accept="application/epub+zip"
-                                        hidden
-                                    />
-                                </Button>
-                                <FilePreview>{filePreview}</FilePreview>
-                            </UploadButton>
-                            <SubmitButton>
-                                {isSubmitting
-                                    ? <LoadingButton loading variant="outlined" >Generate</LoadingButton>
-                                    : <Button type="submit" variant="contained" onClick={() => clearErrors()}>Continue</Button>
-                                }
-                            </SubmitButton>
-                        </ButtonContainer>
-                        <InfoContainer>
-                            <ErrorMessage errors={errors} name="errorMessage" render={({ message }) =>
-                                <Alert severity="error">{message}</Alert>
-                            } />
-                            {!!errors.files && (
-                                <Alert severity="error">{errors.files.message}</Alert>
-                            )}
-                            {success && (
-                                <Alert severity="success">File OK. See info below.</Alert>
-                            )}
-                        </InfoContainer>
-                    </UploadContainer>
-                </UploadForm>
-            {JSON.stringify(metadata)}
+            <UploadForm onSubmit={handleSubmit(onSubmit)}>
+                <UploadContainer>
+                    <ButtonContainer>
+                        <UploadButton>
+                            <Button variant="contained" component="label" startIcon={<FontAwesomeIcon icon={faFileUpload}/>}>
+                                Upload file
+                                <input
+                                    id="file"
+                                    type="file"
+                                    {...register('files', {
+                                        onChange: (Event) => {updatePreview(Event.target.files)}
+                                    })}
+                                    accept="application/epub+zip"
+                                    hidden
+                                />
+                            </Button>
+                            <FilePreview>{filePreview}</FilePreview>
+                        </UploadButton>
+                        <SubmitButton>
+                            {isSubmitting
+                                ? <LoadingButton loading variant="outlined" >Generate</LoadingButton>
+                                : <Button type="submit" variant="contained" onClick={() => clearErrors()}>Continue</Button>
+                            }
+                        </SubmitButton>
+                    </ButtonContainer>
+                    <InfoContainer>
+                        <ErrorMessage errors={errors} name="errorMessage" render={({ message }) =>
+                            <Alert severity="error">{message}</Alert>
+                        } />
+                        {!!errors.files && (
+                            <Alert severity="error">{errors.files.message}</Alert>
+                        )}
+                        {success && (
+                            <Alert severity="success">File OK. You can see and edit the book information below.</Alert>
+                        )}
+                    </InfoContainer>
+                </UploadContainer>
+            </UploadForm>
+            <MetadataForm metadata={metadata}/>
         </Page>
     )
 }
@@ -143,9 +164,9 @@ const UploadContainer = styled.div`
   display: flex;
   flex-flow: column;
   gap: 25px;
-  background-color: white;
-  padding: 30px;
-  border-radius: 10px;
+  background-color: ${theme.palette.info.light};
+  padding: 50px 30px 30px 30px;
+  border-radius: ${border.borderRadius};
 `
 
 const UploadForm = styled.form`
