@@ -18,10 +18,10 @@ interface FormState {
 
 // const book = {
 //     ✅title: title,
-//     authors: authors === undefined ? [] : authors,
+//     ✅authors: authors === undefined ? [] : authors,
 //     ✅description: description,
 //     ✅coverImage: coverImage === undefined ? COVER_IMAGE : coverImage,
-//     tags: tags === undefined ? [] : tags,
+//     ✅tags: tags === undefined ? [] : tags,
 //     ✅publisher: publisher,
 //     ✅pubDate: pubDate,
 //     ✅language: language,
@@ -54,6 +54,7 @@ const MetadataForm = (props: Props) => {
                     type="text"
                     defaultValue={props.metadata?.title}
                 />
+                <TagsInput id="authors" label="Authors" placeholder="Add Author" list={props.metadata?.authors}/>
                 <TextField
                     id="series"
                     label="Series"
@@ -70,27 +71,31 @@ const MetadataForm = (props: Props) => {
                     rows={5}
                     defaultValue={props.metadata?.description}
                 />
-                <TextField
-                    id="publisher"
-                    label="Publisher"
-                    variant="outlined"
-                    type="text"
-                    defaultValue={props.metadata?.publisher}
-                />
-                <TextField
-                    id="language"
-                    label="Language"
-                    variant="outlined"
-                    type="text"
-                    defaultValue={props.metadata?.language}
-                />
-                <TextField
-                    id="pubDate"
-                    variant="outlined"
-                    type="date"
-                    defaultValue={props.metadata?.pubDate}
-                />
-                <TagsInput id="author" label="Authors" placeholder="Add Author" list={props.metadata?.authors}/>
+                <PublicationDetails>
+                    <TextField
+                        id="publisher"
+                        label="Publisher"
+                        variant="outlined"
+                        fullWidth
+                        type="text"
+                        defaultValue={props.metadata?.publisher}
+                    />
+                    <TextField
+                        id="pubDate"
+                        variant="outlined"
+                        fullWidth
+                        type="date"
+                        defaultValue={props.metadata?.pubDate}
+                    />
+                    <TextField
+                        id="language"
+                        label="Language"
+                        variant="outlined"
+                        type="text"
+                        defaultValue={props.metadata?.language}
+                    />
+                </PublicationDetails>
+                <TagsInput id="tags" label="Tags" placeholder="Add Tag" list={props.metadata?.tags}/>
                 <RatingContainer>
                     <RatingText>Rating</RatingText>
                     <Rating name="no-value" value={null} />
@@ -130,6 +135,12 @@ const FieldsContainer = styled.div`
   gap: 20px;
   flex-flow: column;
   width: 100%;
+`
+
+const PublicationDetails = styled.div`
+  display: grid;
+  grid-template-columns: repeat(2, calc(35% - 10px)) 30%;
+  grid-column-gap: 10px;
 `
 
 const RatingContainer = styled.div`

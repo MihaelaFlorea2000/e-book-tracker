@@ -61,6 +61,7 @@ const TagsInput = (props:Props) => {
                 label={props.label}
                 variant="outlined"
                 type="text"
+                fullWidth
                 value={inputValue}
                 placeholder={props.placeholder}
                 InputProps={{
@@ -91,9 +92,12 @@ const TagsInput = (props:Props) => {
 export default TagsInput;
 
 const InputContainer = styled.div`
+  display: flex;
+  gap: 5px;
 `
 const TagsContainer = styled.div`
   display: flex;
   gap: 2px;
+  margin: 5px;
 `
 
