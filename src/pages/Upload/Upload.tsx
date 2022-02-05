@@ -64,7 +64,7 @@ const UploadPage = () => {
                     coverImage: coverUrl === null ? '' : coverUrl,
                     tags: [],
                     publisher: bookMetadata.publisher,
-                    pubDate: bookMetadata.pubdate,
+                    pubDate: new Date(bookMetadata.pubdate).toISOString().split('T')[0],
                     language: bookMetadata.language,
                     rating: 0,
                     fileName: file.name,
@@ -100,6 +100,7 @@ const UploadPage = () => {
     }
 
     const updatePreview = (files : FileList) => {
+        setSuccess(false)
         if (!!errors) {
             setFilePreview(files[0].name);
         }
