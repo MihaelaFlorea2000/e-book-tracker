@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import Button from "@mui/material/Button";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {faFileUpload} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {useForm} from "react-hook-form";
@@ -10,11 +10,11 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import ePub from "epubjs";
 import Alert from "@mui/material/Alert";
 import {ErrorMessage} from "@hookform/error-message";
-import { MetadataInterface } from "../../config/interfaces";
-import UserStore from "../../stores/UserStore";
-import MetadataForm from "./components/MetadataForm";
 import {border, theme } from "../../utils/style/themeConfig";
-import TextField from "@mui/material/TextField";
+import UploadStore from "../../stores/UploadStore";
+import { observer } from "mobx-react";
+import {useNavigate} from "react-router-dom";
+import axios from "axios";
 
 interface UploadFormInterface {
     files: FileList,
@@ -36,12 +36,10 @@ const uploadSchema = yup.object().shape({
         })
 });
 
-const UploadPage = () => {
+const UploadFirstStep = () => {
 
     // Upload form
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-    const [success, setSuccess] = useState<boolean>(false);
-    const [metadata, setMetadata] = useState<MetadataInterface | undefined>(undefined);
     const [filePreview, setFilePreview] = useState<string>("");
 
     const { register, handleSubmit, formState: { errors }, setError, clearErrors  } = useForm<UploadFormInterface>({
@@ -55,29 +53,40 @@ const UploadPage = () => {
             if (contents !== null) {
                 const Book = ePub(contents);
                 const bookMetadata = await Book.loaded.metadata;
-                const coverUrl = await Book.coverUrl();
+                const coverUrlRes = await Book.coverUrl();
+                const coverUrl = coverUrlRes === null ? '' : coverUrlRes
 
-                const metadataObject : MetadataInterface = {
-                    title: bookMetadata.title,
-                    authors: [bookMetadata.creator],
-                    description: bookMetadata.description,
-                    coverImage: coverUrl === null ? '' : coverUrl,
-                    tags: [],
-                    publisher: bookMetadata.publisher,
-                    pubDate: new Date(bookMetadata.pubdate).toISOString().split('T')[0],
-                    language: bookMetadata.language,
-                    rating: 0,
-                    fileName: file.name,
-                    series: ''
-                }
+                UploadStore.setTitle(bookMetadata.title);
+                UploadStore.addAuthor(bookMetadata.creator);
+                UploadStore.setDescription(bookMetadata.description);
+                UploadStore.setCoverImageUrl(coverUrl);
+                UploadStore.setPublisher(bookMetadata.publisher);
+                UploadStore.setPubDate(new Date(bookMetadata.pubdate).toISOString().split('T')[0]);
+                UploadStore.setLanguage(bookMetadata.language);
+                UploadStore.setFileName(file.name);
+                UploadStore.setFile(file);
 
-                console.log(metadataObject);
-                setMetadata(metadataObject);
+                axios.get(coverUrl, { responseType: 'blob' })
+                    .then(res => {
+                        const coverImage = new File([res.data], 'coverImage');
+                        UploadStore.setCoverImage(coverImage);
+                        UploadStore.setMetadataStatus(true);
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    });
             }
+            return false;
         };
 
         await reader.readAsArrayBuffer(file);
     }
+
+    useEffect(() => {
+        UploadStore.resetMetadata();
+    });
+
+    let navigate = useNavigate();
 
     const onSubmit = async (data : UploadFormInterface) => {
         if (!!errors) {
@@ -86,10 +95,9 @@ const UploadPage = () => {
                 console.log(data.files[0]);
                 await getMetadata(data.files[0]);
                 setIsSubmitting(false);
-                setSuccess(true);
+                navigate('/upload/2');
             } catch (err:any) {
                 setIsSubmitting(false);
-                setSuccess(false);
                 console.log(err);
                 setError('errorMessage', {
                     type: 'manual',
@@ -100,7 +108,6 @@ const UploadPage = () => {
     }
 
     const updatePreview = (files : FileList) => {
-        setSuccess(false)
         if (!!errors) {
             setFilePreview(files[0].name);
         }
@@ -108,7 +115,7 @@ const UploadPage = () => {
 
     return (
         <Page>
-            <Title>Upload book</Title>
+            <Title>Upload Page</Title>
             <UploadForm onSubmit={handleSubmit(onSubmit)}>
                 <UploadContainer>
                     <ButtonContainer>
@@ -141,21 +148,18 @@ const UploadPage = () => {
                         {!!errors.files && (
                             <Alert severity="error">{errors.files.message}</Alert>
                         )}
-                        {success && (
-                            <Alert severity="success">File OK. You can see and edit the book information below.</Alert>
-                        )}
                     </InfoContainer>
                 </UploadContainer>
             </UploadForm>
-            <MetadataForm metadata={metadata}/>
         </Page>
     )
 }
 
-export default UploadPage;
+export default observer(UploadFirstStep);
+
 
 const Page = styled.div`
-  padding: 20px;
+    padding: 20px
 `
 
 const Title = styled.h1`

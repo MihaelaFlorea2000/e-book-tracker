@@ -1,136 +1,338 @@
 import styled from "@emotion/styled";
-import React from "react";
-import {MetadataInterface} from "../../../config/interfaces";
+import React, {useState} from "react";
+import {UserInterface} from "../../../config/interfaces";
 import TextField from "@mui/material/TextField";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import { border } from "../../../utils/style/themeConfig";
 import Rating from "@mui/material/Rating";
 import TagsInput from "./TagsInput";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faFileImage, faCheckCircle, faTimesCircle} from "@fortawesome/free-solid-svg-icons";
+import Button from "@mui/material/Button";
+import * as yup from "yup";
+import axiosConfig from "../../../config/axiosConfig";
+import {observer} from "mobx-react";
+import {toJS} from "mobx";
+import Alert from "@mui/material/Alert";
+import UploadStore from "../../../stores/UploadStore";
 
 interface Props {
-    metadata: MetadataInterface | undefined;
+    user: UserInterface;
 }
 
-interface FormState {
-    title: string
+interface FormInterface {
+    title: string,
+    series: string,
+    description: string,
+    publisher: string,
+    pubDate: string,
+    language: string,
+    coverImage: FileList,
+    errorMessage: string
 }
 
-// const book = {
-//     ✅title: title,
-//     ✅authors: authors === undefined ? [] : authors,
-//     ✅description: description,
-//     ✅coverImage: coverImage === undefined ? COVER_IMAGE : coverImage,
-//     ✅tags: tags === undefined ? [] : tags,
-//     ✅publisher: publisher,
-//     ✅pubDate: pubDate,
-//     ✅language: language,
-//     ✅rating: rating === undefined ? 0 : rating,
-//     ✅file: file,
-//     ✅fileName: fileName,
-//     ✅series: series
-// };
+// Upload form validation schema
+const metadataSchema = yup.object().shape({
+    title: yup.string().required('Title is required'),
+    series: yup.string(),
+    description: yup.string(),
+    publisher: yup.string(),
+    pubDate: yup.string(),
+    language: yup.string()
+});
 
-const MetadataForm = (props: Props) => {
+const MetadataForm = (props:Props) => {
 
-    // const user = UserStore.getCurrentUser();
-    //
-    // if (user === undefined) {
-    //     return(
-    //         <p>Loading</p>
-    //     )
-    // }
+    const { register, handleSubmit, formState: { errors }, setError, clearErrors, setValue  } = useForm<FormInterface>({
+        resolver: yupResolver(metadataSchema),
+        mode: 'onChange',
+        defaultValues: {
+            title: UploadStore.getTitle(),
+            series: UploadStore.getSeries(),
+            description: UploadStore.getDescription(),
+            publisher: UploadStore.getPublisher(),
+            pubDate: UploadStore.getPubDate(),
+            language: UploadStore.getLanguage()
+        }
+    });
+
+    const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+
+    const [rating, setRating] = useState<number>(0);
+    const [tags, setTags] = useState<string[]>(UploadStore.getTags());
+    const [authors, setAuthors] = useState<string[]>(UploadStore.getAuthors());
+
+
+    const getTags = (inputTags:string[]):void => {
+        setTags(inputTags);
+    }
+
+    const getAuthors = (inputAuthors:string[]):void => {
+        setAuthors(inputAuthors);
+    }
+
+    const onSubmit = (data: FormInterface) => {
+        setIsSubmitting(true);
+        try {
+            const book = {
+                userId: props.user.id,
+                title: data.title,
+                authors: toJS(authors),
+                description: data.description,
+                tags: toJS(tags),
+                publisher: data.publisher,
+                pubDate: data.pubDate,
+                language: data.language,
+                rating: rating,
+                fileName: UploadStore.getFileName(),
+                series: data.series,
+            }
+            console.log(book);
+            console.log(UploadStore.getCoverImage());
+            console.log(UploadStore.getFile());
+        } catch (err:any) {
+            console.log(err);
+            setIsSubmitting(false);
+        }
+    }
+
+    const uploadImage = (files:FileList | null) => {
+        if (files !== null) {
+            let url = URL.createObjectURL(files[0]);
+            UploadStore.setCoverImageUrl(url);
+            UploadStore.setCoverImage(files[0]);
+        }
+    }
 
     return (
-        <FormContainer key={props.metadata?.title}>
-            <ImageContainer>
-                <Image image={props.metadata?.coverImage}/>
-            </ImageContainer>
-            <FieldsContainer>
-                <TextField
-                    id="title"
-                    label="Title"
-                    variant="outlined"
-                    type="text"
-                    defaultValue={props.metadata?.title}
-                />
-                <TagsInput id="authors" label="Authors" placeholder="Add Author" list={props.metadata?.authors}/>
-                <TextField
-                    id="series"
-                    label="Series"
-                    variant="outlined"
-                    type="text"
-                    defaultValue={props.metadata?.series}
-                />
-                <TextField
-                    id="description"
-                    label="Description"
-                    variant="outlined"
-                    type="text"
-                    multiline
-                    rows={5}
-                    defaultValue={props.metadata?.description}
-                />
-                <PublicationDetails>
-                    <TextField
-                        id="publisher"
-                        label="Publisher"
-                        variant="outlined"
-                        fullWidth
-                        type="text"
-                        defaultValue={props.metadata?.publisher}
-                    />
-                    <TextField
-                        id="pubDate"
-                        variant="outlined"
-                        fullWidth
-                        type="date"
-                        defaultValue={props.metadata?.pubDate}
-                    />
-                    <TextField
-                        id="language"
-                        label="Language"
-                        variant="outlined"
-                        type="text"
-                        defaultValue={props.metadata?.language}
-                    />
-                </PublicationDetails>
-                <TagsInput id="tags" label="Tags" placeholder="Add Tag" list={props.metadata?.tags}/>
-                <RatingContainer>
-                    <RatingText>Rating</RatingText>
-                    <Rating name="no-value" value={null} />
-                </RatingContainer>
-            </FieldsContainer>
-        </FormContainer>
+        <Container>
+            <Alert severity="success">File OK. You can see and edit the book information below.</Alert>
+            <FormContainer
+                onSubmit={handleSubmit(onSubmit)}
+            >
+                <FieldsContainer>
+                    <LeftFieldsContainer>
+                        <CoverContainer>
+                            <ImageContainer>
+                                <Image image={UploadStore.getCoverImageUrl()}/>
+                                <ChangeImage>
+                                    <ButtonContainer>
+                                        <Button
+                                            variant="contained"
+                                            component="label"
+                                            startIcon={<FontAwesomeIcon icon={faFileImage}/>}
+                                        >
+                                            Change Cover
+                                            <input
+                                                id="file"
+                                                type="file"
+                                                accept="image/*"
+                                                {...register('coverImage', {
+                                                    onChange: (Event) => {uploadImage(Event.target.files)}
+                                                })}
+                                                hidden
+                                            />
+                                        </Button>
+                                    </ButtonContainer>
+                                </ChangeImage>
+                            </ImageContainer>
+                        </CoverContainer>
+                        <RatingContainer>
+                            <RatingText>Rating</RatingText>
+                            <Rating
+                                name="simple-controlled"
+                                value={rating}
+                                onChange={(event, newRating) => {
+                                    setRating(newRating !== null ? newRating : 0);
+                                }}
+                                size="large"
+                            />
+                        </RatingContainer>
+                    </LeftFieldsContainer>
+                    <RightFieldsContainer>
+                        <TextField
+                            id="title"
+                            label="Title"
+                            {...register('title')}
+                            variant="outlined"
+                            type="text"
+                        />
+                        <TagsInput
+                            id="authors"
+                            label="Authors"
+                            placeholder="Add Author"
+                            getTags={getAuthors}
+                            list={UploadStore.getAuthors()}
+                        />
+                        <TextField
+                            id="series"
+                            label="Series"
+                            {...register('series')}
+                            variant="outlined"
+                            type="text"
+                        />
+                        <TextField
+                            id="description"
+                            label="Description"
+                            variant="outlined"
+                            {...register('description')}
+                            type="text"
+                            multiline
+                            rows={5}
+                        />
+                        <PublicationDetails>
+                            <TextField
+                                id="publisher"
+                                label="Publisher"
+                                variant="outlined"
+                                {...register('publisher')}
+                                fullWidth
+                                type="text"
+                            />
+                            <TextField
+                                id="pubDate"
+                                variant="outlined"
+                                {...register('pubDate')}
+                                fullWidth
+                                type="date"
+                            />
+                            <TextField
+                                id="language"
+                                label="Language"
+                                {...register('language')}
+                                variant="outlined"
+                                type="text"
+                            />
+                        </PublicationDetails>
+                        <TagsInput
+                            id="tags"
+                            label="Tags"
+                            getTags={getTags}
+                            placeholder="Add Tag"
+                            list={UploadStore.getTags()}
+                        />
+                    </RightFieldsContainer>
+                </FieldsContainer>
+                <SubmitButtons>
+                    <Button
+                        type="submit"
+                        variant="contained"
+                        size="large"
+                        color="success"
+                        startIcon={<FontAwesomeIcon className="fa-fw" icon={faCheckCircle}/>}
+                    >
+                        Save
+                    </Button>
+                    <Button
+                        type="button"
+                        variant="contained"
+                        color="error"
+                        size="large"
+                        startIcon={<FontAwesomeIcon className="fa-fw" icon={faTimesCircle}/>}
+                    >
+                        Cancel
+                    </Button>
+                </SubmitButtons>
+            </FormContainer>
+        </Container>
     )
 }
 
-export default MetadataForm;
+export default observer(MetadataForm);
+
+const Container = styled.div`
+  display: flex;
+  flex-flow: column;
+  gap: 25px;
+`
 
 const FormContainer = styled.form`
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: center;
+  gap: 50px;
+`
+
+const FieldsContainer = styled.div`
   display: flex;
   gap: 20px;
   margin-top: 25px;
 `
 
-const ImageContainer = styled.div`
+const LeftFieldsContainer = styled.div`
+  display: flex;
+  flex-flow: column;
+  width: 390px;
+  height: 527px;
+  gap: 10px;
+`
+
+const CoverContainer = styled.div`
   background-color: white;
   border-radius: ${border.borderRadius};
-  width: 300px;
-  height: 375px;
+  width: 100%;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
 `
 
+const ImageContainer = styled.div`
+  width: 90%;
+  height: 90%;
+  position: relative;
+  
+  :hover :nth-child(2) {
+    background-color: rgba(255,255,255,0.5);
+  }
+`
+
 const Image = styled.div<{image: string | undefined}>`
   background-image: url(${props => props.image});
   background-size: cover;
-  width: 90%;
-  height: 90%;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
 `
 
-const FieldsContainer = styled.div`
+const ChangeImage = styled.div`
+  background-color: rgba(255,255,255,0);
+  background-size: cover;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.5s;
+  cursor: pointer;
+  
+  :hover div {
+    opacity: 1;
+  }
+`
+const ButtonContainer = styled.div`
+  opacity: 0;
+  transition: opacity 0.5s;
+`
+
+const RatingContainer = styled.div`
+  display: flex;
+  flex-flow: column;
+  gap: 5px;
+`
+
+const RatingText = styled.div`
+  margin-left: 4px;
+`
+
+const RightFieldsContainer = styled.div`
   display: flex;
   gap: 20px;
   flex-flow: column;
@@ -143,13 +345,12 @@ const PublicationDetails = styled.div`
   grid-column-gap: 10px;
 `
 
-const RatingContainer = styled.div`
+const SubmitButtons = styled.div`
   display: flex;
-  flex-flow: column;
-  gap: 5px;
+  gap: 50px;
+  
+  button {
+    width: 150px;
+  }
 `
-
-const RatingText = styled.div`
-`
-
 

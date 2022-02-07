@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import React, {ChangeEvent, useState} from "react";
+import React, {ChangeEvent, useEffect, useState} from "react";
 import TextField from "@mui/material/TextField";
 import Chip from "@mui/material/Chip";
 import Button from "@mui/material/Button";
@@ -8,19 +8,25 @@ interface Props {
     id: string,
     label: string,
     placeholder: string,
-    list: string[] | undefined
+    list: string[],
+    getTags: any
 }
 
 const TagsInput = (props:Props) => {
 
-    const [tags, setTags] = useState<string[]>(props.list !== undefined ? props.list : []);
+    const [tags, setTags] = useState<string[]>(props.list);
     const [inputValue, setInputValue] = useState<string>("");
 
     const handleDelete = (tag:string) => () => {
         const newTags = [...tags];
         newTags.splice(newTags.indexOf(tag), 1);
         setTags(newTags);
+        props.getTags(newTags);
     };
+
+    useEffect(() => {
+        props.getTags(tags);
+    }, []);
 
     function addTag() {
         let newTags = [...tags];
@@ -37,6 +43,7 @@ const TagsInput = (props:Props) => {
         newTags.push(inputValue.trim());
         setInputValue("");
         setTags(newTags);
+        props.getTags(newTags);
     }
 
     function handleKeyDown(event:any) {

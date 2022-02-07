@@ -42,5 +42,6 @@ export interface MetadataInterface {
     language: string,
     rating: number,
     fileName: string,
+    file: File,
     series: string
 }
