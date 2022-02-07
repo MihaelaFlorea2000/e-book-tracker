@@ -39,7 +39,7 @@ const LibraryPage = () => {
         <Page>
             <PageHeader>
                 <Title>Library</Title>
-                <NavLink to={'/upload'}><IconContainer><FontAwesomeIcon icon={faPlus}/></IconContainer></NavLink>
+                <NavLink to={'/upload/1'}><IconContainer><FontAwesomeIcon icon={faPlus}/></IconContainer></NavLink>
             </PageHeader>
             <Grid container spacing={3}>
                 {bookNodes}

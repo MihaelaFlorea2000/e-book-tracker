@@ -46,7 +46,7 @@ const TagsInput = (props:Props) => {
         props.getTags(newTags);
     }
 
-    function handleKeyDown(event:any) {
+    function handleKeyDown(event:React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) {
         if (event.key === "Enter") {
             addTag();
         }

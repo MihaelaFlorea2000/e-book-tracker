@@ -118,6 +118,9 @@ const UploadFirstStep = () => {
             <Title>Upload Page</Title>
             <UploadForm onSubmit={handleSubmit(onSubmit)}>
                 <UploadContainer>
+                    <TextInfo>
+                        Choose a digital book (.EPub format) to upload
+                    </TextInfo>
                     <ButtonContainer>
                         <UploadButton>
                             <Button variant="contained" component="label" startIcon={<FontAwesomeIcon icon={faFileUpload}/>}>
@@ -168,9 +171,9 @@ const Title = styled.h1`
 const UploadContainer = styled.div`
   display: flex;
   flex-flow: column;
-  gap: 25px;
+  gap: 30px;
   background-color: ${theme.palette.info.light};
-  padding: 50px 30px 30px 30px;
+  padding: 30px;
   border-radius: ${border.borderRadius};
 `
 
@@ -186,6 +189,12 @@ const UploadButton = styled.div`
 
 const InfoContainer = styled.div`
   
+`
+
+const TextInfo = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
 `
 
 const ButtonContainer = styled.div`

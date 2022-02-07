@@ -4,6 +4,7 @@ import UploadStore from "../../stores/UploadStore";
 import MetadataForm from "./components/MetadataForm";
 import {observer} from "mobx-react";
 import UserStore from "../../stores/UserStore";
+import {theme} from "../../utils/style/themeConfig";
 
 const UploadSecondStep = () => {
 
@@ -35,3 +36,4 @@ const Page = styled.div`
 
 const Title = styled.h1`
 `
+

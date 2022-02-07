@@ -16,6 +16,9 @@ import {observer} from "mobx-react";
 import {toJS} from "mobx";
 import Alert from "@mui/material/Alert";
 import UploadStore from "../../../stores/UploadStore";
+import {ErrorMessage} from "@hookform/error-message";
+import LoadingButton from "@mui/lab/LoadingButton";
+import {useNavigate} from "react-router-dom";
 
 interface Props {
     user: UserInterface;
@@ -36,7 +39,7 @@ interface FormInterface {
 const metadataSchema = yup.object().shape({
     title: yup.string().required('Title is required'),
     series: yup.string(),
-    description: yup.string(),
+    description: yup.string().max(300),
     publisher: yup.string(),
     pubDate: yup.string(),
     language: yup.string()
@@ -58,6 +61,9 @@ const MetadataForm = (props:Props) => {
     });
 
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+    const [isCancelling, setIsCancelling] = useState<boolean>(false);
+    const [success, setSuccess] = useState<boolean>(true);
+
 
     const [rating, setRating] = useState<number>(0);
     const [tags, setTags] = useState<string[]>(UploadStore.getTags());
@@ -65,11 +71,11 @@ const MetadataForm = (props:Props) => {
 
 
     const getTags = (inputTags:string[]):void => {
-        setTags(inputTags);
+        UploadStore.setTags(inputTags);
     }
 
     const getAuthors = (inputAuthors:string[]):void => {
-        setAuthors(inputAuthors);
+        UploadStore.setAuthors(inputAuthors);
     }
 
     const onSubmit = (data: FormInterface) => {
@@ -78,9 +84,9 @@ const MetadataForm = (props:Props) => {
             const book = {
                 userId: props.user.id,
                 title: data.title,
-                authors: toJS(authors),
+                authors: toJS(UploadStore.getAuthors()),
                 description: data.description,
-                tags: toJS(tags),
+                tags: toJS(UploadStore.getTags()),
                 publisher: data.publisher,
                 pubDate: data.pubDate,
                 language: data.language,
@@ -92,10 +98,18 @@ const MetadataForm = (props:Props) => {
             console.log(UploadStore.getCoverImage());
             console.log(UploadStore.getFile());
         } catch (err:any) {
-            console.log(err);
+            setSuccess(false);
             setIsSubmitting(false);
+            setError('errorMessage', {
+                type: 'manual',
+                message: err.response.data.message
+            });
         }
     }
+
+    const checkKeyDown = (event:React.KeyboardEvent<HTMLFormElement>) => {
+        if (event.code === 'Enter') event.preventDefault();
+    };
 
     const uploadImage = (files:FileList | null) => {
         if (files !== null) {
@@ -105,11 +119,22 @@ const MetadataForm = (props:Props) => {
         }
     }
 
+    const navigate = useNavigate();
+
+    const handleCancel = () => {
+        setIsCancelling(true);
+        navigate('/library');
+    }
+
     return (
         <Container>
-            <Alert severity="success">File OK. You can see and edit the book information below.</Alert>
+            {success && <Alert severity="success">File OK. You can see and edit the book information below.</Alert>}
+            <ErrorMessage errors={errors} name="errorMessage" render={({ message }) =>
+                <Alert severity="error">{message}</Alert>
+            } />
             <FormContainer
                 onSubmit={handleSubmit(onSubmit)}
+                onKeyDown={(event) => checkKeyDown(event)}
             >
                 <FieldsContainer>
                     <LeftFieldsContainer>
@@ -157,6 +182,7 @@ const MetadataForm = (props:Props) => {
                             {...register('title')}
                             variant="outlined"
                             type="text"
+                            error={!!errors.title}
                         />
                         <TagsInput
                             id="authors"
@@ -171,12 +197,14 @@ const MetadataForm = (props:Props) => {
                             {...register('series')}
                             variant="outlined"
                             type="text"
+                            error={!!errors.series}
                         />
                         <TextField
                             id="description"
                             label="Description"
                             variant="outlined"
                             {...register('description')}
+                            error={!!errors.description}
                             type="text"
                             multiline
                             rows={5}
@@ -187,6 +215,7 @@ const MetadataForm = (props:Props) => {
                                 label="Publisher"
                                 variant="outlined"
                                 {...register('publisher')}
+                                error={!!errors.publisher}
                                 fullWidth
                                 type="text"
                             />
@@ -194,6 +223,7 @@ const MetadataForm = (props:Props) => {
                                 id="pubDate"
                                 variant="outlined"
                                 {...register('pubDate')}
+                                error={!!errors.pubDate}
                                 fullWidth
                                 type="date"
                             />
@@ -201,6 +231,7 @@ const MetadataForm = (props:Props) => {
                                 id="language"
                                 label="Language"
                                 {...register('language')}
+                                error={!!errors.language}
                                 variant="outlined"
                                 type="text"
                             />
@@ -215,24 +246,31 @@ const MetadataForm = (props:Props) => {
                     </RightFieldsContainer>
                 </FieldsContainer>
                 <SubmitButtons>
-                    <Button
-                        type="submit"
-                        variant="contained"
-                        size="large"
-                        color="success"
-                        startIcon={<FontAwesomeIcon className="fa-fw" icon={faCheckCircle}/>}
-                    >
-                        Save
-                    </Button>
-                    <Button
-                        type="button"
-                        variant="contained"
-                        color="error"
-                        size="large"
-                        startIcon={<FontAwesomeIcon className="fa-fw" icon={faTimesCircle}/>}
-                    >
-                        Cancel
-                    </Button>
+                    {isSubmitting
+                        ? <LoadingButton loading variant="outlined" size="large" >Submit</LoadingButton>
+                        : <Button
+                            type="submit"
+                            variant="contained"
+                            size="large"
+                            color="success"
+                            startIcon={<FontAwesomeIcon className="fa-fw" icon={faCheckCircle}/>}
+                        >
+                            Save
+                        </Button>
+                    }
+                    {isCancelling
+                        ? <LoadingButton loading variant="outlined" size="large" >Submit</LoadingButton>
+                        : <Button
+                            type="button"
+                            variant="contained"
+                            color="error"
+                            size="large"
+                            onClick={handleCancel}
+                            startIcon={<FontAwesomeIcon className="fa-fw" icon={faTimesCircle}/>}
+                        >
+                            Cancel
+                        </Button>
+                    }
                 </SubmitButtons>
             </FormContainer>
         </Container>
@@ -284,7 +322,7 @@ const ImageContainer = styled.div`
   height: 90%;
   position: relative;
   
-  :hover :nth-child(2) {
+  :hover div:nth-of-type(2) {
     background-color: rgba(255,255,255,0.5);
   }
 `
