@@ -1,4 +1,5 @@
 import {makeAutoObservable} from "mobx";
+import axiosConfig from "../config/axiosConfig";
 
 class UploadStore {
 
@@ -189,20 +190,13 @@ class UploadStore {
         this.metadataStatus = false;
     }
 
+    public uploadFiles (bookId: number) {
+        const filesData = new FormData();
+        filesData.append('file', this.getFile());
+        filesData.append('coverImage', this.getCoverImage())
+        return axiosConfig().post( `/pg/books/${bookId}/edit/upload`, filesData);
+    }
 
-    // // Get metadata
-    // public getMetadata(): MetadataInterface | undefined {
-    //     return this.metadata;
-    // }
-    //
-    // // Set metadata
-    // public setMetadata(metadata: MetadataInterface): void {
-    //    this.metadata = metadata;
-    // }
-    //
-    // public resetMetadata() {
-    //    this.metadata = undefined;
-    // }
 }
 
 export default new UploadStore();

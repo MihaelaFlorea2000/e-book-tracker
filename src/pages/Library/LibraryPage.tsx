@@ -27,9 +27,9 @@ const LibraryPage = () => {
 
     books.forEach((elem, index) => {
         bookNodes.push(
-            <Grid item xs={6} sm={4} md={3} lg={2}>
+            <Grid item xs={6} sm={4} md={3} lg={2} key={index}>
                 <NavLink to={`/book/${elem.id}`}>
-                    <Book key={index} book={elem} />
+                    <Book book={elem} />
                 </NavLink>
             </Grid>
         )

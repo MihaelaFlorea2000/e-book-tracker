@@ -80,7 +80,7 @@ const MetadataForm = (props:Props) => {
         UploadStore.setAuthors(inputAuthors);
     }
 
-    const onSubmit = (data: FormInterface) => {
+    const onSubmit = async (data: FormInterface) => {
         setIsSubmitting(true);
         try {
             const book = {
@@ -96,9 +96,32 @@ const MetadataForm = (props:Props) => {
                 fileName: UploadStore.getFileName(),
                 series: data.series,
             }
-            console.log(book);
-            console.log(UploadStore.getCoverImage());
-            console.log(UploadStore.getFile());
+
+            const uploadMetadataRes = await axiosConfig().post( "/pg/books", book);
+            let bookId;
+            if (uploadMetadataRes.data.id) {
+                bookId = uploadMetadataRes.data.id;
+            } else {
+                setIsSubmitting(false);
+                setError('errorMessage', {
+                    type: 'manual',
+                    message: uploadMetadataRes.data.message
+                })
+            }
+
+            const uploadFilesRes = await UploadStore.uploadFiles(bookId);
+            if (uploadFilesRes.data.status) {
+                navigate('/library?fromUpload');
+            } else {
+                setIsSubmitting(false);
+                setError('errorMessage', {
+                    type: 'manual',
+                    message: uploadMetadataRes.data.message
+                })
+            }
+            // console.log(book);
+            // console.log(UploadStore.getCoverImage());
+            // console.log(UploadStore.getFile());
         } catch (err:any) {
             setSuccess(false);
             setIsSubmitting(false);
@@ -343,7 +366,8 @@ const ImageContainer = styled.div`
 
 const Image = styled.div<{image: string | undefined}>`
   background-image: url(${props => props.image});
-  background-size: cover;
+  background-size: contain;
+  background-repeat: no-repeat;
   width: 100%;
   height: 100%;
   position: absolute;

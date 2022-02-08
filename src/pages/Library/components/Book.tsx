@@ -2,6 +2,7 @@ import styled from "@emotion/styled";
 import React from "react";
 import {BookInterface} from "../../../config/interfaces";
 import { border, theme } from "../../../utils/style/themeConfig";
+import {DOMAIN} from "../../../config/config";
 
 interface Props {
     book: BookInterface
@@ -11,7 +12,7 @@ const Book = (props: Props) => {
 
     return (
         <BookContainer >
-            <BookImage image={props.book.coverImage} />
+            <BookImage image={`${DOMAIN}${props.book.coverImage}`} />
             {props.book.title}
         </BookContainer>
     )

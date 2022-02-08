@@ -1,10 +1,10 @@
 import axios, {AxiosRequestHeaders} from 'axios';
 import MainStore from '../stores/MainStore';
-import {URL} from "./config";
+import {DOMAIN} from "./config";
 
 export default function axiosConfig() {
     let options: {baseURL: string, headers: AxiosRequestHeaders | undefined} = {
-        baseURL: URL,
+        baseURL: DOMAIN,
         headers: undefined
     }
 
