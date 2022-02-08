@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react';
-import React from 'react';
-import { BrowserRouter, Route, Routes} from 'react-router-dom';
+import React, { useEffect } from 'react';
+import {BrowserRouter, Route, Routes, useLocation, useNavigate} from 'react-router-dom';
 import { ROUTES } from './config/config';
 import HomePage from './pages/Home/HomePage';
 import LoginPage from './pages/Login/LoginPage';
@@ -8,9 +8,15 @@ import RegisterPage from './pages/Register/RegisterPage';
 import MainStore from './stores/MainStore';
 
 function App() {
+    const location = useLocation();
+    const navigate = useNavigate();
+    useEffect(() => {
+        if (location.pathname == "/upload/2") {
+            navigate("/upload/1")
+        }
+    }, []);
 
     return (
-        <BrowserRouter>
             <Routes>
                 {
                     MainStore.isAuth() ?
@@ -24,7 +30,6 @@ function App() {
                 }
                 <Route path={ROUTES.home} element={<HomePage/>} />
             </Routes>
-        </BrowserRouter>
     );
 }
 

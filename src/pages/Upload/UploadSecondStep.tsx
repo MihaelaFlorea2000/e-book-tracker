@@ -1,14 +1,29 @@
 import styled from "@emotion/styled";
-import React from "react";
+import React, { useEffect } from "react";
 import UploadStore from "../../stores/UploadStore";
 import MetadataForm from "./components/MetadataForm";
 import {observer} from "mobx-react";
 import UserStore from "../../stores/UserStore";
-import {device} from "../../config/config";
-import CircularProgress from "@mui/material/CircularProgress";
 import {CircularLoading} from "../../utils/components/Components";
+import {useNavigate} from "react-router-dom";
 
 const UploadSecondStep = () => {
+
+    useEffect(() => {
+        window.addEventListener("unload", reroute);
+        return () => {
+            window.removeEventListener("unload", reroute);
+        };
+    }, []);
+
+    let navigate = useNavigate();
+
+    const reroute = (e:any) => {
+        e.preventDefault();
+        //console.log("hi");
+        navigate('/upload/1');
+        return false;
+    };
 
     let isMetadataSet = UploadStore.isMetadataSet();
     let user = UserStore.getCurrentUser();
