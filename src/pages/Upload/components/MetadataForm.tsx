@@ -4,7 +4,7 @@ import {UserInterface} from "../../../config/interfaces";
 import TextField from "@mui/material/TextField";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
-import { border } from "../../../utils/style/themeConfig";
+import {border, theme} from "../../../utils/style/themeConfig";
 import Rating from "@mui/material/Rating";
 import TagsInput from "./TagsInput";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -19,6 +19,8 @@ import UploadStore from "../../../stores/UploadStore";
 import {ErrorMessage} from "@hookform/error-message";
 import LoadingButton from "@mui/lab/LoadingButton";
 import {useNavigate} from "react-router-dom";
+import { device } from "../../../config/config";
+import { StyledTextField } from "../../../utils/style/styledComponents";
 
 interface Props {
     user: UserInterface;
@@ -176,7 +178,7 @@ const MetadataForm = (props:Props) => {
                         </RatingContainer>
                     </LeftFieldsContainer>
                     <RightFieldsContainer>
-                        <TextField
+                        <StyledTextField
                             id="title"
                             label="Title"
                             {...register('title')}
@@ -191,7 +193,7 @@ const MetadataForm = (props:Props) => {
                             getTags={getAuthors}
                             list={UploadStore.getAuthors()}
                         />
-                        <TextField
+                        <StyledTextField
                             id="series"
                             label="Series"
                             {...register('series')}
@@ -199,7 +201,7 @@ const MetadataForm = (props:Props) => {
                             type="text"
                             error={!!errors.series}
                         />
-                        <TextField
+                        <StyledTextField
                             id="description"
                             label="Description"
                             variant="outlined"
@@ -210,7 +212,7 @@ const MetadataForm = (props:Props) => {
                             rows={5}
                         />
                         <PublicationDetails>
-                            <TextField
+                            <StyledTextField
                                 id="publisher"
                                 label="Publisher"
                                 variant="outlined"
@@ -219,7 +221,7 @@ const MetadataForm = (props:Props) => {
                                 fullWidth
                                 type="text"
                             />
-                            <TextField
+                            <StyledTextField
                                 id="pubDate"
                                 variant="outlined"
                                 {...register('pubDate')}
@@ -227,7 +229,7 @@ const MetadataForm = (props:Props) => {
                                 fullWidth
                                 type="date"
                             />
-                            <TextField
+                            <StyledTextField
                                 id="language"
                                 label="Language"
                                 {...register('language')}
@@ -297,24 +299,36 @@ const FieldsContainer = styled.div`
   display: flex;
   gap: 20px;
   margin-top: 25px;
+  
+  @media only screen and ${device.tablet} {
+    flex-flow: column;
+    align-items: center;
+  }
 `
 
 const LeftFieldsContainer = styled.div`
   display: flex;
   flex-flow: column;
-  width: 390px;
-  height: 527px;
   gap: 10px;
+
+  @media only screen and ${device.tablet} {
+    width: 85vw;
+  }
 `
 
 const CoverContainer = styled.div`
-  background-color: white;
+  background-color: ${theme.palette.info.light};;
   border-radius: ${border.borderRadius};
-  width: 100%;
-  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 21.5vw;
+  height: calc(21.5vw * 1.6);
+
+  @media only screen and ${device.tablet} {
+    width: 85vw;
+    height: calc(85vw * 1.6);
+  }
 `
 
 const ImageContainer = styled.div`
@@ -364,6 +378,10 @@ const RatingContainer = styled.div`
   display: flex;
   flex-flow: column;
   gap: 5px;
+  background-color: ${theme.palette.info.light};;
+  padding: 10px;
+  border-radius: ${border.borderRadius};
+  
 `
 
 const RatingText = styled.div`
@@ -375,12 +393,22 @@ const RightFieldsContainer = styled.div`
   gap: 20px;
   flex-flow: column;
   width: 100%;
+
+  @media only screen and ${device.tablet} {
+    width: 85vw;
+  }
 `
 
 const PublicationDetails = styled.div`
   display: grid;
   grid-template-columns: repeat(2, calc(35% - 10px)) 30%;
   grid-column-gap: 10px;
+
+  @media only screen and ${device.tablet} {
+    display: flex;
+    flex-flow: column;
+    gap: 20px;
+  }
 `
 
 const SubmitButtons = styled.div`
@@ -389,6 +417,11 @@ const SubmitButtons = styled.div`
   
   button {
     width: 150px;
+  }
+
+  @media only screen and ${device.tablet} {
+    width: 90%;
+    gap: 30px;
   }
 `
 

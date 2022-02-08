@@ -3,6 +3,8 @@ import React, {ChangeEvent, useEffect, useState} from "react";
 import TextField from "@mui/material/TextField";
 import Chip from "@mui/material/Chip";
 import Button from "@mui/material/Button";
+import { theme } from "../../../utils/style/themeConfig";
+import { StyledTextField } from "../../../utils/style/styledComponents";
 
 interface Props {
     id: string,
@@ -63,7 +65,7 @@ const TagsInput = (props:Props) => {
 
     return (
         <InputContainer>
-            <TextField
+            <StyledTextField
                 id={props.id}
                 label={props.label}
                 variant="outlined"
@@ -107,4 +109,3 @@ const TagsContainer = styled.div`
   gap: 2px;
   margin: 5px;
 `
-

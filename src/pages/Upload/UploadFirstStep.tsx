@@ -15,6 +15,7 @@ import UploadStore from "../../stores/UploadStore";
 import { observer } from "mobx-react";
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
+import {device} from "../../config/config";
 
 interface UploadFormInterface {
     files: FileList,
@@ -23,18 +24,25 @@ interface UploadFormInterface {
 
 // Upload form validation schema
 const uploadSchema = yup.object().shape({
-    files: yup.mixed()
-        .nullable()
-        .required('A file is required')
+    files: yup
+        .mixed()
+        .test('required', 'File is required', (value) => {
+            return value.length > 0
+        })
         .test('fileFormat', 'File must be epub format', (value) => {
+            if (!value.length) return false;
             return value[0] && ['application/epub+zip'].includes(value[0].type);
         })
         .test('fileSize', 'File size must be below 16MB', (value) => {
+            if (!value.length) return false;
             const sizeKB = value[0].size / 1000;
             const sizeMB = sizeKB / 1024;
             return value[0] && sizeMB <= 16;
         })
 });
+
+
+
 
 const UploadFirstStep = () => {
 
@@ -87,6 +95,7 @@ const UploadFirstStep = () => {
     });
 
     let navigate = useNavigate();
+
 
     const onSubmit = async (data : UploadFormInterface) => {
         if (!!errors) {
@@ -185,6 +194,11 @@ const UploadButton = styled.div`
   display: flex;
   gap: 10px;
   align-items: center;
+
+  @media only screen and ${device.tablet} {
+    flex-flow: column;
+    align-items: center;
+  }
 `
 
 const InfoContainer = styled.div`
@@ -202,6 +216,11 @@ const ButtonContainer = styled.div`
   gap: 20px;
   align-items: start;
   justify-content: space-between;
+
+  @media only screen and ${device.tablet} {
+    flex-flow: column;
+    align-items: center;
+  }
 `
 
 const SubmitButton = styled.div`
@@ -210,4 +229,7 @@ const SubmitButton = styled.div`
   align-items: center;
 `
 const FilePreview = styled.div`
+  @media only screen and ${device.tablet} {
+    text-align: center;
+  }
 `

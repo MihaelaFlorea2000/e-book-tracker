@@ -30,7 +30,7 @@ const Container = styled.div`
 const Page = styled.div`
   display: flex;
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
   flex-flow: column;
   margin: 0;
   background-color: ${theme.palette.primary.light};

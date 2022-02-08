@@ -4,7 +4,9 @@ import UploadStore from "../../stores/UploadStore";
 import MetadataForm from "./components/MetadataForm";
 import {observer} from "mobx-react";
 import UserStore from "../../stores/UserStore";
-import {theme} from "../../utils/style/themeConfig";
+import {device} from "../../config/config";
+import CircularProgress from "@mui/material/CircularProgress";
+import {CircularLoading} from "../../utils/components/Components";
 
 const UploadSecondStep = () => {
 
@@ -15,7 +17,7 @@ const UploadSecondStep = () => {
         return (
             <Page>
                 <Title>Upload Page</Title>
-                Loading...
+                <CircularLoading />
             </Page>
         )
     }
@@ -31,7 +33,7 @@ const UploadSecondStep = () => {
 export default observer(UploadSecondStep);
 
 const Page = styled.div`
-  padding: 20px
+  padding: 20px;
 `
 
 const Title = styled.h1`

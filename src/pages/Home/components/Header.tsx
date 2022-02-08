@@ -15,6 +15,8 @@ import MainStore from "../../../stores/MainStore";
 import CircularProgress from "@mui/material/CircularProgress";
 import MobileMenu from "./Menu/MobileMenu";
 import { device } from "../../../config/config";
+import { StyledTextField } from "../../../utils/style/styledComponents";
+import {CircularLoading} from "../../../utils/components/Components";
 
 const Header = () => {
 
@@ -38,9 +40,7 @@ const Header = () => {
 
     if (user === undefined) {
         return (
-            <LoadingContainer>
-                <CircularProgress color="primary" size={50} thickness={8}/>
-            </LoadingContainer>
+            <CircularLoading />
         )
     }
 
@@ -103,13 +103,6 @@ const Header = () => {
 
 export default observer(Header);
 
-const LoadingContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 10px;
-`
-
 const Container = styled.div`
   display: flex;
   align-items: center;
@@ -133,14 +126,6 @@ const IconContainer = styled.div`
   color: ${theme.palette.info.main};
   > .Mui-focused{
     color: black;
-  }
-`
-
-const StyledTextField = styled(TextField)`
-  background-color: white;
-  border-radius: ${border.borderRadius};
-  fieldset {
-    border-radius: ${border.borderRadius};
   }
 `
 
