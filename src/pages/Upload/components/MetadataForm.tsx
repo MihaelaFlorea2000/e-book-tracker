@@ -41,7 +41,7 @@ interface FormInterface {
 const metadataSchema = yup.object().shape({
     title: yup.string().required('Title is required'),
     series: yup.string(),
-    description: yup.string().max(300),
+    description: yup.string(),
     publisher: yup.string(),
     pubDate: yup.string(),
     language: yup.string()
@@ -119,9 +119,6 @@ const MetadataForm = (props:Props) => {
                     message: uploadMetadataRes.data.message
                 })
             }
-            // console.log(book);
-            // console.log(UploadStore.getCoverImage());
-            // console.log(UploadStore.getFile());
         } catch (err:any) {
             setSuccess(false);
             setIsSubmitting(false);
@@ -203,7 +200,7 @@ const MetadataForm = (props:Props) => {
                     <RightFieldsContainer>
                         <StyledTextField
                             id="title"
-                            label="Title"
+                            placeholder="Title"
                             {...register('title')}
                             variant="outlined"
                             type="text"
@@ -211,14 +208,13 @@ const MetadataForm = (props:Props) => {
                         />
                         <TagsInput
                             id="authors"
-                            label="Authors"
                             placeholder="Add Author"
                             getTags={getAuthors}
                             list={UploadStore.getAuthors()}
                         />
                         <StyledTextField
                             id="series"
-                            label="Series"
+                            placeholder="Series"
                             {...register('series')}
                             variant="outlined"
                             type="text"
@@ -226,7 +222,7 @@ const MetadataForm = (props:Props) => {
                         />
                         <StyledTextField
                             id="description"
-                            label="Description"
+                            placeholder="Description"
                             variant="outlined"
                             {...register('description')}
                             error={!!errors.description}
@@ -237,7 +233,7 @@ const MetadataForm = (props:Props) => {
                         <PublicationDetails>
                             <StyledTextField
                                 id="publisher"
-                                label="Publisher"
+                                placeholder="Publisher"
                                 variant="outlined"
                                 {...register('publisher')}
                                 error={!!errors.publisher}
@@ -246,6 +242,7 @@ const MetadataForm = (props:Props) => {
                             />
                             <StyledTextField
                                 id="pubDate"
+                                placeholder="Publication Date"
                                 variant="outlined"
                                 {...register('pubDate')}
                                 error={!!errors.pubDate}
@@ -254,7 +251,7 @@ const MetadataForm = (props:Props) => {
                             />
                             <StyledTextField
                                 id="language"
-                                label="Language"
+                                placeholder="Language"
                                 {...register('language')}
                                 error={!!errors.language}
                                 variant="outlined"
@@ -263,7 +260,6 @@ const MetadataForm = (props:Props) => {
                         </PublicationDetails>
                         <TagsInput
                             id="tags"
-                            label="Tags"
                             getTags={getTags}
                             placeholder="Add Tag"
                             list={UploadStore.getTags()}
@@ -307,7 +303,10 @@ export default observer(MetadataForm);
 const Container = styled.div`
   display: flex;
   flex-flow: column;
+  align-items: center;
+  justify-content: center;
   gap: 25px;
+  
 `
 
 const FormContainer = styled.form`
@@ -316,6 +315,11 @@ const FormContainer = styled.form`
   align-items: center;
   justify-content: center;
   gap: 50px;
+  width: 80vw;
+
+  @media only screen and ${device.tablet} {
+    width: 85vw;
+  }
 `
 
 const FieldsContainer = styled.div`
@@ -332,11 +336,8 @@ const FieldsContainer = styled.div`
 const LeftFieldsContainer = styled.div`
   display: flex;
   flex-flow: column;
-  gap: 10px;
-
-  @media only screen and ${device.tablet} {
-    width: 85vw;
-  }
+  justify-content: space-between;
+  gap: 20px;
 `
 
 const CoverContainer = styled.div`
@@ -416,10 +417,12 @@ const RightFieldsContainer = styled.div`
   display: flex;
   gap: 20px;
   flex-flow: column;
+  justify-content: space-between;
   width: 100%;
 
   @media only screen and ${device.tablet} {
     width: 85vw;
+    max-width: 85vw;
   }
 `
 
@@ -444,8 +447,11 @@ const SubmitButtons = styled.div`
   }
 
   @media only screen and ${device.tablet} {
-    width: 90%;
     gap: 30px;
+
+    button {
+      width: 120px;
+    }
   }
 `
 

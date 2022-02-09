@@ -8,4 +8,8 @@ export const StyledTextField = styled(TextField)`
   fieldset {
     border-radius: ${border.borderRadius};
   }
+  
+  input, textarea {
+    font-family: 'PoppinsRegular', sans-serif;
+  }
 `

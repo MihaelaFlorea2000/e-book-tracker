@@ -3,12 +3,10 @@ import React, {ChangeEvent, useEffect, useState} from "react";
 import TextField from "@mui/material/TextField";
 import Chip from "@mui/material/Chip";
 import Button from "@mui/material/Button";
-import { theme } from "../../../utils/style/themeConfig";
-import { StyledTextField } from "../../../utils/style/styledComponents";
+import {border, theme} from "../../../utils/style/themeConfig";
 
 interface Props {
     id: string,
-    label: string,
     placeholder: string,
     list: string[],
     getTags: any
@@ -64,48 +62,76 @@ const TagsInput = (props:Props) => {
     }
 
     return (
-        <InputContainer>
-            <StyledTextField
-                id={props.id}
-                label={props.label}
-                variant="outlined"
-                type="text"
-                fullWidth
-                value={inputValue}
-                placeholder={props.placeholder}
-                InputProps={{
-                    startAdornment:
-                        <TagsContainer>
-                            {tags.map(tag => (
-                                    <Chip
-                                        key={tag}
-                                        tabIndex={-1}
-                                        label={tag}
-                                        onDelete={handleDelete(tag)}
-                                    />
-                                ))}
-                        </TagsContainer>,
-                    onChange: event => {
+        <Container>
+            <InputContainer>
+                {tags.map(tag => (
+                    <Chip
+                        key={tag}
+                        tabIndex={-1}
+                        label={tag}
+                        onDelete={handleDelete(tag)}
+                    />
+                ))}
+                <StyledInput
+                    id={props.id}
+                    type="text"
+                    value={inputValue}
+                    placeholder={props.placeholder}
+                    onChange={(event => {
                         handleInputChange(event);
-                    },
-                    onKeyDown: event => {
+                    })}
+                    onKeyDown={(event => {
                         handleKeyDown(event);
-                    }
-                }}
-            />
+                    })}
+                />
+            </InputContainer>
             <Button type="button" variant="contained" onClick={() => addTag()}>Add</Button>
-        </InputContainer>
+        </Container>
     )
 }
 
 export default TagsInput;
 
-const InputContainer = styled.div`
+const Container = styled.div`
   display: flex;
   gap: 5px;
 `
-const TagsContainer = styled.div`
+const InputContainer = styled.div`
+  background-color: ${theme.palette.info.light};
+  border: 1.2px solid #cbcbcb;
+  margin: 0.8px;
+  border-radius: ${border.borderRadius};
+  padding: 16.5px 14px;
+  width: 100%;
+  max-width: 100%;
   display: flex;
-  gap: 2px;
-  margin: 5px;
+  flex-wrap: wrap;
+  gap: 3px;
+  box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  -webkit-box-sizing: content-box;
+
+  :hover {
+    border: 1.2px solid ${theme.palette.primary.main};
+  }
+  
+  :focus-within {
+    border: 2px solid ${theme.palette.primary.main};
+    margin: 0;
+  }
+`
+
+const StyledInput = styled.input`
+  border: 0 solid black;
+  margin: 3px;
+  font-size: 0.95rem;
+
+  :focus-visible {
+    outline: none;
+  }
+
+  ::placeholder {
+    color: #a2a2a2;
+    opacity: 1; 
+  }
 `
