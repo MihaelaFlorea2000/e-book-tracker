@@ -1,7 +1,6 @@
 import styled from "@emotion/styled";
 import React, { ReactNode } from "react";
 import BooksStore from "../../stores/BooksStore";
-import CircularProgress from "@mui/material/CircularProgress";
 import { observer } from "mobx-react";
 import { NavLink } from "react-router-dom";
 import Book from "./components/Book";
@@ -10,6 +9,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faPlus} from "@fortawesome/free-solid-svg-icons";
 import { theme } from "../../utils/style/themeConfig";
 import Alert from "@mui/material/Alert";
+import {CircularLoading} from "../../utils/components/Components";
 
 
 const LibraryPage = () => {
@@ -18,9 +18,7 @@ const LibraryPage = () => {
 
     if (books === undefined) {
         return (
-            <LoadingContainer>
-                <CircularProgress color="primary" size={50} thickness={8}/>
-            </LoadingContainer>
+            <CircularLoading />
         )
     }
 
@@ -64,6 +62,7 @@ const PageHeader = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-bottom: 10px;
 `
 
 const Title = styled.h1`
