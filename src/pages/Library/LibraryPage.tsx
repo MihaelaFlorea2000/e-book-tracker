@@ -9,6 +9,7 @@ import Grid from "@mui/material/Grid";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faPlus} from "@fortawesome/free-solid-svg-icons";
 import { theme } from "../../utils/style/themeConfig";
+import Alert from "@mui/material/Alert";
 
 
 const LibraryPage = () => {
@@ -28,12 +29,14 @@ const LibraryPage = () => {
     books.forEach((elem, index) => {
         bookNodes.push(
             <Grid item xs={6} sm={4} md={3} lg={2} key={index}>
-                <NavLink to={`/book/${elem.id}`}>
-                    <Book book={elem} />
-                </NavLink>
+                <Book book={elem} />
             </Grid>
         )
     })
+
+    // Is the user coming after registration?
+    let url = new URL(window.location.href);
+    let fromUpload = url.searchParams.get('fromUpload');
 
     return (
         <Page>
@@ -41,9 +44,12 @@ const LibraryPage = () => {
                 <Title>Library</Title>
                 <NavLink to={'/upload/1'}><IconContainer><FontAwesomeIcon icon={faPlus}/></IconContainer></NavLink>
             </PageHeader>
-            <Grid container spacing={3}>
-                {bookNodes}
-            </Grid>
+            <Container>
+                {fromUpload !== null && <Alert severity="success">Successful upload</Alert> }
+                <Grid container spacing={3}>
+                    {bookNodes}
+                </Grid>
+            </Container>
         </Page>
     )
 }
@@ -61,6 +67,12 @@ const PageHeader = styled.div`
 `
 
 const Title = styled.h1`
+`
+
+const Container = styled.div`
+  display: flex;
+  flex-flow: column;
+  gap: 20px;
 `
 
 const IconContainer = styled.div`
