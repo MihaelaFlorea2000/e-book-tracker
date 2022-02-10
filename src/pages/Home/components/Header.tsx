@@ -16,7 +16,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import MobileMenu from "./Menu/MobileMenu";
 import { device } from "../../../config/config";
 import { StyledTextField } from "../../../utils/style/styledComponents";
-import {CircularLoading} from "../../../utils/components/Components";
+import {CircularLoading} from "../../../utils/components/CircularLoading";
 
 const Header = () => {
 

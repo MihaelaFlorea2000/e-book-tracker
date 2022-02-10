@@ -9,10 +9,14 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faPlus} from "@fortawesome/free-solid-svg-icons";
 import { theme } from "../../utils/style/themeConfig";
 import Alert from "@mui/material/Alert";
-import {CircularLoading} from "../../utils/components/Components";
+import {CircularLoading} from "../../utils/components/CircularLoading";
 
 
 const LibraryPage = () => {
+
+    // Is the user coming after registration?
+    let url = new URL(window.location.href);
+    let fromUpload = url.searchParams.get('fromUpload');
 
     const books = BooksStore.getBooks();
 
@@ -31,10 +35,6 @@ const LibraryPage = () => {
             </Grid>
         )
     })
-
-    // Is the user coming after registration?
-    let url = new URL(window.location.href);
-    let fromUpload = url.searchParams.get('fromUpload');
 
     return (
         <Page>
@@ -90,11 +90,4 @@ const IconContainer = styled.div`
     background-color: ${theme.palette.primary.light};
     color: ${theme.palette.primary.main};
   }
-`
-
-const LoadingContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 10px;
 `

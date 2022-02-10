@@ -4,7 +4,7 @@ import UploadStore from "../../stores/UploadStore";
 import MetadataForm from "./components/MetadataForm";
 import {observer} from "mobx-react";
 import UserStore from "../../stores/UserStore";
-import {CircularLoading} from "../../utils/components/Components";
+import {CircularLoading} from "../../utils/components/CircularLoading";
 import {useNavigate} from "react-router-dom";
 
 const UploadSecondStep = () => {

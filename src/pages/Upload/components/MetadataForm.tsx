@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import React, {useState} from "react";
+import React, {ChangeEvent, useState} from "react";
 import {UserInterface} from "../../../config/interfaces";
 import TextField from "@mui/material/TextField";
 import {useForm} from "react-hook-form";
@@ -8,7 +8,8 @@ import {border, theme} from "../../../utils/style/themeConfig";
 import Rating from "@mui/material/Rating";
 import TagsInput from "./TagsInput";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faFileImage, faCheckCircle, faTimesCircle} from "@fortawesome/free-solid-svg-icons";
+import {faFileImage, faCheckCircle, faTimesCircle, faStar} from "@fortawesome/free-solid-svg-icons";
+import {faStar as faStarOutline} from "@fortawesome/free-regular-svg-icons";
 import Button from "@mui/material/Button";
 import * as yup from "yup";
 import axiosConfig from "../../../config/axiosConfig";
@@ -21,6 +22,9 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import {useNavigate} from "react-router-dom";
 import { device } from "../../../config/config";
 import { StyledTextField } from "../../../utils/style/styledComponents";
+import {IconProp} from "@fortawesome/fontawesome-svg-core";
+import BooksStore from "../../../stores/BooksStore";
+import {BookRating} from "../../../utils/components/BookRating";
 
 interface Props {
     user: UserInterface;
@@ -90,7 +94,7 @@ const MetadataForm = (props:Props) => {
                 description: data.description,
                 tags: toJS(UploadStore.getTags()),
                 publisher: data.publisher,
-                pubDate: data.pubDate,
+                pubDate: data.pubDate !== '' ? data.pubDate : null,
                 language: data.language,
                 rating: rating,
                 fileName: UploadStore.getFileName(),
@@ -111,6 +115,7 @@ const MetadataForm = (props:Props) => {
 
             const uploadFilesRes = await UploadStore.uploadFiles(bookId);
             if (uploadFilesRes.data.status) {
+                BooksStore.requestBooks();
                 navigate('/library?fromUpload');
             } else {
                 setIsSubmitting(false);
@@ -147,6 +152,8 @@ const MetadataForm = (props:Props) => {
         setIsCancelling(true);
         navigate('/library');
     }
+
+    const faEmptyStar = faStarOutline as IconProp;
 
     return (
         <Container>
@@ -187,13 +194,13 @@ const MetadataForm = (props:Props) => {
                         </CoverContainer>
                         <RatingContainer>
                             <RatingText>Rating</RatingText>
-                            <Rating
-                                name="simple-controlled"
+                            <BookRating
                                 value={rating}
-                                onChange={(event, newRating) => {
+                                size="large"
+                                readOnly={false}
+                                onChange={(event:ChangeEvent, newRating:number | null) => {
                                     setRating(newRating !== null ? newRating : 0);
                                 }}
-                                size="large"
                             />
                         </RatingContainer>
                     </LeftFieldsContainer>
@@ -367,8 +374,9 @@ const ImageContainer = styled.div`
 
 const Image = styled.div<{image: string | undefined}>`
   background-image: url(${props => props.image});
-  background-size: contain;
-  background-repeat: no-repeat;
+  border-radius: ${border.borderRadius};
+  background-size: cover;
+  background-position: center;
   width: 100%;
   height: 100%;
   position: absolute;
@@ -453,5 +461,9 @@ const SubmitButtons = styled.div`
       width: 120px;
     }
   }
+`
+const StyledRating = styled(Rating)`
+  display: flex;
+  gap: 5px;
 `
 

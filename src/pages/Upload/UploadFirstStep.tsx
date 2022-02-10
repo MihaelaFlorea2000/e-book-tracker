@@ -62,14 +62,15 @@ const UploadFirstStep = () => {
                 const Book = ePub(contents);
                 const bookMetadata = await Book.loaded.metadata;
                 const coverUrlRes = await Book.coverUrl();
-                const coverUrl = coverUrlRes === null ? '' : coverUrlRes
+                const coverUrl = coverUrlRes === null ? '' : coverUrlRes;
+                const publicationDate = bookMetadata.pubdate.trim() !== '' ? new Date(bookMetadata.pubdate).toISOString().split('T')[0] : '';
 
                 UploadStore.setTitle(bookMetadata.title);
                 UploadStore.addAuthor(bookMetadata.creator);
                 UploadStore.setDescription(bookMetadata.description);
                 UploadStore.setCoverImageUrl(coverUrl);
                 UploadStore.setPublisher(bookMetadata.publisher);
-                UploadStore.setPubDate(new Date(bookMetadata.pubdate).toISOString().split('T')[0]);
+                UploadStore.setPubDate(publicationDate);
                 UploadStore.setLanguage(bookMetadata.language);
                 UploadStore.setFileName(file.name);
                 UploadStore.setFile(file);

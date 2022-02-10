@@ -73,9 +73,9 @@ const BookImage = styled.div<{image: string}>`
   border-radius: ${border.borderRadius};
   position: relative;
   width: 157px;
-  height: calc(156px * 1.6);
+  height: calc(157px * 1.6);
   background-image: url(${props => props.image});
-  background-size: 157px calc(156px * 1.6);
+  background-size: 157px calc(157px * 1.6);
   background-repeat: no-repeat;
 `
 
