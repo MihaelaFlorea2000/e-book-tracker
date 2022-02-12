@@ -323,6 +323,7 @@ const FormContainer = styled.form`
   justify-content: center;
   gap: 50px;
   width: 80vw;
+  max-width: 80vw;
 
   @media only screen and ${device.tablet} {
     width: 85vw;
@@ -426,7 +427,8 @@ const RightFieldsContainer = styled.div`
   gap: 20px;
   flex-flow: column;
   justify-content: space-between;
-  width: 100%;
+  width: 55vw;
+  max-width: 55vw;
 
   @media only screen and ${device.tablet} {
     width: 85vw;
@@ -461,9 +463,5 @@ const SubmitButtons = styled.div`
       width: 120px;
     }
   }
-`
-const StyledRating = styled(Rating)`
-  display: flex;
-  gap: 5px;
 `
 
