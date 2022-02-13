@@ -4,6 +4,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faBookOpen} from "@fortawesome/free-solid-svg-icons";
 import {theme} from "../../../utils/style/themeConfig";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
+import { device } from "../../../config/config";
 
 interface Props {
     title: string,
@@ -29,12 +30,19 @@ const Detail = styled.div`
   flex-flow: column;
   gap: 5px;
   align-items: center;
-  justify-content: center;
+  justify-content: space-evenly;
   padding: 10px;
   border-left: 2px solid ${theme.palette.primary.light};
   border-right: 2px solid ${theme.palette.primary.light};
   color: ${theme.palette.primary.main};
   width: 15vw;
+
+  @media only screen and ${device.tablet} {
+    width: 80vw;
+    border: 0;
+    border-top: 2px solid ${theme.palette.primary.light};
+    border-bottom: 2px solid ${theme.palette.primary.light};
+  }
 `
 
 const DetailTitle = styled.div`
