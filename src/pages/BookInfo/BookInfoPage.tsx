@@ -17,6 +17,9 @@ import ReadMore from "./components/ReadMore";
 import Chip from "@mui/material/Chip";
 import PublicationDetail from "./components/PublicationDetail";
 import Button from "@mui/material/Button";
+import ConfirmBox from "./components/ConfirmBox";
+import DeleteStore from "../../stores/DeleteStore";
+import Alert from "@mui/material/Alert";
 
 
 const BookInfoPage = () => {
@@ -26,7 +29,7 @@ const BookInfoPage = () => {
 
     const book = BookStore.getBook(bookId);
 
-    if (book === undefined) {
+    if (book === undefined || book.id === undefined) {
         return (
             <Page>
                 <CircularLoading />
@@ -57,11 +60,7 @@ const BookInfoPage = () => {
         )
     })
 
-    console.log(toJS(book));
-
-    const handleDelete = () => {
-        console.log("Delete book!");
-    }
+    const error = DeleteStore.getError();
 
     return (
         <Page>
@@ -87,14 +86,7 @@ const BookInfoPage = () => {
                             Read
                         </Button>
                     </NavLink>
-                    <Button
-                        type="button"
-                        variant="contained"
-                        color="error"
-                        size="medium"
-                        onClick={handleDelete}
-                        startIcon={<FontAwesomeIcon className="fa-fw" icon={faTrash}/>}
-                    >Delete</Button>
+                    <ConfirmBox bookId={book.id} />
                 </ButtonsContainerDesktop>
                 <ButtonsContainerMobile>
                     <NavLink to={`/book/edit/${book.id}`}>
@@ -115,16 +107,9 @@ const BookInfoPage = () => {
                             <FontAwesomeIcon className="fa-fw" icon={faBookReader}/>
                         </Button>
                     </NavLink>
-                    <Button
-                        type="button"
-                        variant="contained"
-                        color="error"
-                        onClick={handleDelete}
-                        size="large"
-                    >
-                        <FontAwesomeIcon className="fa-fw" icon={faTrash}/>
-                    </Button>
+                    <ConfirmBox bookId={book.id}/>
                 </ButtonsContainerMobile>
+                {error !== '' && <ErrorContainer><Alert severity="error">{error}</Alert></ErrorContainer>}
                 <BookInfoContainer>
                     <LeftContainer>
                         <CoverContainer>
@@ -174,7 +159,7 @@ const Container = styled.div`
   gap: 20px;
   background-color: ${theme.palette.info.light};
   border-radius: ${border.borderRadius};
-  padding: 10px;
+  padding: 20px;
 
   @media only screen and ${device.tablet} {
     flex-flow: column;
@@ -198,7 +183,7 @@ const ButtonsContainerDesktop = styled.div`
   }
 `
 
-const ButtonsContainerMobile= styled.div`
+const ButtonsContainerMobile = styled.div`
   display: none;
 
   @media only screen and ${device.tablet} {
@@ -214,16 +199,24 @@ const ButtonsContainerMobile= styled.div`
   }
 `
 
+const ErrorContainer = styled.div`
+  padding: 10px;
+
+  @media only screen and ${device.tablet} {
+    width: 100%;
+    margin-top: 5px;
+  }
+`
+
+
 const BookInfoContainer = styled.div`
   display: flex;
   gap: 20px;
-  padding: 10px;
 
   @media only screen and ${device.tablet} {
     flex-flow: column;
     align-items: center;
     justify-content: center;
-    padding: 0;
   }
 `
 
@@ -256,8 +249,8 @@ const Image = styled.div<{image: string | undefined}>`
   border-radius: ${border.borderRadius};
   background-size: cover;
   background-position: center;
-  width: 90%;
-  height: 90%;
+  width: 95%;
+  height: 95%;
 `
 
 const CoverTitle = styled.h3`

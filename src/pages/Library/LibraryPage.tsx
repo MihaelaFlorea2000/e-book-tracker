@@ -17,6 +17,7 @@ const LibraryPage = () => {
     // Is the user coming after registration?
     let url = new URL(window.location.href);
     let fromUpload = url.searchParams.get('fromUpload');
+    let fromDelete = url.searchParams.get('fromDelete');
 
     const books = BooksStore.getBooks();
 
@@ -44,6 +45,7 @@ const LibraryPage = () => {
             </PageHeader>
             <Container>
                 {fromUpload !== null && <Alert severity="success">Successful upload</Alert> }
+                {fromDelete !== null && <Alert severity="success">Book successfully deleted</Alert> }
                 <Grid container spacing={3}>
                     {bookNodes}
                 </Grid>
