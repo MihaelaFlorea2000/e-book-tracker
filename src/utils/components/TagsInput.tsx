@@ -3,7 +3,7 @@ import React, {ChangeEvent, useEffect, useState} from "react";
 import TextField from "@mui/material/TextField";
 import Chip from "@mui/material/Chip";
 import Button from "@mui/material/Button";
-import {border, theme} from "../../../utils/style/themeConfig";
+import {border, theme} from "../style/themeConfig";
 
 interface Props {
     id: string,
@@ -51,7 +51,9 @@ const TagsInput = (props:Props) => {
             addTag();
         }
         if (tags.length && !inputValue.length && event.key === "Backspace") {
-            setTags(tags.slice(0, tags.length - 1));
+            let newTags =  tags.slice(0, tags.length - 1);
+            setTags(newTags);
+            props.getTags(newTags);
         }
     }
 

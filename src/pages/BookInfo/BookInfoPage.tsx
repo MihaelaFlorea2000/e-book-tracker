@@ -62,6 +62,10 @@ const BookInfoPage = () => {
 
     const error = DeleteStore.getError();
 
+
+    let url = new URL(window.location.href);
+    let fromEdit = url.searchParams.get('fromEdit');
+
     return (
         <Page>
             <Container>
@@ -110,6 +114,7 @@ const BookInfoPage = () => {
                     <ConfirmBox bookId={book.id}/>
                 </ButtonsContainerMobile>
                 {error !== '' && <ErrorContainer><Alert severity="error">{error}</Alert></ErrorContainer>}
+                {fromEdit !== null && <Alert severity="success">Book successfully updated</Alert> }
                 <BookInfoContainer>
                     <LeftContainer>
                         <CoverContainer>

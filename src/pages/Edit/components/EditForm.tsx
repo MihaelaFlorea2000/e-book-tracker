@@ -1,5 +1,4 @@
 import React, {ChangeEvent, useState} from "react";
-import {UserInterface} from "../../../config/interfaces";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import TagsInput from "../../../utils/components/TagsInput";
@@ -11,13 +10,13 @@ import axiosConfig from "../../../config/axiosConfig";
 import {observer} from "mobx-react";
 import {toJS} from "mobx";
 import Alert from "@mui/material/Alert";
-import UploadStore from "../../../stores/UploadStore";
 import {ErrorMessage} from "@hookform/error-message";
 import LoadingButton from "@mui/lab/LoadingButton";
 import {useNavigate} from "react-router-dom";
 import { StyledTextField } from "../../../utils/style/styledComponents";
 import BooksStore from "../../../stores/BooksStore";
 import {BookRating} from "../../../utils/components/BookRating";
+import EditStore from "../../../stores/EditStore";
 import {
     FormContainer,
     Container,
@@ -34,10 +33,10 @@ import {
     PublicationDetails,
     SubmitButtons
 } from "../../../utils/style/metadataFormStyle";
+import BookStore from "../../../stores/BookStore";
 
 interface Props {
-    user: UserInterface;
-    type: "upload" | "edit"
+    bookId: number;
 }
 
 interface FormInterface {
@@ -61,78 +60,72 @@ const metadataSchema = yup.object().shape({
     language: yup.string()
 });
 
-const MetadataForm = (props:Props) => {
+const EditForm = (props:Props) => {
 
     const { register, handleSubmit, formState: { errors }, setError } = useForm<FormInterface>({
         resolver: yupResolver(metadataSchema),
         mode: 'onChange',
         defaultValues: {
-            title: UploadStore.getTitle(),
-            series: UploadStore.getSeries(),
-            description: UploadStore.getDescription(),
-            publisher: UploadStore.getPublisher(),
-            pubDate: UploadStore.getPubDate(),
-            language: UploadStore.getLanguage()
+            title: EditStore.getTitle(),
+            series: EditStore.getSeries(),
+            description: EditStore.getDescription(),
+            publisher: EditStore.getPublisher(),
+            pubDate: EditStore.getPubDate(),
+            language: EditStore.getLanguage()
         }
     });
 
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const [isCancelling, setIsCancelling] = useState<boolean>(false);
-    const [success, setSuccess] = useState<boolean>(true);
 
-
-    const [rating, setRating] = useState<number>(0);
+    const [rating, setRating] = useState<number>(EditStore.getRating());
 
     const getTags = (inputTags:string[]):void => {
-        UploadStore.setTags(inputTags);
+        EditStore.setTags(inputTags);
     }
 
     const getAuthors = (inputAuthors:string[]):void => {
-        UploadStore.setAuthors(inputAuthors);
+        EditStore.setAuthors(inputAuthors);
     }
 
     const onSubmit = async (data: FormInterface) => {
         setIsSubmitting(true);
         try {
             const book = {
-                userId: props.user.id,
                 title: data.title,
-                authors: toJS(UploadStore.getAuthors()),
+                authors: toJS(EditStore.getAuthors()),
                 description: data.description,
-                tags: toJS(UploadStore.getTags()),
+                tags: toJS(EditStore.getTags()),
                 publisher: data.publisher,
                 pubDate: data.pubDate !== '' ? data.pubDate : null,
                 language: data.language,
                 rating: rating,
-                fileName: UploadStore.getFileName(),
                 series: data.series,
             }
 
-            const uploadMetadataRes = await axiosConfig().post( "/pg/books", book);
-            let bookId;
-            if (uploadMetadataRes.data.id) {
-                bookId = uploadMetadataRes.data.id;
-            } else {
+            const editMetadataRes = await axiosConfig().put( `/pg/books/${props.bookId}/edit`, book);
+
+            if (!editMetadataRes.data.status) {
                 setIsSubmitting(false);
                 setError('errorMessage', {
                     type: 'manual',
-                    message: uploadMetadataRes.data.message
+                    message: editMetadataRes.data.message
                 })
+            } else {
+                const editFilesRes = await EditStore.uploadCoverImage(props.bookId);
+                if (editFilesRes.data.status) {
+                    BookStore.requestBook(props.bookId);
+                    navigate(`/book/${props.bookId}?fromEdit`);
+                } else {
+                    setIsSubmitting(false);
+                    setError('errorMessage', {
+                        type: 'manual',
+                        message: editMetadataRes.data.message
+                    })
+                }
             }
 
-            const uploadFilesRes = await UploadStore.uploadFiles(bookId);
-            if (uploadFilesRes.data.status) {
-                BooksStore.requestBooks();
-                navigate('/library?fromUpload');
-            } else {
-                setIsSubmitting(false);
-                setError('errorMessage', {
-                    type: 'manual',
-                    message: uploadMetadataRes.data.message
-                })
-            }
         } catch (err:any) {
-            setSuccess(false);
             setIsSubmitting(false);
             setError('errorMessage', {
                 type: 'manual',
@@ -148,8 +141,8 @@ const MetadataForm = (props:Props) => {
     const uploadImage = (files:FileList | null) => {
         if (files !== null) {
             let url = URL.createObjectURL(files[0]);
-            UploadStore.setCoverImageUrl(url);
-            UploadStore.setCoverImage(files[0]);
+            EditStore.setCoverImageUrl(url);
+            EditStore.setCoverImage(files[0]);
         }
     }
 
@@ -157,12 +150,11 @@ const MetadataForm = (props:Props) => {
 
     const handleCancel = () => {
         setIsCancelling(true);
-        navigate('/library');
+        navigate(`/book/${props.bookId}`);
     }
 
     return (
         <Container>
-            {success && <Alert severity="success">File OK. You can see and edit the book information below.</Alert>}
             <ErrorMessage errors={errors} name="errorMessage" render={({ message }) =>
                 <Alert severity="error">{message}</Alert>
             } />
@@ -174,7 +166,7 @@ const MetadataForm = (props:Props) => {
                     <LeftFieldsContainer>
                         <CoverContainer>
                             <ImageContainer>
-                                <Image image={UploadStore.getCoverImageUrl()}/>
+                                <Image image={EditStore.getCoverImageUrl()}/>
                                 <ChangeImage>
                                     <ButtonContainer>
                                         <Button
@@ -222,7 +214,7 @@ const MetadataForm = (props:Props) => {
                             id="authors"
                             placeholder="Add Author"
                             getTags={getAuthors}
-                            list={UploadStore.getAuthors()}
+                            list={EditStore.getAuthors()}
                         />
                         <StyledTextField
                             id="series"
@@ -274,7 +266,7 @@ const MetadataForm = (props:Props) => {
                             id="tags"
                             getTags={getTags}
                             placeholder="Add Tag"
-                            list={UploadStore.getTags()}
+                            list={EditStore.getTags()}
                         />
                     </RightFieldsContainer>
                 </FieldsContainer>
@@ -310,5 +302,5 @@ const MetadataForm = (props:Props) => {
     )
 }
 
-export default observer(MetadataForm);
+export default observer(EditForm);
 

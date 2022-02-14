@@ -14,12 +14,9 @@ class UploadStore {
     private pubDate: string = '';
     private language: string = '';
     private rating: number = 0;
-    private file: File = {} as File;
-    private fileName: string = '';
     private series: string = '';
     private metadataStatus: boolean = false;
 
-    //private metadata: MetadataInterface | undefined;
 
     public constructor() {
         makeAutoObservable(this);
@@ -139,23 +136,6 @@ class UploadStore {
         this.rating = rating;
     }
 
-    // File
-    public getFile(): File {
-        return this.file;
-    }
-
-    public setFile(file: File) {
-        this.file = file;
-    }
-
-    public getFileName(): string {
-        return this.fileName;
-    }
-
-    public setFileName(fileName: string) {
-        this.fileName = fileName;
-    }
-
     // Series
     public getSeries(): string {
         return this.series;
@@ -185,18 +165,30 @@ class UploadStore {
         this.pubDate = '';
         this.language = '';
         this.rating = 0;
-        this.file = {} as File;
-        this.fileName = '';
         this.series = '';
         this.metadataStatus = false;
     }
 
-    public uploadFiles (bookId: number) {
+    public uploadCoverImage (bookId: number) {
         const filesData = new FormData();
-        filesData.append('file', this.getFile());
         filesData.append('coverImage', this.getCoverImage())
         return axiosConfig().post( `/pg/books/${bookId}/edit/upload`, filesData);
     }
+
+    public setMetadata (book:BookInterface) {
+        this.title = book.title;
+        this.authors = book.authors;
+        this.description = book.description;
+        this.coverImageUrl = book.coverImage;
+        this.coverImage = {} as File;
+        this.tags = book.tags;
+        this.publisher = book.publisher;
+        this.pubDate = book.pubDate.trim() !== '' ? new Date(book.pubDate).toISOString().split('T')[0] : '';;
+        this.language = book.language;
+        this.rating = book.rating;
+        this.series = book.series;
+    }
+
 }
 
 export default new UploadStore();

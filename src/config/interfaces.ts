@@ -29,19 +29,3 @@ export interface BookInterface {
     fileName: string,
     series: string
 }
-
-// Metadata
-export interface MetadataInterface {
-    title: string,
-    authors: string[],
-    description: string,
-    coverImage: string,
-    tags: string[],
-    publisher: string,
-    pubDate: string,
-    language: string,
-    rating: number,
-    fileName: string,
-    file: File,
-    series: string
-}

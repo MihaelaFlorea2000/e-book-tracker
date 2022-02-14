@@ -20,7 +20,6 @@ const UploadSecondStep = () => {
 
     const reroute = (e:any) => {
         e.preventDefault();
-        //console.log("hi");
         navigate('/upload/1');
         return false;
     };
@@ -40,7 +39,7 @@ const UploadSecondStep = () => {
     return (
         <Page>
             <Title>Upload Page</Title>
-            <MetadataForm user={user}/>
+            <MetadataForm user={user} type="upload"/>
         </Page>
     )
 }
