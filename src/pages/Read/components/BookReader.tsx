@@ -16,7 +16,9 @@ interface Props {
 const BookReader = (props: Props) => {
 
     const [location, setLocation] = useState<string | number>("epubcfi(/6/6[titlepage]!/4/2/12[pgepubid00003]/3:0)")
-    const [size, setSize] = useState<number>(100)
+    const [size, setSize] = useState<number>(100);
+    const [page, setPage] = useState('');
+
     const renditionRef = useRef<Rendition | undefined>();
     const isMobile = useMediaQuery(device.mobileL);
 
@@ -42,7 +44,7 @@ const BookReader = (props: Props) => {
         }
 
         renditionRef.current = rendition
-        renditionRef.current.themes.fontSize(`${size}%`)
+        renditionRef.current.themes.fontSize(`${size}%`);
     }
 
     useEffect(() => {
@@ -55,11 +57,26 @@ const BookReader = (props: Props) => {
         ...ReactReaderStyle
     }
 
+    const titleSize = isMobile ? '0.9rem' : '1rem';
+
     const hideArrows = {
         ...ReactReaderStyle,
         arrow: {
             ...ReactReaderStyle.arrow,
             display: 'none'
+        },
+        reader: {
+            position: 'absolute',
+            top: 50,
+            left: 20,
+            bottom: 20,
+            right: 20
+        },
+        titleArea: {
+            ...ReactReaderStyle.titleArea,
+            width: '72vw',
+            textAlign: 'center',
+            fontSize: titleSize
         }
     }
 
@@ -104,9 +121,13 @@ const ReaderContainer = styled.div`
 `
 const SettingsContainer = styled.div`
   position: absolute;
-  bottom: 1rem;
+  bottom: 5px;
   right: 1rem;
   left: 1rem;
   text-align: center;
   z-index: 1;
+
+  @media only screen and ${device.tablet} {
+    font-size: 0.9rem;
+  }
 `

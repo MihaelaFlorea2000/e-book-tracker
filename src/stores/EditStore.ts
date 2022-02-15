@@ -183,7 +183,7 @@ class UploadStore {
         this.coverImage = {} as File;
         this.tags = book.tags;
         this.publisher = book.publisher;
-        this.pubDate = book.pubDate.trim() !== '' ? new Date(book.pubDate).toISOString().split('T')[0] : '';;
+        this.pubDate = book.pubDate !== '' ? new Date(book.pubDate).toISOString().split('T')[0] : '';;
         this.language = book.language;
         this.rating = book.rating;
         this.series = book.series;

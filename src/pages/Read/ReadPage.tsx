@@ -1,13 +1,14 @@
 import styled from "@emotion/styled";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Button from "@mui/material/Button";
 import { observer } from "mobx-react";
 import React from "react";
-import {useNavigate, useParams} from "react-router-dom";
+import {NavLink, useParams} from "react-router-dom";
 import BookStore from "../../stores/BookStore";
 import {CircularLoading} from "../../utils/components/CircularLoading";
 import BookReader from "./components/BookReader";
 import {faArrowLeft} from "@fortawesome/free-solid-svg-icons";
+import {theme} from "../../utils/style/themeConfig";
+import {device} from "../../config/config";
 
 const ReadPage = () => {
 
@@ -15,7 +16,6 @@ const ReadPage = () => {
     const bookId = Number(params.bookId);
 
     const book = BookStore.getBook(bookId);
-    const navigate = useNavigate();
 
     if (book === undefined || book.id === undefined) {
         return (
@@ -28,15 +28,7 @@ const ReadPage = () => {
     return (
         <Page>
             <ButtonsContainer>
-                <BackButton>
-                    <Button
-                        onClick={() => navigate('/library')}
-                        startIcon={<FontAwesomeIcon className="fa-fw" icon={faArrowLeft}/>}
-                        size="small"
-                    >
-                        Back
-                    </Button>
-                </BackButton>
+                <NavLink to={'/library'}><IconContainer><FontAwesomeIcon icon={faArrowLeft}/></IconContainer></NavLink>
             </ButtonsContainer>
             <BookReader book={book}/>
         </Page>
@@ -57,8 +49,24 @@ const ButtonsContainer = styled.div`
   z-index: 2;
 `
 
-const FontButton = styled.div`
-`
+const IconContainer = styled.div`
+  border-radius: 100%;
+  border: 3px solid ${theme.palette.primary.main};
+  background-color: ${theme.palette.primary.main};
+  color: white;
+  padding: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.5s, background-color 0.5s;
+  
+  :hover {
+    background-color: ${theme.palette.primary.light};
+    color: ${theme.palette.primary.main};
+  }
 
-const BackButton = styled.div`
+  @media only screen and ${device.tablet} {
+    padding: 5px;
+    font-size: 0.9rem;
+  }
 `
