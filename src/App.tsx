@@ -6,6 +6,7 @@ import HomePage from './pages/Home/HomePage';
 import LoginPage from './pages/Login/LoginPage';
 import RegisterPage from './pages/Register/RegisterPage';
 import MainStore from './stores/MainStore';
+import ReadPage from "./pages/Read/ReadPage";
 
 function App() {
     const location = useLocation();
@@ -20,7 +21,10 @@ function App() {
             <Routes>
                 {
                     MainStore.isAuth() ?
-                        <Route path={ROUTES.home} element={<HomePage/>} />
+                        <>
+                            <Route path={ROUTES.home} element={<HomePage/>} />
+                            <Route path={ROUTES.book.read} element={<ReadPage/>}/>
+                        </>
                         :
                         <>
 
