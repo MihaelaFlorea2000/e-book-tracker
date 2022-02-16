@@ -9,6 +9,7 @@ import {toJS} from "mobx";
 
 const EditPage = () => {
 
+    // Get book
     const params = useParams();
     const bookId = Number(params.bookId);
 
@@ -22,9 +23,8 @@ const EditPage = () => {
         )
     }
 
+    // Update book metadata state
     EditStore.setMetadata(book);
-    console.log(toJS(book));
-
 
     return (
         <Page>

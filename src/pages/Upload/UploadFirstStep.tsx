@@ -22,7 +22,8 @@ interface UploadFormInterface {
     errorMessage: string
 }
 
-// Upload form validation schema
+// Upload form validation schema for step 1
+// Validate file has the correct format and size
 const uploadSchema = yup.object().shape({
     files: yup
         .mixed()
@@ -41,12 +42,11 @@ const uploadSchema = yup.object().shape({
         })
 });
 
-
-
-
 const UploadFirstStep = () => {
 
-    // Upload form
+    const navigate = useNavigate();
+
+    // Upload form state
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const [filePreview, setFilePreview] = useState<string>("");
 
@@ -54,6 +54,12 @@ const UploadFirstStep = () => {
         resolver: yupResolver(uploadSchema),
     });
 
+    // Reset metadata when page loads
+    useEffect(() => {
+        UploadStore.resetMetadata();
+    });
+
+    // Get epub metadata
     const getMetadata = async (file: File) => {
         const reader = new FileReader();
         reader.onload = async (event) => {
@@ -91,13 +97,6 @@ const UploadFirstStep = () => {
         await reader.readAsArrayBuffer(file);
     }
 
-    useEffect(() => {
-        UploadStore.resetMetadata();
-    });
-
-    let navigate = useNavigate();
-
-
     const onSubmit = async (data : UploadFormInterface) => {
         if (!!errors) {
             setIsSubmitting(true);
@@ -117,6 +116,7 @@ const UploadFirstStep = () => {
         }
     }
 
+    // Update file name preview
     const updatePreview = (files : FileList) => {
         if (!!errors) {
             setFilePreview(files[0].name);

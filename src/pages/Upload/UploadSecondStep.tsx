@@ -9,6 +9,9 @@ import {useNavigate} from "react-router-dom";
 
 const UploadSecondStep = () => {
 
+    const navigate = useNavigate();
+
+    // Go back to first upload step on refresh
     useEffect(() => {
         window.addEventListener("unload", reroute);
         return () => {
@@ -16,14 +19,13 @@ const UploadSecondStep = () => {
         };
     }, []);
 
-    let navigate = useNavigate();
-
     const reroute = (e:any) => {
         e.preventDefault();
         navigate('/upload/1');
         return false;
     };
 
+    // Get epub metadata
     let isMetadataSet = UploadStore.isMetadataSet();
     let user = UserStore.getCurrentUser();
 

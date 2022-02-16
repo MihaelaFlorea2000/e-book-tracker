@@ -50,7 +50,7 @@ interface FormInterface {
     errorMessage: string
 }
 
-// Upload form validation schema
+// Edit form validation schema
 const metadataSchema = yup.object().shape({
     title: yup.string().required('Title is required'),
     series: yup.string(),
@@ -61,6 +61,12 @@ const metadataSchema = yup.object().shape({
 });
 
 const EditForm = (props:Props) => {
+
+    const navigate = useNavigate();
+
+    // Edit form state
+    const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+    const [isCancelling, setIsCancelling] = useState<boolean>(false);
 
     const { register, handleSubmit, formState: { errors }, setError } = useForm<FormInterface>({
         resolver: yupResolver(metadataSchema),
@@ -75,9 +81,7 @@ const EditForm = (props:Props) => {
         }
     });
 
-    const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-    const [isCancelling, setIsCancelling] = useState<boolean>(false);
-
+    // Rating, Authors and Tags state
     const [rating, setRating] = useState<number>(EditStore.getRating());
 
     const getTags = (inputTags:string[]):void => {
@@ -88,9 +92,11 @@ const EditForm = (props:Props) => {
         EditStore.setAuthors(inputAuthors);
     }
 
+    // Save button event
     const onSubmit = async (data: FormInterface) => {
         setIsSubmitting(true);
         try {
+            // Create book metadata
             const book = {
                 title: data.title,
                 authors: toJS(EditStore.getAuthors()),
@@ -103,6 +109,7 @@ const EditForm = (props:Props) => {
                 series: data.series,
             }
 
+            // Update metadata
             const editMetadataRes = await axiosConfig().put( `/pg/books/${props.bookId}/edit`, book);
 
             if (!editMetadataRes.data.status) {
@@ -112,6 +119,7 @@ const EditForm = (props:Props) => {
                     message: editMetadataRes.data.message
                 })
             } else {
+                // Update cover image
                 const editFilesRes = await EditStore.uploadCoverImage(props.bookId);
                 if (editFilesRes.data.status) {
                     BookStore.requestBook(props.bookId);
@@ -134,10 +142,12 @@ const EditForm = (props:Props) => {
         }
     }
 
+    // Prevent form submission on enter
     const checkKeyDown = (event:React.KeyboardEvent<HTMLFormElement>) => {
         if (event.code === 'Enter') event.preventDefault();
     };
 
+    // Update cover image
     const uploadImage = (files:FileList | null) => {
         if (files !== null) {
             let url = URL.createObjectURL(files[0]);
@@ -146,8 +156,7 @@ const EditForm = (props:Props) => {
         }
     }
 
-    const navigate = useNavigate();
-
+    // Cancel button event
     const handleCancel = () => {
         setIsCancelling(true);
         navigate(`/book/${props.bookId}`);

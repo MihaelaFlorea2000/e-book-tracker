@@ -51,7 +51,8 @@ interface FormInterface {
     errorMessage: string
 }
 
-// Upload form validation schema
+// Upload form validation schema step 2
+// Validate metadata
 const metadataSchema = yup.object().shape({
     title: yup.string().required('Title is required'),
     series: yup.string(),
@@ -62,6 +63,13 @@ const metadataSchema = yup.object().shape({
 });
 
 const MetadataForm = (props:Props) => {
+
+    const navigate = useNavigate();
+
+    // Metadata form state
+    const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+    const [isCancelling, setIsCancelling] = useState<boolean>(false);
+    const [success, setSuccess] = useState<boolean>(true);
 
     const { register, handleSubmit, formState: { errors }, setError } = useForm<FormInterface>({
         resolver: yupResolver(metadataSchema),
@@ -76,11 +84,7 @@ const MetadataForm = (props:Props) => {
         }
     });
 
-    const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-    const [isCancelling, setIsCancelling] = useState<boolean>(false);
-    const [success, setSuccess] = useState<boolean>(true);
-
-
+    // Rating, Tags and Authors state
     const [rating, setRating] = useState<number>(0);
 
     const getTags = (inputTags:string[]):void => {
@@ -91,9 +95,11 @@ const MetadataForm = (props:Props) => {
         UploadStore.setAuthors(inputAuthors);
     }
 
+    // Save button event
     const onSubmit = async (data: FormInterface) => {
         setIsSubmitting(true);
         try {
+            // Create request payload with book metadata
             const book = {
                 userId: props.user.id,
                 title: data.title,
@@ -108,6 +114,7 @@ const MetadataForm = (props:Props) => {
                 series: data.series,
             }
 
+            // Upload metadata
             const uploadMetadataRes = await axiosConfig().post( "/pg/books", book);
             let bookId;
             if (uploadMetadataRes.data.id) {
@@ -120,6 +127,7 @@ const MetadataForm = (props:Props) => {
                 })
             }
 
+            // Upload epub file and cover
             const uploadFilesRes = await UploadStore.uploadFiles(bookId);
             if (uploadFilesRes.data.status) {
                 BooksStore.requestBooks();
@@ -141,10 +149,12 @@ const MetadataForm = (props:Props) => {
         }
     }
 
+    // Prevent form submission on enter
     const checkKeyDown = (event:React.KeyboardEvent<HTMLFormElement>) => {
         if (event.code === 'Enter') event.preventDefault();
     };
 
+    // Change cover image
     const uploadImage = (files:FileList | null) => {
         if (files !== null) {
             let url = URL.createObjectURL(files[0]);
@@ -153,8 +163,7 @@ const MetadataForm = (props:Props) => {
         }
     }
 
-    const navigate = useNavigate();
-
+    // Cancel button event
     const handleCancel = () => {
         setIsCancelling(true);
         navigate('/library');
