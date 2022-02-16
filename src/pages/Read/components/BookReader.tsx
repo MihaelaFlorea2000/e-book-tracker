@@ -9,6 +9,7 @@ import {faMinus, faPlus} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {device} from "../../../config/config";
 import {useMediaQuery} from "@mui/material";
+import {hover} from "@testing-library/user-event/dist/hover";
 
 interface Props {
     book: BookInterface;
@@ -45,6 +46,12 @@ const BookReader = (props: Props) => {
 
         renditionRef.current = rendition
         renditionRef.current.themes.fontSize(`${size}%`);
+        rendition.themes.register('custom', {
+            "a:hover": {
+                "color": "inherit"
+            }
+        })
+        rendition.themes.select('custom')
     }
 
     useEffect(() => {
@@ -113,6 +120,7 @@ const Container = styled.div`
   flex-flow: column;
   align-items: center;
   justify-content: center;
+  position: relative;
 `
 
 const ReaderContainer = styled.div`
@@ -121,11 +129,12 @@ const ReaderContainer = styled.div`
 `
 const SettingsContainer = styled.div`
   position: absolute;
-  bottom: 5px;
+  bottom: 1px;
   right: 1rem;
   left: 1rem;
   text-align: center;
   z-index: 1;
+  background-color: white;
 
   @media only screen and ${device.tablet} {
     font-size: 0.9rem;
