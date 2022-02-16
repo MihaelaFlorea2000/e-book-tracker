@@ -27,5 +27,6 @@ export interface BookInterface {
     rating: number,
     file: string,
     fileName: string,
-    series: string
+    series: string,
+    location: string
 }

@@ -1,5 +1,7 @@
 // URL for talking to the backend
-export const DOMAIN = 'https://comp3200-backend.herokuapp.com/'
+export const DOMAIN = 'https://comp3200-backend.herokuapp.com/';
+
+export const DEFAULT_LOCATION = 'epubcfi(/6/6[titlepage]!/4/2/12[pgepubid00003]/3:0)';
 
 // Routes in the app
 export const ROUTES = {

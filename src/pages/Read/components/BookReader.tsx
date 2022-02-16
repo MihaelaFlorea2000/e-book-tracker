@@ -1,7 +1,6 @@
 import styled from "@emotion/styled";
 import React, {useEffect, useRef, useState} from "react";
-// @ts-ignore
-import {ReactReader, ReactReaderStyle} from "react-reader";
+import {ReactReader} from "react-reader";
 import {Rendition} from "epubjs";
 import {BookInterface} from "../../../config/interfaces";
 import Button from "@mui/material/Button";
@@ -9,43 +8,42 @@ import {faMinus, faPlus} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {device} from "../../../config/config";
 import {useMediaQuery} from "@mui/material";
-import {hover} from "@testing-library/user-event/dist/hover";
+import ReadStore from "../../../stores/ReadStore";
+import { observer } from "mobx-react";
+import {updateLocation} from "../helpers/UpdateLocation";
+import {defaultStyle, mobileStyle } from "../helpers/ReaderStyles";
 
 interface Props {
     book: BookInterface;
 }
 const BookReader = (props: Props) => {
 
-    const [location, setLocation] = useState<string | number>("epubcfi(/6/6[titlepage]!/4/2/12[pgepubid00003]/3:0)")
-    const [size, setSize] = useState<number>(100);
-    const [page, setPage] = useState('');
-
-    const renditionRef = useRef<Rendition | undefined>();
-    const isMobile = useMediaQuery(device.mobileL);
+    // Change font size
+    const [fontSize, setFontSize] = useState<number>(100);
 
     const changeSize = (newSize:number) => {
-        setSize(newSize)
+        setFontSize(newSize)
     }
 
+    // Detect mobile width
+    const isMobile = useMediaQuery(device.mobileL);
+
+    // Render book
+    const renditionRef = useRef<Rendition | undefined>();
+
     const locationChanged = (epubcifi:string | number ) => {
-        setLocation(epubcifi);
+        ReadStore.setLocation(epubcifi);
         console.log(epubcifi);
     }
 
     const getRendition = (rendition:Rendition) => {
         const spine_get = rendition.book.spine.get.bind(rendition.book.spine);
         rendition.book.spine.get = function(target) {
-            let t = spine_get(target);
-            console.log(t);
-            // while ((t == null) && target.startsWith("../")) {
-            //     target = target.substring(3);
-            //     t = spine_get(target);
-            // }
-            return t;
+            return spine_get(target);
         }
 
         renditionRef.current = rendition
-        renditionRef.current.themes.fontSize(`${size}%`);
+        renditionRef.current.themes.fontSize(`${fontSize}%`);
         rendition.themes.register('custom', {
             "a:hover": {
                 "color": "inherit"
@@ -56,36 +54,39 @@ const BookReader = (props: Props) => {
 
     useEffect(() => {
         if (renditionRef.current) {
-            renditionRef.current.themes.fontSize(`${size}%`)
+            renditionRef.current.themes.fontSize(`${fontSize}%`)
         }
-    }, [size])
+        window.addEventListener("beforeunload", handleRefresh);
+        window.addEventListener("popstate", handleBack);
+        return () => {
+            window.removeEventListener("beforeunload", handleRefresh);
+            window.addEventListener("popstate", handleBack);
+        };
+    }, [fontSize]);
 
-    const defaultStyle = {
-        ...ReactReaderStyle
+    // Remember location in book on refresh
+    const handleRefresh = (e:any) => {
+        e.preventDefault();
+
+        updateLocation(props.book.id).then(res => {
+            console.log(res);
+        });
+
+        if (e) {
+            e.returnValue = '';
+        }
+
+        return '';
     }
 
-    const titleSize = isMobile ? '0.9rem' : '1rem';
-
-    const hideArrows = {
-        ...ReactReaderStyle,
-        arrow: {
-            ...ReactReaderStyle.arrow,
-            display: 'none'
-        },
-        reader: {
-            position: 'absolute',
-            top: 50,
-            left: 20,
-            bottom: 20,
-            right: 20
-        },
-        titleArea: {
-            ...ReactReaderStyle.titleArea,
-            width: '72vw',
-            textAlign: 'center',
-            fontSize: titleSize
-        }
+    // Remember location in book on back (in browser)
+    const handleBack = () => {
+        updateLocation(props.book.id).then(res => {
+            console.log(res);
+        });
     }
+
+    const location = ReadStore.getLocation();
 
     return (
         <Container>
@@ -96,16 +97,16 @@ const BookReader = (props: Props) => {
                     location={location}
                     locationChanged={locationChanged}
                     getRendition={getRendition}
-                    styles={isMobile ? hideArrows : defaultStyle}
-                    swipeable={isMobile}
+                    styles={isMobile ? mobileStyle(isMobile) : defaultStyle}
+                    // swipeable={isMobile}
                 />
             </ReaderContainer>
             <SettingsContainer>
-                <Button onClick={() => changeSize(Math.max(80, size - 10))}>
+                <Button onClick={() => changeSize(Math.max(80, fontSize - 10))}>
                     <FontAwesomeIcon className="fa-fw" icon={faMinus}/>
                 </Button>
-                <span>Font size: {size}%</span>
-                <Button onClick={() => changeSize(Math.min(200, size + 10))}>
+                <span>Font size: {fontSize}%</span>
+                <Button onClick={() => changeSize(Math.min(200, fontSize + 10))}>
                     <FontAwesomeIcon className="fa-fw" icon={faPlus}/>
                 </Button>
             </SettingsContainer>
@@ -113,7 +114,7 @@ const BookReader = (props: Props) => {
     )
 }
 
-export default BookReader;
+export default observer(BookReader);
 
 const Container = styled.div`
   display: flex;
@@ -136,7 +137,7 @@ const SettingsContainer = styled.div`
   z-index: 1;
   background-color: white;
 
-  @media only screen and ${device.tablet} {
+  @media only screen and ${device.mobileL} {
     font-size: 0.9rem;
   }
 `
