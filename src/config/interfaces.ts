@@ -30,3 +30,10 @@ export interface BookInterface {
     series: string,
     location: string
 }
+
+export interface HighlightInterface {
+    text: string,
+    cfiRange: string,
+    note: string,
+    color: string
+}

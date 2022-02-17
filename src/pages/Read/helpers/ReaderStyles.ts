@@ -10,8 +10,8 @@ export const mobileStyle = (isMobile:boolean) => {
         ...ReactReaderStyle,
         arrow: {
             ...ReactReaderStyle.arrow,
-            height: '100vh',
-            top: '0',
+            height: '85vh',
+            top: '15vh',
             color: 'transparent'
         },
         reader: {
@@ -23,9 +23,9 @@ export const mobileStyle = (isMobile:boolean) => {
         },
         titleArea: {
             ...ReactReaderStyle.titleArea,
-            width: '72vw',
-            textAlign: 'center',
-            fontSize: isMobile ? '0.9rem' : '1rem'
+            width: '50vw',
+            textAlign: 'left',
+            fontSize: isMobile ? '0.8rem' : '1rem'
         }
     }
 }

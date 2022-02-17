@@ -17,6 +17,8 @@ import MobileMenu from "./Menu/MobileMenu";
 import { device } from "../../../config/config";
 import { StyledTextField } from "../../../utils/style/styledComponents";
 import {CircularLoading} from "../../../utils/components/CircularLoading";
+import SideMenu from "../../../utils/components/SideMenu";
+import MenuBar from "./Menu/MenuBar";
 
 const Header = () => {
 
@@ -47,7 +49,7 @@ const Header = () => {
     return (
         <Container>
             <HamburgerContainer>
-                <MobileMenu />
+                <SideMenu fontSize="1.7rem" direction="left" icon={faBars} buttonSize="large" menu={<MenuBar />}/>
             </HamburgerContainer>
             <SearchContainer>
                 <StyledTextField
