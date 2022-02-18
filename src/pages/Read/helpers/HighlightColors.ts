@@ -1,4 +1,4 @@
-
+// Colors the users can use to highlight
 export const highlightColors = {
     yellow: {
         light: "rgba(255,255,0,0.4)",
@@ -23,6 +23,7 @@ export const highlightColors = {
     }
 }
 
+// Return the darker color given the lighter color
 export const getHoverColor = (color:string):string => {
     switch (color) {
         case highlightColors.yellow.light:

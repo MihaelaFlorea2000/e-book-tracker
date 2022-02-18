@@ -5,6 +5,7 @@ export const defaultStyle = {
     ...ReactReaderStyle
 }
 
+// Adjust book style on mobile
 export const mobileStyle = (isMobile:boolean) => {
     return {
         ...ReactReaderStyle,

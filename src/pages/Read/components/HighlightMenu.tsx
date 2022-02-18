@@ -3,12 +3,13 @@ import React from "react";
 import { observer } from "mobx-react";
 import ReadStore from "../../../stores/ReadStore";
 import Highlight from "./Highlight";
-import {useStore} from "../../../stores/RootStore";
+// import {useStore} from "../../../stores/RootStore";
+import { device } from "../../../config/config";
 
 const HighlightMenu = () => {
-    const { readStore } = useStore();
+    //const { readStore } = useStore();
 
-    const selections = readStore.getSelections();
+    const selections = ReadStore.getSelections();
 
     return (
         <HighlightsContainer>
@@ -27,6 +28,11 @@ export default observer(HighlightMenu);
 const HighlightsContainer = styled.div`
   width: 60vw;
   padding: 10px;
+  
+  @media only screen and ${device.mobileL} {
+    width: 80vw;
+    font-size: 0.9rem;
+  }
 `
 
 const Title = styled.h2`

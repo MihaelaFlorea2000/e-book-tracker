@@ -1,11 +1,11 @@
 import ReadStore from "../../../stores/ReadStore";
 import BookStore from "../../../stores/BookStore";
-import {useStore} from "../../../stores/RootStore";
 
-export const updateLocation = async (bookId:number | undefined, readStore:ReadStore) => {
+// Send last location to backend
+export const updateLocation = async (bookId:number | undefined) => {
     if (bookId !== undefined) {
         try {
-            await readStore.updateLocation(bookId)
+            await ReadStore.updateLocation(bookId)
             BookStore.requestBook(bookId);
         } catch (err) {
             console.log(err)

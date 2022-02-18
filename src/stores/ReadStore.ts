@@ -5,7 +5,7 @@ import {DEFAULT_LOCATION} from "../config/config";
 import { HighlightInterface } from "../config/interfaces";
 import BooksStore from "./BooksStore";
 
-export default class ReadStore {
+class ReadStore {
 
     private location: string | number = DEFAULT_LOCATION;
     private highlightMenu: boolean = false;
@@ -14,6 +14,7 @@ export default class ReadStore {
     public currentSelection: HighlightInterface | null = null;
     private highlightDialog: boolean = false;
     private highlightOn: boolean = false;
+    private firstRender: boolean = true;
 
 
     public constructor() {
@@ -31,6 +32,17 @@ export default class ReadStore {
                 this.location = location;
             })
         }
+    }
+
+    // Location
+    public isFirstRender():boolean {
+        return this.firstRender;
+    }
+
+    public setFirstRender(value:boolean) {
+        runInAction(() => {
+            this.firstRender = value;
+        })
     }
 
     // Update Location
@@ -65,7 +77,6 @@ export default class ReadStore {
 
     public setSelections(selections:HighlightInterface[]) {
         this.selections = selections;
-        console.log(this.selections)
     }
 
     public getCurrentSelection():HighlightInterface | null {
@@ -129,4 +140,4 @@ export default class ReadStore {
 
 }
 
-// export default new ReadStore();
+export default new ReadStore();
