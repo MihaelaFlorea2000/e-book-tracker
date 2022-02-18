@@ -2,18 +2,20 @@ import Rendition from "epubjs/types/rendition";
 import {makeAutoObservable, runInAction} from "mobx";
 import axiosConfig from "../config/axiosConfig";
 import {DEFAULT_LOCATION} from "../config/config";
-import { HighlightInterface } from "../config/interfaces";
+import {BookInterface, HighlightInterface} from "../config/interfaces";
 
 export default class ReadStore {
 
     private location: string | number = DEFAULT_LOCATION;
     private highlightMenu: boolean = false;
-    public selections: HighlightInterface[] = [];
-    private rendition: Rendition | undefined = undefined;
+    public selections: HighlightInterface[] | undefined = undefined;
+    public rendition: Rendition | undefined = undefined;
     public currentSelection: HighlightInterface | null = null;
     private highlightDialog: boolean = false;
     private highlightOn: boolean = false;
     private firstRender: boolean = true;
+    private requested: boolean = false;
+    private editId: number | undefined = undefined;
 
 
     public constructor() {
@@ -68,12 +70,37 @@ export default class ReadStore {
     }
 
     // Selections
-    public getSelections():HighlightInterface[] {
-        return this.selections;
+    public getSelections(bookId:number):HighlightInterface[] | undefined{
+        if (this.selections === undefined) {
+            this.requestSelections(bookId);
+
+            return undefined;
+        } else {
+            return this.selections;
+        }
     }
 
-    public setSelections(selections:HighlightInterface[]) {
-        this.selections = selections;
+    // public setSelections(selections:HighlightInterface[]) {
+    //     this.selections = selections;
+    // }
+
+
+    // Request current user books
+    public requestSelections(bookId:number) {
+        if (!this.requested) {
+            runInAction(() => {
+                this.requested = true;
+            })
+        } else {
+            return;
+        }
+
+        axiosConfig().get(`/pg/highlights/${bookId}`).then(data => {
+            runInAction(() => {
+                this.selections = data.data;
+                this.requested = false
+            })
+        })
     }
 
     public getCurrentSelection():HighlightInterface | null {
@@ -133,6 +160,16 @@ export default class ReadStore {
     public setIsHighlightOn(highlight:boolean) {
         runInAction(() => {
             this.highlightOn = highlight;
+        })
+    }
+
+    public getEditId():number | undefined {
+        return this.editId;
+    }
+
+    public setEditId(value:number | undefined) {
+        runInAction(() => {
+            this.editId = value;
         })
     }
 }

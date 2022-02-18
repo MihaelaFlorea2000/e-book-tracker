@@ -39,6 +39,17 @@ const ReadPage = () => {
         )
     }
 
+    const selections = readStore.getSelections(bookId);
+
+    // Loading book
+    if (selections === undefined) {
+        return (
+            <Page>
+                <CircularLoading />
+            </Page>
+        )
+    }
+
     // Remember location in book on back
     const handleBackClick = () => {
         updateLocation(book.id, readStore, bookStore).then(res => {
@@ -69,10 +80,10 @@ const ReadPage = () => {
         <Page>
             <ButtonsContainer>
                 <HighlightButton color={highlightOn ? theme.palette.secondary.main : theme.palette.primary.main} onClick={handleHighlightClick}><FontAwesomeIcon icon={faHighlighter}/></HighlightButton>
-                <SideMenu fontSize="1.6rem" buttonSize="medium" icon={faStickyNote} direction="right" menu={<HighlightMenu />} />
+                <SideMenu fontSize="1.6rem" buttonSize="medium" icon={faStickyNote} direction="right" menu={<HighlightMenu book={book} selections={selections}/>} />
                 <BackButton onClick={handleBackClick}><FontAwesomeIcon icon={faArrowLeft}/></BackButton>
             </ButtonsContainer>
-            <BookReader book={book}/>
+            <BookReader book={book} selections={selections}/>
         </Page>
     )
 }

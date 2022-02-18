@@ -7,16 +7,18 @@ import Button from "@mui/material/Button";
 import { useMediaQuery } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
-import { BookInterface } from "../../../config/interfaces";
+import {BookInterface, HighlightInterface} from "../../../config/interfaces";
 import { device } from "../../../config/config";
 import { updateLocation } from "../helpers/UpdateLocation";
 import { defaultStyle, mobileStyle } from "../helpers/ReaderStyles";
 import { highlightColors } from "../helpers/HighlightColors";
 import HighlightDialog from "./HighlightDialog";
 import { useStore } from "../../../stores/RootStore";
+import {toJS} from "mobx";
 
 interface Props {
-    book: BookInterface;
+    book: BookInterface,
+    selections: HighlightInterface[];
 }
 
 const BookReader = (props: Props) => {
@@ -56,7 +58,20 @@ const BookReader = (props: Props) => {
         //         'background': 'yellow'
         //     }
         // })
-        readStore.setSelections([]);
+
+        // Get and color selections
+        if (props.book.id !== undefined) {
+            const selections = readStore.getSelections(props.book.id);
+            console.log(toJS(selections));
+
+            if (selections !== undefined) {
+                selections.forEach((selection) => {
+                    if(rendition) {
+                        rendition.annotations.add("highlight", selection.cfiRange, {}, undefined , "hl", {"fill": `${selection.color}`, "fill-opacity": "0.8", "mix-blend-mode": "multiply"})
+                    }
+                })
+            }
+        }
         rendition.themes.register('custom', {
             "a:hover": {
                 "color": "inherit"
@@ -86,14 +101,14 @@ const BookReader = (props: Props) => {
     useEffect(() => {
         const renditionState = readStore.getRendition();
         if (renditionState) {
-            renditionState.on("selected", setRenderSelection)
+            renditionState.on("selected", setRenderSelection);
             return () => {
                 if (renditionState) {
-                    renditionState.off("selected", setRenderSelection)
+                    renditionState.off("selected", setRenderSelection);
                 }
             }
         }
-    }, [readStore.selections, readStore.currentSelection])
+    }, [readStore.rendition, readStore.currentSelection])
 
     const [contents, setContents] = useState<Contents | undefined>(undefined);
 
@@ -157,7 +172,7 @@ const BookReader = (props: Props) => {
                     <FontAwesomeIcon className="fa-fw" icon={faPlus}/>
                 </Button>
             </SettingsContainer>
-            <HighlightDialog contents={contents}/>
+            <HighlightDialog contents={contents} book={props.book}/>
         </Container>
     )
 }

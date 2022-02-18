@@ -3,22 +3,21 @@ import { observer } from "mobx-react";
 import styled from "@emotion/styled";
 import Highlight from "./Highlight";
 import { device } from "../../../config/config";
-import { useStore } from "../../../stores/RootStore";
+import {BookInterface, HighlightInterface} from "../../../config/interfaces";
 
-const HighlightMenu = () => {
+interface Props {
+    book: BookInterface,
+    selections: HighlightInterface[]
+}
 
-    // Get ReadStore
-    const { readStore } = useStore();
-
-    // Get selections
-    const selections = readStore.getSelections();
+const HighlightMenu = (props:Props) => {
 
     return (
         <HighlightsContainer>
             <Title>Highlights</Title>
             <List>
-                {selections.map(({text, cfiRange, note, color}, i) => (
-                    <Highlight key={i} index={i} text={text} cfiRange={cfiRange} note={note} color={color}/>
+                {props.selections.map((selection, i) => (
+                    <Highlight key={i} bookId={props.book.id} selections={props.selections} selection={selection}/>
                 ))}
             </List>
         </HighlightsContainer>

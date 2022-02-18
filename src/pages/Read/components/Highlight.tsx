@@ -6,13 +6,13 @@ import { faTimes, faEdit } from "@fortawesome/free-solid-svg-icons";
 import { border, theme } from "../../../utils/style/themeConfig";
 import { getHoverColor } from "../helpers/HighlightColors";
 import { useStore } from "../../../stores/RootStore";
+import { HighlightInterface } from "../../../config/interfaces";
+import axiosConfig from "../../../config/axiosConfig";
 
 interface Props {
-    index: number,
-    text: string,
-    cfiRange: string,
-    color: string,
-    note: string
+    bookId: number | undefined,
+    selection: HighlightInterface,
+    selections: HighlightInterface[]
 }
 
 const Highlight = (props: Props) => {
@@ -21,7 +21,6 @@ const Highlight = (props: Props) => {
     const { readStore } = useStore();
 
     // Get selections and rendition
-    const selections = readStore.getSelections();
     const rendition = readStore.getRendition();
 
     if (rendition === undefined) {
@@ -30,49 +29,55 @@ const Highlight = (props: Props) => {
         )
     }
 
-    const hoverColor = getHoverColor(props.color);
-    const selection = {
-        text: props.text,
-        cfiRange: props.cfiRange,
-        color: props.color,
-        note: props.note
+    const hoverColor = getHoverColor(props.selection.color);
+
+    const handleDelete = async() => {
+        if (props.bookId) {
+            try {
+                const res = await axiosConfig().delete(`/pg/highlights/${props.bookId}/${props.selection.id}`)
+                rendition.annotations.remove(props.selection.cfiRange, 'highlight');
+                readStore.requestSelections(props.bookId);
+            } catch (err) {
+                console.log(err);
+            }
+        }
+    }
+
+    const handleEdit = () => {
+        readStore.setCurrentSelection(props.selection);
+        readStore.setEditId(props.selection.id);
+        readStore.setHighlightDialog(true);
     }
 
     return (
         <Container
-            key={props.index}
+            key={props.selection.id}
             hoverColor={hoverColor}
         >
             <IconContainer>
-                <EditIconContainer onClick={() => {
-                    readStore.setCurrentSelection(selection);
-                    readStore.setHighlightDialog(true);
-                }}>
+                <EditIconContainer onClick={handleEdit}>
                     <FontAwesomeIcon icon={faEdit}/>
                 </EditIconContainer>
-                <CloseIconContainer
-                    onClick={() => {
-                        rendition.annotations.remove(props.cfiRange, 'highlight')
-                        readStore.setSelections(selections.filter((item, j) => j !== props.index))
-                    }}
+                <DeleteIconContainer
+                    onClick={handleDelete}
                 >
                     <FontAwesomeIcon icon={faTimes}/>
-                </CloseIconContainer>
+                </DeleteIconContainer>
             </IconContainer>
             <TextContainer
-                color={props.color}
+                color={props.selection.color}
                 hoverColor={hoverColor}
                 onClick={() => {
-                    rendition.display(props.cfiRange);
+                    rendition.display(props.selection.cfiRange);
                 }}
             >
-                {props.text}
+                {props.selection.text}
             </TextContainer>
-            {props.note !== '' &&
+            {props.selection.note !== '' &&
                 <NoteContainer>
                     <NoteTitle>Note:</NoteTitle>
                     <Note>
-                        {props.note}
+                        {props.selection.note}
                     </Note>
                 </NoteContainer>
             }
@@ -106,7 +111,7 @@ const IconContainer = styled.div`
   justify-content: space-between;
   align-items: center;
 `
-const CloseIconContainer = styled.div`
+const DeleteIconContainer = styled.div`
   color: ${theme.palette.primary.main};
   transition: color 0.5s;
   font-size: 1.1rem;

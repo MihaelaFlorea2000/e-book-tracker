@@ -13,11 +13,13 @@ import { StyledTextField } from "../../../utils/style/styledComponents";
 import { border, theme } from "../../../utils/style/themeConfig";
 import { highlightColors } from "../helpers/HighlightColors";
 import { device } from "../../../config/config";
-import { HighlightInterface } from "../../../config/interfaces";
+import {BookInterface} from "../../../config/interfaces";
 import { useStore } from "../../../stores/RootStore";
+import axiosConfig from "../../../config/axiosConfig";
 
 interface Props {
-    contents: Contents | undefined
+    contents: Contents | undefined,
+    book: BookInterface
 }
 
 const HighlightDialog = (props:Props) => {
@@ -31,16 +33,19 @@ const HighlightDialog = (props:Props) => {
 
     if (currentSelection === null) {
         readStore.setHighlightDialog(false);
+        readStore.setEditId(undefined);
         return (<div/>)
     }
 
     const color = currentSelection.color;
+    const editId = readStore.getEditId();
 
     // On CLOSE button
     const handleClose = () => {
         // Close dialog and reset state
         readStore.setCurrentSelection(null);
         readStore.setHighlightDialog(false);
+        readStore.setEditId(undefined);
         readStore.setIsHighlightOn(false);
     };
 
@@ -49,21 +54,40 @@ const HighlightDialog = (props:Props) => {
         readStore.setNote(e.target.value)
     };
 
-    // On SAVE button
-    const handleSave = () => {
-
-        // Update/Add selection
-        let sel = readStore.getSelections();
-        let newSel:HighlightInterface[] = [];
-        sel.forEach((s) => {
-            if (s.cfiRange !== currentSelection.cfiRange) {
-                newSel = newSel.concat(s);
+    const addHighlight = async() => {
+        try {
+            if (props.book.id !== undefined) {
+                const res = await axiosConfig().post(`/pg/highlights/${props.book.id}`, currentSelection);
+                console.log(res);
+                readStore.requestSelections(props.book.id);
             }
-        });
 
-        newSel = newSel.concat(currentSelection);
+        } catch (err) {
+            console.log(err);
+        }
+    }
 
-        readStore.setSelections(newSel);
+    const editHighlight = async(editId:number) => {
+        try {
+            if (props.book.id !== undefined) {
+                const res = await axiosConfig().put(`/pg/highlights/${props.book.id}/${editId}`, currentSelection);
+                console.log(res);
+                readStore.requestSelections(props.book.id);
+            }
+
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    // On SAVE button
+    const handleSave = async () => {
+
+        if (editId) {
+            await editHighlight(editId);
+        } else {
+            await addHighlight();
+        }
 
         // Highlight selection in the book
         const rendition = readStore.getRendition()
@@ -75,6 +99,7 @@ const HighlightDialog = (props:Props) => {
         // Close dialog and reset state
         readStore.setCurrentSelection(null);
         readStore.setHighlightDialog(false);
+        readStore.setEditId(undefined);
         readStore.setIsHighlightOn(false);
 
         // Deselect the text
@@ -88,7 +113,7 @@ const HighlightDialog = (props:Props) => {
 
     return (
         <Dialog open={isOpen} onClose={handleClose}>
-            <Title>Highlight</Title>
+            <Title>{editId ? 'Edit' : 'Add'} Highlight</Title>
             <Container>
                 <HighlightText color={color}>
                     {currentSelection.text}

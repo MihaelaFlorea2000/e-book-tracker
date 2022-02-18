@@ -32,6 +32,7 @@ export interface BookInterface {
 }
 
 export interface HighlightInterface {
+    id?: number,
     text: string,
     cfiRange: string,
     note: string,
