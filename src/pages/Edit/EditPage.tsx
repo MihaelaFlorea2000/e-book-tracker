@@ -1,19 +1,20 @@
-import styled from "@emotion/styled";
 import React from "react";
-import {useParams} from "react-router-dom";
-import BookStore from "../../stores/BookStore";
+import { useParams } from "react-router-dom";
+import styled from "@emotion/styled";
 import {CircularLoading} from "../../utils/components/CircularLoading";
-import EditStore from "../../stores/EditStore";
 import EditForm from "./components/EditForm";
-import {toJS} from "mobx";
+import { useStore } from "../../stores/RootStore";
 
 const EditPage = () => {
+
+    // Get stores access
+    const { bookStore, editStore } = useStore();
 
     // Get book
     const params = useParams();
     const bookId = Number(params.bookId);
 
-    const book = BookStore.getBook(bookId);
+    const book = bookStore.getBook(bookId);
 
     if (book === undefined || book.id === undefined) {
         return (
@@ -24,7 +25,7 @@ const EditPage = () => {
     }
 
     // Update book metadata state
-    EditStore.setMetadata(book);
+    editStore.setMetadata(book);
 
     return (
         <Page>

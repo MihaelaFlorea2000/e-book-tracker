@@ -2,7 +2,7 @@ import {makeAutoObservable, runInAction} from "mobx";
 import {UserInterface} from "../config/interfaces";
 import axiosConfig from "../config/axiosConfig";
 
-class UserStore {
+export default class UserStore {
 
     private currentUser: UserInterface | undefined = undefined
 
@@ -41,5 +41,3 @@ class UserStore {
         })
     }
 }
-
-export default new UserStore();

@@ -1,11 +1,18 @@
-import styled from "@emotion/styled";
 import React from "react";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faBook, faChartBar, faCog, faCompass, faHome, faUserFriends} from "@fortawesome/free-solid-svg-icons";
-import {NavLink} from "react-router-dom";
-import {border, theme} from "../../../../utils/style/themeConfig";
-import { device } from "../../../../config/config";
+import { NavLink } from "react-router-dom";
 import { observer } from "mobx-react";
+import styled from "@emotion/styled";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+    faBook,
+    faChartBar,
+    faCog,
+    faCompass,
+    faHome,
+    faUserFriends
+} from "@fortawesome/free-solid-svg-icons";
+import { border, theme } from "../../../../utils/style/themeConfig";
+import { device } from "../../../../config/config";
 
 const MenuBar = () => {
 
@@ -16,7 +23,7 @@ const MenuBar = () => {
             </LogoContainer>
             <MenuLinkContainer>
                 <MenuLink>
-                    <NavLink to={"/library"}>
+                    <NavLink to={"/"}>
                         <MenuLinkContent>
                             <IconContainer><FontAwesomeIcon className="fa-fw" icon={faHome}/></IconContainer>
                             <MenuText>Home</MenuText>

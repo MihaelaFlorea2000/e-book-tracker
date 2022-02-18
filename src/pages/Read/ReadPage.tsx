@@ -1,32 +1,34 @@
+import React from "react";
+import { useNavigate, useParams} from "react-router-dom";
+import { observer } from "mobx-react";
 import styled from "@emotion/styled";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { observer } from "mobx-react";
-import React, {useEffect} from "react";
-import {useNavigate, useParams} from "react-router-dom";
-import BookStore from "../../stores/BookStore";
-import {CircularLoading} from "../../utils/components/CircularLoading";
-import BookReader from "./components/BookReader";
-import {faArrowLeft, faStickyNote, faHighlighter} from "@fortawesome/free-solid-svg-icons";
-import {theme} from "../../utils/style/themeConfig";
-import {device} from "../../config/config";
+import {
+    faArrowLeft,
+    faStickyNote,
+    faHighlighter
+} from "@fortawesome/free-solid-svg-icons";
+import { CircularLoading } from "../../utils/components/CircularLoading";
+import { theme } from "../../utils/style/themeConfig";
+import SideMenu from "../../utils/components/SideMenu";
+import { device } from "../../config/config";
 import { updateLocation } from "./helpers/UpdateLocation";
 import HighlightMenu from "./components/HighlightMenu";
-import SideMenu from "../../utils/components/SideMenu";
-import ReadStore from "../../stores/ReadStore";
-// import {useStore} from "../../stores/RootStore";
+import BookReader from "./components/BookReader";
+import { useStore } from "../../stores/RootStore";
 
 const ReadPage = () => {
 
     const navigate = useNavigate();
 
-    // Get ReadStore access
-    //const { readStore } = useStore();
+    // Get stores access
+    const { readStore, bookStore } = useStore();
 
     // Get book
     const params = useParams();
     const bookId = Number(params.bookId);
 
-    const book = BookStore.getBook(bookId);
+    const book = bookStore.getBook(bookId);
 
     // Loading book
     if (book === undefined || book.id === undefined) {
@@ -39,27 +41,27 @@ const ReadPage = () => {
 
     // Remember location in book on back
     const handleBackClick = () => {
-        updateLocation(book.id).then(res => {
-            navigate('/library');
+        updateLocation(book.id, readStore, bookStore).then(res => {
+            navigate('/');
         });
     }
 
     // Check if highlight is on
-    const highlightOn = ReadStore.isHighlightOn();
+    const highlightOn = readStore.isHighlightOn();
 
     // Open the highlights menu
     const handleHighlightClick = () => {
         const newHighlightOn = !highlightOn;
-        ReadStore.setIsHighlightOn(newHighlightOn);
+        readStore.setIsHighlightOn(newHighlightOn);
 
-        if (ReadStore.getCurrentSelection() !== null && newHighlightOn) {
-            ReadStore.setHighlightDialog(true);
+        if (readStore.getCurrentSelection() !== null && newHighlightOn) {
+            readStore.setHighlightDialog(true);
         }
     };
 
-    if (ReadStore.isFirstRender()) {
-        ReadStore.setLocation(book.location);
-        ReadStore.setFirstRender(false);
+    if (readStore.isFirstRender()) {
+        readStore.setLocation(book.location);
+        readStore.setFirstRender(false);
     }
 
 

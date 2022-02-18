@@ -5,12 +5,11 @@ export const DEFAULT_LOCATION = 'epubcfi(/6/6[titlepage]!/4/2/12[pgepubid00003]/
 
 // Routes in the app
 export const ROUTES = {
-    home: '*',
+    library: '*',
     user: {
         login: '*',
         register: '/register',
     },
-    library: '/library',
     track: '/track',
     explore: '/explore',
     friends: '/friends',

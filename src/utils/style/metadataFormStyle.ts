@@ -109,7 +109,6 @@ export const RatingContainer = styled.div`
   background-color: ${theme.palette.info.light};;
   padding: 10px;
   border-radius: ${border.borderRadius};
-  
 `
 
 export const RatingText = styled.div`

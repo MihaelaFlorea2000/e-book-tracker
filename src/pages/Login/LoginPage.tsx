@@ -5,7 +5,6 @@ import {NavLink } from "react-router-dom";
 import * as yup from "yup";
 import styled from "@emotion/styled";
 import { yupResolver } from '@hookform/resolvers/yup';
-
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
@@ -18,12 +17,12 @@ import TextField from "@mui/material/TextField";
 import FormHelperText from "@mui/material/FormHelperText";
 import Alert from "@mui/material/Alert";
 import {Visibility, VisibilityOff } from "@mui/icons-material";
-
-import MainStore from "../../stores/MainStore";
 import { theme } from "../../utils/style/themeConfig";
 import axiosConfig from "../../config/axiosConfig";
 import { observer } from "mobx-react";
 import LoadingButton from "@mui/lab/LoadingButton";
+import LoginStore from "../../stores/LoginStore";
+import { useStore } from "../../stores/RootStore";
 
 // Data submitted in the form
 interface FormInterface {
@@ -44,6 +43,9 @@ const loginSchema = yup.object({
 
 const LoginPage = () => {
 
+    // Get stores access
+    const { userStore } = useStore();
+
     // Handling form submission
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
@@ -57,7 +59,8 @@ const LoginPage = () => {
             try {
                 const res = await axiosConfig().post( "/pg/users/login", data);
                 if (res.data.status) {
-                    MainStore.login(res.data.token);
+                    LoginStore.login(res.data.token);
+                    userStore.requestCurrentUser();
                 } else {
                     setIsSubmitting(false);
                     setError('errorMessage', {

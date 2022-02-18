@@ -1,22 +1,24 @@
-import React, {ChangeEvent, useState} from "react";
-import {useForm} from "react-hook-form";
-import {yupResolver} from "@hookform/resolvers/yup";
-import TagsInput from "../../../utils/components/TagsInput";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faFileImage, faCheckCircle, faTimesCircle} from "@fortawesome/free-solid-svg-icons";
-import Button from "@mui/material/Button";
+import React, { ChangeEvent, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { observer } from "mobx-react";
+import { toJS } from "mobx";
+import { useForm } from "react-hook-form";
 import * as yup from "yup";
-import axiosConfig from "../../../config/axiosConfig";
-import {observer} from "mobx-react";
-import {toJS} from "mobx";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { ErrorMessage } from "@hookform/error-message";
 import Alert from "@mui/material/Alert";
-import {ErrorMessage} from "@hookform/error-message";
 import LoadingButton from "@mui/lab/LoadingButton";
-import {useNavigate} from "react-router-dom";
+import Button from "@mui/material/Button";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+    faFileImage,
+    faCheckCircle,
+    faTimesCircle
+} from "@fortawesome/free-solid-svg-icons";
+import TagsInput from "../../../utils/components/TagsInput";
+import axiosConfig from "../../../config/axiosConfig";
 import { StyledTextField } from "../../../utils/style/styledComponents";
-import BooksStore from "../../../stores/BooksStore";
-import {BookRating} from "../../../utils/components/BookRating";
-import EditStore from "../../../stores/EditStore";
+import { BookRating } from "../../../utils/components/BookRating";
 import {
     FormContainer,
     Container,
@@ -33,7 +35,7 @@ import {
     PublicationDetails,
     SubmitButtons
 } from "../../../utils/style/metadataFormStyle";
-import BookStore from "../../../stores/BookStore";
+import { useStore } from "../../../stores/RootStore";
 
 interface Props {
     bookId: number;
@@ -64,6 +66,9 @@ const EditForm = (props:Props) => {
 
     const navigate = useNavigate();
 
+    //Get stores access
+    const { bookStore, editStore, booksStore } = useStore();
+
     // Edit form state
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const [isCancelling, setIsCancelling] = useState<boolean>(false);
@@ -72,24 +77,24 @@ const EditForm = (props:Props) => {
         resolver: yupResolver(metadataSchema),
         mode: 'onChange',
         defaultValues: {
-            title: EditStore.getTitle(),
-            series: EditStore.getSeries(),
-            description: EditStore.getDescription(),
-            publisher: EditStore.getPublisher(),
-            pubDate: EditStore.getPubDate(),
-            language: EditStore.getLanguage()
+            title: editStore.getTitle(),
+            series: editStore.getSeries(),
+            description: editStore.getDescription(),
+            publisher: editStore.getPublisher(),
+            pubDate: editStore.getPubDate(),
+            language: editStore.getLanguage()
         }
     });
 
     // Rating, Authors and Tags state
-    const [rating, setRating] = useState<number>(EditStore.getRating());
+    const [rating, setRating] = useState<number>(editStore.getRating());
 
     const getTags = (inputTags:string[]):void => {
-        EditStore.setTags(inputTags);
+        editStore.setTags(inputTags);
     }
 
     const getAuthors = (inputAuthors:string[]):void => {
-        EditStore.setAuthors(inputAuthors);
+        editStore.setAuthors(inputAuthors);
     }
 
     // Save button event
@@ -99,9 +104,9 @@ const EditForm = (props:Props) => {
             // Create book metadata
             const book = {
                 title: data.title,
-                authors: toJS(EditStore.getAuthors()),
+                authors: toJS(editStore.getAuthors()),
                 description: data.description,
-                tags: toJS(EditStore.getTags()),
+                tags: toJS(editStore.getTags()),
                 publisher: data.publisher,
                 pubDate: data.pubDate !== '' ? data.pubDate : null,
                 language: data.language,
@@ -120,9 +125,10 @@ const EditForm = (props:Props) => {
                 })
             } else {
                 // Update cover image
-                const editFilesRes = await EditStore.uploadCoverImage(props.bookId);
+                const editFilesRes = await editStore.uploadCoverImage(props.bookId);
                 if (editFilesRes.data.status) {
-                    BookStore.requestBook(props.bookId);
+                    bookStore.requestBook(props.bookId);
+                    booksStore.requestBooks();
                     navigate(`/book/${props.bookId}?fromEdit`);
                 } else {
                     setIsSubmitting(false);
@@ -151,8 +157,8 @@ const EditForm = (props:Props) => {
     const uploadImage = (files:FileList | null) => {
         if (files !== null) {
             let url = URL.createObjectURL(files[0]);
-            EditStore.setCoverImageUrl(url);
-            EditStore.setCoverImage(files[0]);
+            editStore.setCoverImageUrl(url);
+            editStore.setCoverImage(files[0]);
         }
     }
 
@@ -175,7 +181,7 @@ const EditForm = (props:Props) => {
                     <LeftFieldsContainer>
                         <CoverContainer>
                             <ImageContainer>
-                                <Image image={EditStore.getCoverImageUrl()}/>
+                                <Image image={editStore.getCoverImageUrl()}/>
                                 <ChangeImage>
                                     <ButtonContainer>
                                         <Button
@@ -223,7 +229,7 @@ const EditForm = (props:Props) => {
                             id="authors"
                             placeholder="Add Author"
                             getTags={getAuthors}
-                            list={EditStore.getAuthors()}
+                            list={editStore.getAuthors()}
                         />
                         <StyledTextField
                             id="series"
@@ -275,7 +281,7 @@ const EditForm = (props:Props) => {
                             id="tags"
                             getTags={getTags}
                             placeholder="Add Tag"
-                            list={EditStore.getTags()}
+                            list={editStore.getTags()}
                         />
                     </RightFieldsContainer>
                 </FieldsContainer>

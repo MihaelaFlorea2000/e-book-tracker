@@ -1,15 +1,17 @@
-import styled from "@emotion/styled";
 import React from "react";
 import { observer } from "mobx-react";
-import ReadStore from "../../../stores/ReadStore";
+import styled from "@emotion/styled";
 import Highlight from "./Highlight";
-// import {useStore} from "../../../stores/RootStore";
 import { device } from "../../../config/config";
+import { useStore } from "../../../stores/RootStore";
 
 const HighlightMenu = () => {
-    //const { readStore } = useStore();
 
-    const selections = ReadStore.getSelections();
+    // Get ReadStore
+    const { readStore } = useStore();
+
+    // Get selections
+    const selections = readStore.getSelections();
 
     return (
         <HighlightsContainer>
@@ -37,6 +39,7 @@ const HighlightsContainer = styled.div`
 
 const Title = styled.h2`
 `
+
 const List = styled.div`
   display: flex;
   flex-flow: column;

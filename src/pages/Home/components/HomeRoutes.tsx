@@ -1,12 +1,12 @@
 import React from "react";
-import {Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
+import { observer } from "mobx-react";
 import { ROUTES } from "../../../config/config";
 import ExplorePage from "../../Explore/ExplorePage";
 import FriendsPage from "../../Friends/FriendsPage";
 import LibraryPage from "../../Library/LibraryPage";
 import SettingsPage from "../../Settings/SettingsPage";
 import TrackPage from "../../Track/TrackPage";
-import {observer} from "mobx-react";
 import ProfilePage from "../../Profile/ProfilePage";
 import UploadFirstStep from "../../Upload/UploadFirstStep";
 import UploadSecondStep from "../../Upload/UploadSecondStep";

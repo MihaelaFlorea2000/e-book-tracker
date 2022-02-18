@@ -1,5 +1,5 @@
-import styled from "@emotion/styled";
 import React from "react";
+import styled from "@emotion/styled";
 import Rating from "@mui/material/Rating";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faStar} from "@fortawesome/free-solid-svg-icons";

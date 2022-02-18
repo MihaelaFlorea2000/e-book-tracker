@@ -1,10 +1,10 @@
+import React, { useState } from "react";
 import styled from "@emotion/styled";
-import React, {useState} from "react";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
-import {IconProp} from "@fortawesome/fontawesome-svg-core";
-import {IconButton} from "@mui/material";
-import {theme} from "../style/themeConfig";
+import { IconButton } from "@mui/material";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { IconProp } from "@fortawesome/fontawesome-svg-core";
+import { theme } from "../style/themeConfig";
 
 interface Props {
     icon: IconProp,
@@ -16,8 +16,10 @@ interface Props {
 
 export const SideMenu = (props: Props) => {
 
+    // Is menu open?
     const [menuOpen, setMenuOpen] = useState<boolean>(false);
 
+    // Open/Close menu
     const toggleDrawer = () =>
         (event: React.KeyboardEvent | React.MouseEvent) => {
             if (
@@ -74,7 +76,6 @@ const StyledIconButton = styled(IconButton)`
     background-color: inherit;
   }
 `
-
 
 const HamburgerContainer = styled.div`
 `

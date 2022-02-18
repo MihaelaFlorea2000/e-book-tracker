@@ -1,6 +1,6 @@
 import {makeAutoObservable} from "mobx";
 
-class DeleteStore {
+export default class DeleteStore {
 
     private error: string = ""
 
@@ -18,5 +18,3 @@ class DeleteStore {
         this.error = message
     }
 }
-
-export default new DeleteStore();

@@ -1,13 +1,13 @@
-import styled from "@emotion/styled";
 import React from "react";
-import {BookInterface} from "../../../config/interfaces";
+import { NavLink } from "react-router-dom";
+import styled from "@emotion/styled";
+import Button from "@mui/material/Button";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBookReader, faInfo } from "@fortawesome/free-solid-svg-icons";
+import { BookInterface } from "../../../config/interfaces";
 import { border } from "../../../utils/style/themeConfig";
 // @ts-ignore
 import defaultCoverImage from "../../../utils/images/defaultCoverImage.jpeg";
-import Button from "@mui/material/Button";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faBookReader, faInfo} from "@fortawesome/free-solid-svg-icons";
-import { NavLink } from "react-router-dom";
 
 interface Props {
     book: BookInterface
@@ -15,6 +15,7 @@ interface Props {
 
 const Book = (props: Props) => {
 
+    // Handle books without covers
     const coverImage = props.book.coverImage !== null ? props.book.coverImage : defaultCoverImage;
     const showTitle = props.book.coverImage === null;
 
@@ -90,6 +91,7 @@ const Title = styled.h3`
   color: white;
   font-family: 'PoppinsRegular', sans-serif;
 `
+
 const OptionsOverlay = styled.div`
   background-color: rgba(255,255,255,0);
   border-radius: ${border.borderRadius};

@@ -1,8 +1,7 @@
 import {makeAutoObservable} from "mobx";
 import axiosConfig from "../config/axiosConfig";
-import {BookInterface} from "../config/interfaces";
 
-class UploadStore {
+export default class UploadStore {
 
     private title: string = '';
     private authors: string[] = [];
@@ -198,5 +197,3 @@ class UploadStore {
         return axiosConfig().post( `/pg/books/${bookId}/edit/upload`, filesData);
     }
 }
-
-export default new UploadStore();

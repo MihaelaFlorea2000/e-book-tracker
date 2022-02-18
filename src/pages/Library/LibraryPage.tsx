@@ -1,25 +1,28 @@
-import styled from "@emotion/styled";
 import React, { ReactNode } from "react";
-import BooksStore from "../../stores/BooksStore";
-import { observer } from "mobx-react";
 import { NavLink } from "react-router-dom";
-import Book from "./components/Book";
+import { observer } from "mobx-react";
+import styled from "@emotion/styled";
 import Grid from "@mui/material/Grid";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faPlus} from "@fortawesome/free-solid-svg-icons";
-import { theme } from "../../utils/style/themeConfig";
 import Alert from "@mui/material/Alert";
-import {CircularLoading} from "../../utils/components/CircularLoading";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import Book from "./components/Book";
+import { theme } from "../../utils/style/themeConfig";
+import { CircularLoading } from "../../utils/components/CircularLoading";
+import { useStore } from "../../stores/RootStore";
 
 
 const LibraryPage = () => {
+
+    // Get BooksStore
+    const { booksStore } = useStore();
 
     // Is the user coming after registration?
     let url = new URL(window.location.href);
     let fromUpload = url.searchParams.get('fromUpload');
     let fromDelete = url.searchParams.get('fromDelete');
 
-    const books = BooksStore.getBooks();
+    const books = booksStore.getBooks();
 
     if (books === undefined) {
         return (

@@ -1,6 +1,6 @@
-import styled from "@emotion/styled";
 import React from "react";
-import {border, theme} from "../style/themeConfig";
+import styled from "@emotion/styled";
+import { border, theme } from "../style/themeConfig";
 
 interface Props {
     image: string,

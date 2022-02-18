@@ -1,23 +1,25 @@
-import React, {ChangeEvent, useState} from "react";
-import {UserInterface} from "../../../config/interfaces";
-import {useForm} from "react-hook-form";
-import {yupResolver} from "@hookform/resolvers/yup";
-import TagsInput from "../../../utils/components/TagsInput";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faFileImage, faCheckCircle, faTimesCircle} from "@fortawesome/free-solid-svg-icons";
-import Button from "@mui/material/Button";
+import React, { ChangeEvent, useState } from "react";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
-import axiosConfig from "../../../config/axiosConfig";
-import {observer} from "mobx-react";
-import {toJS} from "mobx";
-import Alert from "@mui/material/Alert";
-import UploadStore from "../../../stores/UploadStore";
 import {ErrorMessage} from "@hookform/error-message";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { observer } from "mobx-react";
+import { toJS } from "mobx";
+import Button from "@mui/material/Button";
+import Alert from "@mui/material/Alert";
 import LoadingButton from "@mui/lab/LoadingButton";
-import {useNavigate} from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+    faFileImage,
+    faCheckCircle,
+    faTimesCircle
+} from "@fortawesome/free-solid-svg-icons";
+import { UserInterface } from "../../../config/interfaces";
+import axiosConfig from "../../../config/axiosConfig";
+import TagsInput from "../../../utils/components/TagsInput";
 import { StyledTextField } from "../../../utils/style/styledComponents";
-import BooksStore from "../../../stores/BooksStore";
-import {BookRating} from "../../../utils/components/BookRating";
+import { BookRating } from "../../../utils/components/BookRating";
 import {
     FormContainer,
     Container,
@@ -34,6 +36,7 @@ import {
     PublicationDetails,
     SubmitButtons
 } from "../../../utils/style/metadataFormStyle";
+import { useStore } from "../../../stores/RootStore";
 
 interface Props {
     user: UserInterface;
@@ -64,6 +67,9 @@ const metadataSchema = yup.object().shape({
 
 const MetadataForm = (props:Props) => {
 
+    // Get stores access
+    const { booksStore, uploadStore } = useStore();
+
     const navigate = useNavigate();
 
     // Metadata form state
@@ -75,12 +81,12 @@ const MetadataForm = (props:Props) => {
         resolver: yupResolver(metadataSchema),
         mode: 'onChange',
         defaultValues: {
-            title: UploadStore.getTitle(),
-            series: UploadStore.getSeries(),
-            description: UploadStore.getDescription(),
-            publisher: UploadStore.getPublisher(),
-            pubDate: UploadStore.getPubDate(),
-            language: UploadStore.getLanguage()
+            title: uploadStore.getTitle(),
+            series: uploadStore.getSeries(),
+            description: uploadStore.getDescription(),
+            publisher: uploadStore.getPublisher(),
+            pubDate: uploadStore.getPubDate(),
+            language: uploadStore.getLanguage()
         }
     });
 
@@ -88,11 +94,11 @@ const MetadataForm = (props:Props) => {
     const [rating, setRating] = useState<number>(0);
 
     const getTags = (inputTags:string[]):void => {
-        UploadStore.setTags(inputTags);
+        uploadStore.setTags(inputTags);
     }
 
     const getAuthors = (inputAuthors:string[]):void => {
-        UploadStore.setAuthors(inputAuthors);
+        uploadStore.setAuthors(inputAuthors);
     }
 
     // Save button event
@@ -103,14 +109,14 @@ const MetadataForm = (props:Props) => {
             const book = {
                 userId: props.user.id,
                 title: data.title,
-                authors: toJS(UploadStore.getAuthors()),
+                authors: toJS(uploadStore.getAuthors()),
                 description: data.description,
-                tags: toJS(UploadStore.getTags()),
+                tags: toJS(uploadStore.getTags()),
                 publisher: data.publisher,
                 pubDate: data.pubDate !== '' ? data.pubDate : null,
                 language: data.language,
                 rating: rating,
-                fileName: UploadStore.getFileName(),
+                fileName: uploadStore.getFileName(),
                 series: data.series,
             }
 
@@ -128,10 +134,10 @@ const MetadataForm = (props:Props) => {
             }
 
             // Upload epub file and cover
-            const uploadFilesRes = await UploadStore.uploadFiles(bookId);
+            const uploadFilesRes = await uploadStore.uploadFiles(bookId);
             if (uploadFilesRes.data.status) {
-                BooksStore.requestBooks();
-                navigate('/library?fromUpload');
+                booksStore.requestBooks();
+                navigate('/?fromUpload');
             } else {
                 setIsSubmitting(false);
                 setError('errorMessage', {
@@ -158,15 +164,15 @@ const MetadataForm = (props:Props) => {
     const uploadImage = (files:FileList | null) => {
         if (files !== null) {
             let url = URL.createObjectURL(files[0]);
-            UploadStore.setCoverImageUrl(url);
-            UploadStore.setCoverImage(files[0]);
+            uploadStore.setCoverImageUrl(url);
+            uploadStore.setCoverImage(files[0]);
         }
     }
 
     // Cancel button event
     const handleCancel = () => {
         setIsCancelling(true);
-        navigate('/library');
+        navigate('/');
     }
 
     return (
@@ -183,7 +189,7 @@ const MetadataForm = (props:Props) => {
                     <LeftFieldsContainer>
                         <CoverContainer>
                             <ImageContainer>
-                                <Image image={UploadStore.getCoverImageUrl()}/>
+                                <Image image={uploadStore.getCoverImageUrl()}/>
                                 <ChangeImage>
                                     <ButtonContainer>
                                         <Button
@@ -231,7 +237,7 @@ const MetadataForm = (props:Props) => {
                             id="authors"
                             placeholder="Add Author"
                             getTags={getAuthors}
-                            list={UploadStore.getAuthors()}
+                            list={uploadStore.getAuthors()}
                         />
                         <StyledTextField
                             id="series"
@@ -283,7 +289,7 @@ const MetadataForm = (props:Props) => {
                             id="tags"
                             getTags={getTags}
                             placeholder="Add Tag"
-                            list={UploadStore.getTags()}
+                            list={uploadStore.getTags()}
                         />
                     </RightFieldsContainer>
                 </FieldsContainer>

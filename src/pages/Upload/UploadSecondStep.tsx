@@ -1,15 +1,17 @@
-import styled from "@emotion/styled";
 import React, { useEffect } from "react";
-import UploadStore from "../../stores/UploadStore";
+import { useNavigate } from "react-router-dom";
+import { observer } from "mobx-react";
+import styled from "@emotion/styled";
 import MetadataForm from "./components/MetadataForm";
-import {observer} from "mobx-react";
-import UserStore from "../../stores/UserStore";
-import {CircularLoading} from "../../utils/components/CircularLoading";
-import {useNavigate} from "react-router-dom";
+import { CircularLoading } from "../../utils/components/CircularLoading";
+import { useStore } from "../../stores/RootStore";
 
 const UploadSecondStep = () => {
 
     const navigate = useNavigate();
+
+    // Get stores access
+    const { uploadStore, userStore } = useStore();
 
     // Go back to first upload step on refresh
     useEffect(() => {
@@ -26,8 +28,8 @@ const UploadSecondStep = () => {
     };
 
     // Get epub metadata
-    let isMetadataSet = UploadStore.isMetadataSet();
-    let user = UserStore.getCurrentUser();
+    let isMetadataSet = uploadStore.isMetadataSet();
+    let user = userStore.getCurrentUser();
 
     if (!isMetadataSet || user === undefined) {
         return (

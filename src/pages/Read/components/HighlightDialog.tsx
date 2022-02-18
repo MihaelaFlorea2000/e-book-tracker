@@ -1,15 +1,20 @@
-import styled from "@emotion/styled";
 import React from "react";
-import {Button, Dialog, DialogActions, DialogContent, DialogTitle} from "@mui/material";
-import {observer} from "mobx-react";
-// import {useStore} from "../../../stores/RootStore";
+import styled from "@emotion/styled";
+import { observer } from "mobx-react";
+import { Contents } from "epubjs";
+import {
+    Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle
+} from "@mui/material";
 import { StyledTextField } from "../../../utils/style/styledComponents";
 import { border, theme } from "../../../utils/style/themeConfig";
-import {highlightColors} from "../helpers/HighlightColors";
-import {Contents} from "epubjs";
+import { highlightColors } from "../helpers/HighlightColors";
 import { device } from "../../../config/config";
-import ReadStore from "../../../stores/ReadStore";
-import {HighlightInterface} from "../../../config/interfaces";
+import { HighlightInterface } from "../../../config/interfaces";
+import { useStore } from "../../../stores/RootStore";
 
 interface Props {
     contents: Contents | undefined
@@ -18,14 +23,14 @@ interface Props {
 const HighlightDialog = (props:Props) => {
 
     // Get ReadStore
-    //const { readStore } = useStore();
+    const { readStore } = useStore();
 
     // Get current selection
-    const isOpen = ReadStore.isHighlightDialog();
-    const currentSelection = ReadStore.getCurrentSelection();
+    const isOpen = readStore.isHighlightDialog();
+    const currentSelection = readStore.getCurrentSelection();
 
     if (currentSelection === null) {
-        ReadStore.setHighlightDialog(false);
+        readStore.setHighlightDialog(false);
         return (<div/>)
     }
 
@@ -33,19 +38,22 @@ const HighlightDialog = (props:Props) => {
 
     // On CLOSE button
     const handleClose = () => {
-        ReadStore.setHighlightDialog(false);
+        // Close dialog and reset state
+        readStore.setCurrentSelection(null);
+        readStore.setHighlightDialog(false);
+        readStore.setIsHighlightOn(false);
     };
 
     // When user types into the note textarea
     const handleNoteChange = (e:React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-        ReadStore.setNote(e.target.value)
+        readStore.setNote(e.target.value)
     };
 
     // On SAVE button
     const handleSave = () => {
 
         // Update/Add selection
-        let sel = ReadStore.getSelections();
+        let sel = readStore.getSelections();
         let newSel:HighlightInterface[] = [];
         sel.forEach((s) => {
             if (s.cfiRange !== currentSelection.cfiRange) {
@@ -55,20 +63,19 @@ const HighlightDialog = (props:Props) => {
 
         newSel = newSel.concat(currentSelection);
 
-        ReadStore.setSelections(newSel);
+        readStore.setSelections(newSel);
 
         // Highlight selection in the book
-        const rendition = ReadStore.getRendition()
+        const rendition = readStore.getRendition()
         if(rendition) {
             rendition.annotations.remove(currentSelection.cfiRange, "highlight")
             rendition.annotations.add("highlight", currentSelection.cfiRange, {}, undefined , "hl", {"fill": `${currentSelection.color}`, "fill-opacity": "0.8", "mix-blend-mode": "multiply"})
         }
 
         // Close dialog and reset state
-        ReadStore.setCurrentSelection(null);
-        ReadStore.setHighlightDialog(false);
-        const highlightOn = ReadStore.isHighlightOn();
-        ReadStore.setIsHighlightOn(!highlightOn);
+        readStore.setCurrentSelection(null);
+        readStore.setHighlightDialog(false);
+        readStore.setIsHighlightOn(false);
 
         // Deselect the text
         if (props.contents) {
@@ -81,30 +88,30 @@ const HighlightDialog = (props:Props) => {
 
     return (
         <Dialog open={isOpen} onClose={handleClose}>
-            <Title>Add highlight</Title>
+            <Title>Highlight</Title>
             <Container>
                 <HighlightText color={color}>
                     {currentSelection.text}
                 </HighlightText>
                 <Subtitle>Select Color</Subtitle>
                 <ColorsContainer>
-                    <ColorContainer onClick={() => {ReadStore.setColor(highlightColors.yellow.light)}}>
+                    <ColorContainer onClick={() => {readStore.setColor(highlightColors.yellow.light)}}>
                         <Color color={highlightColors.yellow.dark}/>
                         <ColorLabel>Yellow</ColorLabel>
                     </ColorContainer>
-                    <ColorContainer onClick={() => {ReadStore.setColor(highlightColors.red.light)}}>
+                    <ColorContainer onClick={() => {readStore.setColor(highlightColors.red.light)}}>
                         <Color color={highlightColors.red.dark}/>
                         <ColorLabel>Red</ColorLabel>
                     </ColorContainer>
-                    <ColorContainer onClick={() => {ReadStore.setColor(highlightColors.blue.light)}}>
+                    <ColorContainer onClick={() => {readStore.setColor(highlightColors.blue.light)}}>
                         <Color color={highlightColors.blue.dark}/>
                         <ColorLabel>Blue</ColorLabel>
                     </ColorContainer>
-                    <ColorContainer onClick={() => {ReadStore.setColor(highlightColors.green.light)}}>
+                    <ColorContainer onClick={() => {readStore.setColor(highlightColors.green.light)}}>
                         <Color color={highlightColors.green.dark}/>
                         <ColorLabel>Green</ColorLabel>
                     </ColorContainer>
-                    <ColorContainer onClick={() => {ReadStore.setColor(highlightColors.orange.light)}}>
+                    <ColorContainer onClick={() => {readStore.setColor(highlightColors.orange.light)}}>
                         <Color color={highlightColors.orange.dark}/>
                         <ColorLabel>Orange</ColorLabel>
                     </ColorContainer>

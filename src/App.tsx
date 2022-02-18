@@ -5,7 +5,7 @@ import { ROUTES } from './config/config';
 import HomePage from './pages/Home/HomePage';
 import LoginPage from './pages/Login/LoginPage';
 import RegisterPage from './pages/Register/RegisterPage';
-import MainStore from './stores/MainStore';
+import MainStore from './stores/LoginStore';
 import ReadPage from "./pages/Read/ReadPage";
 
 function App() {
@@ -22,7 +22,7 @@ function App() {
                 {
                     MainStore.isAuth() ?
                         <>
-                            <Route path={ROUTES.home} element={<HomePage/>} />
+                            <Route path={ROUTES.library} element={<HomePage/>} />
                             <Route path={ROUTES.book.read} element={<ReadPage/>}/>
                         </>
                         :
@@ -32,7 +32,7 @@ function App() {
                             <Route path={ROUTES.user.register} element={<RegisterPage />} />
                         </>
                 }
-                <Route path={ROUTES.home} element={<HomePage/>} />
+                <Route path={ROUTES.library} element={<HomePage/>} />
             </Routes>
     );
 }

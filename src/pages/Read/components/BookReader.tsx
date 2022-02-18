@@ -1,20 +1,19 @@
-import styled from "@emotion/styled";
-import React, {useEffect, useRef, useState} from "react";
-import {ReactReader} from "react-reader";
-import {Contents, Rendition} from "epubjs";
-import {BookInterface} from "../../../config/interfaces";
-import Button from "@mui/material/Button";
-import {faMinus, faPlus} from "@fortawesome/free-solid-svg-icons";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {device} from "../../../config/config";
-import {useMediaQuery} from "@mui/material";
+import React, { useEffect, useRef, useState } from "react";
 import { observer } from "mobx-react";
-import {updateLocation} from "../helpers/UpdateLocation";
-import {defaultStyle, mobileStyle } from "../helpers/ReaderStyles";
-// import {useStore} from "../../../stores/RootStore";
-import {highlightColors} from "../helpers/HighlightColors";
+import styled from "@emotion/styled";
+import { ReactReader } from "react-reader";
+import { Contents, Rendition } from "epubjs";
+import Button from "@mui/material/Button";
+import { useMediaQuery } from "@mui/material";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { BookInterface } from "../../../config/interfaces";
+import { device } from "../../../config/config";
+import { updateLocation } from "../helpers/UpdateLocation";
+import { defaultStyle, mobileStyle } from "../helpers/ReaderStyles";
+import { highlightColors } from "../helpers/HighlightColors";
 import HighlightDialog from "./HighlightDialog";
-import ReadStore from "../../../stores/ReadStore";
+import { useStore } from "../../../stores/RootStore";
 
 interface Props {
     book: BookInterface;
@@ -23,7 +22,7 @@ interface Props {
 const BookReader = (props: Props) => {
 
     // Get ReadStore
-    //const { readStore } = useStore();
+    const { readStore, bookStore } = useStore();
 
     // Change font size
     const [fontSize, setFontSize] = useState<number>(100);
@@ -39,7 +38,7 @@ const BookReader = (props: Props) => {
     const renditionRef = useRef<Rendition | null>(null);
 
     const locationChanged = (epubcifi:string | number ) => {
-        ReadStore.setLocation(epubcifi);
+        readStore.setLocation(epubcifi);
         console.log(epubcifi);
     }
 
@@ -49,7 +48,7 @@ const BookReader = (props: Props) => {
             return spine_get(target);
         }
 
-        ReadStore.setRendition(rendition);
+        readStore.setRendition(rendition);
         renditionRef.current = rendition;
         renditionRef.current.themes.fontSize(`${fontSize}%`);
         // renditionRef.current.themes.default({
@@ -57,7 +56,7 @@ const BookReader = (props: Props) => {
         //         'background': 'yellow'
         //     }
         // })
-        ReadStore.setSelections([]);
+        readStore.setSelections([]);
         rendition.themes.register('custom', {
             "a:hover": {
                 "color": "inherit"
@@ -85,7 +84,7 @@ const BookReader = (props: Props) => {
 
     // For highlights
     useEffect(() => {
-        const renditionState = ReadStore.getRendition();
+        const renditionState = readStore.getRendition();
         if (renditionState) {
             renditionState.on("selected", setRenderSelection)
             return () => {
@@ -94,14 +93,14 @@ const BookReader = (props: Props) => {
                 }
             }
         }
-    }, [ReadStore.selections, ReadStore.currentSelection])
+    }, [readStore.selections, readStore.currentSelection])
 
     const [contents, setContents] = useState<Contents | undefined>(undefined);
 
     const setRenderSelection = (cfiRange:string, contents:Contents) => {
-        const renditionState = ReadStore.getRendition();
+        const renditionState = readStore.getRendition();
         if (renditionState) {
-            ReadStore.setCurrentSelection({
+            readStore.setCurrentSelection({
                 text: renditionState.getRange(cfiRange).toString(),
                 cfiRange,
                 note: "",
@@ -116,7 +115,7 @@ const BookReader = (props: Props) => {
     const handleRefresh = (e:any) => {
         e.preventDefault();
 
-        updateLocation(props.book.id).then(res => {
+        updateLocation(props.book.id, readStore, bookStore).then(res => {
             console.log(res);
         });
 
@@ -129,12 +128,12 @@ const BookReader = (props: Props) => {
 
     // Remember location in book on back (in browser)
     const handleBack = () => {
-        updateLocation(props.book.id).then(res => {
+        updateLocation(props.book.id, readStore, bookStore).then(res => {
             console.log(res);
         });
     }
 
-    const location = ReadStore.getLocation();
+    const location = readStore.getLocation();
     console.log(location);
 
     return (
@@ -177,6 +176,7 @@ const ReaderContainer = styled.div`
   height: 100vh;
   width: 100vw;
 `
+
 const SettingsContainer = styled.div`
   position: absolute;
   bottom: 1px;

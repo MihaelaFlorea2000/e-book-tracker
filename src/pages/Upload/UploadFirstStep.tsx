@@ -1,21 +1,21 @@
+import React, {useEffect, useState} from "react";
+import { useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { ErrorMessage } from "@hookform/error-message";
+import { observer } from "mobx-react";
+import ePub from "epubjs";
+import axios from "axios";
 import styled from "@emotion/styled";
 import Button from "@mui/material/Button";
-import React, {useEffect, useState} from "react";
-import {faFileUpload} from "@fortawesome/free-solid-svg-icons";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {useForm} from "react-hook-form";
-import * as yup from "yup";
-import {yupResolver} from "@hookform/resolvers/yup";
 import LoadingButton from "@mui/lab/LoadingButton";
-import ePub from "epubjs";
 import Alert from "@mui/material/Alert";
-import {ErrorMessage} from "@hookform/error-message";
+import { faFileUpload } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {border, theme } from "../../utils/style/themeConfig";
-import UploadStore from "../../stores/UploadStore";
-import { observer } from "mobx-react";
-import {useNavigate} from "react-router-dom";
-import axios from "axios";
-import {device} from "../../config/config";
+import { device } from "../../config/config";
+import { useStore } from "../../stores/RootStore";
 
 interface UploadFormInterface {
     files: FileList,
@@ -46,6 +46,9 @@ const UploadFirstStep = () => {
 
     const navigate = useNavigate();
 
+    // Get stores access
+    const { uploadStore } = useStore();
+
     // Upload form state
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const [filePreview, setFilePreview] = useState<string>("");
@@ -56,7 +59,7 @@ const UploadFirstStep = () => {
 
     // Reset metadata when page loads
     useEffect(() => {
-        UploadStore.resetMetadata();
+        uploadStore.resetMetadata();
     });
 
     // Get epub metadata
@@ -71,21 +74,21 @@ const UploadFirstStep = () => {
                 const coverUrl = coverUrlRes === null ? '' : coverUrlRes;
                 const publicationDate = bookMetadata.pubdate.trim() !== '' ? new Date(bookMetadata.pubdate).toISOString().split('T')[0] : '';
 
-                UploadStore.setTitle(bookMetadata.title);
-                UploadStore.addAuthor(bookMetadata.creator);
-                UploadStore.setDescription(bookMetadata.description);
-                UploadStore.setCoverImageUrl(coverUrl);
-                UploadStore.setPublisher(bookMetadata.publisher);
-                UploadStore.setPubDate(publicationDate);
-                UploadStore.setLanguage(bookMetadata.language);
-                UploadStore.setFileName(file.name);
-                UploadStore.setFile(file);
+                uploadStore.setTitle(bookMetadata.title);
+                uploadStore.addAuthor(bookMetadata.creator);
+                uploadStore.setDescription(bookMetadata.description);
+                uploadStore.setCoverImageUrl(coverUrl);
+                uploadStore.setPublisher(bookMetadata.publisher);
+                uploadStore.setPubDate(publicationDate);
+                uploadStore.setLanguage(bookMetadata.language);
+                uploadStore.setFileName(file.name);
+                uploadStore.setFile(file);
 
                 axios.get(coverUrl, { responseType: 'blob' })
                     .then(res => {
                         const coverImage = new File([res.data], 'coverImage');
-                        UploadStore.setCoverImage(coverImage);
-                        UploadStore.setMetadataStatus(true);
+                        uploadStore.setCoverImage(coverImage);
+                        uploadStore.setMetadataStatus(true);
                     })
                     .catch(err => {
                         console.log(err);
@@ -188,7 +191,6 @@ const UploadContainer = styled.div`
 `
 
 const UploadForm = styled.form`
-
 `
 
 const UploadButton = styled.div`
@@ -203,7 +205,6 @@ const UploadButton = styled.div`
 `
 
 const InfoContainer = styled.div`
-  
 `
 
 const TextInfo = styled.div`
@@ -229,6 +230,7 @@ const SubmitButton = styled.div`
   justify-content: center;
   align-items: center;
 `
+
 const FilePreview = styled.div`
   @media only screen and ${device.tablet} {
     text-align: center;

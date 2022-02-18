@@ -1,28 +1,27 @@
 import styled from "@emotion/styled";
 import InputAdornment from "@mui/material/InputAdornment";
-import TextField from "@mui/material/TextField";
-import React, {useState} from "react";
+import React from "react";
 import {faBars, faBell, faSearch} from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {border, theme } from "../../../utils/style/themeConfig";
-import UserStore from "../../../stores/UserStore";
 import { observer } from "mobx-react";
 import Box from "@mui/material/Box";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { NavLink } from "react-router-dom";
-import MainStore from "../../../stores/MainStore";
-import CircularProgress from "@mui/material/CircularProgress";
-import MobileMenu from "./Menu/MobileMenu";
 import { device } from "../../../config/config";
 import { StyledTextField } from "../../../utils/style/styledComponents";
 import {CircularLoading} from "../../../utils/components/CircularLoading";
 import SideMenu from "../../../utils/components/SideMenu";
 import MenuBar from "./Menu/MenuBar";
+import LoginStore from "../../../stores/LoginStore";
+import { useStore } from "../../../stores/RootStore";
 
 const Header = () => {
 
-    let user = UserStore.getCurrentUser();
+    const { userStore } = useStore();
+
+    let user = userStore.getCurrentUser();
 
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
@@ -35,7 +34,7 @@ const Header = () => {
     };
 
     const handleLogOut = () => {
-        MainStore.logout();
+        LoginStore.logout();
         handleCloseUserMenu();
     };
 

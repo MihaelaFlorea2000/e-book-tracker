@@ -1,9 +1,8 @@
+import React, { ChangeEvent, useEffect, useState } from "react";
 import styled from "@emotion/styled";
-import React, {ChangeEvent, useEffect, useState} from "react";
-import TextField from "@mui/material/TextField";
 import Chip from "@mui/material/Chip";
 import Button from "@mui/material/Button";
-import {border, theme} from "../style/themeConfig";
+import { border, theme } from "../style/themeConfig";
 
 interface Props {
     id: string,
@@ -12,8 +11,13 @@ interface Props {
     getTags: any
 }
 
+/**
+    Adapted from:
+    https://codesandbox.io/s/material-ui-input-with-chips-0s2j4?from-embed=&file=/src/TagsInput.js:229-263
+ */
 const TagsInput = (props:Props) => {
 
+    // Tags and input state
     const [tags, setTags] = useState<string[]>(props.list);
     const [inputValue, setInputValue] = useState<string>("");
 
@@ -28,7 +32,7 @@ const TagsInput = (props:Props) => {
         props.getTags(tags);
     }, []);
 
-    function addTag() {
+    const addTag = () => {
         let newTags = [...tags];
         const duplicatedValues = newTags.indexOf(
             inputValue.trim()
@@ -46,7 +50,7 @@ const TagsInput = (props:Props) => {
         props.getTags(newTags);
     }
 
-    function handleKeyDown(event:React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) {
+    const handleKeyDown = (event:React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         if (event.key === "Enter") {
             addTag();
         }
@@ -57,7 +61,7 @@ const TagsInput = (props:Props) => {
         }
     }
 
-    function handleInputChange(event:ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
+    const handleInputChange = (event:ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         if(event !== null) {
             setInputValue(event.target.value);
         }

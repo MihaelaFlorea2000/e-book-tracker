@@ -1,3 +1,6 @@
+import React from "react";
+import {useNavigate} from "react-router-dom";
+import {observer} from "mobx-react";
 import styled from "@emotion/styled";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
@@ -5,15 +8,11 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import React from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faTrash} from "@fortawesome/free-solid-svg-icons";
 import {device} from "../../../config/config";
 import axiosConfig from "../../../config/axiosConfig";
-import {useNavigate} from "react-router-dom";
-import DeleteStore from "../../../stores/DeleteStore";
-import {observer} from "mobx-react";
-import BooksStore from "../../../stores/BooksStore";
+import {useStore} from "../../../stores/RootStore";
 
 interface Props {
     bookId: number;
@@ -21,6 +20,12 @@ interface Props {
 
 const ConfirmBox = (props:Props) => {
 
+    const navigate = useNavigate();
+
+    // Get stores access
+    const { booksStore, deleteStore } = useStore();
+
+    // Is Delete confirm box open?
     const [open, setOpen] = React.useState<boolean>(false);
 
     const handleOpen = () => {
@@ -31,22 +36,20 @@ const ConfirmBox = (props:Props) => {
         setOpen(false);
     };
 
-    const navigate = useNavigate();
-
     const handleYes = async () => {
         // Delete Book
         try {
             const res = await axiosConfig().delete(`/pg/books/${props.bookId}`)
 
             if (res.data.status) {
-                BooksStore.requestBooks();
-                navigate('/library?fromDelete');
+                booksStore.requestBooks();
+                navigate('/?fromDelete');
             } else {
-                DeleteStore.setError(res.data.message);
+                deleteStore.setError(res.data.message);
             }
         } catch (err:any) {
             console.log(err);
-            DeleteStore.setError(err.response.data.message);
+            deleteStore.setError(err.response.data.message);
         }
         setOpen(false);
     };
@@ -104,7 +107,6 @@ const ConfirmBox = (props:Props) => {
 export default observer(ConfirmBox);
 
 const Container = styled.div`
-  
 `
 
 const ButtonsContainer = styled.div`

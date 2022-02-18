@@ -1,5 +1,5 @@
-import styled from "@emotion/styled";
 import React, {useState} from "react";
+import styled from "@emotion/styled";
 import DOMPurify from "dompurify";
 import { theme } from "../../../utils/style/themeConfig";
 
@@ -29,11 +29,12 @@ export default ReadMore;
 
 const Container = styled.div`
 `
+
 const Description = styled.div`
 `
+
 const ReadMoreLink = styled.span`
   color: ${theme.palette.primary.main};
   text-decoration: underline;
   cursor: pointer;
-  
 `

@@ -2,7 +2,7 @@ import {makeAutoObservable} from "mobx";
 import axiosConfig from "../config/axiosConfig";
 import {BookInterface} from "../config/interfaces";
 
-class UploadStore {
+export default class EditStore {
 
     private title: string = '';
     private authors: string[] = [];
@@ -190,5 +190,3 @@ class UploadStore {
     }
 
 }
-
-export default new UploadStore();

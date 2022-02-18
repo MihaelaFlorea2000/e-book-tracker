@@ -2,7 +2,7 @@ import {makeAutoObservable, runInAction} from "mobx";
 import {BookInterface, UserInterface} from "../config/interfaces";
 import axiosConfig from "../config/axiosConfig";
 
-class BooksStore {
+export default class BooksStore {
 
     private books: BookInterface[] | undefined = undefined
 
@@ -41,5 +41,3 @@ class BooksStore {
         })
     }
 }
-
-export default new BooksStore();

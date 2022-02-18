@@ -1,10 +1,10 @@
-import styled from "@emotion/styled";
 import React from "react";
+import {observer} from "mobx-react";
+import styled from "@emotion/styled";
 import { theme } from "../../utils/style/themeConfig";
 import Header from "./components/Header";
 import HomeRoutes from "./components/HomeRoutes";
 import Menu from "./components/Menu/DesktopMenu";
-import {observer} from "mobx-react";
 
 
 const HomePage = () => {
@@ -24,7 +24,6 @@ export default observer(HomePage);
 
 const Container = styled.div`
   display: flex;
-  
 `
 
 const Page = styled.div`

@@ -3,9 +3,8 @@ import {makeAutoObservable, runInAction} from "mobx";
 import axiosConfig from "../config/axiosConfig";
 import {DEFAULT_LOCATION} from "../config/config";
 import { HighlightInterface } from "../config/interfaces";
-import BooksStore from "./BooksStore";
 
-class ReadStore {
+export default class ReadStore {
 
     private location: string | number = DEFAULT_LOCATION;
     private highlightMenu: boolean = false;
@@ -34,7 +33,6 @@ class ReadStore {
         }
     }
 
-    // Location
     public isFirstRender():boolean {
         return this.firstRender;
     }
@@ -45,7 +43,6 @@ class ReadStore {
         })
     }
 
-    // Update Location
     public async updateLocation(bookId:number) {
         const data = {
             location: this.location
@@ -89,6 +86,7 @@ class ReadStore {
         })
     }
 
+    // Color
     public setColor(color:string) {
         runInAction(() => {
             if (this.currentSelection) {
@@ -97,6 +95,7 @@ class ReadStore {
         })
     }
 
+    // Note
     public setNote(note:string) {
         runInAction(() => {
             if (this.currentSelection) {
@@ -136,8 +135,4 @@ class ReadStore {
             this.highlightOn = highlight;
         })
     }
-
-
 }
-
-export default new ReadStore();

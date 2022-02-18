@@ -1,7 +1,7 @@
 import {makeAutoObservable} from "mobx";
 import jwt_decode from "jwt-decode";
 
-class MainStore {
+class LoginStore {
 
     private authStatus: boolean = false;
 
@@ -62,4 +62,4 @@ class MainStore {
     }
 }
 
-export default new MainStore();
+export default new LoginStore();

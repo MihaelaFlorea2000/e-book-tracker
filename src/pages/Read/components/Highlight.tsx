@@ -1,13 +1,11 @@
-import styled from "@emotion/styled";
-import { observer } from "mobx-react";
 import React from "react";
-import { border, theme } from "../../../utils/style/themeConfig";
-import { faTimes, faEdit } from "@fortawesome/free-solid-svg-icons";
+import { observer } from "mobx-react";
+import styled from "@emotion/styled";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-// import {useStore} from "../../../stores/RootStore";
+import { faTimes, faEdit } from "@fortawesome/free-solid-svg-icons";
+import { border, theme } from "../../../utils/style/themeConfig";
 import { getHoverColor } from "../helpers/HighlightColors";
-import readStore from "../../../stores/ReadStore";
-import ReadStore from "../../../stores/ReadStore";
+import { useStore } from "../../../stores/RootStore";
 
 interface Props {
     index: number,
@@ -20,11 +18,11 @@ interface Props {
 const Highlight = (props: Props) => {
 
     // Get ReadStore
-    //const { readStore } = useStore();
+    const { readStore } = useStore();
 
-    // Get selections
-    const selections = ReadStore.getSelections();
-    const rendition = ReadStore.getRendition();
+    // Get selections and rendition
+    const selections = readStore.getSelections();
+    const rendition = readStore.getRendition();
 
     if (rendition === undefined) {
         return (
@@ -47,15 +45,15 @@ const Highlight = (props: Props) => {
         >
             <IconContainer>
                 <EditIconContainer onClick={() => {
-                    ReadStore.setCurrentSelection(selection);
-                    ReadStore.setHighlightDialog(true);
+                    readStore.setCurrentSelection(selection);
+                    readStore.setHighlightDialog(true);
                 }}>
                     <FontAwesomeIcon icon={faEdit}/>
                 </EditIconContainer>
                 <CloseIconContainer
                     onClick={() => {
                         rendition.annotations.remove(props.cfiRange, 'highlight')
-                        ReadStore.setSelections(selections.filter((item, j) => j !== props.index))
+                        readStore.setSelections(selections.filter((item, j) => j !== props.index))
                     }}
                 >
                     <FontAwesomeIcon icon={faTimes}/>
@@ -101,7 +99,6 @@ const Container = styled.div<{hoverColor:string}>`
   :hover > :nth-of-type(2){
     background-color: ${props => props.hoverColor};
   }
- 
 `
 
 const IconContainer = styled.div`
@@ -115,8 +112,7 @@ const CloseIconContainer = styled.div`
   font-size: 1.1rem;
   padding: 5px;
   cursor: pointer;
-
-
+  
   :hover {
     color: #ff0000;
   }
@@ -149,6 +145,7 @@ const NoteContainer = styled.div`
   flex-flow: column;
   gap: 3px;
 `
+
 const Note = styled.div`
   max-height: 15vh;
   overflow-y: auto;
