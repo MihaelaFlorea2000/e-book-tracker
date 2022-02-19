@@ -134,6 +134,7 @@ const BookReader = (props: Props) => {
         updateLocation(props.book.id, readStore, bookStore).then(res => {
             console.log(res);
         });
+        readStore.reset();
 
         if (e) {
             e.returnValue = '';
@@ -147,10 +148,10 @@ const BookReader = (props: Props) => {
         updateLocation(props.book.id, readStore, bookStore).then(res => {
             console.log(res);
         });
+        readStore.reset();
     }
 
     const location = readStore.getLocation();
-    console.log(location);
 
     return (
         <Container>

@@ -2,7 +2,7 @@ import Rendition from "epubjs/types/rendition";
 import {makeAutoObservable, runInAction} from "mobx";
 import axiosConfig from "../config/axiosConfig";
 import {DEFAULT_LOCATION} from "../config/config";
-import {BookInterface, HighlightInterface, SearchResultInterface} from "../config/interfaces";
+import {HighlightInterface, SearchResultInterface} from "../config/interfaces";
 
 export default class ReadStore {
 
@@ -71,20 +71,15 @@ export default class ReadStore {
     }
 
     // Selections
-    public getSelections(bookId:number):HighlightInterface[] | undefined{
+    public getSelections(bookIdUrl:number):HighlightInterface[] | undefined{
         if (this.selections === undefined) {
-            this.requestSelections(bookId);
+            this.requestSelections(bookIdUrl);
 
             return undefined;
         } else {
             return this.selections;
         }
     }
-
-    // public setSelections(selections:HighlightInterface[]) {
-    //     this.selections = selections;
-    // }
-
 
     // Request current user books
     public requestSelections(bookId:number) {
@@ -182,5 +177,18 @@ export default class ReadStore {
         runInAction(() => {
             this.searchResults = searchResults;
         })
+    }
+
+    public reset() {
+         this.highlightMenu = false;
+         this.selections = undefined;
+         this.rendition = undefined;
+         this.currentSelection = null;
+         this.highlightDialog = false;
+         this.highlightOn = false;
+         this.firstRender = true;
+         this.requested = false;
+         this.editId = undefined;
+         this.searchResults = undefined
     }
 }

@@ -57,6 +57,7 @@ const ReadPage = () => {
         updateLocation(book.id, readStore, bookStore).then(res => {
             navigate('/');
         });
+        readStore.reset();
     }
 
     // Check if highlight is on

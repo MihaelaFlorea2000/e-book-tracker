@@ -2,7 +2,6 @@ import React from "react";
 import { observer } from "mobx-react";
 import styled from "@emotion/styled";
 import { device } from "../../../config/config";
-import {BookInterface, HighlightInterface} from "../../../config/interfaces";
 import { useForm } from "react-hook-form";
 import InputAdornment from "@mui/material/InputAdornment";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
