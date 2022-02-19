@@ -44,6 +44,7 @@ const BookReader = (props: Props) => {
         console.log(epubcifi);
     }
 
+
     const getRendition = (rendition:Rendition) => {
         const spine_get = rendition.book.spine.get.bind(rendition.book.spine);
         rendition.book.spine.get = function(target) {

@@ -38,3 +38,8 @@ export interface HighlightInterface {
     note: string,
     color: string
 }
+
+export interface SearchResultInterface {
+    cfi: string,
+    excerpt: string
+}

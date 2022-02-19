@@ -28,7 +28,7 @@ export default observer(HighlightMenu);
 
 const HighlightsContainer = styled.div`
   width: 60vw;
-  padding: 10px;
+  padding: 20px;
   
   @media only screen and ${device.mobileL} {
     width: 80vw;

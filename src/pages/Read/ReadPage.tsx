@@ -6,7 +6,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     faArrowLeft,
     faStickyNote,
-    faHighlighter
+    faHighlighter,
+    faSearch
 } from "@fortawesome/free-solid-svg-icons";
 import { CircularLoading } from "../../utils/components/CircularLoading";
 import { theme } from "../../utils/style/themeConfig";
@@ -16,6 +17,7 @@ import { updateLocation } from "./helpers/UpdateLocation";
 import HighlightMenu from "./components/HighlightMenu";
 import BookReader from "./components/BookReader";
 import { useStore } from "../../stores/RootStore";
+import SearchMenu from "./components/SearchMenu";
 
 const ReadPage = () => {
 
@@ -79,6 +81,7 @@ const ReadPage = () => {
     return (
         <Page>
             <ButtonsContainer>
+                <SideMenu fontSize="1.6rem" buttonSize="medium" icon={faSearch} direction="right" menu={<SearchMenu />} />
                 <HighlightButton color={highlightOn ? theme.palette.secondary.main : theme.palette.primary.main} onClick={handleHighlightClick}><FontAwesomeIcon icon={faHighlighter}/></HighlightButton>
                 <SideMenu fontSize="1.6rem" buttonSize="medium" icon={faStickyNote} direction="right" menu={<HighlightMenu book={book} selections={selections}/>} />
                 <BackButton onClick={handleBackClick}><FontAwesomeIcon icon={faArrowLeft}/></BackButton>

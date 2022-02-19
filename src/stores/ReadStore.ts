@@ -2,7 +2,7 @@ import Rendition from "epubjs/types/rendition";
 import {makeAutoObservable, runInAction} from "mobx";
 import axiosConfig from "../config/axiosConfig";
 import {DEFAULT_LOCATION} from "../config/config";
-import {BookInterface, HighlightInterface} from "../config/interfaces";
+import {BookInterface, HighlightInterface, SearchResultInterface} from "../config/interfaces";
 
 export default class ReadStore {
 
@@ -16,6 +16,7 @@ export default class ReadStore {
     private firstRender: boolean = true;
     private requested: boolean = false;
     private editId: number | undefined = undefined;
+    private searchResults: SearchResultInterface[] | undefined = undefined
 
 
     public constructor() {
@@ -170,6 +171,16 @@ export default class ReadStore {
     public setEditId(value:number | undefined) {
         runInAction(() => {
             this.editId = value;
+        })
+    }
+
+    public getSearchResults():SearchResultInterface[] | undefined {
+        return this.searchResults;
+    }
+
+    public setSearchResults(searchResults:SearchResultInterface[]) {
+        runInAction(() => {
+            this.searchResults = searchResults;
         })
     }
 }

@@ -1,7 +1,6 @@
 import styled from "@emotion/styled";
-import InputAdornment from "@mui/material/InputAdornment";
 import React from "react";
-import {faBars, faBell, faSearch} from '@fortawesome/free-solid-svg-icons'
+import {faBars, faBell } from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {border, theme } from "../../../utils/style/themeConfig";
 import { observer } from "mobx-react";
@@ -10,12 +9,12 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { NavLink } from "react-router-dom";
 import { device } from "../../../config/config";
-import { StyledTextField } from "../../../utils/style/styledComponents";
 import {CircularLoading} from "../../../utils/components/CircularLoading";
 import SideMenu from "../../../utils/components/SideMenu";
 import MenuBar from "./Menu/MenuBar";
 import LoginStore from "../../../stores/LoginStore";
 import { useStore } from "../../../stores/RootStore";
+import { SearchBar } from "../../../utils/components/SearchBar";
 
 const Header = () => {
 
@@ -50,21 +49,7 @@ const Header = () => {
             <HamburgerContainer>
                 <SideMenu fontSize="1.7rem" direction="left" icon={faBars} buttonSize="large" menu={<MenuBar />}/>
             </HamburgerContainer>
-            <SearchContainer>
-                <StyledTextField
-                    id="search"
-                    InputProps={{
-                        startAdornment: (
-                            <InputAdornment position="start">
-                                <IconContainer><FontAwesomeIcon icon={faSearch}/></IconContainer>
-                            </InputAdornment>
-                        ),
-                    }}
-                    variant="outlined"
-                    placeholder="Search"
-                    fullWidth={true}
-                />
-            </SearchContainer>
+            <SearchBar />
             <TopRightContainer>
                 <NotificationContainer><FontAwesomeIcon icon={faBell}/></NotificationContainer>
                 <Box sx={{ flexGrow: 0 }}>
@@ -112,21 +97,6 @@ const Container = styled.div`
   
   @media only screen and ${device.tablet} {
     padding: 15px 10px;
-  }
-`
-
-const SearchContainer = styled.div`
-  width: 40%;
-  
-  @media only screen and ${device.tablet} {
-    width: 45%;
-  }
-`
-
-const IconContainer = styled.div`
-  color: ${theme.palette.info.main};
-  > .Mui-focused{
-    color: black;
   }
 `
 
