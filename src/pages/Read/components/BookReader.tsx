@@ -9,7 +9,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
 import {BookInterface, HighlightInterface} from "../../../config/interfaces";
 import { device } from "../../../config/config";
-import { updateLocation } from "../helpers/UpdateLocation";
 import { defaultStyle, mobileStyle } from "../helpers/ReaderStyles";
 import { highlightColors } from "../helpers/HighlightColors";
 import HighlightDialog from "./HighlightDialog";
@@ -24,7 +23,7 @@ interface Props {
 const BookReader = (props: Props) => {
 
     // Get ReadStore
-    const { readStore, bookStore } = useStore();
+    const { readStore } = useStore();
 
     // Change font size
     const [fontSize, setFontSize] = useState<number>(100);
@@ -54,11 +53,6 @@ const BookReader = (props: Props) => {
         readStore.setRendition(rendition);
         renditionRef.current = rendition;
         renditionRef.current.themes.fontSize(`${fontSize}%`);
-        // renditionRef.current.themes.default({
-        //     '::selection': {
-        //         'background': 'yellow'
-        //     }
-        // })
 
         // Get and color selections
         if (props.book.id !== undefined) {
@@ -81,17 +75,8 @@ const BookReader = (props: Props) => {
         rendition.themes.select('custom')
     }
 
-    // For updating location on leave
-    useEffect(() => {
-        window.addEventListener("beforeunload", handleRefresh);
-        window.addEventListener("popstate", handleBack);
-        return () => {
-            window.removeEventListener("beforeunload", handleRefresh);
-            window.addEventListener("popstate", handleBack);
-        };
-    }, []);
 
-    // For updating font size
+    //For updating font size
     useEffect(() => {
         if (renditionRef.current) {
             renditionRef.current.themes.fontSize(`${fontSize}%`)
@@ -125,30 +110,6 @@ const BookReader = (props: Props) => {
 
             setContents(contents);
         }
-    }
-
-    // Remember location in book on refresh
-    const handleRefresh = (e:any) => {
-        e.preventDefault();
-
-        updateLocation(props.book.id, readStore, bookStore).then(res => {
-            console.log(res);
-        });
-        readStore.reset();
-
-        if (e) {
-            e.returnValue = '';
-        }
-
-        return '';
-    }
-
-    // Remember location in book on back (in browser)
-    const handleBack = () => {
-        updateLocation(props.book.id, readStore, bookStore).then(res => {
-            console.log(res);
-        });
-        readStore.reset();
     }
 
     const location = readStore.getLocation();

@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { useNavigate, useParams} from "react-router-dom";
 import { observer } from "mobx-react";
 import styled from "@emotion/styled";
@@ -13,11 +13,11 @@ import { CircularLoading } from "../../utils/components/CircularLoading";
 import { theme } from "../../utils/style/themeConfig";
 import SideMenu from "../../utils/components/SideMenu";
 import { device } from "../../config/config";
-import { updateLocation } from "./helpers/UpdateLocation";
 import HighlightMenu from "./components/HighlightMenu";
 import BookReader from "./components/BookReader";
 import { useStore } from "../../stores/RootStore";
 import SearchMenu from "./components/SearchMenu";
+import axiosConfig from "../../config/axiosConfig";
 
 const ReadPage = () => {
 
@@ -32,6 +32,53 @@ const ReadPage = () => {
 
     const book = bookStore.getBook(bookId);
 
+    // For updating location on leave
+    useEffect(() => {
+        window.addEventListener("beforeunload", handleRefresh);
+        return () => {
+            updateLocation().then(() => {})
+            window.removeEventListener("beforeunload", handleRefresh);
+        };
+    }, []);
+
+    // Remember location in book on back
+    const updateLocation = async() => {
+        const data = {
+            location: readStore.getLocation()
+        }
+
+        if (bookId !== undefined) {
+            console.log(`${bookId}, ${data.location}`);
+
+            try {
+                const res = await axiosConfig().put(`/pg/books/${bookId}/edit/location`, data)
+                console.log(res.data);
+                bookStore.requestBook(bookId);
+                readStore.reset();
+            } catch (err:any) {
+                console.log(err.response.data.message)
+            }
+        }
+    }
+
+    // Remember location in book on back
+    const handleBackClick = () => {
+        updateLocation().then(() => {navigate('/');})
+    }
+
+    // Remember location in book on refresh
+    const handleRefresh = (e:any) => {
+        e.preventDefault();
+
+        updateLocation().then(() => {});
+
+        if (e) {
+            e.returnValue = '';
+        }
+
+        return '';
+    }
+
     // Loading book
     if (book === undefined || book.id === undefined) {
         return (
@@ -41,6 +88,7 @@ const ReadPage = () => {
         )
     }
 
+    // Get highlights
     const selections = readStore.getSelections(bookId);
 
     // Loading book
@@ -52,13 +100,8 @@ const ReadPage = () => {
         )
     }
 
-    // Remember location in book on back
-    const handleBackClick = () => {
-        updateLocation(book.id, readStore, bookStore).then(res => {
-            navigate('/');
-        });
-        readStore.reset();
-    }
+    // Set last book location
+    readStore.setLocation(book.location);
 
     // Check if highlight is on
     const highlightOn = readStore.isHighlightOn();
@@ -72,12 +115,6 @@ const ReadPage = () => {
             readStore.setHighlightDialog(true);
         }
     };
-
-    if (readStore.isFirstRender()) {
-        readStore.setLocation(book.location);
-        readStore.setFirstRender(false);
-    }
-
 
     return (
         <Page>
