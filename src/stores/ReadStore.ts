@@ -1,3 +1,4 @@
+import { EpubCFI } from "epubjs";
 import Rendition from "epubjs/types/rendition";
 import {makeAutoObservable, runInAction} from "mobx";
 import axiosConfig from "../config/axiosConfig";
@@ -12,6 +13,7 @@ export default class ReadStore {
     public selections: HighlightInterface[] | undefined = undefined;
     public currentSelection: HighlightInterface | null = null;
     private highlightDialog: boolean = false;
+    private firstRender: boolean = true;
     private highlightOn: boolean = false;
     private requested: boolean = false;
     private editId: number | undefined = undefined;
@@ -31,6 +33,16 @@ export default class ReadStore {
     public setRendition(rendition:Rendition | undefined) {
         runInAction(() => {
             this.rendition = rendition;
+        })
+    }
+
+    public isFirstRender():boolean {
+        return this.firstRender;
+    }
+
+    public setFirstRender(value:boolean) {
+        runInAction(() => {
+            this.firstRender = value;
         })
     }
 
@@ -69,6 +81,11 @@ export default class ReadStore {
         }
     }
 
+    private static compareSelections(selection1:HighlightInterface, selection2:HighlightInterface) {
+        const c = new EpubCFI();
+        return c.compare(selection1.cfiRange, selection2.cfiRange);
+    }
+
     // Request current book highlights
     public requestSelections(bookId:number) {
         if (!this.requested) {
@@ -81,7 +98,7 @@ export default class ReadStore {
 
         axiosConfig().get(`/pg/highlights/${bookId}`).then(data => {
             runInAction(() => {
-                this.selections = data.data;
+                this.selections = data.data.sort(ReadStore.compareSelections);
                 this.requested = false
             })
         })

@@ -37,15 +37,23 @@ const SearchList = () => {
 
 
     return (
-        <List>
-            {searchResults.map((searchResult:SearchResultInterface, i) => (
-                <SearchResult key={i} searchResult={searchResult}/>
-            ))}
-        </List>
+        <Container>
+            <ResultNumber>Results ({searchResults.length})</ResultNumber>
+            <List>
+                {searchResults.map((searchResult:SearchResultInterface, i) => (
+                    <SearchResult key={i} searchResult={searchResult}/>
+                ))}
+            </List>
+        </Container>
     )
 };
 
 export default observer(SearchList);
+
+const Container = styled.div`
+  display: flex;
+  flex-flow: column;
+`
 
 const List = styled.div`
   display: flex;
@@ -53,6 +61,11 @@ const List = styled.div`
   align-items: center;
   justify-content: center;
   gap: 15px;
+`
+
+const ResultNumber = styled.h3`
+  padding-top: 0;
+  margin-top: 0;
 `
 
 const IconContainer = styled.div`

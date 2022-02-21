@@ -24,7 +24,7 @@ const ReadPage = () => {
     const navigate = useNavigate();
 
     // Get stores access
-    const { readStore, bookStore } = useStore();
+    const { readStore, bookStore, booksStore } = useStore();
 
     // Get book
     const params = useParams();
@@ -34,12 +34,25 @@ const ReadPage = () => {
 
     // For updating location on leave
     useEffect(() => {
+        bookOpened().then(() => {});
         window.addEventListener("beforeunload", handleRefresh);
         return () => {
             updateLocation().then(() => {})
             window.removeEventListener("beforeunload", handleRefresh);
         };
     }, []);
+
+    // Remember location in book on back
+    const bookOpened = async() => {
+        if (bookId !== undefined) {
+            try {
+                const res = await axiosConfig().put(`/pg/books/${bookId}/edit/opened`)
+                console.log(res.data);
+            } catch (err:any) {
+                console.log(err.response.data.message)
+            }
+        }
+    }
 
     // Remember location in book on back
     const updateLocation = async() => {
@@ -54,6 +67,7 @@ const ReadPage = () => {
                 const res = await axiosConfig().put(`/pg/books/${bookId}/edit/location`, data)
                 console.log(res.data);
                 bookStore.requestBook(bookId);
+                booksStore.requestBooks();
                 readStore.reset();
             } catch (err:any) {
                 console.log(err.response.data.message)
@@ -101,7 +115,10 @@ const ReadPage = () => {
     }
 
     // Set last book location
-    readStore.setLocation(book.location);
+    if (readStore.isFirstRender()) {
+        readStore.setLocation(book.location);
+        readStore.setFirstRender(false);
+    }
 
     // Check if highlight is on
     const highlightOn = readStore.isHighlightOn();
