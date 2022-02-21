@@ -20,6 +20,11 @@ interface Props {
     selections: HighlightInterface[];
 }
 
+interface Toc {
+    label: string;
+    href: string;
+}
+
 const BookReader = (props: Props) => {
 
     // Get ReadStore
@@ -36,9 +41,17 @@ const BookReader = (props: Props) => {
     const isMobile = useMediaQuery(device.mobileL);
 
     // Render book
+    const [page, setPage] = useState('')
     const renditionRef = useRef<Rendition | null>(null);
+    const tocRef = useRef(null);
 
     const locationChanged = (epubcifi:string | number ) => {
+        if (renditionRef.current && tocRef.current) {
+            const { displayed, href } = renditionRef.current.location.start
+            // @ts-ignore
+            const chapter = tocRef.current.find((item) => item.href === href)
+            setPage(`Page ${displayed.page} of ${displayed.total} in chapter ${chapter ? chapter.label : ''}`)
+        }
         readStore.setLocation(epubcifi);
         console.log(epubcifi);
     }
@@ -123,18 +136,25 @@ const BookReader = (props: Props) => {
                     location={location}
                     locationChanged={locationChanged}
                     getRendition={getRendition}
+                    // @ts-ignore
+                    tocChanged={toc => tocRef.current = toc}
                     styles={isMobile ? mobileStyle(isMobile) : defaultStyle}
                 />
             </ReaderContainer>
-            <SettingsContainer>
-                <Button onClick={() => changeSize(Math.max(80, fontSize - 10))}>
-                    <FontAwesomeIcon className="fa-fw" icon={faMinus}/>
-                </Button>
-                <span>Font size: {fontSize}%</span>
-                <Button onClick={() => changeSize(Math.min(200, fontSize + 10))}>
-                    <FontAwesomeIcon className="fa-fw" icon={faPlus}/>
-                </Button>
-            </SettingsContainer>
+            <BottomContainer>
+                <SettingsContainer>
+                    <Button onClick={() => changeSize(Math.max(80, fontSize - 10))}>
+                        <FontAwesomeIcon className="fa-fw" icon={faMinus}/>
+                    </Button>
+                    <span><FontSizeText>Font size: </FontSizeText>{fontSize}%</span>
+                    <Button onClick={() => changeSize(Math.min(200, fontSize + 10))}>
+                        <FontAwesomeIcon className="fa-fw" icon={faPlus}/>
+                    </Button>
+                </SettingsContainer>
+                <PageContainer>
+                    {page}
+                </PageContainer>
+            </BottomContainer>
             <HighlightDialog contents={contents} book={props.book}/>
         </Container>
     )
@@ -155,16 +175,32 @@ const ReaderContainer = styled.div`
   width: 100vw;
 `
 
-const SettingsContainer = styled.div`
+
+const BottomContainer = styled.div`
   position: absolute;
-  bottom: 1px;
+  bottom: 3px;
   right: 1rem;
   left: 1rem;
   text-align: center;
   z-index: 1;
   background-color: white;
+  display: flex;
+  justify-content: space-around;
+  font-size: 0.95rem; 
 
   @media only screen and ${device.mobileL} {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
+  }
+`
+
+const SettingsContainer = styled.div`
+`
+
+const PageContainer = styled.div`
+`
+
+const FontSizeText = styled.span`
+  @media only screen and ${device.mobileL} {
+    display: none;
   }
 `
