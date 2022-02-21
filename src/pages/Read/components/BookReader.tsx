@@ -14,6 +14,7 @@ import { highlightColors } from "../helpers/HighlightColors";
 import HighlightDialog from "./HighlightDialog";
 import { useStore } from "../../../stores/RootStore";
 import {toJS} from "mobx";
+import {log} from "util";
 
 interface Props {
     book: BookInterface,
@@ -21,8 +22,11 @@ interface Props {
 }
 
 interface Toc {
-    label: string;
-    href: string;
+    id: string,
+    label: string,
+    href: string,
+    subitems: Toc[],
+    parent: string | undefined
 }
 
 const BookReader = (props: Props) => {
@@ -43,14 +47,11 @@ const BookReader = (props: Props) => {
     // Render book
     const [page, setPage] = useState('')
     const renditionRef = useRef<Rendition | null>(null);
-    const tocRef = useRef(null);
 
     const locationChanged = (epubcifi:string | number ) => {
-        if (renditionRef.current && tocRef.current) {
-            const { displayed, href } = renditionRef.current.location.start
-            // @ts-ignore
-            const chapter = tocRef.current.find((item) => item.href === href)
-            setPage(`Page ${displayed.page} of ${displayed.total} in chapter ${chapter ? chapter.label : ''}`)
+        if (renditionRef.current) {
+            const { displayed } = renditionRef.current.location.start
+            setPage(`${displayed.total - displayed.page} pages left in chapter`)
         }
         readStore.setLocation(epubcifi);
         console.log(epubcifi);
@@ -58,8 +59,20 @@ const BookReader = (props: Props) => {
 
 
     const getRendition = (rendition:Rendition) => {
+        console.log(rendition.book.spine)
         const spine_get = rendition.book.spine.get.bind(rendition.book.spine);
         rendition.book.spine.get = function(target) {
+            // let t = spine_get(target);
+            // console.log(target)
+            // console.log(t)
+            // // @ts-ignore
+            // while ((t === null) && target.startsWith("../")) {
+            //     console.log(t)
+            //     // @ts-ignore
+            //     target = target.substring(3);
+            //     t = spine_get(target);
+            // }
+            // return t
             return spine_get(target);
         }
 
@@ -136,8 +149,6 @@ const BookReader = (props: Props) => {
                     location={location}
                     locationChanged={locationChanged}
                     getRendition={getRendition}
-                    // @ts-ignore
-                    tocChanged={toc => tocRef.current = toc}
                     styles={isMobile ? mobileStyle(isMobile) : defaultStyle}
                 />
             </ReaderContainer>
