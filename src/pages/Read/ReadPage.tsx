@@ -37,7 +37,7 @@ const ReadPage = () => {
         bookOpened().then(() => {});
         window.addEventListener("beforeunload", handleRefresh);
         return () => {
-            updateLocation().then(() => {})
+            closeBook().then(() => {})
             window.removeEventListener("beforeunload", handleRefresh);
         };
     }, []);
@@ -46,7 +46,7 @@ const ReadPage = () => {
     const bookOpened = async() => {
         if (bookId !== undefined) {
             try {
-                const res = await axiosConfig().put(`/pg/books/${bookId}/edit/opened`)
+                const res = await axiosConfig().post(`/pg/books/${bookId}/opened`)
                 console.log(res.data);
             } catch (err:any) {
                 console.log(err.response.data.message)
@@ -55,7 +55,7 @@ const ReadPage = () => {
     }
 
     // Remember location in book on back
-    const updateLocation = async() => {
+    const closeBook = async() => {
         const data = {
             location: readStore.getLocation()
         }
@@ -64,7 +64,7 @@ const ReadPage = () => {
             console.log(`${bookId}, ${data.location}`);
 
             try {
-                const res = await axiosConfig().put(`/pg/books/${bookId}/edit/location`, data)
+                const res = await axiosConfig().post(`/pg/books/${bookId}/closed`, data)
                 console.log(res.data);
                 bookStore.requestBook(bookId);
                 booksStore.requestBooks();
@@ -77,14 +77,14 @@ const ReadPage = () => {
 
     // Remember location in book on back
     const handleBackClick = () => {
-        updateLocation().then(() => {navigate('/');})
+        closeBook().then(() => {navigate('/');})
     }
 
     // Remember location in book on refresh
     const handleRefresh = (e:any) => {
         e.preventDefault();
 
-        updateLocation().then(() => {});
+        closeBook().then(() => {});
 
         if (e) {
             e.returnValue = '';

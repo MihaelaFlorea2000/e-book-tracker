@@ -2,7 +2,6 @@ import { EpubCFI } from "epubjs";
 import Rendition from "epubjs/types/rendition";
 import {makeAutoObservable, runInAction} from "mobx";
 import axiosConfig from "../config/axiosConfig";
-import {DEFAULT_LOCATION} from "../config/config";
 import {HighlightInterface, SearchResultInterface} from "../config/interfaces";
 
 export default class ReadStore {
@@ -13,6 +12,9 @@ export default class ReadStore {
     public selections: HighlightInterface[] | undefined = undefined;
     public currentSelection: HighlightInterface | null = null;
     private highlightDialog: boolean = false;
+    private finishedDialog: boolean = false;
+    private finishedDialogDouble: boolean = false;
+
     private firstRender: boolean = true;
     private highlightOn: boolean = false;
     private requested: boolean = false;
@@ -133,7 +135,6 @@ export default class ReadStore {
         })
     }
 
-
     // Highlight Dialog
     public isHighlightDialog():boolean {
         return this.highlightDialog;
@@ -175,6 +176,27 @@ export default class ReadStore {
     public setSearchResults(searchResults:SearchResultInterface[]) {
         runInAction(() => {
             this.searchResults = searchResults;
+        })
+    }
+
+    // Finished Book Dialog
+    public isFinishedDialog():boolean {
+        return this.finishedDialog;
+    }
+
+    public setFinishedDialog(finishedDialog:boolean) {
+        runInAction(() => {
+            this.finishedDialog = finishedDialog;
+        })
+    }
+
+    public isFinishedDialogDouble():boolean {
+        return this.finishedDialogDouble;
+    }
+
+    public setFinishedDialogDouble(finishedDialogDouble:boolean) {
+        runInAction(() => {
+            this.finishedDialogDouble = finishedDialogDouble;
         })
     }
 

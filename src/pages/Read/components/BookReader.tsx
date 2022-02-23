@@ -14,7 +14,7 @@ import { highlightColors } from "../helpers/HighlightColors";
 import HighlightDialog from "./HighlightDialog";
 import { useStore } from "../../../stores/RootStore";
 import {toJS} from "mobx";
-import {log} from "util";
+import FinishedDialog from "./FinishedDialog";
 
 interface Props {
     book: BookInterface,
@@ -52,11 +52,17 @@ const BookReader = (props: Props) => {
         if (renditionRef.current) {
             const { displayed } = renditionRef.current.location.start
             setPage(`${displayed.total - displayed.page} pages left in chapter`)
+
+            // Is book finished?
+            const bookEnd = renditionRef.current.location.atEnd;
+            const textCfi = epubcifi.toString().startsWith("text")
+            if ( bookEnd && !textCfi ) {
+                readStore.setFinishedDialog(true);
+            }
         }
         readStore.setLocation(epubcifi);
         console.log(epubcifi);
     }
-
 
     const getRendition = (rendition:Rendition) => {
         console.log(rendition.book.spine)
@@ -167,6 +173,7 @@ const BookReader = (props: Props) => {
                 </PageContainer>
             </BottomContainer>
             <HighlightDialog contents={contents} book={props.book}/>
+            <FinishedDialog book={props.book}/>
         </Container>
     )
 }

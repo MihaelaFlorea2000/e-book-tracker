@@ -26,7 +26,7 @@ export const BookRating = (props: Props) => {
             size={props.size}
             precision={0.5}
             emptyIcon={<FontAwesomeIcon icon={faEmptyStar} />}
-            icon={<FontAwesomeIcon className="fa-fw" icon={faStar}/>}
+            icon={<FontAwesomeIcon icon={faStar}/>}
             {...otherProps}
         />
     );
