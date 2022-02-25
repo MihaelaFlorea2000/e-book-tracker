@@ -6,7 +6,8 @@ import {useParams} from "react-router-dom";
 import Read from "./Read";
 import {observer} from "mobx-react";
 import {
-    faBook
+    faBook,
+    faBookOpen
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { theme } from "../../../utils/style/themeConfig";
@@ -36,10 +37,10 @@ const ReadInfo = () => {
     reads.forEach((read, index) => {
         if (read.endDate) {
             readNodes.push(
-                <Read key={index} read={read} />
+                <Read key={index} read={read} bookId={bookId} />
             )
         } else {
-            currentReadNode = <Read current key={index} read={read} />
+            currentReadNode = <Read current key={index} read={read} bookId={bookId} />
         }
 
     })
@@ -48,7 +49,17 @@ const ReadInfo = () => {
 
     return (
         <Container>
-            {currentReadNode}
+            {currentReadNode &&
+                <>
+                    <TimeRead>
+                        <BookIconContainer>
+                            <FontAwesomeIcon icon={faBookOpen}/>
+                        </BookIconContainer>
+                        Currently Reading
+                    </TimeRead>
+                    {currentReadNode}
+                </>
+            }
             {timesRead > 0
                 ?
                 <TimeRead>

@@ -3,15 +3,21 @@ import styled from "@emotion/styled";
 import {BookReadInterface} from "../../../config/interfaces";
 import {BookRating} from "../../../utils/components/BookRating";
 import {border, theme } from "../../../utils/style/themeConfig";
-import {faBookReader, faStopwatch} from "@fortawesome/free-solid-svg-icons";
+import {faBookReader, faEdit, faStopwatch, faTimes} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {DeleteIconContainer, EditIconContainer } from "../../../utils/style/styledComponents";
+import axiosConfig from "../../../config/axiosConfig";
+import {useStore} from "../../../stores/RootStore";
 
 interface Props {
-    read: BookReadInterface;
+    read: BookReadInterface,
+    bookId: number,
     current?: boolean
 }
 
 const Read = (props: Props) => {
+
+    const { bookStore } = useStore();
 
     const options:Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' }
 
@@ -50,41 +56,49 @@ const Read = (props: Props) => {
                     </TimeContainer>
     }
 
+    const handleDelete = async() => {
+        try {
+            const res = await axiosConfig().delete(`/pg/books/${props.bookId}/reads/${props.read.id}`)
+            console.log(res);
+            bookStore.requestReads(props.bookId);
+        } catch (err) {
+            console.log(err);
+        }
+        console.log(props.read.id)
+    }
+
+    const handleEdit = () => {
+        console.log(props.read.id)
+    }
+
     return (
         <Container>
+            <ChangeIconsContainer>
+                <EditIconContainer onClick={handleEdit}>
+                    <FontAwesomeIcon icon={faEdit}/>
+                </EditIconContainer>
+                <DeleteIconContainer
+                    onClick={handleDelete}
+                >
+                    <FontAwesomeIcon icon={faTimes}/>
+                </DeleteIconContainer>
+            </ChangeIconsContainer>
             <DateContainer>
                 {startDate} - {endDate}
             </DateContainer>
+            <MetricsContainer>
+                {time}
+                {sessions}
+            </MetricsContainer>
             {!props.current &&
                 <>
-                    <MetricsContainer>
-                        {time}
-                        {sessions}
-                    </MetricsContainer>
                     <RatingContainer>
                         {props.read.rating && <BookRating value={props.read.rating} size="small" readOnly={true} />}
                     </RatingContainer>
                     <NotesContainer>
                         {props.read.notes &&
                             <Notes>
-                                This was a strange and magical project from start to finish, and a lot of people helped me get it right.
-
-                                First, I have to thank my agent, Joanna Volpe, for figuring out how this book could work; my editor, Alvina Ling, for getting on board with such a weird project; and our art director, Karina Granda, for shepherding it through the many steps to getting it in front of you. Thanks to Ruqayyah Daud and Jordan Hill for managing so many details and also managing me.
-
-                                Thank you to Siena Koncsol and everyone in Marketing and Publicity at Little, Brown Books for Young Readers, who have always been a joy to work with.
-
-                                Thanks to Emma Matthewson and everyone at Hot Key Books for being enthusiastic about this series from the beginning.
-
-                                Thank you to Rovina Cai for being willing to do this in the first place and then for putting up with me constantly asking for more Cardan extravagance.
-
-                                Thank you to my critique partners for all your help. Thank you to Kelly Link for reading seventy thousand versions of this, to Cassandra Clare and Joshua Lewis and Steve Berman for convening a workshop with what was no doubt annoying swiftness, to Sarah Rees Brennan for helping me figure out what might happen in the first place and then helping me figure it out again when I went in a totally new direction, and to Leigh Bardugo for coming in and reminding me what a plot is and what I could do to suggest there was one.
-
-                                And thank you to Jessica Cooper for letting me know what the people would like.
-
-                                And, as always, thanks to Theo and Sebastian, for being both inspiration and distraction.
-
-
-                                {/*{props.read.notes}*/}
+                                {props.read.notes}
                             </Notes>
                         }
                     </NotesContainer>
@@ -104,6 +118,11 @@ const Container = styled.div`
   background-color: white;
   border: 3px solid ${theme.palette.primary.light};
   border-radius: ${border.borderRadius};
+`
+const ChangeIconsContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `
 
 const Notes = styled.div`

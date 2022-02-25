@@ -8,6 +8,7 @@ import { getHoverColor } from "../helpers/HighlightColors";
 import { useStore } from "../../../stores/RootStore";
 import { HighlightInterface } from "../../../config/interfaces";
 import axiosConfig from "../../../config/axiosConfig";
+import {DeleteIconContainer, EditIconContainer } from "../../../utils/style/styledComponents";
 
 interface Props {
     bookId: number | undefined,
@@ -110,28 +111,6 @@ const IconContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-`
-const DeleteIconContainer = styled.div`
-  color: ${theme.palette.primary.main};
-  transition: color 0.5s;
-  font-size: 1.1rem;
-  padding: 5px;
-  cursor: pointer;
-  
-  :hover {
-    color: #ff0000;
-  }
-`
-const EditIconContainer = styled.div`
-  color: ${theme.palette.primary.main};
-  transition: color 0.5s;
-  font-size: 1.1rem;
-  padding: 5px;
-  cursor: pointer;
-  
-  :hover {
-    color: #ff0000;
-  }
 `
 
 const TextContainer = styled.div<{color: string, hoverColor: string}>`

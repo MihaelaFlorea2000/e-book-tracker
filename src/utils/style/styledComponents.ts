@@ -13,3 +13,26 @@ export const StyledTextField = styled(TextField)`
     font-family: 'PoppinsRegular', sans-serif;
   }
 `
+
+export const DeleteIconContainer = styled.div`
+  color: ${theme.palette.primary.main};
+  transition: color 0.5s;
+  font-size: 1.1rem;
+  padding: 5px;
+  cursor: pointer;
+  
+  :hover {
+    color: #ff0000;
+  }
+`
+export const EditIconContainer = styled.div`
+  color: ${theme.palette.primary.main};
+  transition: color 0.5s;
+  font-size: 1.1rem;
+  padding: 5px;
+  cursor: pointer;
+  
+  :hover {
+    color: #ff0000;
+  }
+`
