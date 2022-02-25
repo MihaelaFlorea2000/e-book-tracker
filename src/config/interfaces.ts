@@ -43,3 +43,23 @@ export interface SearchResultInterface {
     cfi: string,
     excerpt: string
 }
+
+export interface IntervalInterface {
+    years?: number,
+    months?: number,
+    days?: number,
+    hours?: number,
+    minutes?: number,
+    seconds: number,
+    milliseconds: number
+}
+
+export interface BookReadInterface {
+    id: number,
+    startDate: string,
+    endDate: string,
+    rating: number,
+    notes: string,
+    time: IntervalInterface,
+    sessions: number
+}

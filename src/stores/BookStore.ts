@@ -1,12 +1,15 @@
 import {makeAutoObservable, runInAction} from "mobx";
-import {BookInterface} from "../config/interfaces";
+import {BookInterface, BookReadInterface} from "../config/interfaces";
 import axiosConfig from "../config/axiosConfig";
 
 export default class BookStore {
 
-    private book: BookInterface | undefined = undefined
+    private book: BookInterface | undefined = undefined;
+    private reads: BookReadInterface[] | undefined = undefined;
 
-    private requested: boolean = false;
+    private requestedBook: boolean = false;
+    private requestedReads: boolean = false;
+
 
     public constructor() {
         makeAutoObservable(this);
@@ -16,6 +19,7 @@ export default class BookStore {
     public getBook(bookId:number): BookInterface | undefined {
         if (this.book === undefined || this.book.id !== bookId) {
             this.requestBook(bookId);
+            this.requestReads(bookId);
 
             return undefined;
         } else {
@@ -25,9 +29,9 @@ export default class BookStore {
 
     // Request current user books
     public requestBook(bookId:number) {
-        if (!this.requested) {
+        if (!this.requestedBook) {
             runInAction(() => {
-                this.requested = true;
+                this.requestedBook = true;
             })
         } else {
             return;
@@ -36,12 +40,41 @@ export default class BookStore {
         axiosConfig().get(`/pg/books/${bookId}`).then(data => {
             runInAction(() => {
                 this.book = data.data;
-                this.requested = false;
+                this.requestedBook = false;
             })
         })
     }
 
     public resetBook() {
         this.book = undefined;
+    }
+
+    // Get current user's books
+    public getReads(bookId:number): BookReadInterface[] | undefined {
+        if (this.reads === undefined) {
+            this.requestReads(bookId);
+
+            return undefined;
+        } else {
+            return this.reads;
+        }
+    }
+
+    // Request current user books
+    public requestReads(bookId:number) {
+        if (!this.requestedReads) {
+            runInAction(() => {
+                this.requestedReads = true;
+            })
+        } else {
+            return;
+        }
+
+        axiosConfig().get(`/pg/books/${bookId}/reads`).then(data => {
+            runInAction(() => {
+                this.reads = data.data;
+                this.requestedReads = false;
+            })
+        })
     }
 }
