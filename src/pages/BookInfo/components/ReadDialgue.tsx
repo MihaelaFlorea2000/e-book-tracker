@@ -1,7 +1,10 @@
-import React, {ChangeEvent, useEffect, useState} from "react";
-import styled from "@emotion/styled";
+import React, { ChangeEvent, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { observer } from "mobx-react";
-import { Contents } from "epubjs";
+import { useForm } from "react-hook-form";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup/dist/yup";
+import styled from "@emotion/styled";
 import {
     Button,
     Dialog,
@@ -10,21 +13,15 @@ import {
     DialogTitle
 } from "@mui/material";
 import { StyledTextField } from "../../../utils/style/styledComponents";
-import { border, theme } from "../../../utils/style/themeConfig";
+import { theme } from "../../../utils/style/themeConfig";
+import { BookRating } from "../../../utils/components/BookRating";
 import { device } from "../../../config/config";
-import {BookInterface, BookReadInterface, IntervalInterface} from "../../../config/interfaces";
 import { useStore } from "../../../stores/RootStore";
 import axiosConfig from "../../../config/axiosConfig";
-import {useForm} from "react-hook-form";
-import {yupResolver} from "@hookform/resolvers/yup/dist/yup";
-import * as yup from "yup";
-import {BookRating} from "../../../utils/components/BookRating";
-import {toJS} from "mobx";
-import {useNavigate, useParams} from "react-router-dom";
+import LoadingButton from "@mui/lab/LoadingButton";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faCheckCircle, faTimesCircle} from "@fortawesome/free-solid-svg-icons";
 
-// interface Props {
-//     read: BookReadInterface
-// }
 
 interface FormInterface {
     startDate: string,
@@ -41,13 +38,10 @@ interface FormInterface {
     notes: string
 }
 
-const yupTime = yup.lazy((value) => (value === '' ? yup.string() : yup.number()))
-
-// Upload form validation schema step 2
-// Validate metadata
+// Read Schema validation
 const readSchema = yup.object().shape({
-    startDate: yup.string().required('Start Date is required'),
-    endDate: yup.string(),
+    startDate: yup.date().required('Start Date is required'),
+    endDate: yup.date().when('startDate', (startDate, schema) => startDate && schema.min(startDate)),
     years: yup.lazy((value) => (value === '' ? yup.string() : yup.number().moreThan(-1))),
     months: yup.lazy((value) => (value === '' ? yup.string() : yup.number().moreThan(-1))),
     days: yup.lazy((value) => (value === '' ? yup.string() : yup.number().moreThan(-1))),
@@ -63,7 +57,7 @@ const ReadDialog = () => {
 
     const navigate = useNavigate();
 
-    // Get ReaderStore
+    // Get stores
     const { bookStore, readStore } = useStore();
 
     // Get book and read
@@ -75,9 +69,13 @@ const ReadDialog = () => {
     const editId = readStore.getEditId();
     const isFinish = readStore.isFinish();
 
+    // Rating state
     const [rating, setRating] = useState<number>(readStore.getRating());
 
-    const { register, handleSubmit, formState: { errors }, setError } = useForm<FormInterface>({
+    const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+    const [isCancelling, setIsCancelling] = useState<boolean>(false);
+
+    const { register, handleSubmit, formState: { errors } } = useForm<FormInterface>({
         resolver: yupResolver(readSchema),
         mode: 'onChange',
         defaultValues: {
@@ -97,6 +95,7 @@ const ReadDialog = () => {
 
     // On CLOSE button
     const handleClose = () => {
+        setIsCancelling(true);
         // Close dialog and reset state
         readStore.setReadDialog(false);
         readStore.setEditId(undefined);
@@ -111,6 +110,7 @@ const ReadDialog = () => {
             bookStore.requestReads(bookId);
         } catch (err) {
             console.log(err);
+            setIsSubmitting(false);
         }
     }
 
@@ -128,11 +128,13 @@ const ReadDialog = () => {
             bookStore.requestReads(bookId);
         } catch (err) {
             console.log(err);
+            setIsSubmitting(false);
         }
     }
 
     // On SAVE button
     const onSubmit = async (data: FormInterface) => {
+        setIsSubmitting(true);
 
         const newRead = {
             startDate: data.startDate,
@@ -322,10 +324,29 @@ const ReadDialog = () => {
                         />
                     </FieldContainer>
                 </Container>
-                <DialogActions>
-                    <Button type='submit'>Save</Button>
-                    <Button onClick={handleClose}>Cancel</Button>
-                </DialogActions>
+                <StyledDialogActions>
+                    {isSubmitting
+                        ? <LoadingButton loading variant="outlined" size="large" >Submit</LoadingButton>
+                        : <Button
+                            type="submit"
+                            variant="contained"
+                            startIcon={<FontAwesomeIcon className="fa-fw" icon={faCheckCircle}/>}
+                        >
+                            Save
+                        </Button>
+                    }
+                    {isCancelling
+                        ? <LoadingButton loading variant="outlined" size="large" >Submit</LoadingButton>
+                        : <Button
+                            type="button"
+                            variant="contained"
+                            onClick={handleClose}
+                            startIcon={<FontAwesomeIcon className="fa-fw" icon={faTimesCircle}/>}
+                        >
+                            Cancel
+                        </Button>
+                    }
+                </StyledDialogActions>
             </FormContainer>
         </Dialog>
     )
@@ -337,12 +358,6 @@ const Title = styled(DialogTitle)`
   font-family: 'PoppinsSemiBold', sans-serif;
 `
 
-const Container = styled(DialogContent)`
-  display: flex;
-  flex-flow: column;
-  gap: 30px;
-`
-
 const Subtitle = styled.div`
   padding-left: 2px;
   font-family: 'PoppinsSemiBold', sans-serif;
@@ -350,6 +365,13 @@ const Subtitle = styled.div`
 `
 
 const FormContainer = styled.form`
+  
+  @media only screen and ${device.mobileL} {
+    flex-flow: column;
+    display: flex;
+    align-items: center;
+    justify-items: center;
+  }
 `
 
 const FieldContainer = styled.div`
@@ -359,16 +381,40 @@ const FieldContainer = styled.div`
   gap: 5px;
 `
 
+const Container = styled(DialogContent)`
+  display: flex;
+  flex-flow: column;
+  gap: 30px;
+`
+
 const DatesContainer = styled.div`
   display: flex;
   gap: 10px;
+
+  @media only screen and ${device.mobileL} {
+    flex-flow: column;
+  }
 `
+
+const TimeSessions = styled.div`
+  display: flex;
+  gap: 10px;
+
+  @media only screen and ${device.mobileL} {
+    flex-flow: column;
+  }
+`
+
 const TimeContainer = styled.div`
   display: flex;
   gap: 10px;
   
   input {
     font-size: 0.8rem;
+  }
+
+  @media only screen and ${device.mobileL} {
+    flex-flow: column;
   }
 `
 const SessionsContainer = styled.div`
@@ -380,13 +426,15 @@ const SessionsContainer = styled.div`
     font-size: 0.8rem;
   }
 `
-const TimeSessions = styled.div`
-  display: flex;
-  gap: 10px;
-`
 
-const Label = styled.div`
-  font-size: 0.9rem;
-  color: ${theme.palette.info.main};
-  text-align: center;
+const StyledDialogActions = styled(DialogActions)`
+  button {
+    width: 120px;
+  }
+
+  @media only screen and ${device.tablet} {
+    button {
+      width: 100px;
+    }
+  }
 `

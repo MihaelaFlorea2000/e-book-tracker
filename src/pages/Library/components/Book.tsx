@@ -27,7 +27,7 @@ const Book = (props: Props) => {
             </CoverContainer>
             <OptionsOverlay>
                 <ButtonContainer>
-                    <NavLink to={`/book/read/${props.book.id}`}>
+                    <NavLink to={`/book/reader/${props.book.id}`}>
                         <StyledButton
                             variant="contained"
                             size="small"

@@ -1,17 +1,22 @@
 import React, {ReactNode} from "react";
+import {useNavigate} from "react-router-dom";
+import {observer} from "mobx-react";
 import styled from "@emotion/styled";
+import {border, theme } from "../../../utils/style/themeConfig";
+import {
+    faBookReader,
+    faFlagCheckered,
+    faEdit,
+    faStopwatch,
+    faTimes
+} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {BookReadInterface} from "../../../config/interfaces";
 import {BookRating} from "../../../utils/components/BookRating";
-import {border, theme } from "../../../utils/style/themeConfig";
-import {faBookReader, faFlagCheckered, faEdit, faStopwatch, faTimes} from "@fortawesome/free-solid-svg-icons";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {DeleteIconContainer, EditIconContainer } from "../../../utils/style/styledComponents";
 import axiosConfig from "../../../config/axiosConfig";
 import {useStore} from "../../../stores/RootStore";
-import ReadDialgue from "./ReadDialgue";
-import {observer} from "mobx-react";
-import {NavLink, useNavigate} from "react-router-dom";
-import {Button} from "@mui/material";
+
 
 interface Props {
     read: BookReadInterface,
@@ -20,13 +25,15 @@ interface Props {
 }
 
 const Read = (props: Props) => {
+
     const navigate = useNavigate();
 
+    // Get stores
     const { bookStore, readStore } = useStore();
 
+    // Construct start and end date
     const options:Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' }
 
-    // Construct start and end date
     const startDate = new Date(props.read.startDate).toLocaleDateString('en-UK', options);
     const endDate = props.read.endDate ? new Date(props.read.endDate).toLocaleDateString('en-UK', options) : 'ongoing';
 

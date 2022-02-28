@@ -1,8 +1,6 @@
 import React, {ReactNode} from "react";
-import styled from "@emotion/styled";
-import {CircularLoading} from "../../../utils/components/CircularLoading";
-import {useStore} from "../../../stores/RootStore";
 import {useNavigate, useParams} from "react-router-dom";
+import styled from "@emotion/styled";
 import Read from "./Read";
 import {observer} from "mobx-react";
 import {
@@ -10,9 +8,11 @@ import {
     faBookOpen
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { theme } from "../../../utils/style/themeConfig";
 import {BookInterface} from "../../../config/interfaces";
+import {CircularLoading} from "../../../utils/components/CircularLoading";
+import { theme } from "../../../utils/style/themeConfig";
 import {AddButton} from "../../../utils/components/AddButton";
+import {useStore} from "../../../stores/RootStore";
 
 interface Props {
     book: BookInterface
@@ -24,7 +24,7 @@ const ReadInfo = (props: Props) => {
 
     const { bookStore, readStore } = useStore();
 
-    // Get reads
+    // Get books
     const params = useParams();
     const bookId = Number(params.bookId);
 

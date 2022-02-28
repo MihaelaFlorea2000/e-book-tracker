@@ -173,6 +173,11 @@ const HighlightButton = styled.div<{color:string}>`
   cursor: pointer;
   width: 35px;
   height: 35px;
+  transition: color 0.5s;
+
+  :hover {
+    color: ${theme.palette.secondary.main};
+  }
 
   @media only screen and ${device.mobileL} {
     width: 30px;
@@ -180,29 +185,22 @@ const HighlightButton = styled.div<{color:string}>`
   }
 `
 
-
 const BackButton = styled.div`
-  border-radius: 100%;
-  border: 3px solid ${theme.palette.primary.main};
-  background-color: ${theme.palette.primary.main};
-  color: white;
-  padding: 7px;
-  width: 32px;
-  height: 32px;
+  color: ${theme.palette.primary.main};
+  font-size: 1.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: color 0.5s, background-color 0.5s;
   cursor: pointer;
-  
+  width: 35px;
+  height: 35px;
+  transition: color 0.5s;
+
   :hover {
-    background-color: ${theme.palette.primary.light};
-    color: ${theme.palette.primary.main};
+    color: ${theme.palette.secondary.main};
   }
 
   @media only screen and ${device.mobileL} {
-    padding: 5px;
-    font-size: 0.9rem;
     width: 30px;
     height: 30px;
   }

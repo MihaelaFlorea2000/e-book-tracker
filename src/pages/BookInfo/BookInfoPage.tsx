@@ -16,8 +16,6 @@ import { device } from "../../config/config";
 import { useStore } from "../../stores/RootStore";
 import MetadataInfo from "./components/MetadataInfo";
 import ReadInfo from "./components/ReadInfo";
-import ReadDialgue from "./components/ReadDialgue";
-
 
 const BookInfoPage = () => {
 
@@ -58,7 +56,7 @@ const BookInfoPage = () => {
                             Edit
                         </Button>
                     </NavLink>
-                    <NavLink to={`/book/read/${book.id}`}>
+                    <NavLink to={`/book/reader/${book.id}`}>
                         <Button
                             type="button"
                             variant="contained"
@@ -80,7 +78,7 @@ const BookInfoPage = () => {
                             <FontAwesomeIcon className="fa-fw" icon={faEdit}/>
                         </Button>
                     </NavLink>
-                    <NavLink to={`/book/read/${book.id}`}>
+                    <NavLink to={`/book/reader/${book.id}`}>
                         <Button
                             type="button"
                             variant="contained"
