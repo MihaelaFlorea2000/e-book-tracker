@@ -2,7 +2,7 @@ import React, {ReactNode} from "react";
 import styled from "@emotion/styled";
 import {CircularLoading} from "../../../utils/components/CircularLoading";
 import {useStore} from "../../../stores/RootStore";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import Read from "./Read";
 import {observer} from "mobx-react";
 import {
@@ -11,10 +11,18 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { theme } from "../../../utils/style/themeConfig";
+import {BookInterface} from "../../../config/interfaces";
+import {AddButton} from "../../../utils/components/AddButton";
 
-const ReadInfo = () => {
+interface Props {
+    book: BookInterface
+}
 
-    const { bookStore } = useStore();
+const ReadInfo = (props: Props) => {
+
+    const navigate = useNavigate();
+
+    const { bookStore, readStore } = useStore();
 
     // Get reads
     const params = useParams();
@@ -37,15 +45,22 @@ const ReadInfo = () => {
     reads.forEach((read, index) => {
         if (read.endDate) {
             readNodes.push(
-                <Read key={index} read={read} bookId={bookId} />
+                <Read current={false} key={index} read={read} bookId={bookId} />
             )
         } else {
-            currentReadNode = <Read current key={index} read={read} bookId={bookId} />
+            currentReadNode = <Read current={true} key={index} read={read} bookId={bookId} />
         }
 
     })
 
     const timesRead = readNodes.length;
+
+    const handleAdd = () => {
+        readStore.resetCurrentRead();
+        readStore.setEditId(undefined);
+        readStore.setReadDialog(true);
+        navigate(`/book/${props.book.id}/read/0`);
+    }
 
     return (
         <Container>
@@ -60,17 +75,20 @@ const ReadInfo = () => {
                     {currentReadNode}
                 </>
             }
-            {timesRead > 0
-                ?
-                <TimeRead>
-                    <BookIconContainer>
-                        <FontAwesomeIcon icon={faBook}/>
-                    </BookIconContainer>
-                    Read {readNodes.length} times
-                </TimeRead>
-                :
-                <TimeRead>Book not read yet</TimeRead>
-            }
+            <ReadHeaderContainer>
+                {timesRead > 0
+                    ?
+                    <TimeRead>
+                        <BookIconContainer>
+                            <FontAwesomeIcon icon={faBook}/>
+                        </BookIconContainer>
+                        Read {readNodes.length} times
+                    </TimeRead>
+                    :
+                    <TimeRead>Book not read yet</TimeRead>
+                }
+                <AddButton size="medium" onClick={handleAdd}/>
+            </ReadHeaderContainer>
             <ReadNodesContainer>
                 {readNodes}
             </ReadNodesContainer>
@@ -88,6 +106,12 @@ const TimeRead = styled.h3`
 `
 const BookIconContainer = styled.span`
     margin-right: 10px;
+`
+
+const ReadHeaderContainer = styled.span`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 `
 
 const ReadNodesContainer = styled.span`

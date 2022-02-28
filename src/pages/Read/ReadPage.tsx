@@ -4,7 +4,7 @@ import { observer } from "mobx-react";
 import styled from "@emotion/styled";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-    faArrowLeft,
+    faHome,
     faStickyNote,
     faHighlighter,
     faSearch
@@ -24,7 +24,7 @@ const ReadPage = () => {
     const navigate = useNavigate();
 
     // Get stores access
-    const { readStore, bookStore, booksStore } = useStore();
+    const { readerStore, bookStore, booksStore } = useStore();
 
     // Get book
     const params = useParams();
@@ -57,7 +57,7 @@ const ReadPage = () => {
     // Remember location in book on back
     const closeBook = async() => {
         const data = {
-            location: readStore.getLocation()
+            location: readerStore.getLocation()
         }
 
         if (bookId !== undefined) {
@@ -67,8 +67,9 @@ const ReadPage = () => {
                 const res = await axiosConfig().post(`/pg/books/${bookId}/closed`, data)
                 console.log(res.data);
                 bookStore.requestBook(bookId);
+                bookStore.requestReads(bookId);
                 booksStore.requestBooks();
-                readStore.reset();
+                readerStore.reset();
             } catch (err:any) {
                 console.log(err.response.data.message)
             }
@@ -103,7 +104,7 @@ const ReadPage = () => {
     }
 
     // Get highlights
-    const selections = readStore.getSelections(bookId);
+    const selections = readerStore.getSelections(bookId);
 
     // Loading book
     if (selections === undefined) {
@@ -115,21 +116,21 @@ const ReadPage = () => {
     }
 
     // Set last book location
-    if (readStore.isFirstRender()) {
-        readStore.setLocation(book.location);
-        readStore.setFirstRender(false);
+    if (readerStore.isFirstRender()) {
+        readerStore.setLocation(book.location);
+        readerStore.setFirstRender(false);
     }
 
     // Check if highlight is on
-    const highlightOn = readStore.isHighlightOn();
+    const highlightOn = readerStore.isHighlightOn();
 
     // Open the highlights menu
     const handleHighlightClick = () => {
         const newHighlightOn = !highlightOn;
-        readStore.setIsHighlightOn(newHighlightOn);
+        readerStore.setIsHighlightOn(newHighlightOn);
 
-        if (readStore.getCurrentSelection() !== null && newHighlightOn) {
-            readStore.setHighlightDialog(true);
+        if (readerStore.getCurrentSelection() !== null && newHighlightOn) {
+            readerStore.setHighlightDialog(true);
         }
     };
 
@@ -139,7 +140,7 @@ const ReadPage = () => {
                 <SideMenu fontSize="1.6rem" buttonSize="medium" icon={faSearch} direction="right" menu={<SearchMenu />} />
                 <HighlightButton color={highlightOn ? theme.palette.secondary.main : theme.palette.primary.main} onClick={handleHighlightClick}><FontAwesomeIcon icon={faHighlighter}/></HighlightButton>
                 <SideMenu fontSize="1.6rem" buttonSize="medium" icon={faStickyNote} direction="right" menu={<HighlightMenu book={book} selections={selections}/>} />
-                <BackButton onClick={handleBackClick}><FontAwesomeIcon icon={faArrowLeft}/></BackButton>
+                <BackButton onClick={handleBackClick}><FontAwesomeIcon icon={faHome}/></BackButton>
             </ButtonsContainer>
             <BookReader book={book} selections={selections}/>
         </Page>

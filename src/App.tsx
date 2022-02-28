@@ -23,7 +23,7 @@ function App() {
                     MainStore.isAuth() ?
                         <>
                             <Route path={ROUTES.library} element={<HomePage/>} />
-                            <Route path={ROUTES.book.read} element={<ReadPage/>}/>
+                            <Route path={ROUTES.book.reader} element={<ReadPage/>}/>
                         </>
                         :
                         <>

@@ -18,11 +18,11 @@ interface Props {
 
 const Highlight = (props: Props) => {
 
-    // Get ReadStore
-    const { readStore } = useStore();
+    // Get ReaderStore
+    const { readerStore } = useStore();
 
     // Get selections and rendition
-    const rendition = readStore.getRendition();
+    const rendition = readerStore.getRendition();
 
     if (rendition === undefined) {
         return (
@@ -37,7 +37,7 @@ const Highlight = (props: Props) => {
             try {
                 const res = await axiosConfig().delete(`/pg/highlights/${props.bookId}/${props.selection.id}`)
                 rendition.annotations.remove(props.selection.cfiRange, 'highlight');
-                readStore.requestSelections(props.bookId);
+                readerStore.requestSelections(props.bookId);
             } catch (err) {
                 console.log(err);
             }
@@ -45,9 +45,9 @@ const Highlight = (props: Props) => {
     }
 
     const handleEdit = () => {
-        readStore.setCurrentSelection(props.selection);
-        readStore.setEditId(props.selection.id);
-        readStore.setHighlightDialog(true);
+        readerStore.setCurrentSelection(props.selection);
+        readerStore.setEditId(props.selection.id);
+        readerStore.setHighlightDialog(true);
     }
 
     return (
@@ -111,6 +111,7 @@ const IconContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: relative;
 `
 
 const TextContainer = styled.div<{color: string, hoverColor: string}>`

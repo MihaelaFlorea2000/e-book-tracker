@@ -70,7 +70,7 @@ export default class BookStore {
             return;
         }
 
-        axiosConfig().get(`/pg/books/${bookId}/reads`).then(data => {
+        axiosConfig().get(`/pg/reads/${bookId}`).then(data => {
             runInAction(() => {
                 this.reads = data.data;
                 this.requestedReads = false;

@@ -11,11 +11,11 @@ interface Props {
 
 const SearchResult = (props: Props) => {
 
-    // Get ReadStore
-    const { readStore } = useStore();
+    // Get ReaderStore
+    const { readerStore } = useStore();
 
     // Get selections and rendition
-    const rendition = readStore.getRendition();
+    const rendition = readerStore.getRendition();
 
     if (rendition === undefined) {
         return (

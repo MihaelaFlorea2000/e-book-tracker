@@ -27,10 +27,10 @@ const FinishedDialog = (props:Props) => {
 
     const navigate = useNavigate();
 
-    // Get ReadStore
-    const { readStore } = useStore();
+    // Get ReaderStore
+    const { readerStore } = useStore();
 
-    const isOpen = readStore.isFinishedDialog();
+    const isOpen = readerStore.isFinishedDialog();
 
     const [rating, setRating] = useState<number>(0);
     const [notes, setNotes] = useState<string>("");
@@ -38,8 +38,8 @@ const FinishedDialog = (props:Props) => {
     // On CLOSE button
     const handleClose = () => {
         // Close dialog and reset state
-        readStore.setFinishedDialog(false);
-        readStore.setFinishedDialogDouble(true);
+        readerStore.setFinishedDialog(false);
+        readerStore.setFinishedDialogDouble(true);
     };
 
     // When user types into the note textarea
@@ -64,7 +64,7 @@ const FinishedDialog = (props:Props) => {
         }
 
         // Close dialog and reset state
-        readStore.setFinishedDialog(false);
+        readerStore.setFinishedDialog(false);
     };
 
     return (

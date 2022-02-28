@@ -19,8 +19,9 @@ export const ROUTES = {
         upload1: '/upload/1',
         upload2: '/upload/2',
         info: '/book/:bookId',
-        read: '/book/read/:bookId',
-        edit: '/book/edit/:bookId'
+        reader: '/book/reader/:bookId',
+        edit: '/book/edit/:bookId',
+        read: '/book/:bookId/read/:readId'
     }
 }
 

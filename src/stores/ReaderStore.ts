@@ -4,7 +4,7 @@ import {makeAutoObservable, runInAction} from "mobx";
 import axiosConfig from "../config/axiosConfig";
 import {HighlightInterface, SearchResultInterface} from "../config/interfaces";
 
-export default class ReadStore {
+export default class ReaderStore {
 
     public rendition: Rendition | undefined = undefined;
     private location: string | number | undefined = undefined;
@@ -100,7 +100,7 @@ export default class ReadStore {
 
         axiosConfig().get(`/pg/highlights/${bookId}`).then(data => {
             runInAction(() => {
-                this.selections = data.data.sort(ReadStore.compareSelections);
+                this.selections = data.data.sort(ReaderStore.compareSelections);
                 this.requested = false
             })
         })

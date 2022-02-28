@@ -4,12 +4,10 @@ import { observer } from "mobx-react";
 import styled from "@emotion/styled";
 import Grid from "@mui/material/Grid";
 import Alert from "@mui/material/Alert";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import Book from "./components/Book";
-import { theme } from "../../utils/style/themeConfig";
 import { CircularLoading } from "../../utils/components/CircularLoading";
 import { useStore } from "../../stores/RootStore";
+import {AddButton} from "../../utils/components/AddButton";
 
 
 const LibraryPage = () => {
@@ -44,7 +42,7 @@ const LibraryPage = () => {
         <Page>
             <PageHeader>
                 <Title>Library</Title>
-                <NavLink to={'/upload/1'}><IconContainer><FontAwesomeIcon icon={faPlus}/></IconContainer></NavLink>
+                <NavLink to={'/upload/1'}><AddButton size="large"/></NavLink>
             </PageHeader>
             <Container>
                 {fromUpload !== null && <Alert severity="success">Successful upload</Alert> }
@@ -79,20 +77,4 @@ const Container = styled.div`
   gap: 20px;
 `
 
-const IconContainer = styled.div`
-  border-radius: 100%;
-  border: 3px solid ${theme.palette.primary.main};
-  background-color: ${theme.palette.primary.main};
-  color: white;
-  padding: 12px;
-  font-size: 1.3rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: color 0.5s, background-color 0.5s;
-  
-  :hover {
-    background-color: ${theme.palette.primary.light};
-    color: ${theme.palette.primary.main};
-  }
-`
+

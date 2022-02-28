@@ -12,6 +12,7 @@ import UploadFirstStep from "../../Upload/UploadFirstStep";
 import UploadSecondStep from "../../Upload/UploadSecondStep";
 import BookInfoPage from "../../BookInfo/BookInfoPage";
 import EditPage from "../../Edit/EditPage";
+import ReadDialgue from "../../BookInfo/components/ReadDialgue";
 
 const HomeRoutes = () => {
 
@@ -27,6 +28,7 @@ const HomeRoutes = () => {
             <Route path={ROUTES.book.upload2} element={<UploadSecondStep/>}/>
             <Route path={ROUTES.book.info} element={<BookInfoPage/>}/>
             <Route path={ROUTES.book.edit} element={<EditPage/>}/>
+            <Route path={ROUTES.book.read} element={<ReadDialgue/>}/>
         </Routes>
     );
 }

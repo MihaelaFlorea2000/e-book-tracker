@@ -11,9 +11,9 @@ import { theme } from "../../../utils/style/themeConfig";
 
 const SearchList = () => {
 
-    const { readStore } = useStore();
+    const { readerStore } = useStore();
 
-    const searchResults = readStore.getSearchResults();
+    const searchResults = readerStore.getSearchResults();
 
     if (searchResults === undefined) {
         return (

@@ -3,21 +3,26 @@ import styled from "@emotion/styled";
 import {BookReadInterface} from "../../../config/interfaces";
 import {BookRating} from "../../../utils/components/BookRating";
 import {border, theme } from "../../../utils/style/themeConfig";
-import {faBookReader, faEdit, faStopwatch, faTimes} from "@fortawesome/free-solid-svg-icons";
+import {faBookReader, faFlagCheckered, faEdit, faStopwatch, faTimes} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {DeleteIconContainer, EditIconContainer } from "../../../utils/style/styledComponents";
 import axiosConfig from "../../../config/axiosConfig";
 import {useStore} from "../../../stores/RootStore";
+import ReadDialgue from "./ReadDialgue";
+import {observer} from "mobx-react";
+import {NavLink, useNavigate} from "react-router-dom";
+import {Button} from "@mui/material";
 
 interface Props {
     read: BookReadInterface,
     bookId: number,
-    current?: boolean
+    current: boolean
 }
 
 const Read = (props: Props) => {
+    const navigate = useNavigate();
 
-    const { bookStore } = useStore();
+    const { bookStore, readStore } = useStore();
 
     const options:Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' }
 
@@ -29,12 +34,12 @@ const Read = (props: Props) => {
     let time: ReactNode;
 
     if (props.read.time) {
-        const years = props.read.time.years ? `${props.read.time.years} years, ` : '';
-        const months = props.read.time.months ? `${props.read.time.months} months, ` : '';
-        const days = props.read.time.days ? `${props.read.time.days} days, ` : '';
-        const hours = props.read.time.hours ? `${props.read.time.hours} h, ` : '';
-        const minutes = props.read.time.minutes ? `${props.read.time.minutes} min, ` : '';
-        const seconds = props.read.time.seconds ? `${props.read.time.seconds} sec` : '';
+        const years = props.read.time.years ? `${props.read.time.years}years ` : '';
+        const months = props.read.time.months ? `${props.read.time.months}months ` : '';
+        const days = props.read.time.days ? `${props.read.time.days}days ` : '';
+        const hours = props.read.time.hours ? `${props.read.time.hours}h ` : '';
+        const minutes = props.read.time.minutes ? `${props.read.time.minutes}min ` : '';
+        const seconds = props.read.time.seconds ? `${props.read.time.seconds}sec ` : '';
 
         time = <TimeContainer>
                     <IconContainer>
@@ -58,7 +63,7 @@ const Read = (props: Props) => {
 
     const handleDelete = async() => {
         try {
-            const res = await axiosConfig().delete(`/pg/books/${props.bookId}/reads/${props.read.id}`)
+            const res = await axiosConfig().delete(`/pg/reads/${props.bookId}/${props.read.id}`)
             console.log(res);
             bookStore.requestReads(props.bookId);
         } catch (err) {
@@ -68,18 +73,33 @@ const Read = (props: Props) => {
     }
 
     const handleEdit = () => {
-        console.log(props.read.id)
+        readStore.setCurrentRead(props.read, false);
+        readStore.setEditId(props.read.id);
+        readStore.setReadDialog(true);
+        navigate(`/book/${props.bookId}/read/${props.read.id}`);
+    }
+
+    const handleFinish = () => {
+        readStore.setCurrentRead(props.read, true);
+        readStore.setEditId(props.read.id);
+        readStore.setReadDialog(true);
+        navigate(`/book/${props.bookId}/read/${props.read.id}`);
     }
 
     return (
         <Container>
             <ChangeIconsContainer>
-                <EditIconContainer onClick={handleEdit}>
-                    <FontAwesomeIcon icon={faEdit}/>
-                </EditIconContainer>
-                <DeleteIconContainer
-                    onClick={handleDelete}
-                >
+                {props.current
+                    ?
+                    <EditIconContainer onClick={handleFinish}>
+                        <FontAwesomeIcon className="fa-fw" icon={faFlagCheckered}/>
+                    </EditIconContainer>
+                    :
+                    <EditIconContainer onClick={handleEdit}>
+                        <FontAwesomeIcon className="fa-fw" icon={faEdit}/>
+                    </EditIconContainer>
+                }
+                <DeleteIconContainer onClick={handleDelete}>
                     <FontAwesomeIcon icon={faTimes}/>
                 </DeleteIconContainer>
             </ChangeIconsContainer>
@@ -108,7 +128,7 @@ const Read = (props: Props) => {
     )
 }
 
-export default Read;
+export default observer(Read);
 
 const Container = styled.div`
   display: flex;

@@ -1,11 +1,12 @@
 import { createContext, useContext } from "react";
-import ReadStore from "./ReadStore";
+import ReaderStore from "./ReaderStore";
 import BooksStore from "./BooksStore";
 import BookStore from "./BookStore";
 import DeleteStore from "./DeleteStore";
 import EditStore from "./EditStore";
 import UploadStore from "./UploadStore";
 import UserStore from "./UserStore";
+import ReadStore from "./ReadStore";
 
 interface Store {
     userStore: UserStore,
@@ -13,6 +14,7 @@ interface Store {
     booksStore: BooksStore,
     bookStore: BookStore,
     readStore: ReadStore,
+    readerStore: ReaderStore,
     editStore: EditStore,
     deleteStore: DeleteStore,
 }
@@ -23,6 +25,7 @@ export const store: Store = {
     booksStore: new BooksStore(),
     bookStore: new BookStore(),
     readStore: new ReadStore(),
+    readerStore: new ReaderStore(),
     editStore: new EditStore(),
     deleteStore: new DeleteStore()
 }

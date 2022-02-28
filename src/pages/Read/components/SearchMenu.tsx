@@ -20,7 +20,7 @@ interface SearchInterface {
 
 const SearchMenu = () => {
 
-    const { readStore } = useStore();
+    const { readerStore } = useStore();
 
     const { register, handleSubmit, formState: {errors}, setError, clearErrors, reset } = useForm<SearchInterface>({
         mode: "onChange"
@@ -30,7 +30,7 @@ const SearchMenu = () => {
         clearErrors()
         try {
             const res:any = await doSearch(data.query);
-            readStore.setSearchResults(res);
+            readerStore.setSearchResults(res);
             console.log(res)
         } catch (err:any) {
             console.log(err);
@@ -43,7 +43,7 @@ const SearchMenu = () => {
     }
 
     const doSearch = (q:string) => {
-        const rendition = readStore.getRendition();
+        const rendition = readerStore.getRendition();
 
         if (rendition !== undefined) {
             const book = rendition.book;

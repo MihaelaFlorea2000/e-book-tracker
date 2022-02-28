@@ -16,6 +16,7 @@ import { device } from "../../config/config";
 import { useStore } from "../../stores/RootStore";
 import MetadataInfo from "./components/MetadataInfo";
 import ReadInfo from "./components/ReadInfo";
+import ReadDialgue from "./components/ReadDialgue";
 
 
 const BookInfoPage = () => {
@@ -94,7 +95,7 @@ const BookInfoPage = () => {
                 {fromEdit !== null && <Alert severity="success">Book successfully updated</Alert> }
                 <MetadataInfo book={book} />
             </Container>
-            <ReadInfo />
+            <ReadInfo book={book}/>
         </Page>
     )
 }

@@ -24,34 +24,34 @@ interface Props {
 
 const HighlightDialog = (props:Props) => {
 
-    // Get ReadStore
-    const { readStore } = useStore();
+    // Get ReaderStore
+    const { readerStore } = useStore();
 
     // Get current selection
-    const isOpen = readStore.isHighlightDialog();
-    const currentSelection = readStore.getCurrentSelection();
+    const isOpen = readerStore.isHighlightDialog();
+    const currentSelection = readerStore.getCurrentSelection();
 
     if (currentSelection === null) {
-        readStore.setHighlightDialog(false);
-        readStore.setEditId(undefined);
+        readerStore.setHighlightDialog(false);
+        readerStore.setEditId(undefined);
         return (<div/>)
     }
 
     const color = currentSelection.color;
-    const editId = readStore.getEditId();
+    const editId = readerStore.getEditId();
 
     // On CLOSE button
     const handleClose = () => {
         // Close dialog and reset state
-        readStore.setCurrentSelection(null);
-        readStore.setHighlightDialog(false);
-        readStore.setEditId(undefined);
-        readStore.setIsHighlightOn(false);
+        readerStore.setCurrentSelection(null);
+        readerStore.setHighlightDialog(false);
+        readerStore.setEditId(undefined);
+        readerStore.setIsHighlightOn(false);
     };
 
     // When user types into the note textarea
     const handleNoteChange = (e:React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-        readStore.setNote(e.target.value)
+        readerStore.setNote(e.target.value)
     };
 
     const addHighlight = async() => {
@@ -59,7 +59,7 @@ const HighlightDialog = (props:Props) => {
             if (props.book.id !== undefined) {
                 const res = await axiosConfig().post(`/pg/highlights/${props.book.id}`, currentSelection);
                 console.log(res);
-                readStore.requestSelections(props.book.id);
+                readerStore.requestSelections(props.book.id);
             }
 
         } catch (err) {
@@ -72,7 +72,7 @@ const HighlightDialog = (props:Props) => {
             if (props.book.id !== undefined) {
                 const res = await axiosConfig().put(`/pg/highlights/${props.book.id}/${editId}`, currentSelection);
                 console.log(res);
-                readStore.requestSelections(props.book.id);
+                readerStore.requestSelections(props.book.id);
             }
 
         } catch (err) {
@@ -90,17 +90,17 @@ const HighlightDialog = (props:Props) => {
         }
 
         // Highlight selection in the book
-        const rendition = readStore.getRendition()
+        const rendition = readerStore.getRendition()
         if(rendition) {
             rendition.annotations.remove(currentSelection.cfiRange, "highlight")
             rendition.annotations.add("highlight", currentSelection.cfiRange, {}, undefined , "hl", {"fill": `${currentSelection.color}`, "fill-opacity": "0.8", "mix-blend-mode": "multiply"})
         }
 
         // Close dialog and reset state
-        readStore.setCurrentSelection(null);
-        readStore.setHighlightDialog(false);
-        readStore.setEditId(undefined);
-        readStore.setIsHighlightOn(false);
+        readerStore.setCurrentSelection(null);
+        readerStore.setHighlightDialog(false);
+        readerStore.setEditId(undefined);
+        readerStore.setIsHighlightOn(false);
 
         // Deselect the text
         if (props.contents) {
@@ -120,23 +120,23 @@ const HighlightDialog = (props:Props) => {
                 </HighlightText>
                 <Subtitle>Select Color</Subtitle>
                 <ColorsContainer>
-                    <ColorContainer onClick={() => {readStore.setColor(highlightColors.yellow.light)}}>
+                    <ColorContainer onClick={() => {readerStore.setColor(highlightColors.yellow.light)}}>
                         <Color color={highlightColors.yellow.dark}/>
                         <ColorLabel>Yellow</ColorLabel>
                     </ColorContainer>
-                    <ColorContainer onClick={() => {readStore.setColor(highlightColors.red.light)}}>
+                    <ColorContainer onClick={() => {readerStore.setColor(highlightColors.red.light)}}>
                         <Color color={highlightColors.red.dark}/>
                         <ColorLabel>Red</ColorLabel>
                     </ColorContainer>
-                    <ColorContainer onClick={() => {readStore.setColor(highlightColors.blue.light)}}>
+                    <ColorContainer onClick={() => {readerStore.setColor(highlightColors.blue.light)}}>
                         <Color color={highlightColors.blue.dark}/>
                         <ColorLabel>Blue</ColorLabel>
                     </ColorContainer>
-                    <ColorContainer onClick={() => {readStore.setColor(highlightColors.green.light)}}>
+                    <ColorContainer onClick={() => {readerStore.setColor(highlightColors.green.light)}}>
                         <Color color={highlightColors.green.dark}/>
                         <ColorLabel>Green</ColorLabel>
                     </ColorContainer>
-                    <ColorContainer onClick={() => {readStore.setColor(highlightColors.orange.light)}}>
+                    <ColorContainer onClick={() => {readerStore.setColor(highlightColors.orange.light)}}>
                         <Color color={highlightColors.orange.dark}/>
                         <ColorLabel>Orange</ColorLabel>
                     </ColorContainer>

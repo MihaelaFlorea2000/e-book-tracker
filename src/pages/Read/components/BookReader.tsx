@@ -31,8 +31,8 @@ interface Toc {
 
 const BookReader = (props: Props) => {
 
-    // Get ReadStore
-    const { readStore } = useStore();
+    // Get ReaderStore
+    const { readerStore } = useStore();
 
     // Change font size
     const [fontSize, setFontSize] = useState<number>(100);
@@ -57,10 +57,10 @@ const BookReader = (props: Props) => {
             const bookEnd = renditionRef.current.location.atEnd;
             const textCfi = epubcifi.toString().startsWith("text")
             if ( bookEnd && !textCfi ) {
-                readStore.setFinishedDialog(true);
+                readerStore.setFinishedDialog(true);
             }
         }
-        readStore.setLocation(epubcifi);
+        readerStore.setLocation(epubcifi);
         console.log(epubcifi);
     }
 
@@ -82,13 +82,13 @@ const BookReader = (props: Props) => {
             return spine_get(target);
         }
 
-        readStore.setRendition(rendition);
+        readerStore.setRendition(rendition);
         renditionRef.current = rendition;
         renditionRef.current.themes.fontSize(`${fontSize}%`);
 
         // Get and color selections
         if (props.book.id !== undefined) {
-            const selections = readStore.getSelections(props.book.id);
+            const selections = readerStore.getSelections(props.book.id);
             console.log(toJS(selections));
 
             if (selections !== undefined) {
@@ -117,7 +117,7 @@ const BookReader = (props: Props) => {
 
     // For highlights
     useEffect(() => {
-        const renditionState = readStore.getRendition();
+        const renditionState = readerStore.getRendition();
         if (renditionState) {
             renditionState.on("selected", setRenderSelection);
             return () => {
@@ -126,14 +126,14 @@ const BookReader = (props: Props) => {
                 }
             }
         }
-    }, [readStore.rendition, readStore.currentSelection])
+    }, [readerStore.rendition, readerStore.currentSelection])
 
     const [contents, setContents] = useState<Contents | undefined>(undefined);
 
     const setRenderSelection = (cfiRange:string, contents:Contents) => {
-        const renditionState = readStore.getRendition();
+        const renditionState = readerStore.getRendition();
         if (renditionState) {
-            readStore.setCurrentSelection({
+            readerStore.setCurrentSelection({
                 text: renditionState.getRange(cfiRange).toString(),
                 cfiRange,
                 note: "",
@@ -144,7 +144,7 @@ const BookReader = (props: Props) => {
         }
     }
 
-    const location = readStore.getLocation();
+    const location = readerStore.getLocation();
 
     return (
         <Container>
