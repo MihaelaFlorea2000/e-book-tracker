@@ -1,12 +1,16 @@
 import {makeAutoObservable, runInAction} from "mobx";
-import {NumbersInterface} from "../config/interfaces";
+import {NumbersInterface, PercentInterface} from "../config/interfaces";
 import axiosConfig from "../config/axiosConfig";
 
 export default class MetricsStore {
 
     private numbers: NumbersInterface | undefined = undefined;
+    private percent: PercentInterface | undefined = undefined;
+
 
     private requestedNumbers: boolean = false;
+    private requestedPercent: boolean = false;
+
 
 
     public constructor() {
@@ -42,7 +46,37 @@ export default class MetricsStore {
         })
     }
 
-    public resetNumbers() {
+    // Get current user's books
+    public getPercent(): PercentInterface | undefined {
+        if (this.percent === undefined) {
+            this.requestPercent();
+
+            return undefined;
+        } else {
+            return this.percent;
+        }
+    }
+
+    // Request current user books
+    public requestPercent() {
+        if (!this.requestedPercent) {
+            runInAction(() => {
+                this.requestedPercent = true;
+            })
+        } else {
+            return;
+        }
+
+        axiosConfig().get(`/pg/metrics/percentage`).then(data => {
+            runInAction(() => {
+                this.percent = data.data;
+                this.requestedPercent = false;
+            })
+        })
+    }
+
+    public resetData() {
         this.numbers = undefined;
+        this.percent = undefined;
     }
 }

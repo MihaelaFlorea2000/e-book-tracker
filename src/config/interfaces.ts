@@ -72,3 +72,7 @@ export interface NumbersInterface {
     avgTimePerSession: IntervalInterface,
     bestDay: string
 }
+
+export interface PercentInterface {
+    value: number
+}
