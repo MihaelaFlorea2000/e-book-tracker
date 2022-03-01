@@ -16,6 +16,8 @@ import {BookRating} from "../../../utils/components/BookRating";
 import {DeleteIconContainer, EditIconContainer } from "../../../utils/style/styledComponents";
 import axiosConfig from "../../../config/axiosConfig";
 import {useStore} from "../../../stores/RootStore";
+import {TimeString} from "../../../utils/components/TimeString";
+import dateConfig from "../../../config/dateConfig";
 
 
 interface Props {
@@ -32,29 +34,8 @@ const Read = (props: Props) => {
     const { bookStore, readStore } = useStore();
 
     // Construct start and end date
-    const options:Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' }
-
-    const startDate = new Date(props.read.startDate).toLocaleDateString('en-UK', options);
-    const endDate = props.read.endDate ? new Date(props.read.endDate).toLocaleDateString('en-UK', options) : 'ongoing';
-
-    // Construct time
-    let time: ReactNode;
-
-    if (props.read.time) {
-        const years = props.read.time.years ? `${props.read.time.years}years ` : '';
-        const months = props.read.time.months ? `${props.read.time.months}months ` : '';
-        const days = props.read.time.days ? `${props.read.time.days}days ` : '';
-        const hours = props.read.time.hours ? `${props.read.time.hours}h ` : '';
-        const minutes = props.read.time.minutes ? `${props.read.time.minutes}min ` : '';
-        const seconds = props.read.time.seconds ? `${props.read.time.seconds}sec ` : '';
-
-        time = <TimeContainer>
-                    <IconContainer>
-                        <FontAwesomeIcon icon={faStopwatch}/>
-                    </IconContainer>
-                    {years}{months}{days}{hours}{minutes}{seconds}
-                </TimeContainer>
-    }
+    const startDate = dateConfig(props.read.startDate);
+    const endDate = props.read.endDate ? dateConfig(props.read.endDate) : 'ongoing';
 
     // Construct sessions
     let sessions: ReactNode;
@@ -114,7 +95,7 @@ const Read = (props: Props) => {
                 {startDate} - {endDate}
             </DateContainer>
             <MetricsContainer>
-                {time}
+                <TimeString time={props.read.time} />
                 {sessions}
             </MetricsContainer>
             {!props.current &&

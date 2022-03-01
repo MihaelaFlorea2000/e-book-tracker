@@ -2,19 +2,20 @@ import React from "react";
 import styled from "@emotion/styled";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
-import {theme} from "../../../utils/style/themeConfig";
-import { device } from "../../../config/config";
+import {theme} from "../style/themeConfig";
+import { device } from "../../config/config";
 
 interface Props {
     title: string,
     detail: string,
-    icon: IconProp
+    icon: IconProp,
+    size: string
 }
 
-const PublicationDetail = (props: Props) => {
+const IconDetail = (props: Props) => {
 
     return (
-        <Detail>
+        <Detail size={props.size}>
             <DetailTitle>{props.title}</DetailTitle>
             <IconContainer><FontAwesomeIcon className="fa-fw" icon={props.icon}/></IconContainer>
             <DetailValue>{props.detail}</DetailValue>
@@ -22,9 +23,9 @@ const PublicationDetail = (props: Props) => {
     )
 }
 
-export default PublicationDetail;
+export default IconDetail;
 
-const Detail = styled.div`
+const Detail = styled.div<{size: string}>`
   display: flex;
   flex-flow: column;
   gap: 5px;
@@ -33,8 +34,8 @@ const Detail = styled.div`
   padding: 10px;
   border-left: 2px solid ${theme.palette.primary.light};
   border-right: 2px solid ${theme.palette.primary.light};
-  color: ${theme.palette.primary.main};
-  width: 15vw;
+  
+  width: ${props => props.size === 'large' ? '15vw' : '13.2vw'};
 
   @media only screen and ${device.tablet} {
     width: 80vw;
@@ -45,11 +46,13 @@ const Detail = styled.div`
 `
 
 const DetailTitle = styled.div`
-    font-size: 0.9rem;
+  font-size: 0.8rem;
+  color: ${theme.palette.info.main}
 `
 
 const IconContainer = styled.div`
-    font-size: 2.2rem;
+  font-size: 2.2rem;
+  color: ${theme.palette.primary.main};
 `
 const DetailValue = styled.div`
   text-align: center;

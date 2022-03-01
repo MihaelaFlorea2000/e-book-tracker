@@ -7,6 +7,7 @@ import EditStore from "./EditStore";
 import UploadStore from "./UploadStore";
 import UserStore from "./UserStore";
 import ReadStore from "./ReadStore";
+import MetricsStore from "./MetricsStore";
 
 interface Store {
     userStore: UserStore,
@@ -17,6 +18,7 @@ interface Store {
     readerStore: ReaderStore,
     editStore: EditStore,
     deleteStore: DeleteStore,
+    metricsStore: MetricsStore,
 }
 
 export const store: Store = {
@@ -27,7 +29,8 @@ export const store: Store = {
     readStore: new ReadStore(),
     readerStore: new ReaderStore(),
     editStore: new EditStore(),
-    deleteStore: new DeleteStore()
+    deleteStore: new DeleteStore(),
+    metricsStore: new MetricsStore(),
 }
 
 export const StoreContext = createContext(store);

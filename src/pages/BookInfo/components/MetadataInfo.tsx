@@ -2,7 +2,7 @@ import React, {ReactNode} from "react";
 import styled from "@emotion/styled";
 import {BookRating} from "../../../utils/components/BookRating";
 import ReadMore from "./ReadMore";
-import PublicationDetail from "./PublicationDetail";
+import IconDetail from "../../../utils/components/IconDetail";
 import {faBookOpen, faCalendar, faLanguage} from "@fortawesome/free-solid-svg-icons";
 import {device} from "../../../config/config";
 import {border, theme} from "../../../utils/style/themeConfig";
@@ -70,9 +70,9 @@ const MetadataInfo = (props: Props) => {
                     {tagNodes}
                 </TagsContainer>
                 <DetailsContainer>
-                    {props.book.publisher !== '' && <PublicationDetail title="Publication" icon={faBookOpen} detail={props.book.publisher}/>}
-                    {props.book.language !== '' && <PublicationDetail title="Language" icon={faLanguage} detail={props.book.language}/>}
-                    {props.book.pubDate !== '' && <PublicationDetail title="Calendar" icon={faCalendar} detail={new Date(props.book.pubDate).toISOString().split('T')[0]}/>}
+                    {props.book.publisher !== '' && <IconDetail size="large" title="Publication" icon={faBookOpen} detail={props.book.publisher}/>}
+                    {props.book.language !== '' && <IconDetail size="large" title="Language" icon={faLanguage} detail={props.book.language}/>}
+                    {props.book.pubDate !== '' && <IconDetail size="large" title="Publication Date" icon={faCalendar} detail={new Date(props.book.pubDate).toISOString().split('T')[0]}/>}
                 </DetailsContainer>
             </RightContainer>
         </BookInfoContainer>

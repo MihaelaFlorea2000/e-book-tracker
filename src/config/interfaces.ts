@@ -63,3 +63,12 @@ export interface BookReadInterface {
     time: IntervalInterface,
     sessions: number
 }
+
+export interface NumbersInterface {
+    booksRead: number,
+    booksCurrRead: number,
+    authorsReadCount: number,
+    longestSession: IntervalInterface,
+    avgTimePerSession: IntervalInterface,
+    bestDay: string
+}
