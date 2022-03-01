@@ -25,11 +25,6 @@ ChartJS.register(
     Legend
 );
 
-
-
-const labels = ['Books Read'];
-
-
 const PercentageBar = () => {
 
     const { metricsStore } = useStore();
@@ -86,6 +81,8 @@ const PercentageBar = () => {
         },
     };
 
+    const labels = ['Books Read'];
+
     const data = {
         labels,
         datasets: [
@@ -124,6 +121,7 @@ export default observer(PercentageBar);
 const Container = styled.div`
   background-color: ${theme.palette.info.light};
   padding: 10px;
+  width: 97%;
 `
 
 const ChartTitle = styled.div`
