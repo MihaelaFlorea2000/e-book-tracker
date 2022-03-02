@@ -1,5 +1,11 @@
 import {makeAutoObservable, runInAction} from "mobx";
-import {NumberGoalsInterface, NumbersInterface, PercentInterface, GoalsInterface} from "../config/interfaces";
+import {
+    NumberGoalsInterface,
+    NumbersInterface,
+    PercentInterface,
+    GoalsInterface,
+    ProgressInterface
+} from "../config/interfaces";
 import axiosConfig from "../config/axiosConfig";
 
 export default class MetricsStore {
@@ -15,9 +21,17 @@ export default class MetricsStore {
         dailyMinutes: 0
     }
 
+    private weeklyProgress: ProgressInterface | undefined;
+    private monthlyProgress: ProgressInterface | undefined;
+    private yearlyProgress: ProgressInterface | undefined;
+
+
     private requestedNumbers: boolean = false;
     private requestedPercent: boolean = false;
     private requestedGoals: boolean = false;
+    private requestedWeeklyProgress: boolean = false;
+    private requestedMonthlyProgress: boolean = false;
+    private requestedYearlyProgress: boolean = false;
 
 
     public constructor() {
@@ -133,6 +147,95 @@ export default class MetricsStore {
             this.setGoals = value;
         })
     }
+
+    // Get current user's books
+    public getWeeklyProgress(): ProgressInterface | undefined {
+        if (this.weeklyProgress === undefined) {
+            this.requestWeeklyProgress();
+
+            return undefined;
+        } else {
+            return this.weeklyProgress;
+        }
+    }
+
+    // Request current user books
+    public requestWeeklyProgress() {
+        if (!this.requestedWeeklyProgress) {
+            runInAction(() => {
+                this.requestedWeeklyProgress = true;
+            })
+        } else {
+            return;
+        }
+
+        axiosConfig().get(`/pg/metrics/weekly`).then(data => {
+            runInAction(() => {
+                this.weeklyProgress = data.data;
+                this.requestedWeeklyProgress = false;
+            })
+        })
+    }
+
+    // Get current user's books
+    public getMonthlyProgress(): ProgressInterface | undefined {
+        if (this.monthlyProgress === undefined) {
+            this.requestMonthlyProgress();
+
+            return undefined;
+        } else {
+            return this.monthlyProgress;
+        }
+    }
+
+    // Request current user books
+    public requestMonthlyProgress() {
+        if (!this.requestedMonthlyProgress) {
+            runInAction(() => {
+                this.requestedMonthlyProgress = true;
+            })
+        } else {
+            return;
+        }
+
+        axiosConfig().get(`/pg/metrics/monthly`).then(data => {
+            runInAction(() => {
+                this.monthlyProgress = data.data;
+                this.requestedMonthlyProgress = false;
+            })
+        })
+    }
+
+    // Get current user's books
+    public getYearlyProgress(): ProgressInterface | undefined {
+        if (this.yearlyProgress === undefined) {
+            this.requestYearlyProgress();
+
+            return undefined;
+        } else {
+            return this.yearlyProgress;
+        }
+    }
+
+    // Request current user books
+    public requestYearlyProgress() {
+        if (!this.requestedYearlyProgress) {
+            runInAction(() => {
+                this.requestedYearlyProgress = true;
+            })
+        } else {
+            return;
+        }
+
+        axiosConfig().get(`/pg/metrics/yearly`).then(data => {
+            runInAction(() => {
+                this.yearlyProgress = data.data;
+                this.requestedYearlyProgress = false;
+            })
+        })
+    }
+
+
 
     public resetData() {
         this.numbers = undefined;

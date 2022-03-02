@@ -3,6 +3,7 @@ import styled from "@emotion/styled";
 import Numbers from "./components/Numbers/Numbers";
 import PercentageBar from "./components/Percentge/PercentageBar";
 import Goals from "./components/Goals/Goals";
+import LineCharts from "./components/LineCharts/LineCharts";
 
 const TrackPage = () => {
 
@@ -10,9 +11,10 @@ const TrackPage = () => {
         <Page>
             <PageTitle>Track Page</PageTitle>
             <MetricsContainer>
+                <PercentageBar />
                 <Goals />
                 <Numbers />
-                <PercentageBar />
+                <LineCharts />
             </MetricsContainer>
         </Page>
     )
