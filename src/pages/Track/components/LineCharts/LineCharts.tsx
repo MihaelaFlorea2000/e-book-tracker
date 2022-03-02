@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import styled from "@emotion/styled";
 import {
     Chart as ChartJS,
@@ -7,14 +7,12 @@ import {
     ArcElement
 } from 'chart.js';
 import {theme} from "../../../../utils/style/themeConfig";
-import {useStore} from "../../../../stores/RootStore";
-import {CircularLoading} from "../../../../utils/components/CircularLoading";
 import {observer} from "mobx-react";
 import Button from "@mui/material/Button";
-import {useNavigate} from "react-router-dom";
 import WeeklyChart from "./WeeklyChart";
 import YearlyChart from "./YearlyChart";
 import MonthlyChart from "./MonthlyChart";
+import {ToggleButton, ToggleButtonGroup} from "@mui/lab";
 
 ChartJS.register(
     ArcElement,
@@ -24,32 +22,32 @@ ChartJS.register(
 
 const LineCharts = () => {
 
-    const navigate = useNavigate();
+    const [chart, setChart] = useState<string>('week');
 
-    const { metricsStore } = useStore();
-
-    // Get goals
-    // const goals = metricsStore.getGoals();
-    //
-    // if(goals === undefined) {
-    //     return (
-    //         <Container>
-    //             <CircularLoading />
-    //         </Container>
-    //     )
-    // }
-    //
-    // const handleClick = () => {
-    //     metricsStore.setSetGoals(goals.set);
-    //     metricsStore.setGoalsDialogue(true);
-    //     navigate('/track/goals');
-    // }
+    const handleChange = (event:React.MouseEvent<HTMLElement, MouseEvent>, newChart:string) => {
+        setChart(newChart);
+    };
 
     return (
         <Container>
-            <WeeklyChart />
-            <MonthlyChart />
-            <YearlyChart />
+            <ToggleButtonGroup
+                value={chart}
+                exclusive
+                onChange={handleChange}
+            >
+                <ToggleButton value="week">
+                    Week
+                </ToggleButton>
+                <ToggleButton value="month">
+                    Month
+                </ToggleButton>
+                <ToggleButton value="year">
+                    Year
+                </ToggleButton>
+            </ToggleButtonGroup>
+            {chart === 'week' && <WeeklyChart />}
+            {chart === 'month' && <MonthlyChart />}
+            {chart === 'year' && <YearlyChart />}
         </Container>
     )
 }

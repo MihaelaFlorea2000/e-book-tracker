@@ -35,11 +35,11 @@ const Numbers = () => {
     return (
         <Container>
             <TopContainer>
-                <IconDetail size="medium" title="Books Read" detail={`${numbers.booksRead.toString()} books`} icon={faBook}/>
-                <IconDetail size="medium" title="Authors Read" detail={`${numbers.authorsReadCount.toString()} authors`} icon={faFeather}/>
+                <IconDetail size="medium" title="Books Read" detail={`${numbers.booksRead.toString()} book${numbers.booksRead === 1 ? '' : 's'}`} icon={faBook}/>
+                <IconDetail size="medium" title="Authors Read" detail={`${numbers.authorsReadCount.toString()} author${numbers.authorsReadCount === 1 ? '' : 's'}`} icon={faFeather}/>
             </TopContainer>
             <MiddleContainer>
-                <IconDetail size="medium" title="Books Currently Read" detail={`${numbers.booksCurrRead.toString()} books`} icon={faBookOpen}/>
+                <IconDetail size="medium" title="Books Currently Read" detail={`${numbers.booksCurrRead.toString()} book${numbers.booksCurrRead === 1 ? '' : 's'}`} icon={faBookOpen}/>
                 <IconDetail size="medium" title="Best Day (time)" detail={dateConfig(numbers.bestDay)} icon={faCalendar}/>
             </MiddleContainer>
             <BottomContainer>

@@ -15,6 +15,7 @@ import ChartDataLabels from 'chartjs-plugin-datalabels';
 import {useStore} from "../../../../stores/RootStore";
 import {CircularLoading} from "../../../../utils/components/CircularLoading";
 import {observer} from "mobx-react";
+import {chartColors} from "../../helpers/ChartSettings";
 
 ChartJS.register(
     CategoryScale,
@@ -53,6 +54,7 @@ const PercentageBar = () => {
             },
             datalabels: {
                 align: 'end',
+                offset: '10',
                 formatter: (val: number) => (`${val*100}%`),
                 labels: {
                     value: {
@@ -89,12 +91,12 @@ const PercentageBar = () => {
             {
                 label: 'Books Read',
                 data: [percent.value],
-                backgroundColor: '#00C9AB',
+                backgroundColor: chartColors.green,
             },
             {
                 label: 'Total Books',
                 data: [1],
-                backgroundColor: '#ddd',
+                backgroundColor: chartColors.grey,
                 datalabels: {
                     display: false
                 }

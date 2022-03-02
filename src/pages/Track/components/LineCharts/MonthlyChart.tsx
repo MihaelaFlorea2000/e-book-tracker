@@ -17,6 +17,7 @@ import {useNavigate} from "react-router-dom";
 import { Line } from "react-chartjs-2";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import {CircularLoading} from "../../../../utils/components/CircularLoading";
+import {chartColors} from "../../helpers/ChartSettings";
 
 ChartJS.register(
     CategoryScale,
@@ -87,8 +88,8 @@ const MonthlyChart = () => {
             {
                 label: 'Dataset 1',
                 data: dataValues,
-                borderColor: '#E163B0',
-                backgroundColor: '#E163B0',
+                borderColor: chartColors.green,
+                backgroundColor: chartColors.green,
             }
         ],
     };

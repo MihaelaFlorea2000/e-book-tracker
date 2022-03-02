@@ -9,6 +9,7 @@ import {
 } from 'chart.js';
 import {theme} from "../../../../utils/style/themeConfig";
 import {observer} from "mobx-react";
+import {chartColors} from "../../helpers/ChartSettings";
 
 ChartJS.register(
     ArcElement,
@@ -53,7 +54,7 @@ const Goal = (props: Props) => {
             {
                 label: 'Books Read',
                 data: [props.value, remaining],
-                backgroundColor: [props.color, '#ddd'],
+                backgroundColor: [props.color, chartColors.grey],
                 cutout: '65%'
             }
         ],

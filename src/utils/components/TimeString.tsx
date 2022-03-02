@@ -10,14 +10,15 @@ interface Props {
 }
 
 export const getTime = (time: IntervalInterface) => {
+    if (!time) return '0h'
+
     const years = time.years ? `${time.years}years ` : '';
     const months = time.months ? `${time.months}months ` : '';
     const days = time.days ? `${time.days}days ` : '';
     const hours = time.hours ? `${time.hours}h ` : '';
     const minutes = time.minutes ? `${time.minutes}min ` : '';
-    const seconds = time.seconds ? `${time.seconds}sec ` : '';
 
-    return `${years}${months}${days}${hours}${minutes}${seconds}`
+    return `${years}${months}${days}${hours}${minutes}`
 
 }
 

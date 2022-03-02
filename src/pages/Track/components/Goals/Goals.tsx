@@ -13,6 +13,8 @@ import {observer} from "mobx-react";
 import Goal from "./Goal";
 import Button from "@mui/material/Button";
 import {useNavigate} from "react-router-dom";
+import {chartColors} from "../../helpers/ChartSettings";
+import { toJS } from "mobx";
 
 ChartJS.register(
     ArcElement,
@@ -43,6 +45,8 @@ const Goals = () => {
         navigate('/track/goals');
     }
 
+    console.log(toJS(goals));
+
     // Create strings
     const yearlyGoalString = `${goals.done.yearly}/${goals.set.yearly} books`
     const monthlyGoalString = `${goals.done.monthly}/${goals.set.monthly} books`
@@ -56,9 +60,9 @@ const Goals = () => {
         <Container>
             <StyledButton onClick={handleClick}>Edit Goals</StyledButton>
             <GoalsContainer>
-                <Goal goal={yearlyGoalString} value={goals.percentage.yearly} title="Yearly" color='#00C9AB'/>
-                <Goal goal={monthlyGoalString} value={goals.percentage.monthly} title="Monthly" color='#00E6FF'/>
-                <Goal goal={dailyGoal} value={goals.percentage.daily} title="Daily" color='#F4BD5C'/>
+                <Goal goal={yearlyGoalString} value={goals.percentage.yearly} title="Yearly" color={chartColors.green}/>
+                <Goal goal={monthlyGoalString} value={goals.percentage.monthly} title="Monthly" color={chartColors.blue}/>
+                <Goal goal={dailyGoal} value={goals.percentage.daily} title="Daily" color={chartColors.orange}/>
             </GoalsContainer>
         </Container>
     )
