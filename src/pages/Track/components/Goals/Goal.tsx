@@ -8,7 +8,6 @@ import {
     ArcElement
 } from 'chart.js';
 import {theme} from "../../../../utils/style/themeConfig";
-import ChartDataLabels from 'chartjs-plugin-datalabels';
 import {observer} from "mobx-react";
 
 ChartJS.register(
@@ -19,6 +18,7 @@ ChartJS.register(
 
 interface Props {
     value: number,
+    goal: string
     title: string,
     color: string
 }
@@ -45,18 +45,21 @@ const Goal = (props: Props) => {
 
     const labels = ['Books Read, Total Books'];
 
+    const remaining = props.value < 1 ? 1 - props.value : 0;
+
     const data = {
         labels,
         datasets: [
             {
                 label: 'Books Read',
-                data: [props.value, 1 - props.value],
+                data: [props.value, remaining],
                 backgroundColor: [props.color, '#ddd'],
                 cutout: '65%'
             }
         ],
     };
 
+    const rounded = Math.round(props.value * 100 * 100) / 100;
 
     return (
         <Container>
@@ -67,8 +70,9 @@ const Goal = (props: Props) => {
                     options={options}
                     data={data}
                 />
-                <Value>{props.value*100}%</Value>
+                <Value>{rounded}%</Value>
             </ChartContainer>
+            <GoalValue>{props.goal}</GoalValue>
         </Container>
     )
 }
@@ -88,9 +92,13 @@ const ChartContainer = styled.div`
   position: relative;
 `
 
-
 const ChartTitle = styled.div`
   color: ${theme.palette.info.main};
+  padding: 2px;
+  font-size: 1.1rem;
+`
+
+const GoalValue = styled.div`
   padding: 2px;
 `
 

@@ -10,7 +10,10 @@ export const ROUTES = {
         login: '*',
         register: '/register',
     },
-    track: '/track',
+    track: {
+        main: '/track',
+        goals: '/track/goals'
+    },
     explore: '/explore',
     friends: '/friends',
     settings: '/settings',

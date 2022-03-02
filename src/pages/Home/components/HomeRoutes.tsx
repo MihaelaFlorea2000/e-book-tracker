@@ -13,13 +13,15 @@ import UploadSecondStep from "../../Upload/UploadSecondStep";
 import BookInfoPage from "../../BookInfo/BookInfoPage";
 import EditPage from "../../Edit/EditPage";
 import ReadDialgue from "../../BookInfo/components/ReadDialgue";
+import GoalsDialogue from "../../Track/components/Goals/GoalsDialogue";
 
 const HomeRoutes = () => {
 
     return (
         <Routes>
             <Route path={ROUTES.library} element={<LibraryPage/>}/>
-            <Route path={ROUTES.track} element={<TrackPage/>}/>
+            <Route path={ROUTES.track.main} element={<TrackPage/>}/>
+            <Route path={ROUTES.track.goals} element={<GoalsDialogue/>}/>
             <Route path={ROUTES.explore} element={<ExplorePage/>}/>
             <Route path={ROUTES.friends} element={<FriendsPage/>}/>
             <Route path={ROUTES.settings} element={<SettingsPage/>}/>

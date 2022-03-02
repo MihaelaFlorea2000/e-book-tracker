@@ -76,3 +76,22 @@ export interface NumbersInterface {
 export interface PercentInterface {
     value: number
 }
+
+export interface NumberGoalsInterface {
+    yearly: number,
+    monthly: number,
+    dailyHours: number,
+    dailyMinutes: number
+}
+
+export interface PercentageGoalsInterface {
+    yearly: number,
+    monthly: number,
+    daily: number
+}
+
+export interface GoalsInterface {
+    set: NumberGoalsInterface,
+    done: NumberGoalsInterface,
+    percentage: PercentageGoalsInterface
+}
