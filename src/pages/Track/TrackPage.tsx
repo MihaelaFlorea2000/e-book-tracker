@@ -4,6 +4,7 @@ import Numbers from "./components/Numbers/Numbers";
 import PercentageBar from "./components/Percentge/PercentageBar";
 import Goals from "./components/Goals/Goals";
 import LineCharts from "./components/LineCharts/LineCharts";
+import TagsCharts from "./components/Tags/TagsCharts";
 
 const TrackPage = () => {
 
@@ -14,6 +15,7 @@ const TrackPage = () => {
                 <PercentageBar />
                 <Goals />
                 <Numbers />
+                <TagsCharts />
                 <LineCharts />
             </MetricsContainer>
         </Page>

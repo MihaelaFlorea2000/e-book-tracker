@@ -13,7 +13,7 @@ import {observer} from "mobx-react";
 import Goal from "./Goal";
 import Button from "@mui/material/Button";
 import {useNavigate} from "react-router-dom";
-import {chartColors} from "../../helpers/ChartSettings";
+import {chartBorderColors, chartColors} from "../../helpers/ChartSettings";
 import { toJS } from "mobx";
 
 ChartJS.register(
@@ -60,9 +60,9 @@ const Goals = () => {
         <Container>
             <StyledButton onClick={handleClick}>Edit Goals</StyledButton>
             <GoalsContainer>
-                <Goal goal={yearlyGoalString} value={goals.percentage.yearly} title="Yearly" color={chartColors.green}/>
-                <Goal goal={monthlyGoalString} value={goals.percentage.monthly} title="Monthly" color={chartColors.blue}/>
-                <Goal goal={dailyGoal} value={goals.percentage.daily} title="Daily" color={chartColors.orange}/>
+                <Goal borderColor={chartBorderColors.green} goal={yearlyGoalString} value={goals.percentage.yearly} title="Yearly" color={chartColors.green}/>
+                <Goal borderColor={chartBorderColors.pink} goal={monthlyGoalString} value={goals.percentage.monthly} title="Monthly" color={chartColors.pink}/>
+                <Goal borderColor={chartBorderColors.blue} goal={dailyGoal} value={goals.percentage.daily} title="Daily" color={chartColors.blue}/>
             </GoalsContainer>
         </Container>
     )

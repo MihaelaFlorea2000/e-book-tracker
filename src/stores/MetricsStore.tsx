@@ -4,7 +4,7 @@ import {
     NumbersInterface,
     PercentInterface,
     GoalsInterface,
-    ProgressInterface
+    ChartDataInterface
 } from "../config/interfaces";
 import axiosConfig from "../config/axiosConfig";
 
@@ -21,10 +21,13 @@ export default class MetricsStore {
         dailyMinutes: 0
     }
 
-    private weeklyProgress: ProgressInterface | undefined;
-    private monthlyProgress: ProgressInterface | undefined;
-    private yearlyProgress: ProgressInterface | undefined;
-    private totalProgress: ProgressInterface | undefined;
+    private weeklyProgress: ChartDataInterface | undefined;
+    private monthlyProgress: ChartDataInterface | undefined;
+    private yearlyProgress: ChartDataInterface | undefined;
+    private totalProgress: ChartDataInterface | undefined;
+
+    private topTagsByRead: ChartDataInterface | undefined;
+    private topTagsByBooks: ChartDataInterface | undefined;
 
 
     private requestedNumbers: boolean = false;
@@ -34,6 +37,11 @@ export default class MetricsStore {
     private requestedMonthlyProgress: boolean = false;
     private requestedYearlyProgress: boolean = false;
     private requestedTotalProgress: boolean = false;
+
+    private requestedTopTagsByRead: boolean = false;
+    private requestedTopTagsByBooks: boolean = false;
+
+
 
 
     public constructor() {
@@ -151,7 +159,7 @@ export default class MetricsStore {
     }
 
     // Get current user's books
-    public getWeeklyProgress(): ProgressInterface | undefined {
+    public getWeeklyProgress(): ChartDataInterface | undefined {
         if (this.weeklyProgress === undefined) {
             this.requestWeeklyProgress();
 
@@ -180,7 +188,7 @@ export default class MetricsStore {
     }
 
     // Get current user's books
-    public getMonthlyProgress(): ProgressInterface | undefined {
+    public getMonthlyProgress(): ChartDataInterface | undefined {
         if (this.monthlyProgress === undefined) {
             this.requestMonthlyProgress();
 
@@ -209,7 +217,7 @@ export default class MetricsStore {
     }
 
     // Get current user's books
-    public getYearlyProgress(): ProgressInterface | undefined {
+    public getYearlyProgress(): ChartDataInterface | undefined {
         if (this.yearlyProgress === undefined) {
             this.requestYearlyProgress();
 
@@ -238,7 +246,7 @@ export default class MetricsStore {
     }
 
     // Get current user's books
-    public getTotalProgress(): ProgressInterface | undefined {
+    public getTotalProgress(): ChartDataInterface | undefined {
         if (this.totalProgress === undefined) {
             this.requestTotalProgress();
 
@@ -266,7 +274,63 @@ export default class MetricsStore {
         })
     }
 
+    // Get current user's books
+    public getTopTagsByRead(): ChartDataInterface | undefined {
+        if (this.topTagsByRead === undefined) {
+            this.requestTopTagsByRead();
 
+            return undefined;
+        } else {
+            return this.topTagsByRead;
+        }
+    }
+
+    // Request current user books
+    public requestTopTagsByRead() {
+        if (!this.requestedTopTagsByRead) {
+            runInAction(() => {
+                this.requestedTopTagsByRead = true;
+            })
+        } else {
+            return;
+        }
+
+        axiosConfig().get(`/pg/metrics/tags/read`).then(data => {
+            runInAction(() => {
+                this.topTagsByRead = data.data;
+                this.requestedTopTagsByRead = false;
+            })
+        })
+    }
+
+    // Get current user's books
+    public getTopTagsByBooks(): ChartDataInterface | undefined {
+        if (this.topTagsByBooks === undefined) {
+            this.requestTopTagsByBooks();
+
+            return undefined;
+        } else {
+            return this.topTagsByBooks;
+        }
+    }
+
+    // Request current user books
+    public requestTopTagsByBooks() {
+        if (!this.requestedTopTagsByBooks) {
+            runInAction(() => {
+                this.requestedTopTagsByBooks = true;
+            })
+        } else {
+            return;
+        }
+
+        axiosConfig().get(`/pg/metrics/tags/books`).then(data => {
+            runInAction(() => {
+                this.topTagsByBooks = data.data;
+                this.requestedTopTagsByBooks = false;
+            })
+        })
+    }
 
     public resetData() {
         this.numbers = undefined;

@@ -21,7 +21,8 @@ interface Props {
     value: number,
     goal: string
     title: string,
-    color: string
+    color: string,
+    borderColor: string
 }
 
 const Goal = (props: Props) => {
@@ -55,7 +56,9 @@ const Goal = (props: Props) => {
                 label: 'Books Read',
                 data: [props.value, remaining],
                 backgroundColor: [props.color, chartColors.grey],
-                cutout: '65%'
+                borderColor: [props.borderColor, chartColors.grey],
+                cutout: '65%',
+                borderRadius:[5,0]
             }
         ],
     };

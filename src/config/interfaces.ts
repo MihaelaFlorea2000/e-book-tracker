@@ -98,7 +98,7 @@ export interface GoalsInterface {
     percentage: PercentageGoalsInterface
 }
 
-export interface ProgressInterface {
+export interface ChartDataInterface {
     labels: string[],
     dataValues: number[],
 }

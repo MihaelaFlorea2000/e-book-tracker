@@ -4,38 +4,36 @@ import {
     Chart as ChartJS,
     CategoryScale,
     LinearScale,
-    PointElement,
-    LineElement,
     Title,
     Tooltip,
     Legend,
+    BarElement
 } from 'chart.js';
 import {theme} from "../../../../utils/style/themeConfig";
 import {useStore} from "../../../../stores/RootStore";
 import {observer} from "mobx-react";
-import { Line } from "react-chartjs-2";
+import {Bar } from "react-chartjs-2";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import {CircularLoading} from "../../../../utils/components/CircularLoading";
-import {chartBorderColors, getLineChartOptions} from "../../helpers/ChartSettings";
+import {chartBorderColors, chartColors, getBarChartOptions} from "../../helpers/ChartSettings";
 
 ChartJS.register(
     CategoryScale,
     LinearScale,
-    PointElement,
-    LineElement,
+    BarElement,
     Title,
     Tooltip,
     Legend
 );
 
-const MonthlyChart = () => {
+const ByReadChart = () => {
 
     const { metricsStore } = useStore();
 
     // Get data
-    const monthlyProgress = metricsStore.getMonthlyProgress();
+    const topTags = metricsStore.getTopTagsByRead();
 
-    if(monthlyProgress === undefined) {
+    if(topTags === undefined) {
         return (
             <Container>
                 <CircularLoading />
@@ -43,7 +41,7 @@ const MonthlyChart = () => {
         )
     }
 
-    const { labels, dataValues } = monthlyProgress;
+    const { labels, dataValues } = topTags;
 
     const data = {
         labels,
@@ -51,26 +49,40 @@ const MonthlyChart = () => {
             {
                 label: 'Dataset 1',
                 data: dataValues,
-                borderColor: chartBorderColors.green,
-                backgroundColor: chartBorderColors.green,
+                borderColor: [
+                    chartBorderColors.blue,
+                    chartBorderColors.green,
+                    chartBorderColors.orange,
+                    chartBorderColors.pink,
+                    chartBorderColors.purple
+                ],
+                backgroundColor: [
+                    chartColors.blue,
+                    chartColors.green,
+                    chartColors.orange,
+                    chartColors.pink,
+                    chartColors.purple
+                ],
+                borderRadius: 10
             }
         ],
     };
 
     return (
         <Container>
-            <ChartTitle>Monthly reading time</ChartTitle>
-            <Line
+            <ChartTitle>Top Tags</ChartTitle>
+            <Bar
                 // @ts-ignore
-                options={getLineChartOptions(dataValues)}
+                options={getBarChartOptions(dataValues, 'read')}
                 data={data}
                 plugins={[ChartDataLabels]}
+                height="100px"
             />
         </Container>
     )
 }
 
-export default observer(MonthlyChart);
+export default observer(ByReadChart);
 
 const Container = styled.div`
   background-color: ${theme.palette.info.light};

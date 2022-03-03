@@ -8,11 +8,9 @@ import {
 } from 'chart.js';
 import {theme} from "../../../../utils/style/themeConfig";
 import {observer} from "mobx-react";
-import WeeklyChart from "./WeeklyChart";
-import YearlyChart from "./YearlyChart";
-import MonthlyChart from "./MonthlyChart";
 import {ToggleButton, ToggleButtonGroup} from "@mui/lab";
-import TotalChart from "./TotalChart";
+import ByReadChart from "./ByReadChart";
+import ByBooksChart from "./ByBooksChart";
 
 ChartJS.register(
     ArcElement,
@@ -20,9 +18,9 @@ ChartJS.register(
     Legend
 );
 
-const LineCharts = () => {
+const TagsCharts = () => {
 
-    const [chart, setChart] = useState<string>('week');
+    const [chart, setChart] = useState<string>('read');
 
     const handleChange = (event:React.MouseEvent<HTMLElement, MouseEvent>, newChart:string) => {
         setChart(newChart);
@@ -35,28 +33,20 @@ const LineCharts = () => {
                 exclusive
                 onChange={handleChange}
             >
-                <ToggleButton value="week">
-                    Week
+                <ToggleButton value="read">
+                    By Reading Time
                 </ToggleButton>
-                <ToggleButton value="month">
-                    Month
-                </ToggleButton>
-                <ToggleButton value="year">
-                    Year
-                </ToggleButton>
-                <ToggleButton value="total">
-                    Total
+                <ToggleButton value="book">
+                    By Number of Books Owned
                 </ToggleButton>
             </ToggleButtonGroup>
-            {chart === 'week' && <WeeklyChart />}
-            {chart === 'month' && <MonthlyChart />}
-            {chart === 'year' && <YearlyChart />}
-            {chart === 'total' && <TotalChart />}
+            {chart === 'read' && <ByReadChart />}
+            {chart === 'book' && <ByBooksChart />}
         </Container>
     )
 }
 
-export default observer(LineCharts);
+export default observer(TagsCharts);
 
 const Container = styled.div`
   background-color: ${theme.palette.info.light};

@@ -13,11 +13,10 @@ import {
 import {theme} from "../../../../utils/style/themeConfig";
 import {useStore} from "../../../../stores/RootStore";
 import {observer} from "mobx-react";
-import {useNavigate} from "react-router-dom";
 import { Line } from "react-chartjs-2";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import {CircularLoading} from "../../../../utils/components/CircularLoading";
-import {chartColors, getLineChartOptions} from "../../helpers/ChartSettings";
+import {chartBorderColors, getLineChartOptions} from "../../helpers/ChartSettings";
 
 ChartJS.register(
     CategoryScale,
@@ -30,8 +29,6 @@ ChartJS.register(
 );
 
 const WeeklyChart = () => {
-
-    const navigate = useNavigate();
 
     const { metricsStore } = useStore();
 
@@ -54,8 +51,8 @@ const WeeklyChart = () => {
             {
                 label: 'Dataset 1',
                 data: dataValues,
-                borderColor: chartColors.blue,
-                backgroundColor: chartColors.blue,
+                borderColor: chartBorderColors.blue,
+                backgroundColor: chartBorderColors.blue,
             }
         ],
     };
