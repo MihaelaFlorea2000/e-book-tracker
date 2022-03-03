@@ -13,6 +13,7 @@ import WeeklyChart from "./WeeklyChart";
 import YearlyChart from "./YearlyChart";
 import MonthlyChart from "./MonthlyChart";
 import {ToggleButton, ToggleButtonGroup} from "@mui/lab";
+import TotalChart from "./TotalChart";
 
 ChartJS.register(
     ArcElement,
@@ -44,10 +45,14 @@ const LineCharts = () => {
                 <ToggleButton value="year">
                     Year
                 </ToggleButton>
+                <ToggleButton value="total">
+                    Total
+                </ToggleButton>
             </ToggleButtonGroup>
             {chart === 'week' && <WeeklyChart />}
             {chart === 'month' && <MonthlyChart />}
             {chart === 'year' && <YearlyChart />}
+            {chart === 'total' && <TotalChart />}
         </Container>
     )
 }

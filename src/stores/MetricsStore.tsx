@@ -24,6 +24,7 @@ export default class MetricsStore {
     private weeklyProgress: ProgressInterface | undefined;
     private monthlyProgress: ProgressInterface | undefined;
     private yearlyProgress: ProgressInterface | undefined;
+    private totalProgress: ProgressInterface | undefined;
 
 
     private requestedNumbers: boolean = false;
@@ -32,6 +33,7 @@ export default class MetricsStore {
     private requestedWeeklyProgress: boolean = false;
     private requestedMonthlyProgress: boolean = false;
     private requestedYearlyProgress: boolean = false;
+    private requestedTotalProgress: boolean = false;
 
 
     public constructor() {
@@ -231,6 +233,35 @@ export default class MetricsStore {
             runInAction(() => {
                 this.yearlyProgress = data.data;
                 this.requestedYearlyProgress = false;
+            })
+        })
+    }
+
+    // Get current user's books
+    public getTotalProgress(): ProgressInterface | undefined {
+        if (this.totalProgress === undefined) {
+            this.requestTotalProgress();
+
+            return undefined;
+        } else {
+            return this.totalProgress;
+        }
+    }
+
+    // Request current user books
+    public requestTotalProgress() {
+        if (!this.requestedTotalProgress) {
+            runInAction(() => {
+                this.requestedTotalProgress = true;
+            })
+        } else {
+            return;
+        }
+
+        axiosConfig().get(`/pg/metrics/total`).then(data => {
+            runInAction(() => {
+                this.totalProgress = data.data;
+                this.requestedTotalProgress = false;
             })
         })
     }
