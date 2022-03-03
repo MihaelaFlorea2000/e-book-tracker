@@ -76,7 +76,7 @@ const ByReadChart = () => {
                 options={getBarChartOptions(dataValues, 'read')}
                 data={data}
                 plugins={[ChartDataLabels]}
-                height="100px"
+                height="150px"
             />
         </Container>
     )

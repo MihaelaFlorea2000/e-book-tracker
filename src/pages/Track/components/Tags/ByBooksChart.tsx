@@ -76,7 +76,7 @@ const ByBooksChart = () => {
                 options={getBarChartOptions(dataValues, 'book')}
                 data={data}
                 plugins={[ChartDataLabels]}
-                height="100px"
+                height="150px"
             />
         </Container>
     )

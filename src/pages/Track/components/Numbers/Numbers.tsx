@@ -16,6 +16,7 @@ import {
 import IconDetail from "../../../../utils/components/IconDetail";
 import {theme} from "../../../../utils/style/themeConfig";
 import { device } from "../../../../config/config";
+import {chartBorderColors, chartColors} from "../../helpers/ChartSettings";
 
 const Numbers = () => {
 
@@ -35,16 +36,16 @@ const Numbers = () => {
     return (
         <Container>
             <TopContainer>
-                <IconDetail size="medium" title="Books Read" detail={`${numbers.booksRead.toString()} book${numbers.booksRead === 1 ? '' : 's'}`} icon={faBook}/>
-                <IconDetail size="medium" title="Authors Read" detail={`${numbers.authorsReadCount.toString()} author${numbers.authorsReadCount === 1 ? '' : 's'}`} icon={faFeather}/>
+                <IconDetail borderColor={chartBorderColors.green} color={chartColors.green} size="medium" title="Books Read" detail={`${numbers.booksRead.toString()} book${numbers.booksRead === 1 ? '' : 's'}`} icon={faBook}/>
+                <IconDetail borderColor={chartBorderColors.green} color={chartColors.green} size="medium" title="Authors Read" detail={`${numbers.authorsReadCount.toString()} author${numbers.authorsReadCount === 1 ? '' : 's'}`} icon={faFeather}/>
             </TopContainer>
             <MiddleContainer>
-                <IconDetail size="medium" title="Books Currently Read" detail={`${numbers.booksCurrRead.toString()} book${numbers.booksCurrRead === 1 ? '' : 's'}`} icon={faBookOpen}/>
-                <IconDetail size="medium" title="Best Day (time)" detail={dateConfig(numbers.bestDay)} icon={faCalendar}/>
+                <IconDetail borderColor={chartBorderColors.pink} color={chartColors.pink} size="medium" title="Books Currently Read" detail={`${numbers.booksCurrRead.toString()} book${numbers.booksCurrRead === 1 ? '' : 's'}`} icon={faBookOpen}/>
+                <IconDetail borderColor={chartBorderColors.pink} color={chartColors.pink} size="medium" title="Best Day (time)" detail={dateConfig(numbers.bestDay)} icon={faCalendar}/>
             </MiddleContainer>
             <BottomContainer>
-                <IconDetail size="medium" title="Longest Session" detail={getTime(numbers.longestSession)} icon={faHourglassHalf}/>
-                <IconDetail size="medium" title="Time/Session" detail={getTime(numbers.avgTimePerSession)} icon={faStopwatch}/>
+                <IconDetail borderColor={chartBorderColors.blue} color={chartColors.blue} size="medium" title="Longest Session" detail={getTime(numbers.longestSession)} icon={faHourglassHalf}/>
+                <IconDetail borderColor={chartBorderColors.blue} color={chartColors.blue} size="medium" title="Time/Session" detail={getTime(numbers.avgTimePerSession)} icon={faStopwatch}/>
             </BottomContainer>
         </Container>
     )

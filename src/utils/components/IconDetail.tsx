@@ -9,7 +9,9 @@ interface Props {
     title: string,
     detail: string,
     icon: IconProp,
-    size: string
+    size: string,
+    color: string,
+    borderColor: string
 }
 
 const IconDetail = (props: Props) => {
@@ -17,7 +19,7 @@ const IconDetail = (props: Props) => {
     return (
         <Detail size={props.size}>
             <DetailTitle>{props.title}</DetailTitle>
-            <IconContainer><FontAwesomeIcon className="fa-fw" icon={props.icon}/></IconContainer>
+            <IconContainer borderColor={props.borderColor} color={props.color}><FontAwesomeIcon className="fa-fw" icon={props.icon}/></IconContainer>
             <DetailValue>{props.detail}</DetailValue>
         </Detail>
     )
@@ -50,9 +52,15 @@ const DetailTitle = styled.div`
   color: ${theme.palette.info.main}
 `
 
-const IconContainer = styled.div`
+const IconContainer = styled.div<{borderColor: string, color: string}>`
   font-size: 2.2rem;
-  color: ${theme.palette.primary.main};
+  color: ${props =>  props.color};
+  
+  path {
+    stroke: ${props =>  props.borderColor};
+    stroke-width: 15px;
+    stroke-linejoin: round;
+  } 
 `
 const DetailValue = styled.div`
   text-align: center;

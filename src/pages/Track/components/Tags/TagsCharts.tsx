@@ -33,12 +33,12 @@ const TagsCharts = () => {
                 exclusive
                 onChange={handleChange}
             >
-                <ToggleButton value="read">
+                <StyledToggleButton value="read">
                     By Reading Time
-                </ToggleButton>
-                <ToggleButton value="book">
+                </StyledToggleButton>
+                <StyledToggleButton value="book">
                     By Number of Books Owned
-                </ToggleButton>
+                </StyledToggleButton>
             </ToggleButtonGroup>
             {chart === 'read' && <ByReadChart />}
             {chart === 'book' && <ByBooksChart />}
@@ -54,5 +54,9 @@ const Container = styled.div`
   display: flex;
   flex-flow: column;
   gap: 20px;
-  width: 97%;
+  width: 50vw;
+`
+
+const StyledToggleButton = styled(ToggleButton)`
+  font-size: 0.8rem;
 `

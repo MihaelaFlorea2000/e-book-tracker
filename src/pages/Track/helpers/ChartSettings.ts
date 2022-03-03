@@ -59,7 +59,7 @@ export const getBarChartOptions = (dataValues:number[], type: string) => {
             x: {
                 display: false,
                 min: 0,
-                max: Math.max(...dataValues) + 2
+                max: Math.max(...dataValues) + 3
             }
         }
     }
