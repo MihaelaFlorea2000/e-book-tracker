@@ -74,6 +74,8 @@ export interface NumbersInterface {
 }
 
 export interface PercentInterface {
+    booksRead: number,
+    totalBooks: number,
     value: number
 }
 

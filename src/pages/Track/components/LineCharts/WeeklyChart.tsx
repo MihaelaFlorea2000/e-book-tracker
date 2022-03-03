@@ -17,7 +17,7 @@ import {useNavigate} from "react-router-dom";
 import { Line } from "react-chartjs-2";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import {CircularLoading} from "../../../../utils/components/CircularLoading";
-import {chartColors} from "../../helpers/ChartSettings";
+import {chartColors, getLineChartOptions} from "../../helpers/ChartSettings";
 
 ChartJS.register(
     CategoryScale,
@@ -46,39 +46,6 @@ const WeeklyChart = () => {
         )
     }
 
-    const options = {
-        responsive: true,
-        maintainAspectRatio: true,
-        plugins: {
-            legend: {
-                display: false
-            },
-            tooltip: {
-                enabled: false
-            },
-            datalabels: {
-                align: 'end',
-                offset: '10',
-                clip: false,
-                formatter: (val: number) => (`${val}h`),
-                labels: {
-                    value: {
-                        color: 'black',
-                        font: {
-                            size: '14'
-                        }
-                    }
-                }
-            },
-        },
-        scales: {
-            y: {
-                display: false,
-                min: 0
-            },
-        },
-    };
-
     const { labels, dataValues } = weeklyProgress;
 
     const data = {
@@ -98,7 +65,7 @@ const WeeklyChart = () => {
             <ChartTitle>Weekly reading time</ChartTitle>
             <Line
                 // @ts-ignore
-                options={options}
+                options={getLineChartOptions(dataValues)}
                 data={data}
                 plugins={[ChartDataLabels]}
             />

@@ -106,7 +106,7 @@ const PercentageBar = () => {
 
     return (
         <Container>
-            <ChartTitle>Percentage of Books Read</ChartTitle>
+            <ChartTitle>You have read {percent.booksRead} of out {percent.totalBooks} books</ChartTitle>
             <Bar
                 // @ts-ignore
                 options={options}

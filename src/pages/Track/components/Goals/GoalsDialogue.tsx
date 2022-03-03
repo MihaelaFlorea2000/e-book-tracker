@@ -94,7 +94,7 @@ const GoalsDialogue = () => {
             <FormContainer onSubmit={handleSubmit(onSubmit)}>
                 <Container>
                     <FieldContainer>
-                        <Subtitle>Yearly</Subtitle>
+                        <Subtitle>Books per Year</Subtitle>
                         <StyledTextField
                             id="yearly"
                             placeholder="Yearly"
@@ -106,7 +106,7 @@ const GoalsDialogue = () => {
                         />
                     </FieldContainer>
                     <FieldContainer>
-                        <Subtitle>Monthly</Subtitle>
+                        <Subtitle>Books per Month</Subtitle>
                         <StyledTextField
                             id="monthly"
                             placeholder="Monthly"
@@ -118,7 +118,7 @@ const GoalsDialogue = () => {
                         />
                     </FieldContainer>
                     <FieldContainer>
-                        <Subtitle>Daily</Subtitle>
+                        <Subtitle>Time per Day</Subtitle>
                         <DailyContainer>
                             <FieldContainer>
                                 <Label>Hours</Label>
