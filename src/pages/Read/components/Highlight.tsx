@@ -4,7 +4,7 @@ import styled from "@emotion/styled";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import { faTimes, faEdit } from "@fortawesome/free-solid-svg-icons";
 import { border, theme } from "../../../utils/style/themeConfig";
-import { getHoverColor } from "../helpers/HighlightColors";
+import { getHoverColor } from "../helpers/ReaderColors";
 import { useStore } from "../../../stores/RootStore";
 import { HighlightInterface } from "../../../config/interfaces";
 import axiosConfig from "../../../config/axiosConfig";

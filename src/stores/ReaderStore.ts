@@ -21,6 +21,7 @@ export default class ReaderStore {
     private editId: number | undefined = undefined;
     private searchResults: SearchResultInterface[] | undefined = undefined
 
+    private themeOn: boolean = false;
 
     public constructor() {
         makeAutoObservable(this);
@@ -197,6 +198,17 @@ export default class ReaderStore {
     public setFinishedDialogDouble(finishedDialogDouble:boolean) {
         runInAction(() => {
             this.finishedDialogDouble = finishedDialogDouble;
+        })
+    }
+
+    // Is the theme on
+    public isThemeOn():boolean {
+        return this.themeOn;
+    }
+
+    public setIsThemeOn(value:boolean) {
+        runInAction(() => {
+            this.themeOn = value;
         })
     }
 

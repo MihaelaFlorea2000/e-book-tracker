@@ -10,7 +10,7 @@ import { faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
 import {BookInterface, HighlightInterface} from "../../../config/interfaces";
 import { device } from "../../../config/config";
 import { defaultStyle, mobileStyle } from "../helpers/ReaderStyles";
-import { highlightColors } from "../helpers/HighlightColors";
+import {getTheme, readerColors} from "../helpers/ReaderColors";
 import HighlightDialog from "./HighlightDialog";
 import { useStore } from "../../../stores/RootStore";
 import {toJS} from "mobx";
@@ -82,6 +82,18 @@ const BookReader = (props: Props) => {
             return spine_get(target);
         }
 
+        rendition.themes.register('custom', {
+            "body": {
+                "background-color": "white",
+                "color": "black"
+            },
+            "a:hover": {
+                "color": "inherit"
+            }
+        })
+
+        rendition.themes.select('custom');
+
         readerStore.setRendition(rendition);
         renditionRef.current = rendition;
         renditionRef.current.themes.fontSize(`${fontSize}%`);
@@ -99,14 +111,7 @@ const BookReader = (props: Props) => {
                 })
             }
         }
-        rendition.themes.register('custom', {
-            "a:hover": {
-                "color": "inherit"
-            }
-        })
-        rendition.themes.select('custom')
     }
-
 
     //For updating font size
     useEffect(() => {
@@ -137,7 +142,7 @@ const BookReader = (props: Props) => {
                 text: renditionState.getRange(cfiRange).toString(),
                 cfiRange,
                 note: "",
-                color: highlightColors.yellow.light
+                color: readerColors.yellow.light
             });
 
             setContents(contents);
@@ -145,6 +150,7 @@ const BookReader = (props: Props) => {
     }
 
     const location = readerStore.getLocation();
+    const isThemeOn = readerStore.isThemeOn()
 
     return (
         <Container>
@@ -155,10 +161,10 @@ const BookReader = (props: Props) => {
                     location={location}
                     locationChanged={locationChanged}
                     getRendition={getRendition}
-                    styles={isMobile ? mobileStyle(isMobile) : defaultStyle}
+                    styles={isMobile ? mobileStyle(isMobile, isThemeOn) : defaultStyle(isThemeOn)}
                 />
             </ReaderContainer>
-            <BottomContainer>
+            <BottomContainer backgroundColor={getTheme(isThemeOn).backgroundColor} color={getTheme(isThemeOn).color}>
                 <SettingsContainer>
                     <Button onClick={() => changeSize(Math.max(80, fontSize - 10))}>
                         <FontAwesomeIcon className="fa-fw" icon={faMinus}/>
@@ -194,17 +200,18 @@ const ReaderContainer = styled.div`
 `
 
 
-const BottomContainer = styled.div`
+const BottomContainer = styled.div<{backgroundColor: string, color: string}>`
   position: absolute;
   bottom: 3px;
   right: 1rem;
   left: 1rem;
   text-align: center;
   z-index: 1;
-  background-color: white;
   display: flex;
   justify-content: space-around;
   font-size: 0.95rem; 
+  color: ${props => props.color};
+
 
   @media only screen and ${device.mobileL} {
     font-size: 0.8rem;

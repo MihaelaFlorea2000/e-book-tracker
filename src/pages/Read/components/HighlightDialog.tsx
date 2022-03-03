@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import { StyledTextField } from "../../../utils/style/styledComponents";
 import { border, theme } from "../../../utils/style/themeConfig";
-import { highlightColors } from "../helpers/HighlightColors";
+import { readerColors } from "../helpers/ReaderColors";
 import { device } from "../../../config/config";
 import {BookInterface} from "../../../config/interfaces";
 import { useStore } from "../../../stores/RootStore";
@@ -120,24 +120,24 @@ const HighlightDialog = (props:Props) => {
                 </HighlightText>
                 <Subtitle>Select Color</Subtitle>
                 <ColorsContainer>
-                    <ColorContainer onClick={() => {readerStore.setColor(highlightColors.yellow.light)}}>
-                        <Color color={highlightColors.yellow.dark}/>
+                    <ColorContainer onClick={() => {readerStore.setColor(readerColors.yellow.light)}}>
+                        <Color color={readerColors.yellow.dark}/>
                         <ColorLabel>Yellow</ColorLabel>
                     </ColorContainer>
-                    <ColorContainer onClick={() => {readerStore.setColor(highlightColors.red.light)}}>
-                        <Color color={highlightColors.red.dark}/>
+                    <ColorContainer onClick={() => {readerStore.setColor(readerColors.red.light)}}>
+                        <Color color={readerColors.red.dark}/>
                         <ColorLabel>Red</ColorLabel>
                     </ColorContainer>
-                    <ColorContainer onClick={() => {readerStore.setColor(highlightColors.blue.light)}}>
-                        <Color color={highlightColors.blue.dark}/>
+                    <ColorContainer onClick={() => {readerStore.setColor(readerColors.blue.light)}}>
+                        <Color color={readerColors.blue.dark}/>
                         <ColorLabel>Blue</ColorLabel>
                     </ColorContainer>
-                    <ColorContainer onClick={() => {readerStore.setColor(highlightColors.green.light)}}>
-                        <Color color={highlightColors.green.dark}/>
+                    <ColorContainer onClick={() => {readerStore.setColor(readerColors.green.light)}}>
+                        <Color color={readerColors.green.dark}/>
                         <ColorLabel>Green</ColorLabel>
                     </ColorContainer>
-                    <ColorContainer onClick={() => {readerStore.setColor(highlightColors.orange.light)}}>
-                        <Color color={highlightColors.orange.dark}/>
+                    <ColorContainer onClick={() => {readerStore.setColor(readerColors.orange.light)}}>
+                        <Color color={readerColors.orange.dark}/>
                         <ColorLabel>Orange</ColorLabel>
                     </ColorContainer>
                 </ColorsContainer>
