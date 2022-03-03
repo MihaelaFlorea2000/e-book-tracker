@@ -40,4 +40,10 @@ export default class BooksStore {
             })
         })
     }
+
+    public sortBooks() {
+        if (this.books) {
+            this.books = this.books.sort((a,b) => (a.title > b.title) ? 1 : ((b.title > a.title) ? -1 : 0))
+        }
+    }
 }
