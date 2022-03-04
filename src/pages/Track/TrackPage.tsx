@@ -16,8 +16,8 @@ const TrackPage = () => {
                 <PercentageBar />
                 <Goals />
                 <Numbers />
-                <TagsCharts />
                 <ReadCalendar />
+                <TagsCharts />
                 <LineCharts />
             </MetricsContainer>
         </Page>
