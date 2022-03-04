@@ -14,7 +14,7 @@ import {
     faStopwatch
 } from "@fortawesome/free-solid-svg-icons";
 import IconDetail from "../../../../utils/components/IconDetail";
-import {theme} from "../../../../utils/style/themeConfig";
+import {border, theme} from "../../../../utils/style/themeConfig";
 import { device } from "../../../../config/config";
 import {chartBorderColors, chartColors} from "../../helpers/ChartSettings";
 
@@ -40,7 +40,7 @@ const Numbers = () => {
                 <IconDetail borderColor={chartBorderColors.green} color={chartColors.green} size="medium" title="Authors Read" detail={`${numbers.authorsReadCount.toString()} author${numbers.authorsReadCount === 1 ? '' : 's'}`} icon={faFeather}/>
             </IconDetailContainer>
             <IconDetailContainer>
-                <IconDetail borderColor={chartBorderColors.pink} color={chartColors.pink} size="medium" title="Books Currently Read" detail={`${numbers.booksCurrRead.toString()} book${numbers.booksCurrRead === 1 ? '' : 's'}`} icon={faBookOpen}/>
+                <IconDetail borderColor={chartBorderColors.pink} color={chartColors.pink} size="medium" title="Currently Reading" detail={`${numbers.booksCurrRead.toString()} book${numbers.booksCurrRead === 1 ? '' : 's'}`} icon={faBookOpen}/>
                 <IconDetail borderColor={chartBorderColors.pink} color={chartColors.pink} size="medium" title="Best Day (time)" detail={dateConfig(numbers.bestDay)} icon={faCalendar}/>
             </IconDetailContainer>
             <IconDetailContainer>
@@ -61,6 +61,13 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   width: 30vw;
+  border-radius: ${border.borderRadius};
+
+  @media only screen and ${device.tablet} {
+    width: 90vw;
+    align-items: center;
+    justify-content: center;
+  }
 `
 
 const IconDetailContainer = styled.div`
@@ -68,11 +75,4 @@ const IconDetailContainer = styled.div`
   align-items: center;
   gap: 10px;
   background-color: ${theme.palette.info.light};
-  flex-wrap: wrap;
-
-  @media only screen and ${device.tablet} {
-    flex-flow: column;
-    align-items: center;
-    justify-content: center;
-  }
 `

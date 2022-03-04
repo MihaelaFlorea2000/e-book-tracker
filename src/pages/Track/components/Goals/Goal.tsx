@@ -8,6 +8,7 @@ import {
 } from 'chart.js';
 import {theme} from "../../../../utils/style/themeConfig";
 import {chartColors} from "../../helpers/ChartSettings";
+import { device } from "../../../../config/config";
 
 /**
  * Some code for chart settings is taken from
@@ -93,6 +94,10 @@ const Container = styled.div`
   background-color: ${theme.palette.info.light};
   padding: 10px;
   text-align: center;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: center;
 `
 const ChartTitle = styled.div`
   color: ${theme.palette.info.main};
@@ -105,6 +110,11 @@ const ChartContainer = styled.div`
   padding: 10px;
   width: 13vw;
   position: relative;
+  
+
+  @media only screen and ${device.tablet} {
+    width: 30vw;
+  }
 `
 
 const Value = styled.div`

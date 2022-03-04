@@ -6,6 +6,7 @@ import Goals from "./components/Goals/Goals";
 import LineCharts from "./components/LineCharts/LineCharts";
 import TagsCharts from "./components/Tags/TagsCharts";
 import ReadCalendar from "./components/Calendar/ReadCalendar";
+import { device } from "../../config/config";
 
 const TrackPage = () => {
 
@@ -37,4 +38,9 @@ const MetricsContainer = styled.div`
   display: flex;
   gap: 10px;
   flex-wrap: wrap;
+
+  @media only screen and ${device.tablet} {
+    flex-flow: column;
+    align-items: center;
+  }
 `

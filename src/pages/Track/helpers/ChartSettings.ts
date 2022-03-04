@@ -1,4 +1,7 @@
 // Chart transparent colors
+import {useMediaQuery} from "@mui/material";
+import {device} from "../../../config/config";
+
 export const chartColors = {
     grey: 'rgba(201, 203, 207, 0.2)',
     orange: 'rgba(255, 159, 64, 0.2)',
@@ -29,7 +32,7 @@ export const chartBorderColors = {
  * documentation
  * https://chartjs-plugin-datalabels.netlify.app/guide/#table-of-contents
  */
-export const getBarChartOptions = (dataValues:number[], type: string) => {
+export const getBarChartOptions = (dataValues:number[], type: string, offsetValue: number) => {
     return {
         indexAxis: 'y' as const,
         elements: {
@@ -69,7 +72,7 @@ export const getBarChartOptions = (dataValues:number[], type: string) => {
             x: {
                 display: false,
                 min: 0,
-                max: Math.max(...dataValues) + 3
+                max: Math.max(...dataValues) + offsetValue
             }
         }
     }

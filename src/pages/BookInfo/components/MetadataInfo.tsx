@@ -72,7 +72,7 @@ const MetadataInfo = (props: Props) => {
                 <DetailsContainer>
                     {props.book.publisher !== '' && <IconDetail borderColor="transparent" color={theme.palette.primary.main}size="large" title="Publication" icon={faBookOpen} detail={props.book.publisher}/>}
                     {props.book.language !== '' && <IconDetail borderColor="transparent" color={theme.palette.primary.main}size="large" title="Language" icon={faLanguage} detail={props.book.language}/>}
-                    {props.book.pubDate !== '' && <IconDetail borderColor="transparent" color={theme.palette.primary.main}size="large" title="Publication Date" icon={faCalendar} detail={new Date(props.book.pubDate).toISOString().split('T')[0]}/>}
+                    {props.book.pubDate !== '' && <IconDetail borderColor="transparent" color={theme.palette.primary.main}size="large" title="Publication Date" icon={faCalendar} detail={new Date(props.book.pubDate).toLocaleDateString()}/>}
                 </DetailsContainer>
             </RightContainer>
         </BookInfoContainer>

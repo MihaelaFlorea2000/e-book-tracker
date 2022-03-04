@@ -4,8 +4,9 @@ import styled from "@emotion/styled";
 import Calendar, {CalendarTileProperties} from 'react-calendar';
 import {chartBorderColors, chartColors} from "../../helpers/ChartSettings";
 import {useStore} from "../../../../stores/RootStore";
-import { theme } from "../../../../utils/style/themeConfig";
+import {border, theme} from "../../../../utils/style/themeConfig";
 import {CircularLoading} from "../../../../utils/components/CircularLoading";
+import { device } from "../../../../config/config";
 
 /**
  * The following tutorial helped with adding
@@ -65,6 +66,13 @@ const Container = styled.div`
   flex-flow: column;
   gap: 20px;
   width: 30vw;
+  border-radius: ${border.borderRadius};
+
+  @media only screen and ${device.tablet} {
+    width: 90vw;
+    align-items: center;
+    justify-content: center;
+  }
 
   .react-calendar {
     width: auto;
@@ -123,6 +131,9 @@ const Container = styled.div`
   .react-calendar__decade-view .react-calendar__tile,
   .react-calendar__century-view .react-calendar__tile {
     padding: 0;
+    @media only screen and ${device.tablet} {
+      padding: 20px 0;
+    }
   }
 
   .react-calendar__month-view {

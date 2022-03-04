@@ -4,7 +4,8 @@ import styled from "@emotion/styled";
 import {ToggleButton, ToggleButtonGroup} from "@mui/lab";
 import ByReadChart from "./ByReadChart";
 import ByBooksChart from "./ByBooksChart";
-import {theme} from "../../../../utils/style/themeConfig";
+import {border, theme} from "../../../../utils/style/themeConfig";
+import { device } from "../../../../config/config";
 
 
 const TagsCharts = () => {
@@ -45,6 +46,13 @@ const Container = styled.div`
   flex-flow: column;
   gap: 20px;
   width: 50vw;
+  border-radius: ${border.borderRadius};
+
+  @media only screen and ${device.tablet} {
+    width: 90vw;
+    align-items: center;
+    justify-content: center;
+  }
 `
 
 const StyledToggleButton = styled(ToggleButton)`

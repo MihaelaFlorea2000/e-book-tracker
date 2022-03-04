@@ -10,9 +10,11 @@ import {
 } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import {useStore} from "../../../../stores/RootStore";
-import {theme} from "../../../../utils/style/themeConfig";
+import {border, theme} from "../../../../utils/style/themeConfig";
 import {CircularLoading} from "../../../../utils/components/CircularLoading";
 import {chartBorderColors, chartColors} from "../../helpers/ChartSettings";
+import {useMediaQuery} from "@mui/material";
+import {device} from "../../../../config/config";
 
 ChartJS.register(
     CategoryScale,
@@ -31,6 +33,8 @@ const PercentageBar = () => {
 
     // Get percent
     const percent = metricsStore.getPercent();
+
+    const isTablet = useMediaQuery(device.tablet);
 
     if(percent === undefined) {
         return (
@@ -117,7 +121,7 @@ const PercentageBar = () => {
                 options={options}
                 data={data}
                 plugins={[ChartDataLabels]}
-                height="19px"
+                height={isTablet ? "50px" : "19px"}
             />
         </Container>
     )
@@ -129,6 +133,13 @@ const Container = styled.div`
   background-color: ${theme.palette.info.light};
   padding: 10px;
   width: 97%;
+  border-radius: ${border.borderRadius};
+
+  @media only screen and ${device.tablet} {
+    width: 90vw;
+    align-items: center;
+    justify-content: center;
+  }
 `
 
 const ChartTitle = styled.div`

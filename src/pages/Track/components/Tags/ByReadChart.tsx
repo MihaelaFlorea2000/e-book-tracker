@@ -13,6 +13,8 @@ import { Bar } from "react-chartjs-2";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import {CircularLoading} from "../../../../utils/components/CircularLoading";
 import {chartBorderColors, chartColors, getBarChartOptions} from "../../helpers/ChartSettings";
+import {useMediaQuery} from "@mui/material";
+import {device} from "../../../../config/config";
 
 /**
  * Some code for chart settings is taken from
@@ -31,6 +33,8 @@ const ByReadChart = () => {
 
     // Get data
     const topTags = metricsStore.getTopTagsByRead();
+
+    const isTablet = useMediaQuery(device.tablet);
 
     if(topTags === undefined) {
         return (
@@ -68,15 +72,17 @@ const ByReadChart = () => {
         ],
     };
 
+    const offsetValue = isTablet ? 10 : 3
+
     return (
         <Container>
             <ChartTitle>Top Tags</ChartTitle>
             <Bar
                 // @ts-ignore
-                options={getBarChartOptions(dataValues, 'read')}
+                options={getBarChartOptions(dataValues, 'read', offsetValue)}
                 data={data}
                 plugins={[ChartDataLabels]}
-                height="150px"
+                height={isTablet ? "250px" : "150px"}
             />
         </Container>
     )

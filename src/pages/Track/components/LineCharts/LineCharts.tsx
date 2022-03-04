@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import {observer} from "mobx-react";
 import styled from "@emotion/styled";
 import {ToggleButton, ToggleButtonGroup} from "@mui/lab";
-import {theme} from "../../../../utils/style/themeConfig";
+import {border, theme} from "../../../../utils/style/themeConfig";
 import WeeklyChart from "./WeeklyChart";
 import YearlyChart from "./YearlyChart";
 import MonthlyChart from "./MonthlyChart";
@@ -54,4 +54,5 @@ const Container = styled.div`
   flex-flow: column;
   gap: 20px;
   width: 97%;
+  border-radius: ${border.borderRadius};
 `

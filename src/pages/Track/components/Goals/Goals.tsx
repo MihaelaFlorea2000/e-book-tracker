@@ -3,12 +3,13 @@ import {observer} from "mobx-react";
 import { toJS } from "mobx";
 import styled from "@emotion/styled";
 import {useStore} from "../../../../stores/RootStore";
-import {theme} from "../../../../utils/style/themeConfig";
+import {border, theme} from "../../../../utils/style/themeConfig";
 import {CircularLoading} from "../../../../utils/components/CircularLoading";
 import Button from "@mui/material/Button";
 import {useNavigate} from "react-router-dom";
 import {chartBorderColors, chartColors} from "../../helpers/ChartSettings";
 import Goal from "./Goal";
+import { device } from "../../../../config/config";
 
 const Goals = () => {
 
@@ -64,6 +65,13 @@ const Container = styled.div`
   flex-flow: column;
   gap: 20px;
   width: 50vw;
+  border-radius: ${border.borderRadius};
+
+  @media only screen and ${device.tablet} {
+    width: 90vw;
+    align-items: center;
+    justify-content: center;
+  }
 `
 
 const StyledButton = styled(Button)`
@@ -75,4 +83,10 @@ const GoalsContainer = styled.div`
   gap: 10px;
   align-items: center;
   justify-content: center;
+
+  @media only screen and ${device.tablet} {
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+  }
 `
