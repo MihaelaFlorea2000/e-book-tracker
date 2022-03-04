@@ -68,7 +68,7 @@ const metadataSchema = yup.object().shape({
 const MetadataForm = (props:Props) => {
 
     // Get stores access
-    const { booksStore, uploadStore } = useStore();
+    const { booksStore, uploadStore, metricsStore} = useStore();
 
     const navigate = useNavigate();
 
@@ -137,6 +137,8 @@ const MetadataForm = (props:Props) => {
             const uploadFilesRes = await uploadStore.uploadFiles(bookId);
             if (uploadFilesRes.data.status) {
                 booksStore.requestBooks();
+                metricsStore.requestPercent();
+                metricsStore.requestTopTagsByBooks();
                 navigate('/?fromUpload');
             } else {
                 setIsSubmitting(false);

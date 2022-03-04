@@ -25,7 +25,7 @@ const ReadPage = () => {
     const navigate = useNavigate();
 
     // Get stores access
-    const { readerStore, bookStore, booksStore } = useStore();
+    const { readerStore, bookStore, booksStore, metricsStore } = useStore();
 
     // Get book
     const params = useParams();
@@ -70,6 +70,7 @@ const ReadPage = () => {
                 bookStore.requestBook(bookId);
                 bookStore.requestReads(bookId);
                 booksStore.requestBooks();
+                metricsStore.trackRefresh();
                 readerStore.reset();
             } catch (err:any) {
                 console.log(err.response.data.message)

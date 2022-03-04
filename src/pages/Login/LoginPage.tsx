@@ -44,7 +44,7 @@ const loginSchema = yup.object({
 const LoginPage = () => {
 
     // Get stores access
-    const { userStore, booksStore } = useStore();
+    const { userStore, booksStore, metricsStore } = useStore();
 
     // Handling form submission
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
@@ -62,6 +62,7 @@ const LoginPage = () => {
                     LoginStore.login(res.data.token);
                     userStore.requestCurrentUser();
                     booksStore.requestBooks();
+                    metricsStore.trackRefresh();
                 } else {
                     setIsSubmitting(false);
                     setError('errorMessage', {

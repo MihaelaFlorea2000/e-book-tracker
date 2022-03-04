@@ -48,7 +48,7 @@ export default class MetricsStore {
         makeAutoObservable(this);
     }
 
-    // Get current user's books
+    // Get track numbers
     public getNumbers(): NumbersInterface | undefined {
         if (this.numbers === undefined) {
             this.requestNumbers();
@@ -59,7 +59,7 @@ export default class MetricsStore {
         }
     }
 
-    // Request current user books
+    // Request track numbers
     public requestNumbers() {
         if (!this.requestedNumbers) {
             runInAction(() => {
@@ -77,7 +77,7 @@ export default class MetricsStore {
         })
     }
 
-    // Get current user's books
+    // Get percent of books read
     public getPercent(): PercentInterface | undefined {
         if (this.percent === undefined) {
             this.requestPercent();
@@ -88,7 +88,7 @@ export default class MetricsStore {
         }
     }
 
-    // Request current user books
+    // Request percent of books read
     public requestPercent() {
         if (!this.requestedPercent) {
             runInAction(() => {
@@ -117,7 +117,7 @@ export default class MetricsStore {
         })
     }
 
-    // Get current user's books
+    // Get goals metrics
     public getGoals(): GoalsInterface | undefined {
         if (this.goals === undefined) {
             this.requestGoals();
@@ -128,7 +128,7 @@ export default class MetricsStore {
         }
     }
 
-    // Request current user books
+    // Request goals metrics
     public requestGoals() {
         if (!this.requestedGoals) {
             runInAction(() => {
@@ -158,7 +158,7 @@ export default class MetricsStore {
         })
     }
 
-    // Get current user's books
+    // Get weekly reading metrics
     public getWeeklyProgress(): ChartDataInterface | undefined {
         if (this.weeklyProgress === undefined) {
             this.requestWeeklyProgress();
@@ -169,7 +169,7 @@ export default class MetricsStore {
         }
     }
 
-    // Request current user books
+    // Request weekly reading metrics
     public requestWeeklyProgress() {
         if (!this.requestedWeeklyProgress) {
             runInAction(() => {
@@ -187,7 +187,7 @@ export default class MetricsStore {
         })
     }
 
-    // Get current user's books
+    // Get monthly reading metrics
     public getMonthlyProgress(): ChartDataInterface | undefined {
         if (this.monthlyProgress === undefined) {
             this.requestMonthlyProgress();
@@ -198,7 +198,7 @@ export default class MetricsStore {
         }
     }
 
-    // Request current user books
+    // Request monthly reading metrics
     public requestMonthlyProgress() {
         if (!this.requestedMonthlyProgress) {
             runInAction(() => {
@@ -216,7 +216,7 @@ export default class MetricsStore {
         })
     }
 
-    // Get current user's books
+    // Get yearly reading metrics
     public getYearlyProgress(): ChartDataInterface | undefined {
         if (this.yearlyProgress === undefined) {
             this.requestYearlyProgress();
@@ -227,7 +227,7 @@ export default class MetricsStore {
         }
     }
 
-    // Request current user books
+    // Request yearly reading metrics
     public requestYearlyProgress() {
         if (!this.requestedYearlyProgress) {
             runInAction(() => {
@@ -245,7 +245,7 @@ export default class MetricsStore {
         })
     }
 
-    // Get current user's books
+    // Get total reading metrics
     public getTotalProgress(): ChartDataInterface | undefined {
         if (this.totalProgress === undefined) {
             this.requestTotalProgress();
@@ -256,7 +256,7 @@ export default class MetricsStore {
         }
     }
 
-    // Request current user books
+    // Request total reading metrics
     public requestTotalProgress() {
         if (!this.requestedTotalProgress) {
             runInAction(() => {
@@ -274,7 +274,7 @@ export default class MetricsStore {
         })
     }
 
-    // Get current user's books
+    // Get top tags by reading time
     public getTopTagsByRead(): ChartDataInterface | undefined {
         if (this.topTagsByRead === undefined) {
             this.requestTopTagsByRead();
@@ -285,7 +285,7 @@ export default class MetricsStore {
         }
     }
 
-    // Request current user books
+    // Request top tags by reading time
     public requestTopTagsByRead() {
         if (!this.requestedTopTagsByRead) {
             runInAction(() => {
@@ -303,7 +303,7 @@ export default class MetricsStore {
         })
     }
 
-    // Get current user's books
+    // Get top tags by number of books
     public getTopTagsByBooks(): ChartDataInterface | undefined {
         if (this.topTagsByBooks === undefined) {
             this.requestTopTagsByBooks();
@@ -314,7 +314,7 @@ export default class MetricsStore {
         }
     }
 
-    // Request current user books
+    // Request top tags by number of books
     public requestTopTagsByBooks() {
         if (!this.requestedTopTagsByBooks) {
             runInAction(() => {
@@ -332,7 +332,7 @@ export default class MetricsStore {
         })
     }
 
-    // Get current user's books
+    // Get calendar days
     public getCalendarDays(): string[] | undefined {
         if (this.calendarDays === undefined) {
             this.requestCalendarDays();
@@ -343,7 +343,7 @@ export default class MetricsStore {
         }
     }
 
-    // Request current user books
+    // Request calendar days
     public requestCalendarDays() {
         if (!this.requestedCalendarDays) {
             runInAction(() => {
@@ -361,10 +361,16 @@ export default class MetricsStore {
         })
     }
 
-    public resetData() {
-        this.numbers = undefined;
-        this.percent = undefined;
-        this.goalsDialogue = false;
-        this.goals = undefined;
+    public trackRefresh() {
+        this.requestNumbers();
+        this.requestPercent();
+        this.requestGoals();
+        this.requestWeeklyProgress();
+        this.requestMonthlyProgress();
+        this.requestYearlyProgress();
+        this.requestTotalProgress();
+        this.requestTopTagsByRead();
+        this.requestTopTagsByBooks();
+        this.requestCalendarDays();
     }
 }

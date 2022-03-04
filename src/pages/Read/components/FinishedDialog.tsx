@@ -15,7 +15,6 @@ import { useStore } from "../../../stores/RootStore";
 import {faTrophy} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {BookRating} from "../../../utils/components/BookRating";
-import { theme } from "../../../utils/style/themeConfig";
 import axiosConfig from "../../../config/axiosConfig";
 import {useNavigate} from "react-router-dom";
 
@@ -28,7 +27,7 @@ const FinishedDialog = (props:Props) => {
     const navigate = useNavigate();
 
     // Get ReaderStore
-    const { readerStore } = useStore();
+    const { readerStore, metricsStore } = useStore();
 
     const isOpen = readerStore.isFinishedDialog();
 
@@ -58,6 +57,7 @@ const FinishedDialog = (props:Props) => {
         try {
             const res = await axiosConfig().post(`/pg/books/${props.book.id}/finished`, data)
             console.log(res.data);
+            metricsStore.trackRefresh();
             navigate('/');
         } catch (err:any) {
             console.log(err.response.data.message)
