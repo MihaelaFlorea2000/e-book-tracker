@@ -1,20 +1,17 @@
 import React from "react";
 import styled from "@emotion/styled";
+import {observer} from "mobx-react";
 import {
     Chart as ChartJS,
     CategoryScale,
     LinearScale,
     PointElement,
-    LineElement,
-    Title,
-    Tooltip,
-    Legend,
+    LineElement
 } from 'chart.js';
-import {theme} from "../../../../utils/style/themeConfig";
-import {useStore} from "../../../../stores/RootStore";
-import {observer} from "mobx-react";
 import { Line } from "react-chartjs-2";
 import ChartDataLabels from "chartjs-plugin-datalabels";
+import {useStore} from "../../../../stores/RootStore";
+import {theme} from "../../../../utils/style/themeConfig";
 import {CircularLoading} from "../../../../utils/components/CircularLoading";
 import {chartBorderColors, getLineChartOptions} from "../../helpers/ChartSettings";
 
@@ -22,12 +19,14 @@ ChartJS.register(
     CategoryScale,
     LinearScale,
     PointElement,
-    LineElement,
-    Title,
-    Tooltip,
-    Legend
+    LineElement
 );
 
+/**
+ * Some code for chart settings is taken from
+ * the react-chartjs-2 documentation
+ * https://react-chartjs-2.js.org/examples/line-chart
+ */
 const TotalChart = () => {
 
     const { metricsStore } = useStore();
@@ -43,13 +42,14 @@ const TotalChart = () => {
         )
     }
 
+    // Chart labels and data values
     const { labels, dataValues } = totalProgress;
 
     const data = {
         labels,
         datasets: [
             {
-                label: 'Dataset 1',
+                label: 'Reading Hours per year',
                 data: dataValues,
                 borderColor: chartBorderColors.orange,
                 backgroundColor: chartBorderColors.orange,

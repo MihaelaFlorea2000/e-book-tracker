@@ -1,31 +1,20 @@
 import React from "react";
-import styled from "@emotion/styled";
-import {
-    Chart as ChartJS,
-    Tooltip,
-    Legend,
-    ArcElement
-} from 'chart.js';
-import {theme} from "../../../../utils/style/themeConfig";
-import {useStore} from "../../../../stores/RootStore";
-import {CircularLoading} from "../../../../utils/components/CircularLoading";
 import {observer} from "mobx-react";
-import Goal from "./Goal";
+import { toJS } from "mobx";
+import styled from "@emotion/styled";
+import {useStore} from "../../../../stores/RootStore";
+import {theme} from "../../../../utils/style/themeConfig";
+import {CircularLoading} from "../../../../utils/components/CircularLoading";
 import Button from "@mui/material/Button";
 import {useNavigate} from "react-router-dom";
 import {chartBorderColors, chartColors} from "../../helpers/ChartSettings";
-import { toJS } from "mobx";
-
-ChartJS.register(
-    ArcElement,
-    Tooltip,
-    Legend
-);
+import Goal from "./Goal";
 
 const Goals = () => {
 
     const navigate = useNavigate();
 
+    // Get stores
     const { metricsStore } = useStore();
 
     // Get goals
@@ -44,8 +33,6 @@ const Goals = () => {
         metricsStore.setGoalsDialogue(true);
         navigate('/track/goals');
     }
-
-    console.log(toJS(goals));
 
     // Create strings
     const yearlyGoalString = `${goals.done.yearly}/${goals.set.yearly} books`
@@ -79,13 +66,13 @@ const Container = styled.div`
   width: 50vw;
 `
 
+const StyledButton = styled(Button)`
+  align-self: end;
+`
+
 const GoalsContainer = styled.div`
   display: flex;
   gap: 10px;
   align-items: center;
   justify-content: center;
-`
-
-const StyledButton = styled(Button)`
-  align-self: end;
 `

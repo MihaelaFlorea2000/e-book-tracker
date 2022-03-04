@@ -1,27 +1,16 @@
 import React, {useState} from "react";
-import styled from "@emotion/styled";
-import {
-    Chart as ChartJS,
-    Tooltip,
-    Legend,
-    ArcElement
-} from 'chart.js';
-import {theme} from "../../../../utils/style/themeConfig";
 import {observer} from "mobx-react";
+import styled from "@emotion/styled";
+import {ToggleButton, ToggleButtonGroup} from "@mui/lab";
+import {theme} from "../../../../utils/style/themeConfig";
 import WeeklyChart from "./WeeklyChart";
 import YearlyChart from "./YearlyChart";
 import MonthlyChart from "./MonthlyChart";
-import {ToggleButton, ToggleButtonGroup} from "@mui/lab";
 import TotalChart from "./TotalChart";
-
-ChartJS.register(
-    ArcElement,
-    Tooltip,
-    Legend
-);
 
 const LineCharts = () => {
 
+    // Choose which chart to see
     const [chart, setChart] = useState<string>('week');
 
     const handleChange = (event:React.MouseEvent<HTMLElement, MouseEvent>, newChart:string) => {

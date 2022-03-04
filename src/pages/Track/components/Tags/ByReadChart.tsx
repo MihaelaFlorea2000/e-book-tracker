@@ -4,26 +4,25 @@ import {
     Chart as ChartJS,
     CategoryScale,
     LinearScale,
-    Title,
-    Tooltip,
-    Legend,
     BarElement
 } from 'chart.js';
 import {theme} from "../../../../utils/style/themeConfig";
 import {useStore} from "../../../../stores/RootStore";
 import {observer} from "mobx-react";
-import {Bar } from "react-chartjs-2";
+import { Bar } from "react-chartjs-2";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import {CircularLoading} from "../../../../utils/components/CircularLoading";
 import {chartBorderColors, chartColors, getBarChartOptions} from "../../helpers/ChartSettings";
 
+/**
+ * Some code for chart settings is taken from
+ * the react-chartjs-2 documentation
+ * https://react-chartjs-2.js.org/examples/horizontal-bar-chart
+ */
 ChartJS.register(
     CategoryScale,
     LinearScale,
-    BarElement,
-    Title,
-    Tooltip,
-    Legend
+    BarElement
 );
 
 const ByReadChart = () => {
@@ -41,13 +40,14 @@ const ByReadChart = () => {
         )
     }
 
+    // Chart labels and data values
     const { labels, dataValues } = topTags;
 
     const data = {
         labels,
         datasets: [
             {
-                label: 'Dataset 1',
+                label: 'Reading time per tag',
                 data: dataValues,
                 borderColor: [
                     chartBorderColors.blue,

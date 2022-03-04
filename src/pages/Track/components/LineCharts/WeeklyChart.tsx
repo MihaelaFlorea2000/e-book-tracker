@@ -5,10 +5,7 @@ import {
     CategoryScale,
     LinearScale,
     PointElement,
-    LineElement,
-    Title,
-    Tooltip,
-    Legend,
+    LineElement
 } from 'chart.js';
 import {theme} from "../../../../utils/style/themeConfig";
 import {useStore} from "../../../../stores/RootStore";
@@ -22,12 +19,14 @@ ChartJS.register(
     CategoryScale,
     LinearScale,
     PointElement,
-    LineElement,
-    Title,
-    Tooltip,
-    Legend
+    LineElement
 );
 
+/**
+ * Some code for chart settings is taken from
+ * the react-chartjs-2 documentation
+ * https://react-chartjs-2.js.org/examples/line-chart
+ */
 const WeeklyChart = () => {
 
     const { metricsStore } = useStore();
@@ -43,13 +42,14 @@ const WeeklyChart = () => {
         )
     }
 
+    // Chart labels and data values
     const { labels, dataValues } = weeklyProgress;
 
     const data = {
         labels,
         datasets: [
             {
-                label: 'Dataset 1',
+                label: 'Reading hours per day',
                 data: dataValues,
                 borderColor: chartBorderColors.blue,
                 backgroundColor: chartBorderColors.blue,

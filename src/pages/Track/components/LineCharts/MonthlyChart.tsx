@@ -1,4 +1,5 @@
 import React from "react";
+import {observer} from "mobx-react";
 import styled from "@emotion/styled";
 import {
     Chart as ChartJS,
@@ -6,26 +7,24 @@ import {
     LinearScale,
     PointElement,
     LineElement,
-    Title,
-    Tooltip,
-    Legend,
 } from 'chart.js';
-import {theme} from "../../../../utils/style/themeConfig";
-import {useStore} from "../../../../stores/RootStore";
-import {observer} from "mobx-react";
 import { Line } from "react-chartjs-2";
 import ChartDataLabels from "chartjs-plugin-datalabels";
+import {theme} from "../../../../utils/style/themeConfig";
+import {useStore} from "../../../../stores/RootStore";
 import {CircularLoading} from "../../../../utils/components/CircularLoading";
 import {chartBorderColors, getLineChartOptions} from "../../helpers/ChartSettings";
 
+/**
+ * Some code for chart settings is taken from
+ * the react-chartjs-2 documentation
+ * https://react-chartjs-2.js.org/examples/line-chart
+ */
 ChartJS.register(
     CategoryScale,
     LinearScale,
     PointElement,
     LineElement,
-    Title,
-    Tooltip,
-    Legend
 );
 
 const MonthlyChart = () => {
@@ -43,13 +42,14 @@ const MonthlyChart = () => {
         )
     }
 
+    // Chart labels and data values
     const { labels, dataValues } = monthlyProgress;
 
     const data = {
         labels,
         datasets: [
             {
-                label: 'Dataset 1',
+                label: 'Reading hours per day',
                 data: dataValues,
                 borderColor: chartBorderColors.green,
                 backgroundColor: chartBorderColors.green,

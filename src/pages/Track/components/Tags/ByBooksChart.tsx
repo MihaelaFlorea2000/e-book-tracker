@@ -4,9 +4,6 @@ import {
     Chart as ChartJS,
     CategoryScale,
     LinearScale,
-    Title,
-    Tooltip,
-    Legend,
     BarElement
 } from 'chart.js';
 import {theme} from "../../../../utils/style/themeConfig";
@@ -17,13 +14,15 @@ import ChartDataLabels from "chartjs-plugin-datalabels";
 import {CircularLoading} from "../../../../utils/components/CircularLoading";
 import {chartBorderColors, chartColors, getBarChartOptions} from "../../helpers/ChartSettings";
 
+/**
+ * Some code for chart settings is taken from
+ * the react-chartjs-2 documentation
+ * https://react-chartjs-2.js.org/examples/horizontal-bar-chart
+ */
 ChartJS.register(
     CategoryScale,
     LinearScale,
-    BarElement,
-    Title,
-    Tooltip,
-    Legend
+    BarElement
 );
 
 const ByBooksChart = () => {
@@ -41,13 +40,14 @@ const ByBooksChart = () => {
         )
     }
 
+    // Chart labels and data Values
     const { labels, dataValues } = topTags;
 
     const data = {
         labels,
         datasets: [
             {
-                label: 'Dataset 1',
+                label: 'Number of books per tag',
                 data: dataValues,
                 borderColor: [
                     chartBorderColors.blue,

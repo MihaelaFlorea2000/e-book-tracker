@@ -29,6 +29,7 @@ export default class MetricsStore {
     private topTagsByRead: ChartDataInterface | undefined;
     private topTagsByBooks: ChartDataInterface | undefined;
 
+    private calendarDays: string[] | undefined;
 
     private requestedNumbers: boolean = false;
     private requestedPercent: boolean = false;
@@ -41,8 +42,7 @@ export default class MetricsStore {
     private requestedTopTagsByRead: boolean = false;
     private requestedTopTagsByBooks: boolean = false;
 
-
-
+    private requestedCalendarDays: boolean = false;
 
     public constructor() {
         makeAutoObservable(this);
@@ -328,6 +328,35 @@ export default class MetricsStore {
             runInAction(() => {
                 this.topTagsByBooks = data.data;
                 this.requestedTopTagsByBooks = false;
+            })
+        })
+    }
+
+    // Get current user's books
+    public getCalendarDays(): string[] | undefined {
+        if (this.calendarDays === undefined) {
+            this.requestCalendarDays();
+
+            return undefined;
+        } else {
+            return this.calendarDays;
+        }
+    }
+
+    // Request current user books
+    public requestCalendarDays() {
+        if (!this.requestedCalendarDays) {
+            runInAction(() => {
+                this.requestedCalendarDays = true;
+            })
+        } else {
+            return;
+        }
+
+        axiosConfig().get(`/pg/metrics/calendar`).then(data => {
+            runInAction(() => {
+                this.calendarDays = data.data;
+                this.requestedCalendarDays = false;
             })
         })
     }

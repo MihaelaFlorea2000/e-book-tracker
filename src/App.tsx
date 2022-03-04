@@ -7,6 +7,7 @@ import LoginPage from './pages/Login/LoginPage';
 import RegisterPage from './pages/Register/RegisterPage';
 import MainStore from './stores/LoginStore';
 import ReadPage from "./pages/Read/ReadPage";
+import 'react-calendar/dist/Calendar.css';
 
 function App() {
     const location = useLocation();

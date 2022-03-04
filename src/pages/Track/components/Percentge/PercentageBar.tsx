@@ -1,31 +1,30 @@
 import React from "react";
 import styled from "@emotion/styled";
+import {observer} from "mobx-react";
 import { Bar } from "react-chartjs-2";
 import {
     Chart as ChartJS,
     CategoryScale,
     LinearScale,
-    BarElement,
-    Title,
-    Tooltip,
-    Legend,
+    BarElement
 } from 'chart.js';
-import {theme} from "../../../../utils/style/themeConfig";
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import {useStore} from "../../../../stores/RootStore";
+import {theme} from "../../../../utils/style/themeConfig";
 import {CircularLoading} from "../../../../utils/components/CircularLoading";
-import {observer} from "mobx-react";
 import {chartBorderColors, chartColors} from "../../helpers/ChartSettings";
 
 ChartJS.register(
     CategoryScale,
     LinearScale,
-    BarElement,
-    Title,
-    Tooltip,
-    Legend
+    BarElement
 );
 
+/**
+ * Some code for chart settings is taken from
+ * the react-chartjs-2 documentation
+ * https://react-chartjs-2.js.org/examples/stacked-bar-chart
+ */
 const PercentageBar = () => {
 
     const { metricsStore } = useStore();
@@ -41,6 +40,7 @@ const PercentageBar = () => {
         )
     }
 
+    // Chart options
     const options = {
         indexAxis: 'y' as const,
         elements: {
@@ -83,6 +83,7 @@ const PercentageBar = () => {
         },
     };
 
+    // Chart Labels and data values
     const labels = ['Books Read'];
 
     const data = {

@@ -1,14 +1,15 @@
-// Colors the users can use to highlight
+// Chart transparent colors
 export const chartColors = {
-    grey: 'rgba(201, 203, 207, 0.2)', //'#ddd',
-    orange: 'rgba(255, 159, 64, 0.2)', //'#F4BD5C',
-    pink: 'rgba(255, 99, 132, 0.2)', //'#E163B0',
-    blue: 'rgba(54, 162, 235, 0.2)', //'#00E6FF',
-    green: 'rgba(75, 192, 192, 0.2)', //'#00C9AB',
-    purple: 'rgba(153, 102, 255, 0.2)', //'#C695FF',
+    grey: 'rgba(201, 203, 207, 0.2)',
+    orange: 'rgba(255, 159, 64, 0.2)',
+    pink: 'rgba(255, 99, 132, 0.2)',
+    blue: 'rgba(54, 162, 235, 0.2)',
+    green: 'rgba(75, 192, 192, 0.2)',
+    purple: 'rgba(153, 102, 255, 0.2)',
     yellow: 'rgba(255, 205, 86, 0.2)',
 }
 
+// Chart opaque / border colors
 export const chartBorderColors = {
     grey: 'rgba(201, 203, 207)',
     orange: 'rgba(255, 159, 64)',
@@ -19,6 +20,15 @@ export const chartBorderColors = {
     yellow: 'rgba(255, 205, 86)',
 }
 
+/**
+ * Some code for chart settings is taken from
+ * the react-chartjs-2 documentation
+ * https://react-chartjs-2.js.org/examples/horizontal-bar-chart
+ *
+ * The datalabel setting is taken from the chartjs-plugin-datalabels
+ * documentation
+ * https://chartjs-plugin-datalabels.netlify.app/guide/#table-of-contents
+ */
 export const getBarChartOptions = (dataValues:number[], type: string) => {
     return {
         indexAxis: 'y' as const,
@@ -65,6 +75,15 @@ export const getBarChartOptions = (dataValues:number[], type: string) => {
     }
 }
 
+/**
+ * Some code for chart settings is taken from
+ * the react-chartjs-2 documentation
+ * https://react-chartjs-2.js.org/examples/line-chart
+ *
+ * The datalabel setting is taken from the chartjs-plugin-datalabels
+ * documentation
+ * https://chartjs-plugin-datalabels.netlify.app/guide/#table-of-contents
+ */
 export const getLineChartOptions = (dataValues:number[]) => {
     return {
         responsive: true,
