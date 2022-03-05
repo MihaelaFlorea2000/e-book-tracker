@@ -2,26 +2,25 @@ import React, {ReactNode} from "react";
 import {useNavigate} from "react-router-dom";
 import {observer} from "mobx-react";
 import styled from "@emotion/styled";
-import {border, theme } from "../../../utils/style/themeConfig";
+import {border, theme } from "../../../../utils/style/themeConfig";
 import {
     faBookReader,
     faFlagCheckered,
     faEdit,
-    faStopwatch,
     faTimes
 } from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {BookReadInterface} from "../../../config/interfaces";
-import {BookRating} from "../../../utils/components/BookRating";
-import {DeleteIconContainer, EditIconContainer } from "../../../utils/style/styledComponents";
-import axiosConfig from "../../../config/axiosConfig";
-import {useStore} from "../../../stores/RootStore";
-import {TimeString} from "../../../utils/components/TimeString";
-import dateConfig from "../../../config/dateConfig";
+import {ReadInterface} from "../../../../config/interfaces";
+import {BookRating} from "../../../../utils/components/BookRating";
+import {DeleteIconContainer, EditIconContainer } from "../../../../utils/style/styledComponents";
+import axiosConfig from "../../../../config/axiosConfig";
+import {useStore} from "../../../../stores/RootStore";
+import {TimeString} from "../../../../utils/components/TimeString";
+import dateConfig from "../../../../config/dateConfig";
 
 
 interface Props {
-    read: BookReadInterface,
+    read: ReadInterface,
     bookId: number,
     current: boolean
 }
@@ -31,7 +30,7 @@ const Read = (props: Props) => {
     const navigate = useNavigate();
 
     // Get stores
-    const { bookStore, readStore } = useStore();
+    const { bookStore, readStore, metricsStore } = useStore();
 
     // Construct start and end date
     const startDate = dateConfig(props.read.startDate);
@@ -54,6 +53,7 @@ const Read = (props: Props) => {
             const res = await axiosConfig().delete(`/pg/reads/${props.bookId}/${props.read.id}`)
             console.log(res);
             bookStore.requestReads(props.bookId);
+            metricsStore.trackRefresh();
         } catch (err) {
             console.log(err);
         }

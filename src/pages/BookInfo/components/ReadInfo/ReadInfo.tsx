@@ -1,18 +1,18 @@
 import React, {ReactNode} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import styled from "@emotion/styled";
-import Read from "./Read";
 import {observer} from "mobx-react";
 import {
     faBook,
     faBookOpen
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {BookInterface} from "../../../config/interfaces";
-import {CircularLoading} from "../../../utils/components/CircularLoading";
-import { theme } from "../../../utils/style/themeConfig";
-import {AddButton} from "../../../utils/components/AddButton";
-import {useStore} from "../../../stores/RootStore";
+import {BookInterface} from "../../../../config/interfaces";
+import {CircularLoading} from "../../../../utils/components/CircularLoading";
+import { theme } from "../../../../utils/style/themeConfig";
+import {AddButton} from "../../../../utils/components/AddButton";
+import {useStore} from "../../../../stores/RootStore";
+import Read from "./Read";
 
 interface Props {
     book: BookInterface
@@ -59,7 +59,7 @@ const ReadInfo = (props: Props) => {
         readStore.resetCurrentRead();
         readStore.setEditId(undefined);
         readStore.setReadDialog(true);
-        navigate(`/book/${props.book.id}/read/0`);
+        navigate(`/book/${props.book.id}/read/add`);
     }
 
     return (

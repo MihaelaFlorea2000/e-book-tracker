@@ -8,6 +8,7 @@ import UploadStore from "./UploadStore";
 import UserStore from "./UserStore";
 import ReadStore from "./ReadStore";
 import MetricsStore from "./MetricsStore";
+import AddReadStore from "./AddReadStore";
 
 interface Store {
     userStore: UserStore,
@@ -15,6 +16,7 @@ interface Store {
     booksStore: BooksStore,
     bookStore: BookStore,
     readStore: ReadStore,
+    addReadStore: AddReadStore,
     readerStore: ReaderStore,
     editStore: EditStore,
     deleteStore: DeleteStore,
@@ -27,6 +29,7 @@ export const store: Store = {
     booksStore: new BooksStore(),
     bookStore: new BookStore(),
     readStore: new ReadStore(),
+    addReadStore: new AddReadStore(),
     readerStore: new ReaderStore(),
     editStore: new EditStore(),
     deleteStore: new DeleteStore(),

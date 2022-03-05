@@ -1,22 +1,19 @@
 import {makeAutoObservable, runInAction} from "mobx";
-import {BookInterface, BookReadInterface} from "../config/interfaces";
+import {BookInterface, ReadInterface, SessionInterface} from "../config/interfaces";
 import axiosConfig from "../config/axiosConfig";
 
 export default class ReadStore {
 
     private editId: number | undefined = undefined;
     private readDialogue: boolean = false;
+    private sessions: SessionInterface[] = [];
 
     private startDate: string = '';
     private endDate: string = '';
-    private years: number = 0;
-    private months: number = 0;
-    private days: number = 0;
     private hours: number = 0;
     private minutes: number = 0;
-    private seconds:number = 0;
-    private milliseconds: number = 0;
-    private sessions: number = 0;
+
+
     public rating: number = 0;
     private notes: string = '';
     private finish: boolean = false;
@@ -71,37 +68,37 @@ export default class ReadStore {
     }
 
     // Years
-    public getYears():number {
-        return this.years;
-    }
-
-    public setYears(value:number) {
-        runInAction(() => {
-            this.years = value;
-        })
-    }
-
-    // Months
-    public getMonths():number {
-        return this.months;
-    }
-
-    public setMonths(value:number) {
-        runInAction(() => {
-            this.months = value;
-        })
-    }
-
-    // Days
-    public getDays():number {
-        return this.days;
-    }
-
-    public setDays(value:number) {
-        runInAction(() => {
-            this.days = value;
-        })
-    }
+    // public getYears():number {
+    //     return this.years;
+    // }
+    //
+    // public setYears(value:number) {
+    //     runInAction(() => {
+    //         this.years = value;
+    //     })
+    // }
+    //
+    // // Months
+    // public getMonths():number {
+    //     return this.months;
+    // }
+    //
+    // public setMonths(value:number) {
+    //     runInAction(() => {
+    //         this.months = value;
+    //     })
+    // }
+    //
+    // // Days
+    // public getDays():number {
+    //     return this.days;
+    // }
+    //
+    // public setDays(value:number) {
+    //     runInAction(() => {
+    //         this.days = value;
+    //     })
+    // }
 
     // Hours
     public getHours():number {
@@ -126,35 +123,35 @@ export default class ReadStore {
     }
 
     // Seconds
-    public getSeconds():number {
-        return this.seconds;
-    }
+    // public getSeconds():number {
+    //     return this.seconds;
+    // }
+    //
+    // public setSeconds(value:number) {
+    //     runInAction(() => {
+    //         this.seconds = value;
+    //     })
+    // }
+    //
+    // // Milliseconds
+    // public getMilliseconds():number {
+    //     return this.milliseconds;
+    // }
+    //
+    // public setMilliseconds(value:number) {
+    //     runInAction(() => {
+    //         this.milliseconds = value;
+    //     })
+    // }
 
-    public setSeconds(value:number) {
-        runInAction(() => {
-            this.seconds = value;
-        })
-    }
 
-    // Milliseconds
-    public getMilliseconds():number {
-        return this.milliseconds;
-    }
-
-    public setMilliseconds(value:number) {
-        runInAction(() => {
-            this.milliseconds = value;
-        })
-    }
-
-    // Sessions
-    public getSessions():number {
+    public getSessions():SessionInterface[] {
         return this.sessions;
     }
 
-    public setSessions(value:number) {
+    public addSession(value:SessionInterface) {
         runInAction(() => {
-            this.sessions = value;
+            this.sessions.push(value);
         })
     }
 
@@ -191,18 +188,18 @@ export default class ReadStore {
         })
     }
 
-    public setCurrentRead(read:BookReadInterface, finish:boolean) {
+    public setCurrentRead(read:ReadInterface, finish:boolean) {
         runInAction(() => {
             this.startDate = ReadStore.formatDate(read.startDate);
             this.endDate = ReadStore.formatDate(read.endDate);
-            this.years = read.time.years ? read.time.years : 0;
-            this.months = read.time.months ? read.time.months : 0;
-            this.days = read.time.days ? read.time.days : 0;
+            //this.years = read.time.years ? read.time.years : 0;
+            //this.months = read.time.months ? read.time.months : 0;
+            //this.days = read.time.days ? read.time.days : 0;
             this.hours = read.time.hours ? read.time.hours : 0;
             this.minutes = read.time.minutes ? read.time.minutes : 0;
-            this.seconds = read.time.seconds ? read.time.seconds : 0;
-            this.milliseconds = read.time.milliseconds ? read.time.milliseconds : 0;
-            this.sessions = read.sessions;
+            //this.seconds = read.time.seconds ? read.time.seconds : 0;
+            //this.milliseconds = read.time.milliseconds ? read.time.milliseconds : 0;
+            //this.sessions = read.sessions;
             this.rating = read.rating;
             this.notes = read.notes;
             this.finish = finish;
@@ -213,14 +210,14 @@ export default class ReadStore {
         runInAction(() => {
             this.startDate = "";
             this.endDate = "";
-            this.years = 0;
-            this.months = 0;
-            this.days = 0;
+            // this.years = 0;
+            // this.months = 0;
+            // this.days = 0;
             this.hours = 0;
             this.minutes = 0;
-            this.seconds = 0;
-            this.milliseconds = 0;
-            this.sessions = 0;
+            // this.seconds = 0;
+            // this.milliseconds = 0;
+            // this.sessions = 0;
             this.rating = 0;
             this.notes = "";
             this.finish = false;

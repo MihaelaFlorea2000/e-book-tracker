@@ -50,11 +50,11 @@ export interface IntervalInterface {
     days?: number,
     hours?: number,
     minutes?: number,
-    seconds: number,
-    milliseconds: number
+    seconds?: number,
+    milliseconds?: number
 }
 
-export interface BookReadInterface {
+export interface ReadInterface {
     id: number,
     startDate: string,
     endDate: string,
@@ -62,6 +62,19 @@ export interface BookReadInterface {
     notes: string,
     time: IntervalInterface,
     sessions: number
+}
+
+export interface SessionInterface {
+    id?: number,
+    startDate: string,
+    time: IntervalInterface
+}
+
+export interface FrontSessionInterface {
+    id: string | undefined,
+    startDate: string,
+    hours: number,
+    minutes: number,
 }
 
 export interface NumbersInterface {

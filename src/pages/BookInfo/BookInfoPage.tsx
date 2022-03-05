@@ -9,13 +9,13 @@ import {
     faBookReader
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import ConfirmBox from "./components/ConfirmBox";
+import ConfirmBox from "./components/Metadata/ConfirmBox";
 import { CircularLoading } from "../../utils/components/CircularLoading";
 import { border, theme } from "../../utils/style/themeConfig";
 import { device } from "../../config/config";
 import { useStore } from "../../stores/RootStore";
-import MetadataInfo from "./components/MetadataInfo";
-import ReadInfo from "./components/ReadInfo";
+import MetadataInfo from "./components/Metadata/MetadataInfo";
+import ReadInfo from "./components/ReadInfo/ReadInfo";
 
 const BookInfoPage = () => {
 

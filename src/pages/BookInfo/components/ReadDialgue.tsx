@@ -21,19 +21,12 @@ import axiosConfig from "../../../config/axiosConfig";
 import LoadingButton from "@mui/lab/LoadingButton";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCheckCircle, faTimesCircle} from "@fortawesome/free-solid-svg-icons";
+import Sessions from "../../AddRead/components/Sessions";
 
 
 interface FormInterface {
     startDate: string,
     endDate: string,
-    years: number,
-    months: number,
-    days: number,
-    hours: number,
-    minutes: number,
-    seconds: number,
-    milliseconds: number
-    sessions: number,
     rating: number,
     notes: string
 }
@@ -42,14 +35,6 @@ interface FormInterface {
 const readSchema = yup.object().shape({
     startDate: yup.date().required('Start Date is required'),
     endDate: yup.date().when('startDate', (startDate, schema) => startDate && schema.min(startDate)),
-    years: yup.lazy((value) => (value === '' ? yup.string() : yup.number().moreThan(-1))),
-    months: yup.lazy((value) => (value === '' ? yup.string() : yup.number().moreThan(-1))),
-    days: yup.lazy((value) => (value === '' ? yup.string() : yup.number().moreThan(-1))),
-    hours: yup.lazy((value) => (value === '' ? yup.string() : yup.number().moreThan(-1))),
-    minutes: yup.lazy((value) => (value === '' ? yup.string() : yup.number().moreThan(-1))),
-    seconds: yup.lazy((value) => (value === '' ? yup.string() : yup.number().moreThan(-1))),
-    milliseconds: yup.lazy((value) => (value === '' ? yup.string() : yup.number().moreThan(-1))),
-    sessions: yup.lazy((value) => (value === '' ? yup.string() : yup.number().moreThan(-1))),
     notes: yup.string()
 });
 
@@ -81,14 +66,6 @@ const ReadDialog = () => {
         defaultValues: {
             startDate: readStore.getStartDate(),
             endDate: readStore.getEndDate(),
-            years: readStore.getYears(),
-            months: readStore.getMonths(),
-            days: readStore.getDays(),
-            hours: readStore.getHours(),
-            minutes: readStore.getMinutes(),
-            seconds: readStore.getSeconds(),
-            milliseconds: readStore.getMilliseconds(),
-            sessions: readStore.getSessions(),
             notes: readStore.getNotes()
         }
     });
@@ -139,16 +116,6 @@ const ReadDialog = () => {
         const newRead = {
             startDate: data.startDate,
             endDate: data.endDate,
-            time: {
-                years: data.years,
-                months: data.months,
-                days: data.days,
-                hours: data.hours,
-                minutes: data.minutes,
-                seconds: data.seconds,
-                milliseconds: data.milliseconds
-            },
-            sessions: data.sessions,
             rating: rating,
             notes: data.notes
         }
@@ -164,7 +131,6 @@ const ReadDialog = () => {
         readStore.setEditId(undefined);
         navigate(`/book/${bookId}`);
     };
-
 
     return (
         <Dialog open={isOpen} onClose={handleClose} maxWidth={'md'}>
@@ -197,108 +163,10 @@ const ReadDialog = () => {
                             />
                         </FieldContainer>
                     </DatesContainer>
-                    <TimeSessions>
-                        <TimeContainer>
-                            <FieldContainer>
-                                <Subtitle>Years</Subtitle>
-                                <StyledTextField
-                                    id="years"
-                                    placeholder="Years"
-                                    variant="outlined"
-                                    type="number"
-                                    {...register('years')}
-                                    error={!!errors.years}
-                                    fullWidth
-                                />
-                            </FieldContainer>
-                            <FieldContainer>
-                                <Subtitle>Months</Subtitle>
-                                <StyledTextField
-                                    id="months"
-                                    placeholder="Months"
-                                    variant="outlined"
-                                    type="number"
-                                    {...register('months')}
-                                    error={!!errors.months}
-                                    fullWidth
-                                />
-                            </FieldContainer>
-                            <FieldContainer>
-                                <Subtitle>Days</Subtitle>
-                                <StyledTextField
-                                    id="days"
-                                    placeholder="Days"
-                                    variant="outlined"
-                                    type="number"
-                                    {...register('days')}
-                                    error={!!errors.days}
-                                    fullWidth
-                                />
-                            </FieldContainer>
-                            <FieldContainer>
-                                <Subtitle>Hours</Subtitle>
-                                <StyledTextField
-                                    id="hours"
-                                    placeholder="Hours"
-                                    variant="outlined"
-                                    type="number"
-                                    {...register('hours')}
-                                    error={!!errors.hours}
-                                    fullWidth
-                                />
-                            </FieldContainer>
-                            <FieldContainer>
-                                <Subtitle>Min</Subtitle>
-                                <StyledTextField
-                                    id="minutes"
-                                    placeholder="Min"
-                                    variant="outlined"
-                                    type="number"
-                                    {...register('minutes')}
-                                    error={!!errors.minutes}
-                                    fullWidth
-                                />
-                            </FieldContainer>
-                            <FieldContainer>
-                                <Subtitle>Sec</Subtitle>
-                                <StyledTextField
-                                    id="seconds"
-                                    placeholder="Sec"
-                                    variant="outlined"
-                                    type="number"
-                                    {...register('seconds')}
-                                    error={!!errors.seconds}
-                                    fullWidth
-                                />
-                            </FieldContainer>
-                            <FieldContainer>
-                                <Subtitle>Millisec</Subtitle>
-                                <StyledTextField
-                                    id="milliseconds"
-                                    placeholder="Millisec"
-                                    inputProps={{
-                                        step: "0.001"
-                                    }}
-                                    variant="outlined"
-                                    type="number"
-                                    {...register('milliseconds')}
-                                    error={!!errors.milliseconds}
-                                    fullWidth
-                                />
-                            </FieldContainer>
-                        </TimeContainer>
-                        <SessionsContainer>
-                            <Subtitle>Sessions</Subtitle>
-                            <StyledTextField
-                                id="sessions"
-                                placeholder="Sessions"
-                                variant="outlined"
-                                type="number"
-                                {...register('sessions')}
-                                error={!!errors.sessions}
-                            />
-                        </SessionsContainer>
-                    </TimeSessions>
+                    <FieldContainer>
+                        <Subtitle>Sessions</Subtitle>
+                        <Sessions />
+                    </FieldContainer>
                     <FieldContainer>
                         <Subtitle>Rating</Subtitle>
                         <BookRating
@@ -393,37 +261,6 @@ const DatesContainer = styled.div`
 
   @media only screen and ${device.mobileL} {
     flex-flow: column;
-  }
-`
-
-const TimeSessions = styled.div`
-  display: flex;
-  gap: 10px;
-
-  @media only screen and ${device.mobileL} {
-    flex-flow: column;
-  }
-`
-
-const TimeContainer = styled.div`
-  display: flex;
-  gap: 10px;
-  
-  input {
-    font-size: 0.8rem;
-  }
-
-  @media only screen and ${device.mobileL} {
-    flex-flow: column;
-  }
-`
-const SessionsContainer = styled.div`
-  display: flex;
-  flex-flow: column;
-  gap: 5px;
-  
-  input {
-    font-size: 0.8rem;
   }
 `
 

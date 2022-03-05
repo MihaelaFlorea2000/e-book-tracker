@@ -24,7 +24,10 @@ export const ROUTES = {
         info: '/book/:bookId',
         reader: '/book/reader/:bookId',
         edit: '/book/edit/:bookId',
-        read: '/book/:bookId/read/:readId'
+    },
+    read: {
+        add: '/book/:bookId/read/add',
+        edit: '/book/:bookId/read/:readId/edit',
     }
 }
 

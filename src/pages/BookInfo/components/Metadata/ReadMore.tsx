@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import styled from "@emotion/styled";
 import DOMPurify from "dompurify";
-import { theme } from "../../../utils/style/themeConfig";
+import { theme } from "../../../../utils/style/themeConfig";
 
 interface Props {
     text: string

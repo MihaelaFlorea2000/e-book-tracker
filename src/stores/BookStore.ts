@@ -1,14 +1,16 @@
 import {makeAutoObservable, runInAction} from "mobx";
-import {BookInterface, BookReadInterface} from "../config/interfaces";
+import {BookInterface, ReadInterface, SessionInterface} from "../config/interfaces";
 import axiosConfig from "../config/axiosConfig";
 
 export default class BookStore {
 
     private book: BookInterface | undefined = undefined;
-    private reads: BookReadInterface[] | undefined = undefined;
+    private reads: ReadInterface[] | undefined = undefined;
+    private sessions: SessionInterface[] | undefined;
 
     private requestedBook: boolean = false;
     private requestedReads: boolean = false;
+    private requestedSessions: boolean = false;
 
 
     public constructor() {
@@ -50,7 +52,7 @@ export default class BookStore {
     }
 
     // Get current user's books
-    public getReads(bookId:number): BookReadInterface[] | undefined {
+    public getReads(bookId:number): ReadInterface[] | undefined {
         if (this.reads === undefined) {
             this.requestReads(bookId);
 
@@ -74,6 +76,36 @@ export default class BookStore {
             runInAction(() => {
                 this.reads = data.data;
                 this.requestedReads = false;
+            })
+        })
+    }
+
+    // Sessions
+    // Get current user's books
+    public getSessions(readId:number): SessionInterface[] | undefined {
+        if (this.sessions === undefined) {
+            this.requestSessions(readId);
+
+            return undefined;
+        } else {
+            return this.sessions;
+        }
+    }
+
+    // Request current user books
+    public requestSessions(readId:number) {
+        if (!this.requestedSessions) {
+            runInAction(() => {
+                this.requestedSessions = true;
+            })
+        } else {
+            return;
+        }
+
+        axiosConfig().get(`/pg/sessions/${readId}`).then(data => {
+            runInAction(() => {
+                this.sessions = data.data;
+                this.requestedSessions = false;
             })
         })
     }

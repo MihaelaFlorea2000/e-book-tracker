@@ -1,15 +1,16 @@
 import React, {ReactNode} from "react";
 import styled from "@emotion/styled";
-import {BookRating} from "../../../utils/components/BookRating";
+import {BookRating} from "../../../../utils/components/BookRating";
 import ReadMore from "./ReadMore";
-import IconDetail from "../../../utils/components/IconDetail";
+import IconDetail from "../../../../utils/components/IconDetail";
 import {faBookOpen, faCalendar, faLanguage} from "@fortawesome/free-solid-svg-icons";
-import {device} from "../../../config/config";
-import {border, theme} from "../../../utils/style/themeConfig";
-import {BookInterface} from "../../../config/interfaces";
+import {device} from "../../../../config/config";
+import {theme} from "../../../../utils/style/themeConfig";
+import {BookInterface} from "../../../../config/interfaces";
 // @ts-ignore
-import defaultCoverImage from "../../../utils/images/defaultCoverImage.jpeg";
+import defaultCoverImage from "../../../../utils/images/defaultCoverImage.jpeg";
 import Chip from "@mui/material/Chip";
+import { CoverContainer, CoverTitle, Image } from "../../../../utils/style/styledComponents";
 
 interface Props {
     book: BookInterface;
@@ -70,9 +71,9 @@ const MetadataInfo = (props: Props) => {
                     {tagNodes}
                 </TagsContainer>
                 <DetailsContainer>
-                    {props.book.publisher !== '' && <IconDetail borderColor="transparent" color={theme.palette.primary.main}size="large" title="Publication" icon={faBookOpen} detail={props.book.publisher}/>}
-                    {props.book.language !== '' && <IconDetail borderColor="transparent" color={theme.palette.primary.main}size="large" title="Language" icon={faLanguage} detail={props.book.language}/>}
-                    {props.book.pubDate !== '' && <IconDetail borderColor="transparent" color={theme.palette.primary.main}size="large" title="Publication Date" icon={faCalendar} detail={new Date(props.book.pubDate).toLocaleDateString()}/>}
+                    {props.book.publisher !== '' && <IconDetail borderColor="transparent" color={theme.palette.primary.main} size="large" title="Publication" icon={faBookOpen} detail={props.book.publisher}/>}
+                    {props.book.language !== '' && <IconDetail borderColor="transparent" color={theme.palette.primary.main} size="large" title="Language" icon={faLanguage} detail={props.book.language}/>}
+                    {props.book.pubDate !== '' && <IconDetail borderColor="transparent" color={theme.palette.primary.main} size="large" title="Publication Date" icon={faCalendar} detail={new Date(props.book.pubDate).toLocaleDateString()}/>}
                 </DetailsContainer>
             </RightContainer>
         </BookInfoContainer>
@@ -99,44 +100,6 @@ const LeftContainer = styled.div`
   @media only screen and ${device.tablet} {
     align-items: center;
     justify-content: center;
-  }
-`
-
-const CoverContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 30vw;
-  height: calc(30vw * 1.6);
-  position: relative;
-
-  @media only screen and ${device.tablet} {
-    width: 80vw;
-    height: calc(80vw * 1.6);
-  }
-`
-
-const Image = styled.div<{image: string | undefined}>`
-  background-image: url(${props => props.image});
-  border-radius: ${border.borderRadius};
-  background-size: cover;
-  background-position: center;
-  width: 95%;
-  height: 95%;
-`
-
-const CoverTitle = styled.h3`
-  position: absolute;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  color: white;
-  font-family: 'PoppinsRegular', sans-serif;
-  font-size: 2rem;
-
-  @media only screen and ${device.tablet} {
-    width: 70%;
   }
 `
 

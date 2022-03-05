@@ -10,9 +10,9 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faTrash} from "@fortawesome/free-solid-svg-icons";
-import {device} from "../../../config/config";
-import axiosConfig from "../../../config/axiosConfig";
-import {useStore} from "../../../stores/RootStore";
+import {device} from "../../../../config/config";
+import axiosConfig from "../../../../config/axiosConfig";
+import {useStore} from "../../../../stores/RootStore";
 
 interface Props {
     bookId: number;
