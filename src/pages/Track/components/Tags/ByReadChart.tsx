@@ -27,14 +27,17 @@ ChartJS.register(
     BarElement
 );
 
-const ByReadChart = () => {
+interface Props {
+    isTablet: boolean
+}
+
+const ByReadChart = (props: Props) => {
 
     const { metricsStore } = useStore();
 
     // Get data
     const topTags = metricsStore.getTopTagsByRead();
 
-    const isTablet = useMediaQuery(device.tablet);
 
     if(topTags === undefined) {
         return (
@@ -72,17 +75,17 @@ const ByReadChart = () => {
         ],
     };
 
-    const offsetValue = isTablet ? 10 : 3
+    const offsetValue = props.isTablet ? 10 : 3
 
     return (
         <Container>
             <ChartTitle>Top Tags</ChartTitle>
             <Bar
                 // @ts-ignore
-                options={getBarChartOptions(dataValues, 'read', offsetValue)}
+                options={getBarChartOptions(dataValues, 'read', offsetValue, props.isTablet)}
                 data={data}
                 plugins={[ChartDataLabels]}
-                height={isTablet ? "250px" : "150px"}
+                height={props.isTablet ? "250px" : "150px"}
             />
         </Container>
     )

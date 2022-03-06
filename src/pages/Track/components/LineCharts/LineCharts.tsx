@@ -7,6 +7,8 @@ import WeeklyChart from "./WeeklyChart";
 import YearlyChart from "./YearlyChart";
 import MonthlyChart from "./MonthlyChart";
 import TotalChart from "./TotalChart";
+import {useMediaQuery} from "@mui/material";
+import {device} from "../../../../config/config";
 
 const LineCharts = () => {
 
@@ -16,6 +18,8 @@ const LineCharts = () => {
     const handleChange = (event:React.MouseEvent<HTMLElement, MouseEvent>, newChart:string) => {
         setChart(newChart);
     };
+
+    const isTablet = useMediaQuery(device.tablet);
 
     return (
         <Container>
@@ -37,10 +41,10 @@ const LineCharts = () => {
                     Total
                 </ToggleButton>
             </ToggleButtonGroup>
-            {chart === 'week' && <WeeklyChart />}
-            {chart === 'month' && <MonthlyChart />}
-            {chart === 'year' && <YearlyChart />}
-            {chart === 'total' && <TotalChart />}
+            {chart === 'week' && <WeeklyChart isTablet={isTablet}/>}
+            {chart === 'month' && <MonthlyChart isTablet={isTablet}/>}
+            {chart === 'year' && <YearlyChart isTablet={isTablet}/>}
+            {chart === 'total' && <TotalChart isTablet={isTablet}/>}
         </Container>
     )
 }

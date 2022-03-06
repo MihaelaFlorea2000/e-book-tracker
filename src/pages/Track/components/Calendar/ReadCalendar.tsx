@@ -29,18 +29,11 @@ const ReadCalendar = () => {
         )
     }
 
-    const mark = [
-        "3/3/2022",
-        "3/2/2022",
-        "3/2/2021",
-        "3/4/2022"
-    ]
-
     // Highlight dates
     const today = new Date();
 
     const highlightDate = ({date, view}:CalendarTileProperties) => {
-        if (mark.find(item =>  item === new Date(date).toLocaleDateString('en-US'))) {
+        if (calendarDays.find(item =>  item === new Date(date).toLocaleDateString('en-US'))) {
             return 'highlight'
         }
 

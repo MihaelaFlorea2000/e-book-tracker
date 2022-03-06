@@ -27,7 +27,11 @@ ChartJS.register(
     LineElement,
 );
 
-const MonthlyChart = () => {
+interface Props {
+    isTablet: boolean
+}
+
+const MonthlyChart = (props: Props) => {
 
     const { metricsStore } = useStore();
 
@@ -62,7 +66,7 @@ const MonthlyChart = () => {
             <ChartTitle>Monthly reading time</ChartTitle>
             <Line
                 // @ts-ignore
-                options={getLineChartOptions(dataValues)}
+                options={getLineChartOptions(dataValues, props.isTablet)}
                 data={data}
                 plugins={[ChartDataLabels]}
             />

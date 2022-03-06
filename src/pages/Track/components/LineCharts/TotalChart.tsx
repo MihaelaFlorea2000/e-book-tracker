@@ -22,12 +22,15 @@ ChartJS.register(
     LineElement
 );
 
+interface Props {
+    isTablet: boolean
+}
 /**
  * Some code for chart settings is taken from
  * the react-chartjs-2 documentation
  * https://react-chartjs-2.js.org/examples/line-chart
  */
-const TotalChart = () => {
+const TotalChart = (props: Props) => {
 
     const { metricsStore } = useStore();
 
@@ -62,7 +65,7 @@ const TotalChart = () => {
             <ChartTitle>Yearly reading time</ChartTitle>
             <Line
                 // @ts-ignore
-                options={getLineChartOptions(dataValues)}
+                options={getLineChartOptions(dataValues, props.isTablet)}
                 data={data}
                 plugins={[ChartDataLabels]}
             />

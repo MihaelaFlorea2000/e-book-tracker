@@ -32,13 +32,21 @@ export const chartBorderColors = {
  * documentation
  * https://chartjs-plugin-datalabels.netlify.app/guide/#table-of-contents
  */
-export const getBarChartOptions = (dataValues:number[], type: string, offsetValue: number) => {
+export const getBarChartOptions = (dataValues:number[], type: string, offsetValue: number, isTablet: boolean) => {
     return {
         indexAxis: 'y' as const,
         elements: {
             bar: {
                 borderWidth: 2,
             },
+        },
+        layout: {
+            padding: {
+                left: 0,
+                right: isTablet ? 65 : 100,
+                top: 0,
+                bottom: 0
+            }
         },
         responsive: true,
         maintainAspectRatio: true,
@@ -71,8 +79,7 @@ export const getBarChartOptions = (dataValues:number[], type: string, offsetValu
         scales: {
             x: {
                 display: false,
-                min: 0,
-                max: Math.max(...dataValues) + offsetValue
+                min: 0
             }
         }
     }
@@ -87,7 +94,7 @@ export const getBarChartOptions = (dataValues:number[], type: string, offsetValu
  * documentation
  * https://chartjs-plugin-datalabels.netlify.app/guide/#table-of-contents
  */
-export const getLineChartOptions = (dataValues:number[]) => {
+export const getLineChartOptions = (dataValues:number[], isTablet: boolean) => {
     return {
         responsive: true,
         maintainAspectRatio: true,
@@ -99,6 +106,7 @@ export const getLineChartOptions = (dataValues:number[]) => {
                 enabled: false
             },
             datalabels: {
+                display: !isTablet,
                 align: 'end',
                 offset: '10',
                 clip: false,
@@ -117,7 +125,7 @@ export const getLineChartOptions = (dataValues:number[]) => {
             y: {
                 display: false,
                 min: 0,
-                max: Math.max(...dataValues) + 1
+                max: Math.max(...dataValues) * 1.2
             },
         }
     }

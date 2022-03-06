@@ -6,6 +6,7 @@ import ByReadChart from "./ByReadChart";
 import ByBooksChart from "./ByBooksChart";
 import {border, theme} from "../../../../utils/style/themeConfig";
 import { device } from "../../../../config/config";
+import {useMediaQuery} from "@mui/material";
 
 
 const TagsCharts = () => {
@@ -16,6 +17,8 @@ const TagsCharts = () => {
     const handleChange = (event:React.MouseEvent<HTMLElement, MouseEvent>, newChart:string) => {
         setChart(newChart);
     };
+
+    const isTablet = useMediaQuery(device.tablet);
 
     return (
         <Container>
@@ -31,8 +34,8 @@ const TagsCharts = () => {
                     By Number of Books Owned
                 </StyledToggleButton>
             </ToggleButtonGroup>
-            {chart === 'read' && <ByReadChart />}
-            {chart === 'book' && <ByBooksChart />}
+            {chart === 'read' && <ByReadChart isTablet={isTablet} />}
+            {chart === 'book' && <ByBooksChart isTablet={isTablet} />}
         </Container>
     )
 }
