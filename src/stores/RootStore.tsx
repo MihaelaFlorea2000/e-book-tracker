@@ -6,17 +6,17 @@ import DeleteStore from "./DeleteStore";
 import EditStore from "./EditStore";
 import UploadStore from "./UploadStore";
 import UserStore from "./UserStore";
-import ReadStore from "./ReadStore";
 import MetricsStore from "./MetricsStore";
 import AddReadStore from "./AddReadStore";
+import EditReadStore from "./EditReadStore";
 
 interface Store {
     userStore: UserStore,
     uploadStore: UploadStore,
     booksStore: BooksStore,
     bookStore: BookStore,
-    readStore: ReadStore,
     addReadStore: AddReadStore,
+    editReadStore: EditReadStore,
     readerStore: ReaderStore,
     editStore: EditStore,
     deleteStore: DeleteStore,
@@ -28,8 +28,8 @@ export const store: Store = {
     uploadStore: new UploadStore(),
     booksStore: new BooksStore(),
     bookStore: new BookStore(),
-    readStore: new ReadStore(),
     addReadStore: new AddReadStore(),
+    editReadStore: new EditReadStore(),
     readerStore: new ReaderStore(),
     editStore: new EditStore(),
     deleteStore: new DeleteStore(),

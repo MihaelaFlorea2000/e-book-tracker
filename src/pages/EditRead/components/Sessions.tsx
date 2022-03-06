@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {ReactNode, useState} from "react";
 import {useParams} from "react-router-dom";
 import {observer} from "mobx-react";
 import styled from "@emotion/styled";
@@ -7,7 +7,8 @@ import {useStore} from "../../../stores/RootStore";
 import Session from "./Session";
 import { StyledTextField } from "../../../utils/style/styledComponents";
 import {AddButton} from "../../../utils/components/AddButton";
-import {FrontSessionInterface} from "../../../config/interfaces";
+import {CircularLoading} from "../../../utils/components/CircularLoading";
+import axiosConfig from "../../../config/axiosConfig";
 import {
     Subtitle,
     Label,
@@ -17,60 +18,72 @@ import {
     AddContainer
 } from "../../../utils/style/readFormStyle";
 
-
 const Sessions = () => {
 
     // Get stores
-    const { addReadStore } = useStore();
+    const { editReadStore } = useStore();
 
     // Get readId
     const params = useParams();
     const readId = Number(params.readId);
 
-    // Session form state
-    const [date, setDate] = useState<string>(new Date().toISOString().split('T')[0]);
+    // Add session form state
+    const [date, setDate] = useState<string>(new Date().toLocaleDateString());
     const [hours, setHours] = useState<number>(0);
     const [minutes, setMinutes] = useState<number>(0);
 
-    const sessions = addReadStore.getSessions();
+    // Get session
+    const sessions = editReadStore.getSessions(readId);
 
-    // Add session
-    const handleAdd = () => {
-        const newSession:FrontSessionInterface = {
-            id: (sessions.length + 1).toString(),
-            startDate: date,
-            hours: hours,
-            minutes: minutes
-        }
-        const newSessions = sessions;
-        newSessions.push(newSession);
-        addReadStore.setSessions(newSessions);
-
-        setDate(new Date().toLocaleDateString());
-        setHours(0);
-        setMinutes(0);
+    if (sessions === undefined) {
+        return (
+            <Container>
+                <CircularLoading />
+            </Container>
+        )
     }
 
-    // Delete Session
-    const handleDelete = (id:string | undefined) => {
-        let filtered = sessions.filter(session => {
-            return session.id !== id
-        });
-        addReadStore.setSessions(filtered);
+    let sessionNodes: ReactNode[] = [];
+
+    sessions.forEach((elem, index) => {
+        sessionNodes.push(
+            <Session
+                key={index}
+                session={elem}
+                readId={readId}
+            />
+        )
+    })
+
+
+    // Add session
+    const handleAdd = async () => {
+        const newSession = {
+            startDate: date,
+            time: {
+                hours: hours,
+                minutes: minutes
+            }
+        }
+
+        try {
+            const res = await axiosConfig().post(`/pg/sessions/${readId}`, newSession);
+            console.log(res);
+            editReadStore.requestSessions(readId);
+
+            setDate(new Date().toLocaleDateString());
+            setHours(0);
+            setMinutes(0);
+        } catch (err) {
+            console.log(err);
+        }
     }
 
     return (
         <Container>
             <Subtitle>Sessions</Subtitle>
             <SessionsContainer>
-                {sessions.map((ses, index) => (
-                    <Session
-                        key={index}
-                        session={ses}
-                        readId={readId}
-                        handleDelete={handleDelete}
-                    />
-                ))}
+                {sessionNodes}
             </SessionsContainer>
             <Subtitle>Add Session</Subtitle>
             <AddContainer>

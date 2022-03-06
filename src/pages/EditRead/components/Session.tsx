@@ -3,38 +3,47 @@ import {observer} from "mobx-react";
 import styled from "@emotion/styled";
 import {theme } from "../../../utils/style/themeConfig";
 import {
+    faEdit,
     faTimes
 } from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {IntervalInterface, FrontSessionInterface} from "../../../config/interfaces";
-import {DeleteIconContainer } from "../../../utils/style/styledComponents";
+import {SessionInterface} from "../../../config/interfaces";
+import {DeleteIconContainer, EditIconContainer } from "../../../utils/style/styledComponents";
 import {TimeString} from "../../../utils/components/TimeString";
 import dateConfig from "../../../config/dateConfig";
 import { device } from "../../../config/config";
+import axiosConfig from "../../../config/axiosConfig";
+import {useStore} from "../../../stores/RootStore";
 import {
     SessionDateContainer,
     SessionTimeContainer,
     SessionButtonsContainer
 } from "../../../utils/style/readFormStyle";
 
-
 interface Props {
-    session: FrontSessionInterface,
-    readId: number,
-    handleDelete: any,
+    session: SessionInterface,
+    readId: number
 }
 
 const Session = (props: Props) => {
 
-    const time:IntervalInterface = {
-        hours: props.session.hours,
-        minutes: props.session.minutes
-    }
+    const { editReadStore } = useStore();
 
     // Delete session
-    const handleDelete = (e:any) => {
-        e.preventDefault();
-        props.handleDelete(e.currentTarget.id);
+    const handleDelete = async () => {
+        try {
+            const res = await axiosConfig().delete(`/pg/sessions/${props.readId}/${props.session.id}`);
+            console.log(res);
+            editReadStore.requestSessions(props.readId);
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    // Edit session
+    const handleEdit = async () => {
+        editReadStore.setEditDialog(true);
+        editReadStore.setCurrentSession(props.session);
     }
 
     return (
@@ -43,10 +52,13 @@ const Session = (props: Props) => {
                 {dateConfig(props.session.startDate)}
             </SessionDateContainer>
             <SessionTimeContainer>
-                <TimeString time={time}/>
+                <TimeString time={props.session.time}/>
             </SessionTimeContainer>
             <SessionButtonsContainer>
-                <DeleteIconContainer id={props.session.id} onClick={handleDelete}>
+                <EditIconContainer onClick={handleEdit}>
+                    <FontAwesomeIcon icon={faEdit}/>
+                </EditIconContainer>
+                <DeleteIconContainer onClick={handleDelete}>
                     <FontAwesomeIcon icon={faTimes}/>
                 </DeleteIconContainer>
             </SessionButtonsContainer>

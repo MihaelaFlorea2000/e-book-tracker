@@ -22,7 +22,7 @@ const ReadInfo = (props: Props) => {
 
     const navigate = useNavigate();
 
-    const { bookStore, readStore } = useStore();
+    const { bookStore } = useStore();
 
     // Get books
     const params = useParams();
@@ -56,9 +56,6 @@ const ReadInfo = (props: Props) => {
     const timesRead = readNodes.length;
 
     const handleAdd = () => {
-        readStore.resetCurrentRead();
-        readStore.setEditId(undefined);
-        readStore.setReadDialog(true);
         navigate(`/book/${props.book.id}/read/add`);
     }
 

@@ -12,9 +12,9 @@ import UploadFirstStep from "../../Upload/UploadFirstStep";
 import UploadSecondStep from "../../Upload/UploadSecondStep";
 import BookInfoPage from "../../BookInfo/BookInfoPage";
 import EditPage from "../../Edit/EditPage";
-import ReadDialgue from "../../BookInfo/components/ReadDialgue";
 import GoalsDialogue from "../../Track/components/Goals/GoalsDialogue";
 import AddReadPage from "../../AddRead/AddReadPage";
+import EditReadPage from "../../EditRead/EditReadPage";
 
 const HomeRoutes = () => {
 
@@ -32,7 +32,7 @@ const HomeRoutes = () => {
             <Route path={ROUTES.book.info} element={<BookInfoPage/>}/>
             <Route path={ROUTES.book.edit} element={<EditPage/>}/>
             <Route path={ROUTES.read.add} element={<AddReadPage/>}/>
-            <Route path={ROUTES.read.edit} element={<ReadDialgue/>}/>
+            <Route path={ROUTES.read.edit} element={<EditReadPage/>}/>
         </Routes>
     );
 }

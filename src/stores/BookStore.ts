@@ -79,34 +79,4 @@ export default class BookStore {
             })
         })
     }
-
-    // Sessions
-    // Get current user's books
-    public getSessions(readId:number): SessionInterface[] | undefined {
-        if (this.sessions === undefined) {
-            this.requestSessions(readId);
-
-            return undefined;
-        } else {
-            return this.sessions;
-        }
-    }
-
-    // Request current user books
-    public requestSessions(readId:number) {
-        if (!this.requestedSessions) {
-            runInAction(() => {
-                this.requestedSessions = true;
-            })
-        } else {
-            return;
-        }
-
-        axiosConfig().get(`/pg/sessions/${readId}`).then(data => {
-            runInAction(() => {
-                this.sessions = data.data;
-                this.requestedSessions = false;
-            })
-        })
-    }
 }

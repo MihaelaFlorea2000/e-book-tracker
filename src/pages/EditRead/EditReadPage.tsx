@@ -1,6 +1,6 @@
 import {useNavigate, useParams} from "react-router-dom";
 import {useStore} from "../../stores/RootStore";
-import React, {ChangeEvent, useState} from "react";
+import React, {ChangeEvent, useEffect, useState} from "react";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup/dist/yup";
 import axiosConfig from "../../config/axiosConfig";
@@ -13,11 +13,9 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCheckCircle, faTimesCircle} from "@fortawesome/free-solid-svg-icons";
 import {observer} from "mobx-react";
 import styled from "@emotion/styled";
-import {border, theme} from "../../utils/style/themeConfig";
-import {device} from "../../config/config";
 import * as yup from "yup";
+import EditDialogue from "./components/EditDialogue";
 import BookCover from "../../utils/components/BookCover";
-import {FrontSessionInterface} from "../../config/interfaces";
 import {
     Form,
     FormContainer,
@@ -26,6 +24,8 @@ import {
     Subtitle,
     ButtonsContainer
 } from "../../utils/style/readFormStyle";
+import {border, theme} from "../../utils/style/themeConfig";
+import {device} from "../../config/config";
 
 interface FormInterface {
     startDate: string,
@@ -41,92 +41,81 @@ const readSchema = yup.object().shape({
     notes: yup.string()
 });
 
-const AddReadPage = () => {
+const EditReadPage = () => {
 
     const navigate = useNavigate();
 
     // Get stores
-    const { bookStore, addReadStore, metricsStore } = useStore();
+    const { bookStore, editReadStore, metricsStore } = useStore();
 
-    // Get book
+    // Get book and read
     const params = useParams();
     const bookId = Number(params.bookId);
+    const readId = Number(params.readId);
 
     // Rating state
-    const [rating, setRating] = useState<number>(0);
+    const [rating, setRating] = useState<number>(editReadStore.getRating());
 
     // Form state
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const [isCancelling, setIsCancelling] = useState<boolean>(false);
 
+    // Go back to first upload step on refresh
+    useEffect(() => {
+        window.addEventListener("unload", reroute);
+        return () => {
+            window.removeEventListener("unload", reroute);
+        };
+    }, []);
+
+    const reroute = (e:any) => {
+        e.preventDefault();
+        navigate(`/book/${bookId}`);
+        return false;
+    };
+
     const { register, handleSubmit, formState: { errors } } = useForm<FormInterface>({
         resolver: yupResolver(readSchema),
-        mode: 'onChange'
+        mode: 'onChange',
+        defaultValues: {
+            startDate: editReadStore.getStartDate(),
+            endDate: editReadStore.getEndDate(),
+            notes: editReadStore.getNotes()
+        }
     });
 
     // On CLOSE button
     const handleClose = () => {
         setIsCancelling(true);
-        addReadStore.setSessions([]);
         navigate(`/book/${bookId}`);
     };
 
-    const addRead = async(newRead:object) => {
-        try {
-            const res = await axiosConfig().post(`/pg/reads/${bookId}`, newRead);
-            console.log(res);
-            return res.data.id;
-        } catch (err) {
-            console.log(err);
-            setIsSubmitting(false);
-        }
-    }
-
-    const addSession = async(session:FrontSessionInterface, readId:number) => {
-        const newSession = {
-            startDate: session.startDate,
-            time: {
-                hours: session.hours,
-                minutes: session.minutes
-            }
-        }
-
-        try {
-            const res = await axiosConfig().post(`/pg/sessions/${readId}`, newSession);
-            console.log(res);
-        } catch (err) {
-            console.log(err);
-            setIsSubmitting(false);
-        }
-    }
 
     // On SAVE button
     const onSubmit = async (data: FormInterface) => {
         setIsSubmitting(true);
 
         const newRead = {
-            startDate: addReadStore.formatDate(data.startDate),
-            endDate: addReadStore.formatDate(data.endDate),
+            startDate: editReadStore.formatDate(data.startDate),
+            endDate: editReadStore.formatDate(data.endDate),
             rating: rating,
             notes: data.notes
         }
 
-        const readId = await addRead(newRead);
-        const sessions = addReadStore.getSessions();
-
-        for (const session of sessions) {
-            await addSession(session, readId);
+        try {
+            const res = await axiosConfig().put(`/pg/reads/${bookId}/${readId}`, newRead);
+            console.log(res);
+            bookStore.requestReads(bookId);
+            metricsStore.trackRefresh();
+            navigate(`/book/${bookId}`);
+        } catch (err) {
+            console.log(err);
         }
-
-        addReadStore.setSessions([]);
-        bookStore.requestReads(bookId);
-        metricsStore.trackRefresh();
-        navigate(`/book/${bookId}`);
     };
 
     return (
         <Page>
-            <Title>Add Read</Title>
+            <Title>Edit Read</Title>
             <Container>
                 <BookCover />
                 <Form onSubmit={handleSubmit(onSubmit)}>
@@ -207,12 +196,13 @@ const AddReadPage = () => {
                         }
                     </ButtonsContainer>
                 </Form>
+                <EditDialogue readId={readId}/>
             </Container>
         </Page>
     )
 }
 
-export default observer(AddReadPage);
+export default observer(EditReadPage);
 
 const Page = styled.div`
     padding: 20px;
@@ -220,6 +210,7 @@ const Page = styled.div`
 
 const Title = styled.h1`
 `
+
 const Container = styled.div`
   display: flex;
   gap: 25px;

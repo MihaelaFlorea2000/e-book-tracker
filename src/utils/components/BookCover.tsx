@@ -1,11 +1,11 @@
 import React from "react";
-import {useStore} from "../../../stores/RootStore";
+import {useStore} from "../../stores/RootStore";
 import {useParams} from "react-router-dom";
-import {CircularLoading} from "../../../utils/components/CircularLoading";
+import {CircularLoading} from "./CircularLoading";
 // @ts-ignore
-import defaultCoverImage from "../../../utils/images/defaultCoverImage.jpeg";
+import defaultCoverImage from "../images/defaultCoverImage.jpeg";
 import { observer } from "mobx-react";
-import { CoverContainer, CoverTitle, Image } from "../../../utils/style/styledComponents";
+import { CoverContainer, CoverTitle, Image } from "../style/styledComponents";
 
 const BookCover = () => {
 

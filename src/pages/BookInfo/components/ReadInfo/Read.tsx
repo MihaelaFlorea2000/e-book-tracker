@@ -30,7 +30,7 @@ const Read = (props: Props) => {
     const navigate = useNavigate();
 
     // Get stores
-    const { bookStore, readStore, metricsStore } = useStore();
+    const { bookStore, editReadStore, metricsStore } = useStore();
 
     // Construct start and end date
     const startDate = dateConfig(props.read.startDate);
@@ -61,16 +61,12 @@ const Read = (props: Props) => {
     }
 
     const handleEdit = () => {
-        readStore.setCurrentRead(props.read, false);
-        readStore.setEditId(props.read.id);
-        readStore.setReadDialog(true);
-        navigate(`/book/${props.bookId}/read/${props.read.id}`);
+        editReadStore.setCurrentRead(props.read);
+        navigate(`/book/${props.bookId}/read/${props.read.id}/edit`);
     }
 
     const handleFinish = () => {
-        readStore.setCurrentRead(props.read, true);
-        readStore.setEditId(props.read.id);
-        readStore.setReadDialog(true);
+        editReadStore.setCurrentRead(props.read);
         navigate(`/book/${props.bookId}/read/${props.read.id}`);
     }
 
