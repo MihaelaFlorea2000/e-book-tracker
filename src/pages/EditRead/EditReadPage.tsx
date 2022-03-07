@@ -26,6 +26,8 @@ import {
 } from "../../utils/style/readFormStyle";
 import {border, theme} from "../../utils/style/themeConfig";
 import {device} from "../../config/config";
+import FormHelperText from "@mui/material/FormHelperText";
+import Alert from "@mui/material/Alert";
 
 interface FormInterface {
     startDate: string,
@@ -37,7 +39,7 @@ interface FormInterface {
 // Read Schema validation
 const readSchema = yup.object().shape({
     startDate: yup.date().required('Start Date is required'),
-    endDate: yup.date().when('startDate', (startDate, schema) => startDate && schema.min(startDate)),
+    endDate: yup.date().when('startDate', (startDate, schema) => startDate && schema.min(startDate, 'End date must be after start date')),
     notes: yup.string()
 });
 
@@ -93,7 +95,18 @@ const EditReadPage = () => {
 
     // On SAVE button
     const onSubmit = async (data: FormInterface) => {
+
+        editReadStore.setErrorMessage('');
         setIsSubmitting(true);
+
+        // Check sessions is empty
+        const sessions = editReadStore.getSessions(readId);
+
+        if (sessions && sessions.length === 0) {
+            editReadStore.setErrorMessage('You must add at least a session');
+            setIsSubmitting(false);
+            return
+        }
 
         const newRead = {
             startDate: editReadStore.formatDate(data.startDate),
@@ -130,8 +143,14 @@ const EditReadPage = () => {
                                     {...register('startDate')}
                                     error={!!errors.startDate}
                                     fullWidth
+                                    onChange={(e) => {editReadStore.setChosenStartDate(e.target.value)}}
                                     type="date"
                                 />
+                                {!!errors.startDate && (
+                                    <FormHelperText error id="password-error">
+                                        {errors.startDate.message}
+                                    </FormHelperText>
+                                )}
                             </FieldContainer>
                             <FieldContainer>
                                 <Subtitle>End Date</Subtitle>
@@ -142,11 +161,18 @@ const EditReadPage = () => {
                                     {...register('endDate')}
                                     error={!!errors.endDate}
                                     fullWidth
+                                    onChange={(e) => {editReadStore.setChosenEndDate(e.target.value)}}
                                     type="date"
                                 />
+                                {!!errors.endDate && (
+                                    <FormHelperText error id="password-error">
+                                        {errors.endDate.message}
+                                    </FormHelperText>
+                                )}
                             </FieldContainer>
                         </DatesContainer>
                         <Sessions />
+                        {editReadStore.getErrorMessage() && <Alert severity="error">{editReadStore.getErrorMessage()}</Alert>}
                         <FieldContainer>
                             <Subtitle>Rating</Subtitle>
                             <BookRating

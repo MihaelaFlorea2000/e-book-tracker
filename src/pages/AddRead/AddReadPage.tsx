@@ -26,6 +26,8 @@ import {
     Subtitle,
     ButtonsContainer
 } from "../../utils/style/readFormStyle";
+import Alert from "@mui/material/Alert";
+import FormHelperText from "@mui/material/FormHelperText";
 
 interface FormInterface {
     startDate: string,
@@ -37,7 +39,7 @@ interface FormInterface {
 // Read Schema validation
 const readSchema = yup.object().shape({
     startDate: yup.date().required('Start Date is required'),
-    endDate: yup.date().when('startDate', (startDate, schema) => startDate && schema.min(startDate)),
+    endDate: yup.date().when('startDate', (startDate, schema) => startDate && schema.min(startDate, 'End date must be after start date')),
     notes: yup.string()
 });
 
@@ -67,6 +69,7 @@ const AddReadPage = () => {
     // On CLOSE button
     const handleClose = () => {
         setIsCancelling(true);
+        addReadStore.setErrorMessage('');
         addReadStore.setSessions([]);
         navigate(`/book/${bookId}`);
     };
@@ -76,8 +79,9 @@ const AddReadPage = () => {
             const res = await axiosConfig().post(`/pg/reads/${bookId}`, newRead);
             console.log(res);
             return res.data.id;
-        } catch (err) {
+        } catch (err:any) {
             console.log(err);
+            addReadStore.setErrorMessage(err.response.data.message);
             setIsSubmitting(false);
         }
     }
@@ -94,16 +98,28 @@ const AddReadPage = () => {
         try {
             const res = await axiosConfig().post(`/pg/sessions/${readId}`, newSession);
             console.log(res);
-        } catch (err) {
+        } catch (err:any) {
             console.log(err);
+            addReadStore.setErrorMessage(err.response.data.message);
             setIsSubmitting(false);
         }
     }
 
     // On SAVE button
     const onSubmit = async (data: FormInterface) => {
+        addReadStore.setErrorMessage('');
         setIsSubmitting(true);
 
+        // Check sessions is empty
+        const sessions = addReadStore.getSessions();
+
+        if (sessions.length === 0) {
+            addReadStore.setErrorMessage('You must add at least a session');
+            setIsSubmitting(false);
+            return
+        }
+
+        // Add new read
         const newRead = {
             startDate: addReadStore.formatDate(data.startDate),
             endDate: addReadStore.formatDate(data.endDate),
@@ -112,8 +128,8 @@ const AddReadPage = () => {
         }
 
         const readId = await addRead(newRead);
-        const sessions = addReadStore.getSessions();
 
+        // Add read sessions
         for (const session of sessions) {
             await addSession(session, readId);
         }
@@ -140,9 +156,15 @@ const AddReadPage = () => {
                                     variant="outlined"
                                     {...register('startDate')}
                                     error={!!errors.startDate}
+                                    onChange={(e) => {addReadStore.setStartDate(e.target.value)}}
                                     fullWidth
                                     type="date"
                                 />
+                                {!!errors.startDate && (
+                                    <FormHelperText error id="password-error">
+                                        {errors.startDate.message}
+                                    </FormHelperText>
+                                )}
                             </FieldContainer>
                             <FieldContainer>
                                 <Subtitle>End Date</Subtitle>
@@ -153,11 +175,18 @@ const AddReadPage = () => {
                                     {...register('endDate')}
                                     error={!!errors.endDate}
                                     fullWidth
+                                    onChange={(e) => {addReadStore.setEndDate(e.target.value)}}
                                     type="date"
                                 />
+                                {!!errors.endDate && (
+                                    <FormHelperText error id="password-error">
+                                        {errors.endDate.message}
+                                    </FormHelperText>
+                                )}
                             </FieldContainer>
                         </DatesContainer>
                         <Sessions />
+                        {addReadStore.getErrorMessage() && <Alert severity="error">{addReadStore.getErrorMessage()}</Alert>}
                         <FieldContainer>
                             <Subtitle>Rating</Subtitle>
                             <BookRating

@@ -22,7 +22,7 @@ const ReadInfo = (props: Props) => {
 
     const navigate = useNavigate();
 
-    const { bookStore } = useStore();
+    const { bookStore, addReadStore } = useStore();
 
     // Get books
     const params = useParams();
@@ -56,6 +56,7 @@ const ReadInfo = (props: Props) => {
     const timesRead = readNodes.length;
 
     const handleAdd = () => {
+        addReadStore.setErrorMessage('');
         navigate(`/book/${props.book.id}/read/add`);
     }
 

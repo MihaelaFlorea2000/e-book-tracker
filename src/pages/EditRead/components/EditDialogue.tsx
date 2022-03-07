@@ -15,6 +15,7 @@ import { useStore } from "../../../stores/RootStore";
 import axiosConfig from "../../../config/axiosConfig";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCheckCircle, faTimesCircle} from "@fortawesome/free-solid-svg-icons";
+import Alert from "@mui/material/Alert";
 
 /**
  * The code for preserving dialog state
@@ -46,27 +47,29 @@ const EditDialog = (props:Props) => {
 
     // Edit session form state
     const [date, setDate] = useState<string>('');
-    const [hours, setHours] = useState<number | undefined>(0);
-    const [minutes, setMinutes] = useState<number | undefined>(0);
+    const [hours, setHours] = useState<number | undefined | string>(0);
+    const [minutes, setMinutes] = useState<number | undefined | string>(0);
 
 
     useEffect(() => {
         // Edit dialog goes from closed to open
         if (isOpen && !wasOpen) {
             setDate(editReadStore.getSessionStartDate());
-            setHours(editReadStore.getSessionTime().hours);
-            setMinutes(editReadStore.getSessionTime().minutes);
+            setHours(editReadStore.getSessionTime().hours ? editReadStore.getSessionTime().hours : 0);
+            setMinutes(editReadStore.getSessionTime().minutes ? editReadStore.getSessionTime().minutes : 0);
         }
     }, [isOpen, wasOpen]);
 
 
     // On CLOSE button
     const handleClose = () => {
+        editReadStore.setErrorMessage('');
         editReadStore.setEditDialog(false);
     };
 
     // On SAVE button
     const handleSave = async () => {
+        editReadStore.setErrorMessage('');
 
         const newSession = {
             startDate: date,
@@ -74,6 +77,12 @@ const EditDialog = (props:Props) => {
                 hours: hours ? hours : 0,
                 minutes: minutes ? minutes : 0
             }
+        }
+
+        // Check session has some time
+        if ((newSession.time.hours === 0 && newSession.time.minutes === 0 )) {
+            editReadStore.setErrorMessage('Session time required');
+            return
         }
 
         const sessionId = editReadStore.getSessionId();
@@ -138,6 +147,9 @@ const EditDialog = (props:Props) => {
                         </TimesContainer>
                     </FieldContainer>
                 </Container>
+                <ErrorContainer>
+                    {editReadStore.getErrorMessage() && <Alert severity="error">{editReadStore.getErrorMessage()}</Alert>}
+                </ErrorContainer>
                 <StyledDialogActions>
                     <Button
                         type="button"
@@ -210,6 +222,10 @@ const TimesContainer = styled.div`
   @media only screen and ${device.mobileL} {
     flex-flow: column;
   }
+`
+
+const ErrorContainer = styled.div`
+  padding: 10px;
 `
 
 const StyledDialogActions = styled(DialogActions)`

@@ -32,16 +32,47 @@ const Sessions = () => {
     const [hours, setHours] = useState<number>(0);
     const [minutes, setMinutes] = useState<number>(0);
 
+
     const sessions = addReadStore.getSessions();
 
     // Add session
     const handleAdd = () => {
+
+        addReadStore.setErrorMessage('');
+
+        // Check start and end date were chosen
+        const startDate = addReadStore.getStartDate();
+        const endDate = addReadStore.getEndDate();
+
+        if (startDate === '' || endDate === '') {
+            addReadStore.setErrorMessage('You must choose a start - end date interval first')
+            return
+        }
+
+        // Check session has some time
+        if (hours === 0 && minutes === 0 ) {
+            addReadStore.setErrorMessage('Session time required')
+            return
+        }
+
+        // Check date is btw start and end
+        const startDateTime = new Date(startDate).getTime();
+        const endDateTime = new Date(endDate).getTime();
+        const dateTime = new Date(date).getTime();
+
+        if (startDateTime > dateTime || dateTime > endDateTime) {
+            addReadStore.setErrorMessage('A session must be between start and end dates')
+            return
+        }
+
+        // Add new session
         const newSession:FrontSessionInterface = {
             id: (sessions.length + 1).toString(),
             startDate: date,
             hours: hours,
             minutes: minutes
         }
+
         const newSessions = sessions;
         newSessions.push(newSession);
         addReadStore.setSessions(newSessions);

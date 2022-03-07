@@ -58,6 +58,38 @@ const Sessions = () => {
 
     // Add session
     const handleAdd = async () => {
+
+        editReadStore.setErrorMessage('');
+
+        // Check start and end date were chosen
+        const startDate = editReadStore.getStartDate();
+        const endDate = editReadStore.getEndDate();
+
+        if (startDate === '' || endDate === '') {
+            editReadStore.setErrorMessage('You must choose a start - end date interval first')
+            return
+        }
+
+        // Check session has some time
+        if (hours === 0 && minutes === 0 ) {
+            editReadStore.setErrorMessage('Session time required')
+            return
+        }
+
+        // Check date is btw start and end
+        const startDateTime = new Date(startDate).getTime();
+        const endDateTime = new Date(endDate).getTime();
+        const dateTime = new Date(date).getTime();
+
+        console.log(startDateTime, dateTime, endDateTime);
+
+        if (startDateTime > dateTime || dateTime > endDateTime) {
+            editReadStore.setErrorMessage('A session must be between start and end dates')
+            return
+        }
+
+
+
         const newSession = {
             startDate: date,
             time: {

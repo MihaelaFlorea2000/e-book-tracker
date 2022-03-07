@@ -61,6 +61,7 @@ const Read = (props: Props) => {
     }
 
     const handleEdit = () => {
+        editReadStore.setErrorMessage('');
         editReadStore.setCurrentRead(props.read);
         navigate(`/book/${props.bookId}/read/${props.read.id}/edit`);
     }

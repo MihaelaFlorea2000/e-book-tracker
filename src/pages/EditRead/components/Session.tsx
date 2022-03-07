@@ -43,6 +43,7 @@ const Session = (props: Props) => {
     // Edit session
     const handleEdit = async () => {
         editReadStore.setEditDialog(true);
+        editReadStore.setErrorMessage('');
         editReadStore.setCurrentSession(props.session);
     }
 

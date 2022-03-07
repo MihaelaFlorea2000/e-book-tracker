@@ -17,6 +17,10 @@ export default class EditReadStore {
     public rating: number = 0;
     private notes: string = '';
 
+    private errorMessage: string = '';
+    private chosenStartDate: string = '';
+    private chosenEndDate: string = '';
+
     private requestedSessions: boolean = false;
 
     private sessionStartDate: string = '';
@@ -131,5 +135,36 @@ export default class EditReadStore {
     public formatDate(value:string):string {
         if (!value) return '';
         return value !== '' ? new Date(value).toISOString().split('T')[0] : '';
+    }
+
+    // Error message
+    public getErrorMessage():string {
+        return this.errorMessage;
+    }
+
+    public setErrorMessage(value:string) {
+        runInAction(() => {
+            this.errorMessage = value;
+        })
+    }
+
+    public getChosenStartDate():string {
+        return this.chosenStartDate;
+    }
+
+    public setChosenStartDate(value:string) {
+        runInAction(() => {
+            this.chosenStartDate = value;
+        })
+    }
+
+    public getChosenEndDate():string {
+        return this.chosenEndDate;
+    }
+
+    public setChosenEndDate(value:string) {
+        runInAction(() => {
+            this.chosenEndDate = value;
+        })
     }
 }
