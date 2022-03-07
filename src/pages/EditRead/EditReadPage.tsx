@@ -29,7 +29,8 @@ import {device} from "../../config/config";
 import FormHelperText from "@mui/material/FormHelperText";
 import Alert from "@mui/material/Alert";
 import { readSchema } from "../../utils/helpers/schemas";
-import { formatDateStringISO } from "../../config/formatDateLong";;
+import { formatDateStringISO } from "../../config/formatDateLong";import { isOutside } from "../../utils/helpers/dateChecks";
+;
 
 interface FormInterface {
     startDate: string,
@@ -100,23 +101,29 @@ const EditReadPage = () => {
             return
         }
 
-        // Check sessions is empty
         const sessions = editReadStore.getSessions(readId);
 
+        // Check if there are no sessions
         if (sessions && sessions.length === 0) {
             editReadStore.setErrorMessage('You must add at least a session');
             setIsSubmitting(false);
             return
         }
 
-        console.log(data.startDate, data.endDate)
+        // Check if there are sessions outside the interval
+        if (sessions && isOutside(sessions, data.startDate, data.endDate)) {
+            editReadStore.setErrorMessage('Some sessions are outside the start - end date range');
+            setIsSubmitting(false);
+            return
+        }
+
         const newRead = {
             startDate: formatDateStringISO(data.startDate),
             endDate: formatDateStringISO(data.endDate),
             rating: rating,
             notes: data.notes
         }
-        console.log(newRead)
+
         try {
             let res;
 

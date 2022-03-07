@@ -16,6 +16,7 @@ import axiosConfig from "../../../config/axiosConfig";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCheckCircle, faTimesCircle} from "@fortawesome/free-solid-svg-icons";
 import Alert from "@mui/material/Alert";
+import {isBetween} from "../../../utils/helpers/dateChecks";
 
 /**
  * The code for preserving dialog state
@@ -71,6 +72,9 @@ const EditDialog = (props:Props) => {
     const handleSave = async () => {
         editReadStore.setErrorMessage('');
 
+        const startDate = editReadStore.getStartDate();
+        const endDate = editReadStore.getEndDate();
+
         const newSession = {
             startDate: date,
             time: {
@@ -82,6 +86,12 @@ const EditDialog = (props:Props) => {
         // Check session has some time
         if ((newSession.time.hours === 0 && newSession.time.minutes === 0 )) {
             editReadStore.setErrorMessage('Session time required');
+            return
+        }
+
+        // Check date is btw start and end
+        if (!isBetween(date, startDate, endDate)) {
+            editReadStore.setErrorMessage('A session must be between start and end dates')
             return
         }
 

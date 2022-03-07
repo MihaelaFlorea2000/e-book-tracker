@@ -17,6 +17,7 @@ import {
     SessionsContainer,
     AddContainer
 } from "../../../utils/style/readFormStyle";
+import {isBetween} from "../../../utils/helpers/dateChecks";
 
 const Sessions = () => {
 
@@ -77,18 +78,10 @@ const Sessions = () => {
         }
 
         // Check date is btw start and end
-        const startDateTime = new Date(startDate).getTime();
-        const endDateTime = new Date(endDate).getTime();
-        const dateTime = new Date(date).getTime();
-
-        console.log(startDateTime, dateTime, endDateTime);
-
-        if (startDateTime > dateTime || dateTime > endDateTime) {
+        if (!isBetween(date, startDate, endDate)) {
             editReadStore.setErrorMessage('A session must be between start and end dates')
             return
         }
-
-
 
         const newSession = {
             startDate: date,

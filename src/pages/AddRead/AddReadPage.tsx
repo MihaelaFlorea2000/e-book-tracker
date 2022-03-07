@@ -30,6 +30,7 @@ import Alert from "@mui/material/Alert";
 import FormHelperText from "@mui/material/FormHelperText";
 import { readSchema } from "../../utils/helpers/schemas";
 import { formatDateStringISO } from "../../config/formatDateLong";
+import {isOutside} from "../../utils/helpers/dateChecks";
 
 interface FormInterface {
     startDate: string,
@@ -110,6 +111,13 @@ const AddReadPage = () => {
 
         if (sessions.length === 0) {
             addReadStore.setErrorMessage('You must add at least a session');
+            setIsSubmitting(false);
+            return
+        }
+
+        // Check if there are sessions outside the interval
+        if (sessions && isOutside(sessions, data.startDate, data.endDate)) {
+            addReadStore.setErrorMessage('Some sessions are outside the start - end date range');
             setIsSubmitting(false);
             return
         }
