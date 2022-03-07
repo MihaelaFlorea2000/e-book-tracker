@@ -1,6 +1,7 @@
 import {makeAutoObservable} from "mobx";
 import axiosConfig from "../config/axiosConfig";
 import {BookInterface} from "../config/interfaces";
+import { formatDateStringISO } from "../config/formatDateLong";
 
 export default class EditStore {
 
@@ -183,7 +184,7 @@ export default class EditStore {
         this.coverImage = {} as File;
         this.tags = book.tags;
         this.publisher = book.publisher;
-        this.pubDate = book.pubDate !== '' ? new Date(book.pubDate).toISOString().split('T')[0] : '';;
+        this.pubDate = formatDateStringISO(book.pubDate);
         this.language = book.language;
         this.rating = book.rating;
         this.series = book.series;

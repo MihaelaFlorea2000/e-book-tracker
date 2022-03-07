@@ -16,7 +16,7 @@ import {DeleteIconContainer, EditIconContainer } from "../../../../utils/style/s
 import axiosConfig from "../../../../config/axiosConfig";
 import {useStore} from "../../../../stores/RootStore";
 import {TimeString} from "../../../../utils/components/TimeString";
-import dateConfig from "../../../../config/dateConfig";
+import formatDateLong from "../../../../config/formatDateLong";
 
 
 interface Props {
@@ -33,8 +33,8 @@ const Read = (props: Props) => {
     const { bookStore, editReadStore, metricsStore } = useStore();
 
     // Construct start and end date
-    const startDate = dateConfig(props.read.startDate);
-    const endDate = props.read.endDate ? dateConfig(props.read.endDate) : 'ongoing';
+    const startDate = formatDateLong(props.read.startDate);
+    const endDate = props.read.endDate ? formatDateLong(props.read.endDate) : 'ongoing';
 
     // Construct sessions
     let sessions: ReactNode;
@@ -67,8 +67,10 @@ const Read = (props: Props) => {
     }
 
     const handleFinish = () => {
+        editReadStore.setErrorMessage('');
+        editReadStore.setIsFinished(true);
         editReadStore.setCurrentRead(props.read);
-        navigate(`/book/${props.bookId}/read/${props.read.id}`);
+        navigate(`/book/${props.bookId}/read/${props.read.id}/edit`);
     }
 
     return (

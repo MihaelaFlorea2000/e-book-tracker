@@ -1,7 +1,8 @@
 import React, {useState} from "react";
 import {observer} from "mobx-react";
 import styled from "@emotion/styled";
-import {ToggleButton, ToggleButtonGroup} from "@mui/lab";
+import ToggleButton from '@mui/material/ToggleButton';
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import ByReadChart from "./ByReadChart";
 import ByBooksChart from "./ByBooksChart";
 import {border, theme} from "../../../../utils/style/themeConfig";

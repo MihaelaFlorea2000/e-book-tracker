@@ -28,6 +28,8 @@ import {
 } from "../../utils/style/readFormStyle";
 import Alert from "@mui/material/Alert";
 import FormHelperText from "@mui/material/FormHelperText";
+import { readSchema } from "../../utils/helpers/schemas";
+import { formatDateStringISO } from "../../config/formatDateLong";
 
 interface FormInterface {
     startDate: string,
@@ -35,13 +37,6 @@ interface FormInterface {
     rating: number,
     notes: string
 }
-
-// Read Schema validation
-const readSchema = yup.object().shape({
-    startDate: yup.date().required('Start Date is required'),
-    endDate: yup.date().when('startDate', (startDate, schema) => startDate && schema.min(startDate, 'End date must be after start date')),
-    notes: yup.string()
-});
 
 const AddReadPage = () => {
 
@@ -121,8 +116,8 @@ const AddReadPage = () => {
 
         // Add new read
         const newRead = {
-            startDate: addReadStore.formatDate(data.startDate),
-            endDate: addReadStore.formatDate(data.endDate),
+            startDate: formatDateStringISO(data.startDate),
+            endDate: formatDateStringISO(data.endDate),
             rating: rating,
             notes: data.notes
         }

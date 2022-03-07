@@ -10,7 +10,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {SessionInterface} from "../../../config/interfaces";
 import {DeleteIconContainer, EditIconContainer } from "../../../utils/style/styledComponents";
 import {TimeString} from "../../../utils/components/TimeString";
-import dateConfig from "../../../config/dateConfig";
+import formatDateLong from "../../../config/formatDateLong";
 import { device } from "../../../config/config";
 import axiosConfig from "../../../config/axiosConfig";
 import {useStore} from "../../../stores/RootStore";
@@ -50,7 +50,7 @@ const Session = (props: Props) => {
     return (
         <Container>
             <SessionDateContainer>
-                {dateConfig(props.session.startDate)}
+                {formatDateLong(props.session.startDate)}
             </SessionDateContainer>
             <SessionTimeContainer>
                 <TimeString time={props.session.time}/>

@@ -9,7 +9,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {IntervalInterface, FrontSessionInterface} from "../../../config/interfaces";
 import {DeleteIconContainer } from "../../../utils/style/styledComponents";
 import {TimeString} from "../../../utils/components/TimeString";
-import dateConfig from "../../../config/dateConfig";
+import formatDateLong from "../../../config/formatDateLong";
 import { device } from "../../../config/config";
 import {
     SessionDateContainer,
@@ -40,7 +40,7 @@ const Session = (props: Props) => {
     return (
         <Container>
             <SessionDateContainer>
-                {dateConfig(props.session.startDate)}
+                {formatDateLong(props.session.startDate)}
             </SessionDateContainer>
             <SessionTimeContainer>
                 <TimeString time={time}/>

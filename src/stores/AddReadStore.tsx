@@ -1,13 +1,17 @@
 import {makeAutoObservable, runInAction} from "mobx";
 import {FrontSessionInterface} from "../config/interfaces";
-import {useState} from "react";
+import { formatDateStringISO } from "../config/formatDateLong";
 
 export default class AddReadStore {
 
+    // Sessions
     private sessions: FrontSessionInterface[] = [];
+
+    // Read
     private startDate: string = '';
     private endDate: string = '';
 
+    // Other
     private errorMessage: string = '';
 
 
@@ -25,18 +29,13 @@ export default class AddReadStore {
        })
    }
 
-   public formatDate(value:string):string {
-       if (!value) return '';
-       return value !== '' ? new Date(value).toLocaleDateString('en-US') : '';
-   }
-
     public getStartDate():string {
         return this.startDate;
     }
 
     public setStartDate(value:string) {
         runInAction(() => {
-            this.startDate = value;
+            this.startDate = formatDateStringISO(value);
         })
     }
 
@@ -46,7 +45,7 @@ export default class AddReadStore {
 
     public setEndDate(value:string) {
         runInAction(() => {
-            this.endDate = value;
+            this.endDate = formatDateStringISO(value);
         })
     }
 

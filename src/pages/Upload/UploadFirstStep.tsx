@@ -16,6 +16,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {border, theme } from "../../utils/style/themeConfig";
 import { device } from "../../config/config";
 import { useStore } from "../../stores/RootStore";
+import { formatDateStringISO } from "../../config/formatDateLong";
 
 interface UploadFormInterface {
     files: FileList,
@@ -72,7 +73,7 @@ const UploadFirstStep = () => {
                 const bookMetadata = await Book.loaded.metadata;
                 const coverUrlRes = await Book.coverUrl();
                 const coverUrl = coverUrlRes === null ? '' : coverUrlRes;
-                const publicationDate = bookMetadata.pubdate.trim() !== '' ? new Date(bookMetadata.pubdate).toISOString().split('T')[0] : '';
+                const publicationDate = formatDateStringISO(bookMetadata.pubdate.trim());
 
                 uploadStore.setTitle(bookMetadata.title);
                 uploadStore.addAuthor(bookMetadata.creator);

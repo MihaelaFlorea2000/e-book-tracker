@@ -28,6 +28,8 @@ import {border, theme} from "../../utils/style/themeConfig";
 import {device} from "../../config/config";
 import FormHelperText from "@mui/material/FormHelperText";
 import Alert from "@mui/material/Alert";
+import { readSchema } from "../../utils/helpers/schemas";
+import { formatDateStringISO } from "../../config/formatDateLong";;
 
 interface FormInterface {
     startDate: string,
@@ -35,13 +37,6 @@ interface FormInterface {
     rating: number,
     notes: string
 }
-
-// Read Schema validation
-const readSchema = yup.object().shape({
-    startDate: yup.date().required('Start Date is required'),
-    endDate: yup.date().when('startDate', (startDate, schema) => startDate && schema.min(startDate, 'End date must be after start date')),
-    notes: yup.string()
-});
 
 const EditReadPage = () => {
 
@@ -95,9 +90,15 @@ const EditReadPage = () => {
 
     // On SAVE button
     const onSubmit = async (data: FormInterface) => {
-
         editReadStore.setErrorMessage('');
         setIsSubmitting(true);
+
+        // Check start date and end date are not empty
+        if (!data.startDate && !data.endDate) {
+            editReadStore.setErrorMessage('Start and end dates are required');
+            setIsSubmitting(false);
+            return
+        }
 
         // Check sessions is empty
         const sessions = editReadStore.getSessions(readId);
@@ -108,15 +109,23 @@ const EditReadPage = () => {
             return
         }
 
+        console.log(data.startDate, data.endDate)
         const newRead = {
-            startDate: editReadStore.formatDate(data.startDate),
-            endDate: editReadStore.formatDate(data.endDate),
+            startDate: formatDateStringISO(data.startDate),
+            endDate: formatDateStringISO(data.endDate),
             rating: rating,
             notes: data.notes
         }
-
+        console.log(newRead)
         try {
-            const res = await axiosConfig().put(`/pg/reads/${bookId}/${readId}`, newRead);
+            let res;
+
+            if (editReadStore.isFinished()) {
+                res = await axiosConfig().post(`/pg/reads/${bookId}/${readId}/finished`, newRead);
+            } else {
+                res = await axiosConfig().put(`/pg/reads/${bookId}/${readId}`, newRead);
+            }
+
             console.log(res);
             bookStore.requestReads(bookId);
             metricsStore.trackRefresh();
@@ -143,7 +152,7 @@ const EditReadPage = () => {
                                     {...register('startDate')}
                                     error={!!errors.startDate}
                                     fullWidth
-                                    onChange={(e) => {editReadStore.setChosenStartDate(e.target.value)}}
+                                    onChange={(e) => {editReadStore.setStartDate(e.target.value)}}
                                     type="date"
                                 />
                                 {!!errors.startDate && (
@@ -161,7 +170,7 @@ const EditReadPage = () => {
                                     {...register('endDate')}
                                     error={!!errors.endDate}
                                     fullWidth
-                                    onChange={(e) => {editReadStore.setChosenEndDate(e.target.value)}}
+                                    onChange={(e) => {editReadStore.setEndDate(e.target.value)}}
                                     type="date"
                                 />
                                 {!!errors.endDate && (

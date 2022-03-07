@@ -28,7 +28,7 @@ const Sessions = () => {
     const readId = Number(params.readId);
 
     // Add session form state
-    const [date, setDate] = useState<string>(new Date().toLocaleDateString());
+    const [date, setDate] = useState<string>('');
     const [hours, setHours] = useState<number>(0);
     const [minutes, setMinutes] = useState<number>(0);
 

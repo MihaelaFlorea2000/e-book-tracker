@@ -7,6 +7,7 @@ import {useStore} from "../../../../stores/RootStore";
 import {border, theme} from "../../../../utils/style/themeConfig";
 import {CircularLoading} from "../../../../utils/components/CircularLoading";
 import { device } from "../../../../config/config";
+import {formatDateISO, formatDateStringISO} from "../../../../config/formatDateLong";
 
 /**
  * The following tutorial helped with adding
@@ -33,7 +34,7 @@ const ReadCalendar = () => {
     const today = new Date();
 
     const highlightDate = ({date, view}:CalendarTileProperties) => {
-        if (calendarDays.find(item =>  item === new Date(date).toLocaleDateString('en-US'))) {
+        if (calendarDays.find(item =>  item === formatDateISO(date))) {
             return 'highlight'
         }
 

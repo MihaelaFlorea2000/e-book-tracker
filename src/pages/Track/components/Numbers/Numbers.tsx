@@ -4,7 +4,7 @@ import {useStore} from "../../../../stores/RootStore";
 import {CircularLoading} from "../../../../utils/components/CircularLoading";
 import {observer} from "mobx-react";
 import {getTime} from "../../../../utils/components/TimeString";
-import dateConfig from "../../../../config/dateConfig";
+import formatDateLong from "../../../../config/formatDateLong";
 import {
     faBook,
     faBookOpen,
@@ -41,7 +41,7 @@ const Numbers = () => {
             </IconDetailContainer>
             <IconDetailContainer>
                 <IconDetail borderColor={chartBorderColors.pink} color={chartColors.pink} size="medium" title="Currently Reading" detail={`${numbers.booksCurrRead.toString()} book${numbers.booksCurrRead === 1 ? '' : 's'}`} icon={faBookOpen}/>
-                <IconDetail borderColor={chartBorderColors.pink} color={chartColors.pink} size="medium" title="Best Day (time)" detail={dateConfig(numbers.bestDay)} icon={faCalendar}/>
+                <IconDetail borderColor={chartBorderColors.pink} color={chartColors.pink} size="medium" title="Best Day (time)" detail={formatDateLong(numbers.bestDay)} icon={faCalendar}/>
             </IconDetailContainer>
             <IconDetailContainer>
                 <IconDetail borderColor={chartBorderColors.blue} color={chartColors.blue} size="medium" title="Longest Session" detail={getTime(numbers.longestSession)} icon={faHourglassHalf}/>

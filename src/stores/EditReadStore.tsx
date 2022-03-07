@@ -5,46 +5,43 @@ import {
     SessionInterface
 } from "../config/interfaces";
 import axiosConfig from "../config/axiosConfig";
+import { formatDateStringISO } from "../config/formatDateLong";
 
 export default class EditReadStore {
 
-    private sessions: SessionInterface[] = [];
-    private editDialogue: boolean = false;
-
-
+    // Read
     private startDate: string = '';
     private endDate: string = '';
     public rating: number = 0;
     private notes: string = '';
 
-    private errorMessage: string = '';
-    private chosenStartDate: string = '';
-    private chosenEndDate: string = '';
 
+    // Sessions
+    private sessions: SessionInterface[] = [];
     private requestedSessions: boolean = false;
-
     private sessionStartDate: string = '';
     private sessionTime: IntervalInterface = {};
     private sessionId: number | undefined = undefined;
+
+    // Other
+    private finished: boolean = false;
+    private errorMessage: string = '';
+    private editDialogue: boolean = false;
 
     public constructor() {
         makeAutoObservable(this);
     }
 
-    // Edit Dialog
-    public isEditDialogue():boolean {
-        return this.editDialogue;
-    }
-
-    public setEditDialog(editDialogue:boolean) {
-        runInAction(() => {
-            this.editDialogue = editDialogue;
-        })
-    }
 
     // Start Date
     public getStartDate():string {
         return this.startDate;
+    }
+
+    public setStartDate(value:string) {
+        runInAction(() => {
+            this.startDate = formatDateStringISO(value);
+        })
     }
 
     // End Date
@@ -54,7 +51,7 @@ export default class EditReadStore {
 
     public setEndDate(value:string) {
         runInAction(() => {
-            this.endDate = this.formatDate(value)
+            this.endDate = formatDateStringISO(value)
         })
     }
 
@@ -68,10 +65,11 @@ export default class EditReadStore {
         return this.notes;
     }
 
+    // Read
     public setCurrentRead(read:ReadInterface) {
         runInAction(() => {
-            this.startDate = this.formatDate(read.startDate);
-            this.endDate = this.formatDate(read.endDate);
+            this.startDate = formatDateStringISO(read.startDate);
+            this.endDate = formatDateStringISO(read.endDate);
             this.rating = read.rating;
             this.notes = read.notes;
 
@@ -79,7 +77,9 @@ export default class EditReadStore {
         })
     }
 
-    // Get current user's sessions
+    // Sessions
+
+    // Get current read's sessions
     public getSessions(readId:number): SessionInterface[] | undefined {
         if (this.sessions === undefined) {
             this.requestSessions(readId);
@@ -90,7 +90,7 @@ export default class EditReadStore {
         }
     }
 
-    // Request current user books
+    // Request current read sessions
     public requestSessions(readId:number) {
         if (!this.requestedSessions) {
             runInAction(() => {
@@ -108,9 +108,10 @@ export default class EditReadStore {
         })
     }
 
+    // Session
     public setCurrentSession(session:SessionInterface) {
         runInAction(() => {
-            this.sessionStartDate = this.formatDate(session.startDate);
+            this.sessionStartDate = formatDateStringISO(session.startDate);
             this.sessionTime = session.time;
             this.sessionId = session.id;
         })
@@ -121,21 +122,17 @@ export default class EditReadStore {
         return this.sessionStartDate;
     }
 
-    // Start Date
+    // Session time
     public getSessionTime():IntervalInterface {
         return this.sessionTime;
     }
 
-    // Start Date
+    // Session Id
     public getSessionId():number | undefined {
         return this.sessionId;
     }
 
-
-    public formatDate(value:string):string {
-        if (!value) return '';
-        return value !== '' ? new Date(value).toISOString().split('T')[0] : '';
-    }
+    // Other
 
     // Error message
     public getErrorMessage():string {
@@ -148,23 +145,25 @@ export default class EditReadStore {
         })
     }
 
-    public getChosenStartDate():string {
-        return this.chosenStartDate;
+    // Is read finished
+    public isFinished():boolean {
+        return this.finished;
     }
 
-    public setChosenStartDate(value:string) {
+    public setIsFinished(value:boolean) {
         runInAction(() => {
-            this.chosenStartDate = value;
+            this.finished = value;
         })
     }
 
-    public getChosenEndDate():string {
-        return this.chosenEndDate;
+    // Edit Dialog
+    public isEditDialogue():boolean {
+        return this.editDialogue;
     }
 
-    public setChosenEndDate(value:string) {
+    public setEditDialog(editDialogue:boolean) {
         runInAction(() => {
-            this.chosenEndDate = value;
+            this.editDialogue = editDialogue;
         })
     }
 }

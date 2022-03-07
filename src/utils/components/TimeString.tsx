@@ -18,7 +18,9 @@ export const getTime = (time: IntervalInterface) => {
     const hours = time.hours ? `${time.hours}h ` : '';
     const minutes = time.minutes ? `${time.minutes}min ` : '';
 
-    return `${years}${months}${days}${hours}${minutes}`
+    const timeString = `${years}${months}${days}${hours}${minutes}`;
+
+    return timeString === '' ? '< 1min' : timeString;
 
 }
 

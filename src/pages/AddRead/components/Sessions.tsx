@@ -28,7 +28,7 @@ const Sessions = () => {
     const readId = Number(params.readId);
 
     // Session form state
-    const [date, setDate] = useState<string>(new Date().toISOString().split('T')[0]);
+    const [date, setDate] = useState<string>('');
     const [hours, setHours] = useState<number>(0);
     const [minutes, setMinutes] = useState<number>(0);
 
