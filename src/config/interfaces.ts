@@ -12,6 +12,13 @@ export interface UserInterface {
     profileImage: string
 }
 
+export interface UserSearchInterface {
+    id: number,
+    firstName: string,
+    lastName: string,
+    profileImage: string
+}
+
 // Book Information
 export interface BookInterface {
     id?: number,
@@ -29,6 +36,12 @@ export interface BookInterface {
     fileName: string,
     series: string,
     location: string
+}
+
+export interface BookSearchInterface {
+    id: number,
+    title: string,
+    coverImage: string
 }
 
 export interface HighlightInterface {

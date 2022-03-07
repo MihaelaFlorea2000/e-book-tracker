@@ -11,29 +11,28 @@ interface Props {
     [x: string]: any
 }
 
-export class SearchBar extends React.Component<Props, {}> {
-    public render(): React.ReactNode {
-        const {...otherProps} = this.props;
+export const SearchBar = (props: Props) => {
 
-        return (
-            <SearchContainer>
-                <StyledTextField
-                    id="search"
-                    InputProps={{
-                        startAdornment: (
-                            <InputAdornment position="start">
-                                <IconContainer><FontAwesomeIcon icon={faSearch}/></IconContainer>
-                            </InputAdornment>
-                        ),
-                    }}
-                    variant="outlined"
-                    placeholder="Search"
-                    fullWidth={true}
-                    {...otherProps}
-                />
-            </SearchContainer>
-        );
-    }
+    const {...otherProps} = props;
+
+    return (
+        <SearchContainer>
+            <StyledTextField
+                id="search"
+                InputProps={{
+                    startAdornment: (
+                        <InputAdornment position="start">
+                            <IconContainer><FontAwesomeIcon icon={faSearch}/></IconContainer>
+                        </InputAdornment>
+                    ),
+                }}
+                variant="outlined"
+                placeholder="Search"
+                fullWidth={true}
+                {...otherProps}
+            />
+        </SearchContainer>
+    );
 }
 
 const SearchContainer = styled.div`

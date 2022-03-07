@@ -9,6 +9,7 @@ import UserStore from "./UserStore";
 import MetricsStore from "./MetricsStore";
 import AddReadStore from "./AddReadStore";
 import EditReadStore from "./EditReadStore";
+import SearchStore from "./SearchStore";
 
 interface Store {
     userStore: UserStore,
@@ -21,6 +22,7 @@ interface Store {
     editStore: EditStore,
     deleteStore: DeleteStore,
     metricsStore: MetricsStore,
+    searchStore: SearchStore,
 }
 
 export const store: Store = {
@@ -34,6 +36,8 @@ export const store: Store = {
     editStore: new EditStore(),
     deleteStore: new DeleteStore(),
     metricsStore: new MetricsStore(),
+    searchStore: new SearchStore(),
+
 }
 
 export const StoreContext = createContext(store);

@@ -4,7 +4,7 @@ import { observer } from "mobx-react";
 import styled from "@emotion/styled";
 import Grid from "@mui/material/Grid";
 import Alert from "@mui/material/Alert";
-import Book from "./components/Book";
+import Book from "../../utils/components/Book";
 import { CircularLoading } from "../../utils/components/CircularLoading";
 import { useStore } from "../../stores/RootStore";
 import {AddButton} from "../../utils/components/AddButton";

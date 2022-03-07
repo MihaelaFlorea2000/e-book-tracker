@@ -28,7 +28,8 @@ export const ROUTES = {
     read: {
         add: '/book/:bookId/read/add',
         edit: '/book/:bookId/read/:readId/edit',
-    }
+    },
+    search: '/search'
 }
 
 // Breakpoints for media queries

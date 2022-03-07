@@ -4,13 +4,13 @@ import styled from "@emotion/styled";
 import Button from "@mui/material/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBookReader, faInfo } from "@fortawesome/free-solid-svg-icons";
-import { BookInterface } from "../../../config/interfaces";
-import { border } from "../../../utils/style/themeConfig";
+import {BookInterface, BookSearchInterface} from "../../config/interfaces";
+import { border } from "../style/themeConfig";
 // @ts-ignore
-import defaultCoverImage from "../../../utils/images/defaultCoverImage.jpeg";
+import defaultCoverImage from "../images/defaultCoverImage.jpeg";
 
 interface Props {
-    book: BookInterface
+    book: BookInterface | BookSearchInterface;
 }
 
 const Book = (props: Props) => {

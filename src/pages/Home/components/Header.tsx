@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import React from "react";
+import React, {useState} from "react";
 import {faBars, faBell } from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {border, theme } from "../../../utils/style/themeConfig";
@@ -7,7 +7,7 @@ import { observer } from "mobx-react";
 import Box from "@mui/material/Box";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import { NavLink } from "react-router-dom";
+import {NavLink, useNavigate} from "react-router-dom";
 import { device } from "../../../config/config";
 import {CircularLoading} from "../../../utils/components/CircularLoading";
 import SideMenu from "../../../utils/components/SideMenu";
@@ -15,14 +15,24 @@ import MenuBar from "./Menu/MenuBar";
 import LoginStore from "../../../stores/LoginStore";
 import { useStore } from "../../../stores/RootStore";
 import { SearchBar } from "../../../utils/components/SearchBar";
+import {useForm} from "react-hook-form";
+import {yupResolver} from "@hookform/resolvers/yup/dist/yup";
+
+
+interface FormState {
+    query: string
+}
 
 const Header = () => {
 
-    const { userStore } = useStore();
+    const navigate = useNavigate();
+
+    const { userStore, searchStore } = useStore();
 
     let user = userStore.getCurrentUser();
 
-    const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+    const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
+    const [query, setQuery] = useState<string>('');
 
     const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElUser(event.currentTarget);
@@ -37,6 +47,13 @@ const Header = () => {
         handleCloseUserMenu();
     };
 
+    const handleSubmit = (event:React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        if (query && event.key === "Enter") {
+            searchStore.requestSearch(query);
+            setQuery('')
+            navigate('/search');
+        }
+    };
 
     if (user === undefined) {
         return (
@@ -44,12 +61,19 @@ const Header = () => {
         )
     }
 
+    console.log(query)
+
     return (
         <Container>
             <HamburgerContainer>
                 <SideMenu fontSize="1.7rem" direction="left" icon={faBars} buttonSize="large" menu={<MenuBar />}/>
             </HamburgerContainer>
-            <SearchBar />
+            <SearchBar
+                onChange={(e:any) => setQuery(e.target.value)}
+                onKeyDown={(e:any) => {
+                    handleSubmit(e);
+                }}
+            />
             <TopRightContainer>
                 <NotificationContainer><FontAwesomeIcon icon={faBell}/></NotificationContainer>
                 <Box sx={{ flexGrow: 0 }}>
@@ -100,6 +124,9 @@ const Container = styled.div`
   }
 `
 
+const SearchForm = styled.form`
+`
+
 const TopRightContainer = styled.div`
   display: flex;
   gap: 30px;
@@ -131,7 +158,6 @@ const ProfileImage = styled.div<{image:string}>`
 `
 
 const SettingText = styled.div`
-
 `
 
 const StyledMenu = styled(Menu)`
@@ -147,6 +173,7 @@ const UserName = styled.h4`
   margin: 0;
   border-bottom: ${border.border};
 `
+
 const HamburgerContainer = styled.div`
   display: none;
   
