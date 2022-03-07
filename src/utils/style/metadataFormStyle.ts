@@ -157,3 +157,15 @@ export const SubmitButtons = styled.div`
     }
   }
 `
+
+export const ClearRating = styled.div`
+  font-size: 0.9rem;
+  color: ${theme.palette.info.main};
+  margin-top: 10px;
+  transition: color 0.5s;
+  cursor: pointer;
+  
+  :hover {
+    color: #000;
+  }
+`

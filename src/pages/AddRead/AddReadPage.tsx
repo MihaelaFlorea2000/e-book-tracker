@@ -138,6 +138,7 @@ const AddReadPage = () => {
         }
 
         addReadStore.setSessions([]);
+        bookStore.requestBook(bookId);
         bookStore.requestReads(bookId);
         metricsStore.trackRefresh();
         navigate(`/book/${bookId}`);

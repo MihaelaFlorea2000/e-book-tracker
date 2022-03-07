@@ -135,6 +135,7 @@ const EditReadPage = () => {
 
             console.log(res);
             bookStore.requestReads(bookId);
+            bookStore.requestBook(bookId);
             metricsStore.trackRefresh();
             navigate(`/book/${bookId}`);
         } catch (err) {

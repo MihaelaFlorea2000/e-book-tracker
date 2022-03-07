@@ -34,7 +34,8 @@ import {
     RatingText,
     RightFieldsContainer,
     PublicationDetails,
-    SubmitButtons
+    SubmitButtons,
+    ClearRating
 } from "../../../utils/style/metadataFormStyle";
 import { useStore } from "../../../stores/RootStore";
 
@@ -224,6 +225,7 @@ const MetadataForm = (props:Props) => {
                                     setRating(newRating !== null ? newRating : 0);
                                 }}
                             />
+                            <ClearRating onClick={() => {setRating(0)}}>Clear Rating</ClearRating>
                         </RatingContainer>
                     </LeftFieldsContainer>
                     <RightFieldsContainer>
