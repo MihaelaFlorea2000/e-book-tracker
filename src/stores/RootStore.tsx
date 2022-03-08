@@ -10,6 +10,7 @@ import MetricsStore from "./MetricsStore";
 import AddReadStore from "./AddReadStore";
 import EditReadStore from "./EditReadStore";
 import SearchStore from "./SearchStore";
+import SettingsStore from "./SettingsStore";
 
 interface Store {
     userStore: UserStore,
@@ -23,6 +24,7 @@ interface Store {
     deleteStore: DeleteStore,
     metricsStore: MetricsStore,
     searchStore: SearchStore,
+    settingsStore: SettingsStore
 }
 
 export const store: Store = {
@@ -37,6 +39,7 @@ export const store: Store = {
     deleteStore: new DeleteStore(),
     metricsStore: new MetricsStore(),
     searchStore: new SearchStore(),
+    settingsStore: new SettingsStore()
 
 }
 
