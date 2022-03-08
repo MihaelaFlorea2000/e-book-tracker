@@ -17,6 +17,7 @@ import { useStore } from "../../../stores/RootStore";
 import { SearchBar } from "../../../utils/components/SearchBar";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup/dist/yup";
+import {ProfileImage} from "../../../utils/components/ProfileImage";
 
 
 interface FormState {
@@ -77,7 +78,7 @@ const Header = () => {
             <TopRightContainer>
                 <NotificationContainer><FontAwesomeIcon icon={faBell}/></NotificationContainer>
                 <Box sx={{ flexGrow: 0 }}>
-                    <ProfileImage onClick={handleOpenUserMenu} image={user.profileImage}/>
+                    <ProfileImage size="small" onClick={handleOpenUserMenu} image={user.profileImage}/>
                     <StyledMenu
                         sx={{ mt: '60px' }}
                         id="user-menu"
@@ -147,14 +148,6 @@ const NotificationContainer = styled.div`
   :hover {
     color: ${theme.palette.primary.main};
   }
-`
-const ProfileImage = styled.div<{image:string}>`
-  width: 55px;
-  height: 55px;
-  border-radius: 100%;
-  background-image: url(${props => props.image});
-  background-size: cover;
-  cursor: pointer;
 `
 
 const SettingText = styled.div`
