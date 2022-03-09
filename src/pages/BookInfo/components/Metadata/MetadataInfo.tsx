@@ -5,12 +5,12 @@ import ReadMore from "./ReadMore";
 import IconDetail from "../../../../utils/components/IconDetail";
 import {faBookOpen, faCalendar, faLanguage} from "@fortawesome/free-solid-svg-icons";
 import {device} from "../../../../config/config";
-import {theme} from "../../../../utils/style/themeConfig";
 import {BookInterface} from "../../../../config/interfaces";
 // @ts-ignore
 import defaultCoverImage from "../../../../utils/images/defaultCoverImage.jpeg";
 import Chip from "@mui/material/Chip";
 import { CoverContainer, CoverTitle, Image } from "../../../../utils/style/styledComponents";
+import {useTheme} from "@mui/material";
 
 interface Props {
     book: BookInterface;
@@ -18,6 +18,7 @@ interface Props {
 
 const MetadataInfo = (props: Props) => {
 
+    const theme = useTheme();
     // Handle books with no cover image
     const coverImage = props.book.coverImage !== null ? props.book.coverImage : defaultCoverImage;
     const showTitle = props.book.coverImage === null;
@@ -137,14 +138,14 @@ const Title = styled.h1`
 
 const Series = styled.div`
   font-size: 1.2rem;
-  color: ${theme.palette.info.main}
+  color: ${props => props.theme.palette.info.main}
 `
 
 const AuthorsContainer = styled.div`
   display: flex;
   gap: 5px;
   flex-wrap: wrap;
-  color: ${theme.palette.primary.main}
+  color: ${props => props.theme.palette.primary.main}
 `
 
 const Author = styled.div`
@@ -156,7 +157,7 @@ const RatingContainer = styled.div`
   gap: 5px;
   align-items: center;
   padding-bottom: 20px;
-  border-bottom: 5px solid ${theme.palette.primary.light};
+  border-bottom: 5px solid ${props => props.theme.palette.primary.light};
 
   @media only screen and ${device.tablet} {
     flex-flow: column;

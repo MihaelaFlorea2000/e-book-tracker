@@ -9,7 +9,6 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {BookInterface} from "../../../../config/interfaces";
 import {CircularLoading} from "../../../../utils/components/CircularLoading";
-import { theme } from "../../../../utils/style/themeConfig";
 import {AddButton} from "../../../../utils/components/AddButton";
 import {useStore} from "../../../../stores/RootStore";
 import Read from "./Read";
@@ -100,7 +99,7 @@ const Container = styled.div`
 `
 const TimeRead = styled.h3`
   padding: 0 10px;
-  color: ${theme.palette.primary.main}
+  color: ${props => props.theme.palette.primary.main}
 `
 const BookIconContainer = styled.span`
     margin-right: 10px;

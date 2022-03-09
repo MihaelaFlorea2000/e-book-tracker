@@ -3,7 +3,6 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faStopwatch} from "@fortawesome/free-solid-svg-icons";
 import React from "react";
 import styled from "@emotion/styled";
-import {theme} from "../style/themeConfig";
 
 interface Props {
     time: IntervalInterface
@@ -42,7 +41,7 @@ const TimeContainer = styled.div`
   display: flex;
   gap: 5px;
   align-items: center;
-  color: ${theme.palette.info.main}
+  color: ${props => props.theme.palette.info.main}
 `
 
 const IconContainer = styled.div`

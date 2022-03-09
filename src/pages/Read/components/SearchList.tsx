@@ -3,11 +3,9 @@ import { observer } from "mobx-react";
 import styled from "@emotion/styled";
 import {SearchResultInterface} from "../../../config/interfaces";
 import {useStore} from "../../../stores/RootStore";
-import {CircularLoading} from "../../../utils/components/CircularLoading";
 import SearchResult from "./SearchResult";
 import {faSadTear} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import { theme } from "../../../utils/style/themeConfig";
 
 const SearchList = () => {
 
@@ -80,5 +78,5 @@ const NoResults = styled.div`
   align-items: center;
   justify-content: center;
   font-size: 1.2rem;
-  color: ${theme.palette.info.main}
+  color: ${props => props.theme.palette.info.main}
 `

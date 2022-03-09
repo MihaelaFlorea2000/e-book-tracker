@@ -13,9 +13,8 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCheckCircle, faTimesCircle} from "@fortawesome/free-solid-svg-icons";
 import {observer} from "mobx-react";
 import styled from "@emotion/styled";
-import {border, theme} from "../../utils/style/themeConfig";
+import {border} from "../../utils/style/themeConfig";
 import {device} from "../../config/config";
-import * as yup from "yup";
 import BookCover from "../../utils/components/BookCover";
 import {FrontSessionInterface} from "../../config/interfaces";
 import {
@@ -31,6 +30,7 @@ import FormHelperText from "@mui/material/FormHelperText";
 import { readSchema } from "../../utils/helpers/schemas";
 import { formatDateStringISO } from "../../config/formatDateLong";
 import {isOutside} from "../../utils/helpers/dateChecks";
+import { Title } from "../../utils/components/Title";
 
 interface FormInterface {
     startDate: string,
@@ -146,7 +146,7 @@ const AddReadPage = () => {
 
     return (
         <Page>
-            <Title>Add Read</Title>
+            <Title text="Add Read" />
             <Container>
                 <BookCover />
                 <Form onSubmit={handleSubmit(onSubmit)}>
@@ -248,15 +248,14 @@ const AddReadPage = () => {
 export default observer(AddReadPage);
 
 const Page = styled.div`
-    padding: 20px;
+  padding: 20px;
+  color: ${props => props.theme.palette.secondary.dark}
 `
 
-const Title = styled.h1`
-`
 const Container = styled.div`
   display: flex;
   gap: 25px;
-  background-color: ${theme.palette.info.light};
+  background-color: ${props => props.theme.palette.info.light};
   border-radius: ${border.borderRadius};
   padding: 20px;
 

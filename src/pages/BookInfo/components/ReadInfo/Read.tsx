@@ -2,7 +2,7 @@ import React, {ReactNode} from "react";
 import {useNavigate} from "react-router-dom";
 import {observer} from "mobx-react";
 import styled from "@emotion/styled";
-import {border, theme } from "../../../../utils/style/themeConfig";
+import {border } from "../../../../utils/style/themeConfig";
 import {
     faBookReader,
     faFlagCheckered,
@@ -122,8 +122,8 @@ const Container = styled.div`
   flex-flow: column;
   gap: 15px;
   padding: 15px;
-  background-color: white;
-  border: 3px solid ${theme.palette.primary.light};
+  background-color: ${props => props.theme.palette.info.light};
+  border: 3px solid ${props => props.theme.palette.primary.light};
   border-radius: ${border.borderRadius};
 `
 const ChangeIconsContainer = styled.div`
@@ -145,7 +145,7 @@ const TimeContainer = styled.div`
   display: flex;
   gap: 5px;
   align-items: center;
-  color: ${theme.palette.info.main}
+  color: ${props => props.theme.palette.info.main}
 `
 
 const MetricsContainer = styled.div`

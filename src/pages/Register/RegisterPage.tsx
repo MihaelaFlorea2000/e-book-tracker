@@ -197,7 +197,7 @@ const RegisterPage = () => {
 export default RegisterPage;
 
 const Page = styled.div`
-  background-color: ${theme.palette.primary.light};
+  background-color: ${props => props.theme.palette.primary.light};
   display: grid;
   align-items: center;
   justify-items: center;
@@ -225,7 +225,7 @@ const Title = styled.h1`
 `
 
 const Subtitle = styled.div`
-  color: ${theme.palette.info.main};
+  color: ${props => props.theme.palette.info.main};
   font-size: 0.8rem;
   font-weight: normal;
   margin: 5px 0;
@@ -244,17 +244,17 @@ const ButtonContainer = styled.div`
   margin-top: 20px;
 `
 const LinkContainer = styled.div`
-  color: ${theme.palette.info.main};
+  color: ${props => props.theme.palette.info.main};
   font-size: 0.9rem;
 `
 
 const LinkSpan = styled.span`
-  color: ${theme.palette.primary.main};
+  color: ${props => props.theme.palette.primary.main};
   font-family: 'PoppinsSemiBold', sans-serif;
   text-decoration: none;
   transition: color 0.5s;
   
   :hover {
-    color: ${theme.palette.secondary.main};
+    color: ${props => props.theme.palette.secondary.main};
   }
 `

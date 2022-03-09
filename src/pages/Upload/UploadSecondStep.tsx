@@ -5,6 +5,7 @@ import styled from "@emotion/styled";
 import MetadataForm from "./components/MetadataForm";
 import { CircularLoading } from "../../utils/components/CircularLoading";
 import { useStore } from "../../stores/RootStore";
+import { Title } from "../../utils/components/Title";
 
 const UploadSecondStep = () => {
 
@@ -34,7 +35,7 @@ const UploadSecondStep = () => {
     if (!isMetadataSet || user === undefined) {
         return (
             <Page>
-                <Title>Upload Page</Title>
+                <Title text="Upload Book" />
                 <CircularLoading />
             </Page>
         )
@@ -42,7 +43,7 @@ const UploadSecondStep = () => {
 
     return (
         <Page>
-            <Title>Upload Page</Title>
+            <Title text="Upload Book" />
             <MetadataForm user={user} type="upload"/>
         </Page>
     )
@@ -52,8 +53,7 @@ export default observer(UploadSecondStep);
 
 const Page = styled.div`
   padding: 20px;
+  color: ${props => props.theme.palette.secondary.dark}
 `
 
-const Title = styled.h1`
-`
 

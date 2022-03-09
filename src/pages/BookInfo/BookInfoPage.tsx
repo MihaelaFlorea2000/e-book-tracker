@@ -11,7 +11,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ConfirmBox from "./components/Metadata/ConfirmBox";
 import { CircularLoading } from "../../utils/components/CircularLoading";
-import { border, theme } from "../../utils/style/themeConfig";
+import { border } from "../../utils/style/themeConfig";
 import { device } from "../../config/config";
 import { useStore } from "../../stores/RootStore";
 import MetadataInfo from "./components/Metadata/MetadataInfo";
@@ -105,13 +105,14 @@ const Page = styled.div`
   display: flex;
   flex-flow: column;
   gap: 20px;
+  color: ${props => props.theme.palette.secondary.dark}
 `
 
 const Container = styled.div`
   display: flex;
   flex-flow: column;
   gap: 20px;
-  background-color: ${theme.palette.info.light};
+  background-color: ${props => props.theme.palette.info.light};
   border-radius: ${border.borderRadius};
   padding: 20px;
 

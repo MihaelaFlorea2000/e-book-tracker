@@ -6,7 +6,6 @@ import {
     Chart as ChartJS,
     ArcElement
 } from 'chart.js';
-import {theme} from "../../../../utils/style/themeConfig";
 import {chartColors} from "../../helpers/ChartSettings";
 import { device } from "../../../../config/config";
 
@@ -91,7 +90,7 @@ const Goal = (props: Props) => {
 export default observer(Goal);
 
 const Container = styled.div`
-  background-color: ${theme.palette.info.light};
+  background-color: ${props => props.theme.palette.info.light};
   padding: 10px;
   text-align: center;
   display: flex;
@@ -100,13 +99,13 @@ const Container = styled.div`
   justify-content: center;
 `
 const ChartTitle = styled.div`
-  color: ${theme.palette.info.main};
+  color: ${props => props.theme.palette.info.main};
   padding: 2px;
   font-size: 1.1rem;
 `
 
 const ChartContainer = styled.div`
-  background-color: ${theme.palette.info.light};
+  background-color: ${props => props.theme.palette.info.light};
   padding: 10px;
   width: 13vw;
   position: relative;

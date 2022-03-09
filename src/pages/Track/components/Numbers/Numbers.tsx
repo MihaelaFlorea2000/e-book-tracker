@@ -14,7 +14,7 @@ import {
     faStopwatch
 } from "@fortawesome/free-solid-svg-icons";
 import IconDetail from "../../../../utils/components/IconDetail";
-import {border, theme} from "../../../../utils/style/themeConfig";
+import {border} from "../../../../utils/style/themeConfig";
 import { device } from "../../../../config/config";
 import {chartBorderColors, chartColors} from "../../helpers/ChartSettings";
 
@@ -57,7 +57,7 @@ const Container = styled.div`
   display: flex;
   flex-flow: column;
   gap: 10px;
-  background-color: ${theme.palette.info.light};
+  background-color: ${props => props.theme.palette.info.light};
   align-items: center;
   justify-content: center;
   width: 30vw;
@@ -74,5 +74,5 @@ const IconDetailContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
-  background-color: ${theme.palette.info.light};
+  background-color: ${props => props.theme.palette.info.light};
 `

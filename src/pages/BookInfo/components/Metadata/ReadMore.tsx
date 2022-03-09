@@ -1,7 +1,6 @@
 import React, {useState} from "react";
 import styled from "@emotion/styled";
 import DOMPurify from "dompurify";
-import { theme } from "../../../../utils/style/themeConfig";
 
 interface Props {
     text: string
@@ -34,7 +33,7 @@ const Description = styled.div`
 `
 
 const ReadMoreLink = styled.span`
-  color: ${theme.palette.primary.main};
+  color: ${props => props.theme.palette.primary.main};
   text-decoration: underline;
   cursor: pointer;
 `

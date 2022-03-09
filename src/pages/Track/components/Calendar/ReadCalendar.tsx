@@ -4,10 +4,10 @@ import styled from "@emotion/styled";
 import Calendar, {CalendarTileProperties} from 'react-calendar';
 import {chartBorderColors, chartColors} from "../../helpers/ChartSettings";
 import {useStore} from "../../../../stores/RootStore";
-import {border, theme} from "../../../../utils/style/themeConfig";
+import {border} from "../../../../utils/style/themeConfig";
 import {CircularLoading} from "../../../../utils/components/CircularLoading";
 import { device } from "../../../../config/config";
-import {formatDateISO, formatDateStringISO} from "../../../../config/formatDateLong";
+import {formatDateISO} from "../../../../config/formatDateLong";
 
 /**
  * The following tutorial helped with adding
@@ -54,7 +54,7 @@ const ReadCalendar = () => {
 export default observer(ReadCalendar);
 
 const Container = styled.div`
-  background-color: ${theme.palette.info.light};
+  background-color: ${props => props.theme.palette.info.light};
   padding: 10px;
   display: flex;
   flex-flow: column;
@@ -74,6 +74,8 @@ const Container = styled.div`
     height: 100%;
     border: 0;
     line-height: 1.125em;
+    background-color: ${props => props.theme.palette.info.light};
+    color: ${props => props.theme.palette.secondary.dark}
   }
 
   .react-calendar button:enabled:hover {
@@ -107,7 +109,7 @@ const Container = styled.div`
     padding: 10px;
   }
   
-  .react-calendar__month-view__days__day--weekend {
+  .react-calendar__month-view__days__day {
     color: inherit;
   }
 
@@ -173,6 +175,6 @@ const Container = styled.div`
   }
   
   .react-calendar__month-view__days__day--neighboringMonth {
-    color: ${theme.palette.info.main};
+    color: ${props => props.theme.palette.info.main};
   }
 `

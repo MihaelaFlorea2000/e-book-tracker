@@ -2,7 +2,7 @@ import React, { ChangeEvent, useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import Chip from "@mui/material/Chip";
 import Button from "@mui/material/Button";
-import { border, theme } from "../style/themeConfig";
+import { border } from "../style/themeConfig";
 
 interface Props {
     id: string,
@@ -103,7 +103,7 @@ const Container = styled.div`
   gap: 5px;
 `
 const InputContainer = styled.div`
-  background-color: ${theme.palette.info.light};
+  background-color: ${props => props.theme.palette.info.light};
   border: 1.2px solid #cbcbcb;
   margin: 0.8px;
   border-radius: ${border.borderRadius};
@@ -118,11 +118,11 @@ const InputContainer = styled.div`
   -webkit-box-sizing: content-box;
 
   :hover {
-    border: 1.2px solid ${theme.palette.primary.main};
+    border: 1.2px solid ${props => props.theme.palette.primary.main};
   }
   
   :focus-within {
-    border: 2px solid ${theme.palette.primary.main};
+    border: 2px solid ${props => props.theme.palette.primary.main};
     margin: 0;
   }
 `
@@ -131,6 +131,8 @@ const StyledInput = styled.input`
   border: 0 solid black;
   margin: 3px;
   font-size: 0.95rem;
+  background-color: ${props => props.theme.palette.info.light};
+  color: ${props => props.theme.palette.secondary.dark};
 
   :focus-visible {
     outline: none;

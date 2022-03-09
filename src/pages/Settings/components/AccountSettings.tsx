@@ -5,7 +5,7 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import DownArrow from "./DownArrow";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import SettingIcon from "./SettingIcon";
-import {faCheckCircle, faFileImage, faPen, faTimesCircle, faUser} from "@fortawesome/free-solid-svg-icons";
+import {faCheckCircle, faPen, faTimesCircle, faUser} from "@fortawesome/free-solid-svg-icons";
 import TextField from "@mui/material/TextField";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
@@ -16,7 +16,7 @@ import {Visibility, VisibilityOff} from "@mui/icons-material";
 import FormHelperText from "@mui/material/FormHelperText";
 import {ErrorMessage} from "@hookform/error-message";
 import Alert from "@mui/material/Alert";
-import {NavLink, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import Button from "@mui/material/Button";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup/dist/yup";
@@ -31,7 +31,6 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import axiosConfig from "../../../config/axiosConfig";
 import {observer} from "mobx-react";
-import {border, theme} from "../../../utils/style/themeConfig";
 import { device } from "../../../config/config";
 
 // Data submitted in the form
@@ -323,8 +322,8 @@ const DetailsContainer = styled.div`
 `
 
 const EditIcon = styled.div`
-    background-color: ${theme.palette.primary.light};
-    border: 2px solid ${theme.palette.info.light};
+    background-color: ${props => props.theme.palette.primary.light};
+    border: 2px solid ${props => props.theme.palette.info.light};
     width: 25px;
     height: 25px;
     border-radius: 100%;
@@ -336,13 +335,13 @@ const EditIcon = styled.div`
 
     :hover {
         svg {
-            color: ${theme.palette.secondary.main};
+            color: ${props => props.theme.palette.secondary.main};
         }
     }
 
     svg {
       cursor: pointer;
-      color: ${theme.palette.primary.main}
+      color: ${props => props.theme.palette.primary.main}
     }
   
     input[type="file"] {

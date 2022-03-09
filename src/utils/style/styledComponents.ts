@@ -1,10 +1,10 @@
 import styled from "@emotion/styled";
 import TextField from "@mui/material/TextField";
-import {border, theme} from "./themeConfig";
+import {border} from "./themeConfig";
 import {device} from "../../config/config";
 
 export const StyledTextField = styled(TextField)`
-  background-color: ${theme.palette.info.light};
+  background-color: ${props => props.theme.palette.info.light};
   border-radius: ${border.borderRadius};
   fieldset {
     border-radius: ${border.borderRadius};
@@ -16,7 +16,7 @@ export const StyledTextField = styled(TextField)`
 `
 
 export const DeleteIconContainer = styled.div`
-  color: ${theme.palette.primary.main};
+  color: ${props => props.theme.palette.primary.main};
   transition: color 0.5s;
   font-size: 1.1rem;
   padding: 5px;
@@ -27,7 +27,7 @@ export const DeleteIconContainer = styled.div`
   }
 `
 export const EditIconContainer = styled.div`
-  color: ${theme.palette.primary.main};
+  color: ${props => props.theme.palette.primary.main};
   transition: color 0.5s;
   font-size: 1.1rem;
   padding: 5px;

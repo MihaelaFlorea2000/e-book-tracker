@@ -22,6 +22,7 @@ class LoginStore {
     // Logout user
     public logout() {
         localStorage.removeItem("user");
+        localStorage.removeItem("darkTheme");
 
         this.authStatus = false;
     }

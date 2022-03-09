@@ -1,18 +1,17 @@
 import styled from "@emotion/styled";
-import {border, theme} from "./themeConfig";
 import {device} from "../../config/config";
 
 export const Subtitle = styled.div`
   padding-left: 2px;
   font-family: 'PoppinsSemiBold', sans-serif;
-  color: ${theme.palette.primary.main};
+  color: ${props => props.theme.palette.primary.main};
 `
 
 export const Label = styled.div`
   padding-left: 2px;
   font-size: 0.9rem;
   font-family: 'PoppinsSemiBold', sans-serif;
-  color: ${theme.palette.info.main};
+  color: ${props => props.theme.palette.info.main};
 `
 
 export const Form = styled.form`
@@ -88,7 +87,7 @@ export const SessionsButtonContainer = styled.div`
 export const SessionsContainer = styled.div`
   display: flex;
   flex-flow: column;
-  border-bottom: 3px solid ${theme.palette.primary.light};
+  border-bottom: 3px solid ${props => props.theme.palette.primary.light};
   max-height: 11vw;
   overflow-y: auto;
 

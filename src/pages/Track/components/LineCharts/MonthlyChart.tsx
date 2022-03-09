@@ -10,7 +10,6 @@ import {
 } from 'chart.js';
 import { Line } from "react-chartjs-2";
 import ChartDataLabels from "chartjs-plugin-datalabels";
-import {theme} from "../../../../utils/style/themeConfig";
 import {useStore} from "../../../../stores/RootStore";
 import {CircularLoading} from "../../../../utils/components/CircularLoading";
 import {chartBorderColors, getLineChartOptions} from "../../helpers/ChartSettings";
@@ -33,7 +32,7 @@ interface Props {
 
 const MonthlyChart = (props: Props) => {
 
-    const { metricsStore } = useStore();
+    const { metricsStore, settingsStore } = useStore();
 
     // Get data
     const monthlyProgress = metricsStore.getMonthlyProgress();
@@ -66,7 +65,7 @@ const MonthlyChart = (props: Props) => {
             <ChartTitle>Monthly reading time</ChartTitle>
             <Line
                 // @ts-ignore
-                options={getLineChartOptions(dataValues, props.isTablet)}
+                options={getLineChartOptions(dataValues, props.isTablet, settingsStore.isDarkThemeOn())}
                 data={data}
                 plugins={[ChartDataLabels]}
             />
@@ -77,7 +76,7 @@ const MonthlyChart = (props: Props) => {
 export default observer(MonthlyChart);
 
 const Container = styled.div`
-  background-color: ${theme.palette.info.light};
+  background-color: ${props => props.theme.palette.info.light};
   padding: 10px;
   display: flex;
   flex-flow: column;
@@ -85,6 +84,6 @@ const Container = styled.div`
 `
 
 const ChartTitle = styled.div`
-  color: ${theme.palette.info.main};
+  color: ${props => props.theme.palette.info.main};
   padding: 2px;
 `

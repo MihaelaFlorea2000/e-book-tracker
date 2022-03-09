@@ -6,15 +6,12 @@ import {
     LinearScale,
     BarElement
 } from 'chart.js';
-import {theme} from "../../../../utils/style/themeConfig";
 import {useStore} from "../../../../stores/RootStore";
 import {observer} from "mobx-react";
 import {Bar } from "react-chartjs-2";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import {CircularLoading} from "../../../../utils/components/CircularLoading";
 import {chartBorderColors, chartColors, getBarChartOptions} from "../../helpers/ChartSettings";
-import {useMediaQuery} from "@mui/material";
-import {device} from "../../../../config/config";
 
 /**
  * Some code for chart settings is taken from
@@ -33,7 +30,7 @@ interface Props {
 
 const ByBooksChart = (props: Props) => {
 
-    const { metricsStore } = useStore();
+    const { metricsStore, settingsStore } = useStore();
 
     // Get data
     const topTags = metricsStore.getTopTagsByBooks();
@@ -83,7 +80,7 @@ const ByBooksChart = (props: Props) => {
             <ChartTitle>Top Tags</ChartTitle>
             <Bar
                 // @ts-ignore
-                options={getBarChartOptions(dataValues, 'book', offsetValue, props.isTablet)}
+                options={getBarChartOptions(dataValues, 'book', offsetValue, props.isTablet, settingsStore.isDarkThemeOn())}
                 data={data}
                 plugins={[ChartDataLabels]}
                 height={props.isTablet ? "250px" : "150px"}
@@ -95,7 +92,7 @@ const ByBooksChart = (props: Props) => {
 export default observer(ByBooksChart);
 
 const Container = styled.div`
-  background-color: ${theme.palette.info.light};
+  background-color: ${props => props.theme.palette.info.light};
   padding: 10px;
   display: flex;
   flex-flow: column;
@@ -103,6 +100,6 @@ const Container = styled.div`
 `
 
 const ChartTitle = styled.div`
-  color: ${theme.palette.info.main};
+  color: ${props => props.theme.palette.info.main};
   padding: 2px;
 `

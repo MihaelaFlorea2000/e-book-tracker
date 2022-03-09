@@ -5,7 +5,6 @@ import {faSearch} from "@fortawesome/free-solid-svg-icons";
 import {StyledTextField} from "../style/styledComponents";
 import InputAdornment from "@mui/material/InputAdornment";
 import {device} from "../../config/config";
-import {theme} from "../style/themeConfig";
 
 interface Props {
     [x: string]: any
@@ -44,7 +43,7 @@ const SearchContainer = styled.div`
 `
 
 const IconContainer = styled.div`
-  color: ${theme.palette.info.main};
+  color: ${props => props.theme.palette.info.main};
   > .Mui-focused{
     color: black;
   }

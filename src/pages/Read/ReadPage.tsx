@@ -10,7 +10,6 @@ import {
     faSearch, faEye
 } from "@fortawesome/free-solid-svg-icons";
 import { CircularLoading } from "../../utils/components/CircularLoading";
-import { theme } from "../../utils/style/themeConfig";
 import SideMenu from "../../utils/components/SideMenu";
 import { device } from "../../config/config";
 import HighlightMenu from "./components/HighlightMenu";
@@ -19,10 +18,13 @@ import { useStore } from "../../stores/RootStore";
 import SearchMenu from "./components/SearchMenu";
 import axiosConfig from "../../config/axiosConfig";
 import {getTheme} from "./helpers/ReaderColors";
+import {useTheme} from "@mui/material";
 
 const ReadPage = () => {
 
     const navigate = useNavigate();
+
+    const theme = useTheme();
 
     // Get stores access
     const { readerStore, bookStore, booksStore, metricsStore } = useStore();
@@ -196,7 +198,7 @@ const HighlightButton = styled.div<{color:string}>`
   transition: color 0.5s;
 
   :hover {
-    color: ${theme.palette.secondary.main};
+    color: ${props => props.theme.palette.secondary.main};
   }
 
   @media only screen and ${device.mobileL} {
@@ -217,7 +219,7 @@ const ThemeButton = styled.div<{color:string}>`
   transition: color 0.5s;
 
   :hover {
-    color: ${theme.palette.secondary.main};
+    color: ${props => props.theme.palette.secondary.main};
   }
 
   @media only screen and ${device.mobileL} {
@@ -227,7 +229,7 @@ const ThemeButton = styled.div<{color:string}>`
 `
 
 const BackButton = styled.div`
-  color: ${theme.palette.primary.main};
+  color: ${props => props.theme.palette.primary.main};
   font-size: 1.5rem;
   display: flex;
   align-items: center;
@@ -238,7 +240,7 @@ const BackButton = styled.div`
   transition: color 0.5s;
 
   :hover {
-    color: ${theme.palette.secondary.main};
+    color: ${props => props.theme.palette.secondary.main};
   }
 
   @media only screen and ${device.mobileL} {

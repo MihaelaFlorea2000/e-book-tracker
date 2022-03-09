@@ -304,7 +304,6 @@ const MetadataForm = (props:Props) => {
                             type="submit"
                             variant="contained"
                             size="large"
-                            color="success"
                             startIcon={<FontAwesomeIcon className="fa-fw" icon={faCheckCircle}/>}
                         >
                             Save
@@ -315,7 +314,6 @@ const MetadataForm = (props:Props) => {
                         : <Button
                             type="button"
                             variant="contained"
-                            color="error"
                             size="large"
                             onClick={handleCancel}
                             startIcon={<FontAwesomeIcon className="fa-fw" icon={faTimesCircle}/>}

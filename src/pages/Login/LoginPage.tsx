@@ -17,7 +17,6 @@ import TextField from "@mui/material/TextField";
 import FormHelperText from "@mui/material/FormHelperText";
 import Alert from "@mui/material/Alert";
 import {Visibility, VisibilityOff } from "@mui/icons-material";
-import { theme } from "../../utils/style/themeConfig";
 import axiosConfig from "../../config/axiosConfig";
 import { observer } from "mobx-react";
 import LoadingButton from "@mui/lab/LoadingButton";
@@ -44,7 +43,7 @@ const loginSchema = yup.object({
 const LoginPage = () => {
 
     // Get stores access
-    const { userStore, booksStore, metricsStore } = useStore();
+    const { userStore, booksStore, metricsStore, settingsStore } = useStore();
 
     // Handling form submission
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
@@ -61,6 +60,7 @@ const LoginPage = () => {
                 if (res.data.status) {
                     LoginStore.login(res.data.token);
                     userStore.requestCurrentUser();
+                    settingsStore.requestSettings();
                     booksStore.requestBooks();
                     metricsStore.trackRefresh();
                 } else {
@@ -158,7 +158,7 @@ const LoginPage = () => {
 export default observer(LoginPage);
 
 const Page = styled.div`
-  background-color: ${theme.palette.primary.light};
+  background-color: ${props => props.theme.palette.primary.light};
   display: grid;
   align-items: center;
   justify-items: center;
@@ -186,7 +186,7 @@ const Title = styled.h1`
 `
 
 const Subtitle = styled.div`
-  color: ${theme.palette.info.main};
+  color: ${props => props.theme.palette.info.main};
   font-size: 0.8rem;
   font-weight: normal;
   margin: 5px 0;
@@ -205,17 +205,17 @@ const ButtonContainer = styled.div`
   margin-top: 20px;
 `
 const LinkContainer = styled.div`
-  color: ${theme.palette.info.main};
+  color: ${props => props.theme.palette.info.main};
   font-size: 0.9rem;
 `
 
 const LinkSpan = styled.span`
-  color: ${theme.palette.primary.main};
+  color: ${props => props.theme.palette.primary.main};
   font-family: 'PoppinsSemiBold', sans-serif;
   text-decoration: none;
   transition: color 0.5s;
   
   :hover {
-    color: ${theme.palette.secondary.main};
+    color: ${props => props.theme.palette.secondary.main};
   }
 `

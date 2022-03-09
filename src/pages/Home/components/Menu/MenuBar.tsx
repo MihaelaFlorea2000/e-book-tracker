@@ -11,7 +11,7 @@ import {
     faHome,
     faUserFriends
 } from "@fortawesome/free-solid-svg-icons";
-import { border, theme } from "../../../../utils/style/themeConfig";
+import { border } from "../../../../utils/style/themeConfig";
 import { device } from "../../../../config/config";
 
 const MenuBar = () => {
@@ -78,7 +78,8 @@ const MenuContainer = styled.div`
   gap: 20px;
   padding-bottom: 20px;
   width: 160px;
-  border-right: ${border.border};
+  border-right: 1px solid ${props => props.theme.palette.primary.light};
+  background-color: ${props => props.theme.palette.info.light};
   
   @media only screen and ${device.tablet} {
     width: 60vw;
@@ -89,9 +90,9 @@ const LogoContainer = styled.div`
   align-items: center;
   justify-content: center;
   font-size: 2.5rem;
-  color: ${theme.palette.primary.main};
+  color: ${props => props.theme.palette.primary.main};
   padding: 30px;
-  border-bottom: ${border.border};
+  border-bottom: 1px solid ${props => props.theme.palette.primary.light};
 `
 
 const MenuLinkContainer = styled.div`
@@ -102,7 +103,7 @@ const MenuLinkContainer = styled.div`
   font-size: 0.9rem;
   justify-content: flex-start;
   height: 100vh;
-  background-color: ${theme.palette.info.light};
+  background-color: ${props => props.theme.palette.info.light};
   padding: 20px;
 
   @media only screen and ${device.tablet} {
@@ -120,14 +121,14 @@ const MenuLinkContent = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
-  color: ${theme.palette.info.main};
+  color: ${props => props.theme.palette.info.main};
   transition: color 0.5s, background 0.5s;
   border-radius: ${border.borderRadius};
   padding: 10px;
   width: 115px;
   :hover {
-    color: ${theme.palette.primary.main};
-    background-color: ${theme.palette.primary.light};
+    color: ${props => props.theme.palette.primary.main};
+    background-color: ${props => props.theme.palette.primary.light};
   }
 `
 

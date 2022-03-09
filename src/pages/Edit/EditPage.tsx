@@ -4,6 +4,7 @@ import styled from "@emotion/styled";
 import {CircularLoading} from "../../utils/components/CircularLoading";
 import EditForm from "./components/EditForm";
 import { useStore } from "../../stores/RootStore";
+import { Title } from "../../utils/components/Title";
 
 const EditPage = () => {
 
@@ -29,7 +30,7 @@ const EditPage = () => {
 
     return (
         <Page>
-            <Title>Edit Book</Title>
+            <Title text="Edit Book" />
             <EditForm bookId={book.id}/>
         </Page>
     )
@@ -38,8 +39,6 @@ const EditPage = () => {
 export default EditPage;
 
 const Page = styled.div`
-    padding: 20px;
-`
-
-const Title = styled.h1`
+  padding: 20px;
+  color: ${props => props.theme.palette.secondary.dark}
 `

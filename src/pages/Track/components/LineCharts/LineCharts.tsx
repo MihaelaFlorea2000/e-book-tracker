@@ -3,7 +3,7 @@ import {observer} from "mobx-react";
 import styled from "@emotion/styled";
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import {border, theme} from "../../../../utils/style/themeConfig";
+import {border} from "../../../../utils/style/themeConfig";
 import WeeklyChart from "./WeeklyChart";
 import YearlyChart from "./YearlyChart";
 import MonthlyChart from "./MonthlyChart";
@@ -53,7 +53,7 @@ const LineCharts = () => {
 export default observer(LineCharts);
 
 const Container = styled.div`
-  background-color: ${theme.palette.info.light};
+  background-color: ${props => props.theme.palette.info.light};
   padding: 10px;
   display: flex;
   flex-flow: column;

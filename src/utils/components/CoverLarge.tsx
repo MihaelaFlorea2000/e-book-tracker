@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "@emotion/styled";
-import { border, theme } from "../style/themeConfig";
+import { border } from "../style/themeConfig";
 
 interface Props {
     image: string,
@@ -18,7 +18,7 @@ export const CoverLarge = (props: Props) => {
 }
 
 const CoverContainer = styled.div<{width:string}>`
-  background-color: ${theme.palette.info.light};;
+  background-color: ${props => props.theme.palette.info.light};;
   border-radius: ${border.borderRadius};
   display: flex;
   align-items: center;

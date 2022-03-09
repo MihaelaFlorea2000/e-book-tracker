@@ -1,7 +1,4 @@
 // Chart transparent colors
-import {useMediaQuery} from "@mui/material";
-import {device} from "../../../config/config";
-
 export const chartColors = {
     grey: 'rgba(201, 203, 207, 0.2)',
     orange: 'rgba(255, 159, 64, 0.2)',
@@ -32,7 +29,7 @@ export const chartBorderColors = {
  * documentation
  * https://chartjs-plugin-datalabels.netlify.app/guide/#table-of-contents
  */
-export const getBarChartOptions = (dataValues:number[], type: string, offsetValue: number, isTablet: boolean) => {
+export const getBarChartOptions = (dataValues:number[], type: string, offsetValue: number, isTablet: boolean, darkTheme: boolean) => {
     return {
         indexAxis: 'y' as const,
         elements: {
@@ -68,7 +65,7 @@ export const getBarChartOptions = (dataValues:number[], type: string, offsetValu
                 },
                 labels: {
                     value: {
-                        color: 'black',
+                        color: darkTheme ? 'white' : 'black',
                         font: {
                             size: '14'
                         }
@@ -94,7 +91,7 @@ export const getBarChartOptions = (dataValues:number[], type: string, offsetValu
  * documentation
  * https://chartjs-plugin-datalabels.netlify.app/guide/#table-of-contents
  */
-export const getLineChartOptions = (dataValues:number[], isTablet: boolean) => {
+export const getLineChartOptions = (dataValues:number[], isTablet: boolean, darkTheme: boolean) => {
     return {
         responsive: true,
         maintainAspectRatio: true,
@@ -113,7 +110,7 @@ export const getLineChartOptions = (dataValues:number[], isTablet: boolean) => {
                 formatter: (val: number) => (`${val}h`),
                 labels: {
                     value: {
-                        color: 'black',
+                        color: darkTheme ? 'white' : 'black',
                         font: {
                             size: '14'
                         }

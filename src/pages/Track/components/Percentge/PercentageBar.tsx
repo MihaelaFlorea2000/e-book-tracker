@@ -10,7 +10,7 @@ import {
 } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import {useStore} from "../../../../stores/RootStore";
-import {border, theme} from "../../../../utils/style/themeConfig";
+import {border} from "../../../../utils/style/themeConfig";
 import {CircularLoading} from "../../../../utils/components/CircularLoading";
 import {chartBorderColors, chartColors} from "../../helpers/ChartSettings";
 import {useMediaQuery} from "@mui/material";
@@ -29,7 +29,7 @@ ChartJS.register(
  */
 const PercentageBar = () => {
 
-    const { metricsStore } = useStore();
+    const { metricsStore, settingsStore } = useStore();
 
     // Get percent
     const percent = metricsStore.getPercent();
@@ -62,7 +62,7 @@ const PercentageBar = () => {
                 formatter: (val: number) => (`${val*100}%`),
                 labels: {
                     value: {
-                        color: 'black',
+                        color: settingsStore.isDarkThemeOn() ? 'white' : 'black',
                         font: {
                             size: '20'
                         }
@@ -130,7 +130,7 @@ const PercentageBar = () => {
 export default observer(PercentageBar);
 
 const Container = styled.div`
-  background-color: ${theme.palette.info.light};
+  background-color: ${props => props.theme.palette.info.light};
   padding: 10px;
   width: 97%;
   border-radius: ${border.borderRadius};
@@ -143,6 +143,6 @@ const Container = styled.div`
 `
 
 const ChartTitle = styled.div`
-  color: ${theme.palette.info.main};
+  color: ${props => props.theme.palette.info.main};
   padding: 2px;
 `

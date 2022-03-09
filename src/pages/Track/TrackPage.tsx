@@ -7,12 +7,13 @@ import LineCharts from "./components/LineCharts/LineCharts";
 import TagsCharts from "./components/Tags/TagsCharts";
 import ReadCalendar from "./components/Calendar/ReadCalendar";
 import { device } from "../../config/config";
+import {Title} from "../../utils/components/Title";
 
 const TrackPage = () => {
 
     return (
         <Page>
-            <PageTitle>Track Page</PageTitle>
+            <Title text="Track" />
             <MetricsContainer>
                 <PercentageBar />
                 <Goals />
@@ -29,9 +30,7 @@ export default TrackPage;
 
 const Page = styled.div`
   padding: 20px;
-`
-
-const PageTitle = styled.h1`
+  color: ${props => props.theme.palette.secondary.dark}
 `
 
 const MetricsContainer = styled.div`

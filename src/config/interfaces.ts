@@ -128,3 +128,8 @@ export interface ChartDataInterface {
     labels: string[],
     dataValues: number[],
 }
+
+
+export interface SettingsInterface {
+    darkTheme: boolean
+}

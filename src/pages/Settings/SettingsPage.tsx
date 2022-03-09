@@ -4,18 +4,20 @@ import AccountSettings from "./components/AccountSettings";
 import {CircularLoading} from "../../utils/components/CircularLoading";
 import {useStore} from "../../stores/RootStore";
 import {observer} from "mobx-react";
-import Alert from "@mui/material/Alert";
+import AppearanceSettings from "./components/AppearanceSettings";
+import {Title} from "../../utils/components/Title";
 
 const SettingsPage = () => {
 
     const { userStore, settingsStore } = useStore();
 
     const user = userStore.getCurrentUser();
+    const settings = settingsStore.getSettings();
 
-    if (user === undefined) {
+    if (user === undefined || settings === undefined) {
         return (
             <Page>
-                <Title>Settings Page</Title>
+                <Title text="Settings" />
                 <CircularLoading />
             </Page>
         )
@@ -23,10 +25,12 @@ const SettingsPage = () => {
 
     settingsStore.setProfileImageUrl(user.profileImage);
 
+
     return (
         <Page>
-            <Title>Settings Page</Title>
+            <Title text="Settings" />
             <AccountSettings user={user}/>
+            <AppearanceSettings user={user} settings={settings}/>
         </Page>
     )
 }
@@ -34,8 +38,7 @@ const SettingsPage = () => {
 export default observer(SettingsPage);
 
 const Page = styled.div`
-    padding: 20px;
+  padding: 20px;
+  color: ${props => props.theme.palette.secondary.dark}
 `
 
-const Title = styled.h1`
-`

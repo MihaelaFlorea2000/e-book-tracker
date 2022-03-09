@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import React, {useState} from "react";
 import {faBars, faBell } from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {border, theme } from "../../../utils/style/themeConfig";
+import {border } from "../../../utils/style/themeConfig";
 import { observer } from "mobx-react";
 import Box from "@mui/material/Box";
 import Menu from "@mui/material/Menu";
@@ -15,8 +15,6 @@ import MenuBar from "./Menu/MenuBar";
 import LoginStore from "../../../stores/LoginStore";
 import { useStore } from "../../../stores/RootStore";
 import { SearchBar } from "../../../utils/components/SearchBar";
-import {useForm} from "react-hook-form";
-import {yupResolver} from "@hookform/resolvers/yup/dist/yup";
 import {ProfileImage} from "../../../utils/components/ProfileImage";
 
 
@@ -28,7 +26,7 @@ const Header = () => {
 
     const navigate = useNavigate();
 
-    const { userStore, searchStore } = useStore();
+    const { userStore, searchStore, settingsStore } = useStore();
 
     let user = userStore.getCurrentUser();
 
@@ -45,6 +43,7 @@ const Header = () => {
 
     const handleLogOut = () => {
         LoginStore.logout();
+        settingsStore.setDarkTheme(false);
         handleCloseUserMenu();
     };
 
@@ -137,8 +136,8 @@ const NotificationContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  color: ${theme.palette.info.main};
-  background-color: white;
+  color: ${props => props.theme.palette.info.main};
+  background-color: ${props => props.theme.palette.info.light};
   padding: 15px;
   font-size: 1.5rem;
   border-radius: ${border.borderRadius};
@@ -146,7 +145,7 @@ const NotificationContainer = styled.div`
   cursor: pointer;
   
   :hover {
-    color: ${theme.palette.primary.main};
+    color: ${props => props.theme.palette.primary.main};
   }
 `
 
@@ -164,7 +163,7 @@ const UserName = styled.h4`
   padding: 15px 16px;
   font-size: 1.1rem;
   margin: 0;
-  border-bottom: ${border.border};
+  border-bottom: 1px solid ${props => props.theme.palette.primary.light};
 `
 
 const HamburgerContainer = styled.div`

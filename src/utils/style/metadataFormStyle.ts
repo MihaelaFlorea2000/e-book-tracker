@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import {device} from "../../config/config";
-import {border, theme} from "./themeConfig";
+import {border} from "./themeConfig";
 
 export const Container = styled.div`
   display: flex;
@@ -43,7 +43,7 @@ export const LeftFieldsContainer = styled.div`
 `
 
 export const CoverContainer = styled.div`
-  background-color: ${theme.palette.info.light};;
+  background-color: ${props => props.theme.palette.info.light};;
   border-radius: ${border.borderRadius};
   display: flex;
   align-items: center;
@@ -63,7 +63,7 @@ export const ImageContainer = styled.div`
   position: relative;
   
   :hover div:nth-of-type(2) {
-    background-color: rgba(255,255,255,0.5);
+    background-color: ${props => props.theme.palette.warning.main};
   }
 `
 
@@ -106,7 +106,7 @@ export const RatingContainer = styled.div`
   display: flex;
   flex-flow: column;
   gap: 5px;
-  background-color: ${theme.palette.info.light};;
+  background-color: ${props => props.theme.palette.info.light};;
   padding: 10px;
   border-radius: ${border.borderRadius};
 `
@@ -160,12 +160,12 @@ export const SubmitButtons = styled.div`
 
 export const ClearRating = styled.div`
   font-size: 0.9rem;
-  color: ${theme.palette.info.main};
+  color: ${props => props.theme.palette.info.main};
   margin-top: 10px;
   transition: color 0.5s;
   cursor: pointer;
   
   :hover {
-    color: #000;
+    color: ${props => props.theme.palette.secondary.main};
   }
 `

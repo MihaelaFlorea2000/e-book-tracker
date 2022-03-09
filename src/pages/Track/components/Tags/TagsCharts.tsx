@@ -5,7 +5,7 @@ import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import ByReadChart from "./ByReadChart";
 import ByBooksChart from "./ByBooksChart";
-import {border, theme} from "../../../../utils/style/themeConfig";
+import {border} from "../../../../utils/style/themeConfig";
 import { device } from "../../../../config/config";
 import {useMediaQuery} from "@mui/material";
 
@@ -44,7 +44,7 @@ const TagsCharts = () => {
 export default observer(TagsCharts);
 
 const Container = styled.div`
-  background-color: ${theme.palette.info.light};
+  background-color: ${props => props.theme.palette.info.light};
   padding: 10px;
   display: flex;
   flex-flow: column;

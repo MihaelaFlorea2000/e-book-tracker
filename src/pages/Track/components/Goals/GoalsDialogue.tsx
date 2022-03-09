@@ -17,7 +17,6 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCheckCircle, faTimesCircle} from "@fortawesome/free-solid-svg-icons";
 import { useStore } from "../../../../stores/RootStore";
 import { StyledTextField } from "../../../../utils/style/styledComponents";
-import {theme} from "../../../../utils/style/themeConfig";
 import { device } from "../../../../config/config";
 import axiosConfig from "../../../../config/axiosConfig";
 
@@ -184,12 +183,12 @@ const Title = styled(DialogTitle)`
 const Subtitle = styled.div`
   padding-left: 2px;
   font-family: 'PoppinsSemiBold', sans-serif;
-  color: ${theme.palette.primary.main};
+  color: ${props => props.theme.palette.primary.main};
 `
 
 const Label = styled.div`
   padding-left: 2px;
-  color: ${theme.palette.info.main};
+  color: ${props => props.theme.palette.info.main};
   font-size: 0.9rem;
 `
 

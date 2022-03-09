@@ -4,7 +4,6 @@ import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import { IconButton } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
-import { theme } from "../style/themeConfig";
 
 interface Props {
     icon: IconProp,
@@ -62,12 +61,12 @@ const IconContainer = styled.div<{fontSize:string}>`
   display: flex;
   align-items: center;
   justify-content: center;
-  color: ${theme.palette.primary.main};
+  color: ${props => props.theme.palette.primary.main};
   transition: color 0.5s;
   font-size: ${props => props.fontSize};
   
   :hover {
-    color: ${theme.palette.secondary.main};
+    color: ${props => props.theme.palette.secondary.main};
   }
 `
 

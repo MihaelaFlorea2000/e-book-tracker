@@ -2,7 +2,6 @@ import React, {ReactNode, useState} from "react";
 import {useParams} from "react-router-dom";
 import {observer} from "mobx-react";
 import styled from "@emotion/styled";
-import {theme } from "../../../utils/style/themeConfig";
 import {useStore} from "../../../stores/RootStore";
 import Session from "./Session";
 import { StyledTextField } from "../../../utils/style/styledComponents";
@@ -121,7 +120,7 @@ const Sessions = () => {
                         fullWidth
                         value={date}
                         type="date"
-                        onChange={(e) => {setDate(e.target.value)}}
+                        onChange={(e:any) => {setDate(e.target.value)}}
                     />
                 </SessionsFieldContainer>
                 <SessionsFieldContainer>
@@ -133,7 +132,7 @@ const Sessions = () => {
                         type="number"
                         fullWidth
                         value={hours}
-                        onChange={(e) => {setHours(e.target.value as unknown as number)}}
+                        onChange={(e:any) => {setHours(e.target.value as unknown as number)}}
                     />
                 </SessionsFieldContainer>
                 <SessionsFieldContainer>
@@ -145,7 +144,7 @@ const Sessions = () => {
                         type="number"
                         fullWidth
                         value={minutes}
-                        onChange={(e) => {setMinutes(e.target.value as unknown as number)}}
+                        onChange={(e:any) => {setMinutes(e.target.value as unknown as number)}}
                     />
                 </SessionsFieldContainer>
                 <SessionsButtonContainer>
@@ -164,6 +163,6 @@ const Container = styled.div`
    gap: 15px;
    margin: 20px 0;
    padding: 20px 0;
-   border-top: 3px solid ${theme.palette.primary.light};
-   border-bottom: 3px solid ${theme.palette.primary.light};
+   border-top: 3px solid ${props => props.theme.palette.primary.light};
+   border-bottom: 3px solid ${props => props.theme.palette.primary.light};
 `

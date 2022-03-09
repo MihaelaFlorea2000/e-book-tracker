@@ -13,7 +13,6 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCheckCircle, faTimesCircle} from "@fortawesome/free-solid-svg-icons";
 import {observer} from "mobx-react";
 import styled from "@emotion/styled";
-import * as yup from "yup";
 import EditDialogue from "./components/EditDialogue";
 import BookCover from "../../utils/components/BookCover";
 import {
@@ -24,13 +23,14 @@ import {
     Subtitle,
     ButtonsContainer
 } from "../../utils/style/readFormStyle";
-import {border, theme} from "../../utils/style/themeConfig";
+import {border} from "../../utils/style/themeConfig";
 import {device} from "../../config/config";
 import FormHelperText from "@mui/material/FormHelperText";
 import Alert from "@mui/material/Alert";
 import { readSchema } from "../../utils/helpers/schemas";
-import { formatDateStringISO } from "../../config/formatDateLong";import { isOutside } from "../../utils/helpers/dateChecks";
-;
+import { formatDateStringISO } from "../../config/formatDateLong";
+import { isOutside } from "../../utils/helpers/dateChecks";
+import {Title} from "../../utils/components/Title";
 
 interface FormInterface {
     startDate: string,
@@ -145,7 +145,7 @@ const EditReadPage = () => {
 
     return (
         <Page>
-            <Title>Edit Read</Title>
+            <Title text="Edit Read" />
             <Container>
                 <BookCover />
                 <Form onSubmit={handleSubmit(onSubmit)}>
@@ -160,7 +160,7 @@ const EditReadPage = () => {
                                     {...register('startDate')}
                                     error={!!errors.startDate}
                                     fullWidth
-                                    onChange={(e) => {editReadStore.setStartDate(e.target.value)}}
+                                    onChange={(e:any) => {editReadStore.setStartDate(e.target.value)}}
                                     type="date"
                                 />
                                 {!!errors.startDate && (
@@ -178,7 +178,7 @@ const EditReadPage = () => {
                                     {...register('endDate')}
                                     error={!!errors.endDate}
                                     fullWidth
-                                    onChange={(e) => {editReadStore.setEndDate(e.target.value)}}
+                                    onChange={(e:any) => {editReadStore.setEndDate(e.target.value)}}
                                     type="date"
                                 />
                                 {!!errors.endDate && (
@@ -248,16 +248,14 @@ const EditReadPage = () => {
 export default observer(EditReadPage);
 
 const Page = styled.div`
-    padding: 20px;
-`
-
-const Title = styled.h1`
+  padding: 20px;
+  color: ${props => props.theme.palette.secondary.dark}
 `
 
 const Container = styled.div`
   display: flex;
   gap: 25px;
-  background-color: ${theme.palette.info.light};
+  background-color: ${props => props.theme.palette.info.light};
   border-radius: ${border.borderRadius};
   padding: 20px;
 

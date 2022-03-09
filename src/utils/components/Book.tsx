@@ -57,8 +57,12 @@ const BookContainer = styled.div`
   gap: 10px;
   position: relative;
 
+  div:nth-of-type(2) {
+    background-color: transparent;;
+  }
+
   :hover div:nth-of-type(2) {
-    background-color: rgba(255,255,255,0.5);
+    background-color: ${props => props.theme.palette.warning.main};
   }
 `
 

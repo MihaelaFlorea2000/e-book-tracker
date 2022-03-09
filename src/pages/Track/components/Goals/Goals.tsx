@@ -1,9 +1,8 @@
 import React from "react";
 import {observer} from "mobx-react";
-import { toJS } from "mobx";
 import styled from "@emotion/styled";
 import {useStore} from "../../../../stores/RootStore";
-import {border, theme} from "../../../../utils/style/themeConfig";
+import {border} from "../../../../utils/style/themeConfig";
 import {CircularLoading} from "../../../../utils/components/CircularLoading";
 import Button from "@mui/material/Button";
 import {useNavigate} from "react-router-dom";
@@ -59,7 +58,7 @@ const Goals = () => {
 export default observer(Goals);
 
 const Container = styled.div`
-  background-color: ${theme.palette.info.light};
+  background-color: ${props => props.theme.palette.info.light};
   padding: 10px;
   display: flex;
   flex-flow: column;

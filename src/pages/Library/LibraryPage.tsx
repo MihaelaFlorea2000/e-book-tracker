@@ -10,13 +10,16 @@ import { useStore } from "../../stores/RootStore";
 import {AddButton} from "../../utils/components/AddButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faSortAlphaDown} from "@fortawesome/free-solid-svg-icons";
-import { theme } from "../../utils/style/themeConfig";
+import {useTheme} from "@mui/material";
+import { Title } from "../../utils/components/Title";
 
 
 const LibraryPage = () => {
 
     // Get BooksStore
     const { booksStore } = useStore();
+
+    const theme = useTheme();
 
     // Is the user coming after registration?
     let url = new URL(window.location.href);
@@ -58,7 +61,7 @@ const LibraryPage = () => {
     return (
         <Page>
             <PageHeader>
-                <Title>Library</Title>
+                <Title text="Library" />
                 <ButtonsContainer>
                     <SortButton color={isSortOn ? theme.palette.secondary.main : theme.palette.primary.main} onClick={handleSort}><FontAwesomeIcon icon={faSortAlphaDown} /></SortButton>
                     <NavLink to={'/upload/1'}><AddButton size="large"/></NavLink>
@@ -79,6 +82,7 @@ export default observer(LibraryPage);
 
 const Page = styled.div`
   padding: 20px;
+  color: ${props => props.theme.palette.secondary.dark}
 `
 
 const PageHeader = styled.div`
@@ -86,9 +90,6 @@ const PageHeader = styled.div`
   align-items: center;
   justify-content: space-between;
   margin-bottom: 10px;
-`
-
-const Title = styled.h1`
 `
 
 const Container = styled.div`
@@ -114,7 +115,7 @@ const SortButton = styled.div<{color: string}>`
   color: ${props =>  props.color};
   
   :hover {
-    color: ${theme.palette.secondary.main};
+    color: ${props => props.theme.palette.secondary.main};
   }
 `
 

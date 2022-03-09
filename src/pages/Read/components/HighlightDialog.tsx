@@ -10,7 +10,7 @@ import {
     DialogTitle
 } from "@mui/material";
 import { StyledTextField } from "../../../utils/style/styledComponents";
-import { border, theme } from "../../../utils/style/themeConfig";
+import { border } from "../../../utils/style/themeConfig";
 import { readerColors } from "../helpers/ReaderColors";
 import { device } from "../../../config/config";
 import {BookInterface} from "../../../config/interfaces";
@@ -228,7 +228,7 @@ const Color = styled.div<{color: string}>`
 
 const ColorLabel = styled.div`
   font-size: 0.9rem;
-  color: ${theme.palette.info.main};
+  color: ${props => props.theme.palette.info.main};
   transition: color 0.5s;
   
   @media only screen and ${device.mobileL} {

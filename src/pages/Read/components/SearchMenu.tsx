@@ -7,7 +7,6 @@ import InputAdornment from "@mui/material/InputAdornment";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faSearch} from "@fortawesome/free-solid-svg-icons";
 import {StyledTextField} from "../../../utils/style/styledComponents";
-import {theme} from "../../../utils/style/themeConfig";
 import {useStore} from "../../../stores/RootStore";
 import Alert from "@mui/material/Alert";
 import {ErrorMessage} from "@hookform/error-message";
@@ -107,7 +106,7 @@ const SearchForm = styled.form`
 `
 
 const IconContainer = styled.div`
-  color: ${theme.palette.info.main};
+  color: ${props => props.theme.palette.info.main};
   > .Mui-focused{
     color: black;
   }

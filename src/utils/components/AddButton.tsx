@@ -1,8 +1,7 @@
 import React from "react";
 import styled from "@emotion/styled";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faPlus, faStar} from "@fortawesome/free-solid-svg-icons";
-import {theme} from "../style/themeConfig";
+import {faPlus} from "@fortawesome/free-solid-svg-icons";
 
 interface Props {
     size: string
@@ -20,8 +19,8 @@ export const AddButton = (props: Props) => {
 
 const IconContainer = styled.div<{size: string}>`
   border-radius: 100%;
-  border: 3px solid ${theme.palette.primary.main};
-  background-color: ${theme.palette.primary.main};
+  border: 3px solid ${props => props.theme.palette.primary.main};
+  background-color: ${props => props.theme.palette.primary.main};
   color: white;
   padding: ${props => props.size === 'large' ? '12px' : '10px'};
   font-size: ${props => props.size === 'large' ? '1.3rem' : '1rem'};
@@ -33,8 +32,8 @@ const IconContainer = styled.div<{size: string}>`
   margin-right: ${props => props.size === 'large' ? '0' : '5px'};
 
   :hover {
-    background-color: ${theme.palette.primary.light};
-    color: ${theme.palette.primary.main};
+    background-color: ${props => props.theme.palette.primary.light};
+    color: ${props => props.theme.palette.primary.main};
   }
 `
 

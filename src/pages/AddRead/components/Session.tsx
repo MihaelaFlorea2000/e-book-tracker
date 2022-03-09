@@ -1,7 +1,6 @@
 import React from "react";
 import {observer} from "mobx-react";
 import styled from "@emotion/styled";
-import {theme } from "../../../utils/style/themeConfig";
 import {
     faTimes
 } from "@fortawesome/free-solid-svg-icons";
@@ -61,7 +60,7 @@ const Container = styled.div`
   align-items: center;
   justify-content: space-between;
   padding: 15px;
-  border-top: 3px solid ${theme.palette.primary.light};
+  border-top: 3px solid ${props => props.theme.palette.primary.light};
 
   @media only screen and ${device.mobileL} {
     padding: 5px;

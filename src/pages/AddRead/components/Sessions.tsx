@@ -2,7 +2,6 @@ import React, {useState} from "react";
 import {useParams} from "react-router-dom";
 import {observer} from "mobx-react";
 import styled from "@emotion/styled";
-import {theme } from "../../../utils/style/themeConfig";
 import {useStore} from "../../../stores/RootStore";
 import Session from "./Session";
 import { StyledTextField } from "../../../utils/style/styledComponents";
@@ -154,6 +153,6 @@ const Container = styled.div`
    gap: 15px;
    margin: 20px 0;
    padding: 20px 0;
-   border-top: 3px solid ${theme.palette.primary.light};
-   border-bottom: 3px solid ${theme.palette.primary.light};
+   border-top: 3px solid ${props => props.theme.palette.primary.light};
+   border-bottom: 3px solid ${props => props.theme.palette.primary.light};
 `

@@ -2,7 +2,6 @@ import React from "react";
 import styled from "@emotion/styled";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
-import {theme} from "../style/themeConfig";
 import { device } from "../../config/config";
 
 interface Props {
@@ -34,22 +33,22 @@ const Detail = styled.div<{size: string}>`
   align-items: center;
   justify-content: space-evenly;
   padding: 10px;
-  border-left: 2px solid ${theme.palette.primary.light};
-  border-right: 2px solid ${theme.palette.primary.light};
+  border-left: 2px solid ${props => props.theme.palette.primary.light};
+  border-right: 2px solid ${props => props.theme.palette.primary.light};
   
   width: ${props => props.size === 'large' ? '15vw' : '13.2vw'};
 
   @media only screen and ${device.tablet} {
     width: ${props => props.size === 'large' ? '80vw' : '40vw'};
     border: 0;
-    border-top: 2px solid ${theme.palette.primary.light};
-    border-bottom: 2px solid ${theme.palette.primary.light};
+    border-top: 2px solid ${props => props.theme.palette.primary.light};
+    border-bottom: 2px solid ${props => props.theme.palette.primary.light};
   }
 `
 
 const DetailTitle = styled.div`
   font-size: 0.8rem;
-  color: ${theme.palette.info.main}
+  color: ${props => props.theme.palette.info.main}
 `
 
 const IconContainer = styled.div<{borderColor: string, color: string}>`

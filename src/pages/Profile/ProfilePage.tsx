@@ -13,4 +13,6 @@ const ProfilePage = () => {
 export default ProfilePage;
 
 const Page = styled.div`
+  padding: 20px;
+  color: ${props => props.theme.palette.secondary.dark}
 `

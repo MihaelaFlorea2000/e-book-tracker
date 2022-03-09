@@ -13,10 +13,11 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import Alert from "@mui/material/Alert";
 import { faFileUpload } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {border, theme } from "../../utils/style/themeConfig";
+import {border } from "../../utils/style/themeConfig";
 import { device } from "../../config/config";
 import { useStore } from "../../stores/RootStore";
 import { formatDateStringISO } from "../../config/formatDateLong";
+import {Title} from "../../utils/components/Title";
 
 interface UploadFormInterface {
     files: FileList,
@@ -129,7 +130,7 @@ const UploadFirstStep = () => {
 
     return (
         <Page>
-            <Title>Upload Page</Title>
+            <Title text="Upload Book" />
             <UploadForm onSubmit={handleSubmit(onSubmit)}>
                 <UploadContainer>
                     <TextInfo>
@@ -176,17 +177,15 @@ export default observer(UploadFirstStep);
 
 
 const Page = styled.div`
-    padding: 20px
-`
-
-const Title = styled.h1`
+  padding: 20px;
+  color: ${props => props.theme.palette.secondary.dark}
 `
 
 const UploadContainer = styled.div`
   display: flex;
   flex-flow: column;
   gap: 30px;
-  background-color: ${theme.palette.info.light};
+  background-color: ${props => props.theme.palette.info.light};
   padding: 30px;
   border-radius: ${border.borderRadius};
 `
