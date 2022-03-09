@@ -6,6 +6,8 @@ import {useStore} from "../../stores/RootStore";
 import {observer} from "mobx-react";
 import AppearanceSettings from "./components/AppearanceSettings";
 import {Title} from "../../utils/components/Title";
+import PrivacySettings from "./components/PrivacySettings";
+import Alert from "@mui/material/Alert";
 
 const SettingsPage = () => {
 
@@ -13,6 +15,11 @@ const SettingsPage = () => {
 
     const user = userStore.getCurrentUser();
     const settings = settingsStore.getSettings();
+
+    // Is the user coming after registration?
+    let url = new URL(window.location.href);
+    let fromUpdate = url.searchParams.get('fromUpdate');
+
 
     if (user === undefined || settings === undefined) {
         return (
@@ -28,8 +35,10 @@ const SettingsPage = () => {
     return (
         <Page>
             <Title text="Settings" />
+            {fromUpdate !== null && <Alert severity="success">Successful update</Alert> }
             <AccountSettings user={user}/>
             <AppearanceSettings user={user} settings={settings}/>
+            <PrivacySettings user={user} settings={settings} />
         </Page>
     )
 }

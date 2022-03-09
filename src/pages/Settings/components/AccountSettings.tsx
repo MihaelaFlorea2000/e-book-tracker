@@ -72,10 +72,6 @@ const AccountSettings = (props: Props) => {
 
     const { userStore, settingsStore } = useStore();
 
-    // Is the user coming after registration?
-    let url = new URL(window.location.href);
-    let fromUpdate = url.searchParams.get('fromUpdate');
-
     // Handling form submission
     const { register, handleSubmit, formState: { errors }, setError, clearErrors } = useForm<FormState>({
         resolver: yupResolver(registerSchema),
@@ -183,7 +179,6 @@ const AccountSettings = (props: Props) => {
                             </ButtonContainer>
                         </ChangeImage>
                     </ImageContainer>
-                    {fromUpdate !== null && <Alert severity="success">Successful update</Alert> }
                     <FormContainer onSubmit={handleSubmit(onSubmit)}>
                         <FieldContainer>
                             <TextField

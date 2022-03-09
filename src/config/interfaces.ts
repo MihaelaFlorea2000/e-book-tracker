@@ -133,5 +133,10 @@ export interface ChartDataInterface {
 export interface SettingsInterface {
     darkTheme: boolean,
     fontSize: number,
-    readerTheme: string
+    readerTheme: string,
+    notifications: boolean,
+    profileVisibility: string,
+    showGoals: boolean,
+    showBooks: boolean,
+    showNumbers: boolean
 }

@@ -13,6 +13,7 @@ export default class SettingsStore {
 
     private expandAccount: boolean = true;
     private expandAppearance: boolean = false;
+    private expandPrivacy: boolean = false;
 
     public constructor() {
         makeAutoObservable(this);
@@ -28,11 +29,15 @@ export default class SettingsStore {
     }
 
     public setProfileImageUrl(profileImageUrl: string) {
-        this.profileImageUrl = profileImageUrl;
+        runInAction(() => {
+            this.profileImageUrl = profileImageUrl;
+        })
     }
 
     public setProfileImage(profileImage: File) {
-        this.profileImage = profileImage;
+        runInAction(() => {
+            this.profileImage = profileImage;
+        })
     }
 
     public uploadProfileImage () {
@@ -78,7 +83,9 @@ export default class SettingsStore {
     }
 
     public setDarkTheme(value: boolean) {
-        this.darkThemeOn = value;
+        runInAction(() => {
+            this.darkThemeOn = value;
+        })
     }
 
     public getExpandAccount(): boolean {
@@ -86,7 +93,19 @@ export default class SettingsStore {
     }
 
     public setExpandAccount(value: boolean) {
-        this.expandAccount = value;
+        runInAction(() => {
+            this.expandAccount = value;
+        })
+    }
+
+    public getExpandPrivacy(): boolean {
+        return this.expandPrivacy;
+    }
+
+    public setExpandPrivacy(value: boolean) {
+        runInAction(() => {
+            this.expandPrivacy = value;
+        })
     }
 
     public getExpandAppearance(): boolean {
@@ -94,11 +113,17 @@ export default class SettingsStore {
     }
 
     public setExpandAppearance(value: boolean) {
-        this.expandAppearance = value;
+        runInAction(() => {
+
+            this.expandAppearance = value;
+        })
     }
 
     public collapseAll() {
-        this.expandAccount = false;
-        this.expandAppearance = false;
+        runInAction(() => {
+            this.expandAccount = false;
+            this.expandAppearance = false;
+            this.expandPrivacy = false;
+        })
     }
 }

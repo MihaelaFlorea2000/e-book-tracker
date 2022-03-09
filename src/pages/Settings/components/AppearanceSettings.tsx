@@ -55,7 +55,7 @@ const AppearanceSettings = (props: Props) => {
                 readerTheme: readerTheme
             }
 
-            const res = await axiosConfig().put('/pg/users/settings', newSettings)
+            const res = await axiosConfig().put('/pg/users/settings/appearance', newSettings)
             console.log(res);
             setIsSubmitting(false);
             settingsStore.requestSettings();
@@ -85,11 +85,11 @@ const AppearanceSettings = (props: Props) => {
             <StyledAccordionDetails>
                 <Theme>
                     <SettingText>Dark Theme</SettingText>
-                    {props.settings.darkTheme
-                        ? <Switch defaultChecked onChange={handleDarkTheme}/>
-                        : <Switch onChange={handleDarkTheme}/>
-                    }
-
+                    <Switch
+                        checked={settingsStore.isDarkThemeOn()}
+                        onChange={handleDarkTheme}
+                        inputProps={{ 'aria-label': 'controlled' }}
+                    />
                 </Theme>
                 <Font>
                     <FontSizeText>Reader Font Size: </FontSizeText>
@@ -176,11 +176,20 @@ const Font = styled.div`
   display: flex;
   gap: 10px;
   align-items: center;
+
+  @media only screen and ${device.tablet} {
+    flex-flow: column;
+  }
 `
+
 const StyledAccordionDetails = styled(AccordionDetails)`
   display: flex;
   flex-flow: column;
   gap: 20px;
+
+  @media only screen and ${device.tablet} {
+    align-items: center;
+  }
 `
 
 const SettingsContainer = styled.div`

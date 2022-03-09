@@ -144,8 +144,8 @@ const ReadPage = () => {
     const pageColor = getReaderStyles(settings.readerTheme);
 
     const handleSettings = () => {
+        settingsStore.collapseAll();
         settingsStore.setExpandAppearance(true);
-        settingsStore.setExpandAccount(false);
         navigate('/settings?fromReader');
     };
 
