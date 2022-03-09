@@ -16,7 +16,7 @@ const SettingsPage = () => {
     const user = userStore.getCurrentUser();
     const settings = settingsStore.getSettings();
 
-    // Is the user coming after registration?
+    // Is the user coming after update?
     let url = new URL(window.location.href);
     let fromUpdate = url.searchParams.get('fromUpdate');
 

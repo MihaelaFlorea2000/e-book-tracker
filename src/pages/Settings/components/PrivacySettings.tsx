@@ -254,6 +254,7 @@ const Profile = styled.div`
 
 const SettingText = styled.div`
 `
+
 const StyledSubmitButtons = styled(SubmitButtons)`
   align-self: center;
 `

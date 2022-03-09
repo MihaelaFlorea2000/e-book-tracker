@@ -98,7 +98,7 @@ const Header = () => {
                     >
                         <UserName>{user.firstName} {user.lastName}</UserName>
                         <MenuItem onClick={handleCloseUserMenu}>
-                            <NavLink to={"/profile"}><SettingText>Profile</SettingText></NavLink>
+                            <NavLink to={`/profile/${user.id}`}><SettingText>Profile</SettingText></NavLink>
                         </MenuItem>
                         <MenuItem onClick={handleCloseUserMenu}>
                             <NavLink to={"/settings"}><SettingText>Account Settings</SettingText></NavLink>
