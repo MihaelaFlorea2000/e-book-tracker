@@ -1,3 +1,5 @@
+import { theme } from "../../../utils/style/themeConfig"
+
 // Colors the users can use to highlight
 export const readerColors = {
     yellow: {
@@ -44,18 +46,37 @@ export const getHoverColor = (color:string):string => {
 export const pageColors = {
     light: {
         color: "#000",
-        backgroundColor: "#FFF"
+        backgroundColor: "#FFF",
+        optionColor: "#FFF",
+        buttonsColor: theme.palette.primary.main
     },
-    yellow: {
+    sepia: {
         color: "#5E4B31",
-        backgroundColor: "#FBF0D9"
+        backgroundColor: "#FBF0D9",
+        optionColor: "#D2C4B5",
+        buttonsColor: theme.palette.primary.main
     },
     dark: {
         color: "#C8C8C8",
-        backgroundColor: "#000"
+        backgroundColor: "#000",
+        optionColor: "#000",
+        buttonsColor: theme.palette.secondary.main
+    }
+}
+
+export const getReaderStyles = (readerTheme: string) => {
+    switch (readerTheme) {
+        case 'light':
+            return pageColors.light
+        case 'dark':
+            return pageColors.dark
+        case 'sepia':
+            return pageColors.sepia
+        default:
+            return pageColors.light
     }
 }
 
 export const getTheme = (isThemeOn:boolean) => {
-    return isThemeOn ? pageColors.yellow : pageColors.light;
+    return isThemeOn ? pageColors.sepia : pageColors.light;
 }

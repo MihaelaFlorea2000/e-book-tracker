@@ -1,30 +1,19 @@
 import React, { ReactNode } from "react";
 import styled from "@emotion/styled";
-import {useStore} from "../../../stores/RootStore";
-import {CircularLoading} from "../../../utils/components/CircularLoading";
-import { NavLink } from "react-router-dom";
 import Book from "../../../utils/components/Book";
 import Grid from "@mui/material/Grid";
 import {observer} from "mobx-react";
+import {BookSearchInterface} from "../../../config/interfaces";
 
-const BookResults = () => {
+interface Props {
+    books: BookSearchInterface[]
+}
 
-    const { searchStore }= useStore();
-
-    const books = searchStore.getBooks();
-
-    if (books === undefined) {
-        return (
-            <Container>
-                <CircularLoading />
-            </Container>
-        )
-    }
-
+const BookResults = (props: Props) => {
 
     let bookNodes: ReactNode[] = [];
 
-    books.forEach((elem, index) => {
+    props.books.forEach((elem, index) => {
         bookNodes.push(
             <Grid item xs={6} sm={4} md={3} lg={2} key={index}>
                 <Book book={elem} />

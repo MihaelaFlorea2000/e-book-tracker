@@ -33,7 +33,7 @@ export const darkTheme: Theme = {
         },
         info: {
             light: '#1e1e1e',
-            main: '#fff'
+            main: '#ddd'
         },
         warning: {
             main:  'rgba(0, 0, 0, 0.5)'

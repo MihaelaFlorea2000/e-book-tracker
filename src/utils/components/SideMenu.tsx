@@ -10,6 +10,7 @@ interface Props {
     direction: "bottom" | "left" | "right" | "top" | undefined,
     menu: JSX.Element,
     buttonSize: "large" | "medium" | "small",
+    color: string
     fontSize: string
 }
 
@@ -33,6 +34,9 @@ export const SideMenu = (props: Props) => {
             setMenuOpen(!menuOpen);
         };
 
+
+    console.log(props.color)
+
     return (
         <HamburgerContainer>
             <StyledIconButton
@@ -41,7 +45,7 @@ export const SideMenu = (props: Props) => {
                 color="inherit"
                 aria-label="menu"
             >
-                <IconContainer fontSize={props.fontSize}><FontAwesomeIcon icon={props.icon}/></IconContainer>
+                <IconContainer color={props.color} fontSize={props.fontSize}><FontAwesomeIcon icon={props.icon}/></IconContainer>
             </StyledIconButton>
             <SwipeableDrawer
                 anchor={props.direction}
@@ -57,11 +61,11 @@ export const SideMenu = (props: Props) => {
 
 export default SideMenu;
 
-const IconContainer = styled.div<{fontSize:string}>`
+const IconContainer = styled.div<{fontSize:string, color:string}>`
   display: flex;
   align-items: center;
   justify-content: center;
-  color: ${props => props.theme.palette.primary.main};
+  color: ${props => props.color};
   transition: color 0.5s;
   font-size: ${props => props.fontSize};
   

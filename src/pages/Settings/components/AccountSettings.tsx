@@ -151,7 +151,7 @@ const AccountSettings = (props: Props) => {
     }
 
     return (
-        <Accordion>
+        <Accordion defaultExpanded={settingsStore.getExpandAccount()}>
             <AccordionSummary
                 expandIcon={<DownArrow />}
             >

@@ -7,7 +7,7 @@ import {
     faHome,
     faStickyNote,
     faHighlighter,
-    faSearch, faEye
+    faSearch, faCog
 } from "@fortawesome/free-solid-svg-icons";
 import { CircularLoading } from "../../utils/components/CircularLoading";
 import SideMenu from "../../utils/components/SideMenu";
@@ -17,7 +17,7 @@ import BookReader from "./components/BookReader";
 import { useStore } from "../../stores/RootStore";
 import SearchMenu from "./components/SearchMenu";
 import axiosConfig from "../../config/axiosConfig";
-import {getTheme} from "./helpers/ReaderColors";
+import {getReaderStyles, getTheme} from "./helpers/ReaderColors";
 import {useTheme} from "@mui/material";
 
 const ReadPage = () => {
@@ -27,13 +27,14 @@ const ReadPage = () => {
     const theme = useTheme();
 
     // Get stores access
-    const { readerStore, bookStore, booksStore, metricsStore } = useStore();
+    const { readerStore, bookStore, booksStore, metricsStore, settingsStore } = useStore();
 
     // Get book
     const params = useParams();
     const bookId = Number(params.bookId);
 
     const book = bookStore.getBook(bookId);
+    const settings = settingsStore.getSettings();
 
     // For updating location on leave
     useEffect(() => {
@@ -99,7 +100,7 @@ const ReadPage = () => {
     }
 
     // Loading book
-    if (book === undefined || book.id === undefined) {
+    if (book === undefined || book.id === undefined || settings === undefined) {
         return (
             <Page>
                 <CircularLoading />
@@ -140,31 +141,24 @@ const ReadPage = () => {
 
     // Toggle theme
     const themeOn = readerStore.isThemeOn();
+    const pageColor = getReaderStyles(settings.readerTheme);
 
-    const handleThemeClick = () => {
-        const rendition = readerStore.getRendition();
-        const newThemeOn = !themeOn;
-        readerStore.setIsThemeOn(newThemeOn);
-
-        const backgroundColor = getTheme(newThemeOn).backgroundColor;
-        const color = getTheme(newThemeOn).color;
-
-        if (rendition) {
-            rendition.themes.override('background-color', backgroundColor);
-            rendition.themes.override('color', color);
-        }
+    const handleSettings = () => {
+        settingsStore.setExpandAppearance(true);
+        settingsStore.setExpandAccount(false);
+        navigate('/settings?fromReader');
     };
 
     return (
         <Page>
             <ButtonsContainer>
-                <ThemeButton color={themeOn ? theme.palette.secondary.main : theme.palette.primary.main} onClick={handleThemeClick}><FontAwesomeIcon icon={faEye}/></ThemeButton>
-                <SideMenu fontSize="1.6rem" buttonSize="medium" icon={faSearch} direction="right" menu={<SearchMenu />} />
-                <HighlightButton color={highlightOn ? theme.palette.secondary.main : theme.palette.primary.main} onClick={handleHighlightClick}><FontAwesomeIcon icon={faHighlighter}/></HighlightButton>
-                <SideMenu fontSize="1.6rem" buttonSize="medium" icon={faStickyNote} direction="right" menu={<HighlightMenu book={book} selections={selections}/>} />
-                <BackButton onClick={handleBackClick}><FontAwesomeIcon icon={faHome}/></BackButton>
+                <SettingsButton color={pageColor.buttonsColor} onClick={handleSettings}><FontAwesomeIcon icon={faCog}/></SettingsButton>
+                <SideMenu color={pageColor.buttonsColor} fontSize="1.6rem" buttonSize="medium" icon={faSearch} direction="right" menu={<SearchMenu />} />
+                <HighlightButton color={pageColor.buttonsColor} onClick={handleHighlightClick}><FontAwesomeIcon icon={faHighlighter}/></HighlightButton>
+                <SideMenu color={pageColor.buttonsColor} fontSize="1.6rem" buttonSize="medium" icon={faStickyNote} direction="right" menu={<HighlightMenu book={book} selections={selections}/>} />
+                <BackButton color={pageColor.buttonsColor} onClick={handleBackClick}><FontAwesomeIcon icon={faHome}/></BackButton>
             </ButtonsContainer>
-            <BookReader book={book} selections={selections}/>
+            <BookReader book={book} selections={selections} settings={settings}/>
         </Page>
     )
 }
@@ -207,7 +201,7 @@ const HighlightButton = styled.div<{color:string}>`
   }
 `
 
-const ThemeButton = styled.div<{color:string}>`
+const SettingsButton = styled.div<{color:string}>`
   color: ${props => props.color};
   font-size: 1.5rem;
   display: flex;
@@ -228,8 +222,8 @@ const ThemeButton = styled.div<{color:string}>`
   }
 `
 
-const BackButton = styled.div`
-  color: ${props => props.theme.palette.primary.main};
+const BackButton = styled.div<{color:string}>`
+  color: ${props => props.color};
   font-size: 1.5rem;
   display: flex;
   align-items: center;

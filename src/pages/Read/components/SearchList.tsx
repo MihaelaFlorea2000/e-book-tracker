@@ -4,8 +4,7 @@ import styled from "@emotion/styled";
 import {SearchResultInterface} from "../../../config/interfaces";
 import {useStore} from "../../../stores/RootStore";
 import SearchResult from "./SearchResult";
-import {faSadTear} from "@fortawesome/free-solid-svg-icons";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {NoResult} from "../../../utils/components/NoResult";
 
 const SearchList = () => {
 
@@ -23,12 +22,7 @@ const SearchList = () => {
     if (searchResults.length === 0) {
         return (
             <List>
-                <NoResults>
-                    No results found
-                    <IconContainer>
-                        <FontAwesomeIcon icon={faSadTear}/>
-                    </IconContainer>
-                </NoResults>
+                <NoResult />
             </List>
         )
     }
@@ -64,19 +58,4 @@ const List = styled.div`
 const ResultNumber = styled.h3`
   padding-top: 0;
   margin-top: 0;
-`
-
-const IconContainer = styled.div`
-  font-size: 2rem;
-`
-
-const NoResults = styled.div`
-  padding: 20px;
-  display: flex;
-  flex-flow: column;
-  gap: 5px;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.2rem;
-  color: ${props => props.theme.palette.info.main}
 `

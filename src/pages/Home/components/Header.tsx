@@ -16,6 +16,7 @@ import LoginStore from "../../../stores/LoginStore";
 import { useStore } from "../../../stores/RootStore";
 import { SearchBar } from "../../../utils/components/SearchBar";
 import {ProfileImage} from "../../../utils/components/ProfileImage";
+import {useTheme} from "@mui/material";
 
 
 interface FormState {
@@ -25,6 +26,7 @@ interface FormState {
 const Header = () => {
 
     const navigate = useNavigate();
+    const theme = useTheme();
 
     const { userStore, searchStore, settingsStore } = useStore();
 
@@ -66,7 +68,7 @@ const Header = () => {
     return (
         <Container>
             <HamburgerContainer>
-                <SideMenu fontSize="1.7rem" direction="left" icon={faBars} buttonSize="large" menu={<MenuBar />}/>
+                <SideMenu color={theme.palette.primary.main} fontSize="1.7rem" direction="left" icon={faBars} buttonSize="large" menu={<MenuBar />}/>
             </HamburgerContainer>
             <SearchBar
                 onChange={(e:any) => setQuery(e.target.value)}

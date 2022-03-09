@@ -2,22 +2,22 @@
 import {ReactReaderStyle} from "react-reader";
 import {getTheme} from "./ReaderColors";
 
-export const defaultStyle = (isThemeOn:boolean) => {
+export const defaultStyle = (pageColor:any) => {
     return {
         ...ReactReaderStyle,
         readerArea: {
             ...ReactReaderStyle.readerArea,
-            backgroundColor: getTheme(isThemeOn).backgroundColor
+            backgroundColor: pageColor.backgroundColor
         },
         arrow: {
             ...ReactReaderStyle.arrow,
-            color: isThemeOn ? getTheme(isThemeOn).color : '#E2E2E2'
+            color: pageColor.color
         },
     }
 }
 
 // Adjust book style on mobile
-export const mobileStyle = (isMobile:boolean, isThemeOn:boolean) => {
+export const mobileStyle = (isMobile:boolean, pageColor:any) => {
     return {
         ...ReactReaderStyle,
         arrow: {
@@ -41,7 +41,7 @@ export const mobileStyle = (isMobile:boolean, isThemeOn:boolean) => {
         },
         readerArea: {
             ...ReactReaderStyle.readerArea,
-            backgroundColor: getTheme(isThemeOn).backgroundColor
+            backgroundColor:pageColor.backgroundColor
         }
     }
 }

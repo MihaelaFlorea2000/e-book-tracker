@@ -9,9 +9,10 @@ export default class SettingsStore {
     private settings: SettingsInterface | undefined = undefined;
     private requestedSettings: boolean = false;
 
-
     private darkThemeOn: boolean = false;
 
+    private expandAccount: boolean = true;
+    private expandAppearance: boolean = false;
 
     public constructor() {
         makeAutoObservable(this);
@@ -78,5 +79,26 @@ export default class SettingsStore {
 
     public setDarkTheme(value: boolean) {
         this.darkThemeOn = value;
+    }
+
+    public getExpandAccount(): boolean {
+        return this.expandAccount;
+    }
+
+    public setExpandAccount(value: boolean) {
+        this.expandAccount = value;
+    }
+
+    public getExpandAppearance(): boolean {
+        return this.expandAppearance;
+    }
+
+    public setExpandAppearance(value: boolean) {
+        this.expandAppearance = value;
+    }
+
+    public collapseAll() {
+        this.expandAccount = false;
+        this.expandAppearance = false;
     }
 }

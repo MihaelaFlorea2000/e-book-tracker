@@ -131,5 +131,7 @@ export interface ChartDataInterface {
 
 
 export interface SettingsInterface {
-    darkTheme: boolean
+    darkTheme: boolean,
+    fontSize: number,
+    readerTheme: string
 }

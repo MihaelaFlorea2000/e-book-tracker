@@ -1,31 +1,19 @@
 import React, { ReactNode } from "react";
 import styled from "@emotion/styled";
-import {useStore} from "../../../stores/RootStore";
-import {CircularLoading} from "../../../utils/components/CircularLoading";
-import { NavLink } from "react-router-dom";
-import Book from "../../../utils/components/Book";
 import Grid from "@mui/material/Grid";
 import {observer} from "mobx-react";
 import User from "./User";
+import {UserSearchInterface} from "../../../config/interfaces";
 
-const BookResults = () => {
+interface Props {
+    users: UserSearchInterface[]
+}
 
-    const { searchStore }= useStore();
-
-    const users = searchStore.getUsers();
-
-    if (users === undefined) {
-        return (
-            <Container>
-                <CircularLoading />
-            </Container>
-        )
-    }
-
+const UserResults = (props: Props) => {
 
     let userNodes: ReactNode[] = [];
 
-    users.forEach((elem, index) => {
+    props.users.forEach((elem, index) => {
         userNodes.push(
             <Grid item xs={6} sm={4} md={3} lg={2} key={index}>
                 <User user={elem} />
@@ -44,7 +32,7 @@ const BookResults = () => {
     )
 }
 
-export default observer(BookResults);
+export default observer(UserResults);
 
 const Container = styled.div`
 `

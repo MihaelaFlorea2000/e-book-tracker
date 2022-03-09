@@ -7,10 +7,10 @@ import Button from "@mui/material/Button";
 import { useMediaQuery } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
-import {BookInterface, HighlightInterface} from "../../../config/interfaces";
+import {BookInterface, HighlightInterface, SettingsInterface} from "../../../config/interfaces";
 import { device } from "../../../config/config";
 import { defaultStyle, mobileStyle } from "../helpers/ReaderStyles";
-import {getTheme, readerColors} from "../helpers/ReaderColors";
+import {getReaderStyles, getTheme, readerColors} from "../helpers/ReaderColors";
 import HighlightDialog from "./HighlightDialog";
 import { useStore } from "../../../stores/RootStore";
 import {toJS} from "mobx";
@@ -18,7 +18,8 @@ import FinishedDialog from "./FinishedDialog";
 
 interface Props {
     book: BookInterface,
-    selections: HighlightInterface[];
+    selections: HighlightInterface[],
+    settings: SettingsInterface
 }
 
 interface Toc {
@@ -35,7 +36,7 @@ const BookReader = (props: Props) => {
     const { readerStore } = useStore();
 
     // Change font size
-    const [fontSize, setFontSize] = useState<number>(100);
+    const [fontSize, setFontSize] = useState<number>(props.settings.fontSize);
 
     const changeSize = (newSize:number) => {
         setFontSize(newSize)
@@ -43,6 +44,8 @@ const BookReader = (props: Props) => {
 
     // Detect mobile width
     const isMobile = useMediaQuery(device.mobileL);
+
+    const pageColor = getReaderStyles(props.settings.readerTheme);
 
     // Render book
     const [page, setPage] = useState('')
@@ -82,10 +85,12 @@ const BookReader = (props: Props) => {
             return spine_get(target);
         }
 
+
+
         rendition.themes.register('custom', {
             "body": {
-                "background-color": "white",
-                "color": "black"
+                "background-color": pageColor.backgroundColor,
+                "color": pageColor.color
             },
             "a:hover": {
                 "color": "inherit"
@@ -161,7 +166,7 @@ const BookReader = (props: Props) => {
                     location={location}
                     locationChanged={locationChanged}
                     getRendition={getRendition}
-                    styles={isMobile ? mobileStyle(isMobile, isThemeOn) : defaultStyle(isThemeOn)}
+                    styles={isMobile ? mobileStyle(isMobile, pageColor) : defaultStyle(pageColor)}
                 />
             </ReaderContainer>
             <BottomContainer backgroundColor={getTheme(isThemeOn).backgroundColor} color={getTheme(isThemeOn).color}>

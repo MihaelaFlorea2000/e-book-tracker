@@ -25,7 +25,6 @@ const SettingsPage = () => {
 
     settingsStore.setProfileImageUrl(user.profileImage);
 
-
     return (
         <Page>
             <Title text="Settings" />

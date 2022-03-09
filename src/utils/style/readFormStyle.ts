@@ -26,7 +26,7 @@ export const Form = styled.form`
     display: flex;
     align-items: center;
     justify-items: center;
-  }
+  } 
 `
 
 export const FormContainer = styled.div`
