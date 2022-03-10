@@ -167,7 +167,7 @@ export default class ProfileStore {
             return;
         }
 
-        axiosConfig().get(`/pg/users/settings`).then(data => {
+        axiosConfig().get(`/pg/users/settings/profile/${this.id}`).then(data => {
             runInAction(() => {
                 this.profileSettings = data.data;
             })

@@ -4,29 +4,19 @@ import ProfileStore from "../../../stores/ProfileStore";
 import {CircularLoading} from "../../../utils/components/CircularLoading";
 import { observer } from "mobx-react";
 import {ProfileImage} from "../../../utils/components/ProfileImage";
+import {UserInterface} from "../../../config/interfaces";
 
 interface Props {
-    store: ProfileStore
+    user: UserInterface
 }
 
 const ProfileDetails = (props: Props) => {
-
-    const profileStore = props.store;
-
-    const user = profileStore.getUser();
-
-    if (user === undefined) {
-        return (
-            <CircularLoading />
-        )
-    }
-
     return (
         <ProfileContainer>
-            <ProfileImage size="large" image={user.profileImage}/>
+            <ProfileImage size="large" image={props.user.profileImage}/>
             <NameContainer>
-                <Name>{user.firstName} {user.lastName}</Name>
-                <Email>{user.email}</Email>
+                <Name>{props.user.firstName} {props.user.lastName}</Name>
+                <Email>{props.user.email}</Email>
             </NameContainer>
         </ProfileContainer>
     )

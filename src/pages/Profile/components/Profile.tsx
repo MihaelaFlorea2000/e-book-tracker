@@ -9,6 +9,9 @@ import {observer} from "mobx-react";
 import styled from "@emotion/styled";
 import {border} from "../../../utils/style/themeConfig";
 import React from "react";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faLock} from "@fortawesome/free-solid-svg-icons";
+import {useStore} from "../../../stores/RootStore";
 
 interface Props {
     store: ProfileStore;
@@ -16,40 +19,65 @@ interface Props {
 
 const Profile = (props: Props) => {
 
-   const profileStore = props.store;
+    const { userStore } = useStore();
+
+    const profileStore = props.store;
 
     const profileSettings = profileStore.getProfileSettings();
+    const user = profileStore.getUser();
+    const currentUser = userStore.getCurrentUser();
 
-    if (profileSettings === undefined) {
+    if (profileSettings === undefined || user === undefined || currentUser === undefined) {
         return (
             <CircularLoading />
         )
     }
 
     const size = profileSettings.showNumbers ? '50vw' : '100%';
+    const isMyProfile = currentUser.id === user.id;
 
     return (
         <Page>
             <Container>
-                <ProfileDetails store={profileStore}/>
-                <ProfileInfo>
-                    <MetricsContainer>
-                        {profileSettings.showGoals &&
-                            <GoalsContainer size={size}>
-                                <Title>Goals</Title>
-                                <Goals store={profileStore} />
-                            </GoalsContainer>
+                <ProfileDetails user={user}/>
+                {profileSettings.profileVisibility === 'all' || isMyProfile &&
+                    <ProfileInfo>
+                        <MetricsContainer>
+                            {profileSettings.showGoals &&
+                                <GoalsContainer size={size}>
+                                    <Title>Goals</Title>
+                                    <Goals store={profileStore} />
+                                </GoalsContainer>
+                            }
+                            {profileSettings.showNumbers &&
+                                <Numbers size="small" store={profileStore}/>
+                            }
+                        </MetricsContainer>
+                        {profileSettings.showBooks &&
+                            <BooksContainer>
+                                <UserBooks store={profileStore} />
+                            </BooksContainer>
                         }
-                        {profileSettings.showNumbers &&
-                            <Numbers size="small" store={profileStore}/>
-                        }
-                    </MetricsContainer>
-                    {profileSettings.showBooks &&
-                        <BooksContainer>
-                            <UserBooks store={profileStore} />
-                        </BooksContainer>
-                    }
-                </ProfileInfo>
+                    </ProfileInfo>
+                }
+                {profileSettings.profileVisibility === 'none'
+                    &&
+                    <PrivateProfile>
+                        <IconContainer>
+                            <FontAwesomeIcon icon={faLock}/>
+                        </IconContainer>
+                        This profile is private.
+                    </PrivateProfile>
+                }
+                {profileSettings.profileVisibility === 'friends'
+                    &&
+                    <PrivateProfile>
+                        <IconContainer>
+                            <FontAwesomeIcon icon={faLock}/>
+                        </IconContainer>
+                        This profile is private. You must become friends to view their profile
+                    </PrivateProfile>
+                }
             </Container>
         </Page>
     )
@@ -93,3 +121,19 @@ const BooksContainer = styled.div`
 
 const Title = styled.h2`
 `
+
+const IconContainer = styled.div`
+  font-size: 2rem;
+`
+
+const PrivateProfile = styled.div`
+  padding: 20px;
+  display: flex;
+  flex-flow: column;
+  gap: 5px;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  color: ${props => props.theme.palette.info.main}
+`
+
