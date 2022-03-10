@@ -18,7 +18,7 @@ import {
 import TagsInput from "../../../utils/components/TagsInput";
 import axiosConfig from "../../../config/axiosConfig";
 import { StyledTextField } from "../../../utils/style/styledComponents";
-import { BookRating } from "../../../utils/components/BookRating";
+import { BookRating } from "../../../utils/components/Book/BookRating";
 import {
     FormContainer,
     Container,

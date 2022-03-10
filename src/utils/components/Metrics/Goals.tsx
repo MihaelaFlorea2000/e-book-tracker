@@ -1,24 +1,26 @@
 import React from "react";
 import {observer} from "mobx-react";
 import styled from "@emotion/styled";
-import {useStore} from "../../../../stores/RootStore";
-import {border} from "../../../../utils/style/themeConfig";
-import {CircularLoading} from "../../../../utils/components/CircularLoading";
+import {border} from "../../style/themeConfig";
+import {CircularLoading} from "../CircularLoading";
 import Button from "@mui/material/Button";
 import {useNavigate} from "react-router-dom";
-import {chartBorderColors, chartColors} from "../../helpers/ChartSettings";
+import { device } from "../../../config/config";
+import ProfileStore from "../../../stores/ProfileStore";
 import Goal from "./Goal";
-import { device } from "../../../../config/config";
+import {chartBorderColors, chartColors} from "../../../pages/Track/helpers/ChartSettings";
+import MetricsStore from "../../../stores/MetricsStore";
 
-const Goals = () => {
+interface Props {
+    store: ProfileStore | MetricsStore,
+}
+
+const Goals = (props: Props) => {
 
     const navigate = useNavigate();
 
-    // Get stores
-    const { metricsStore } = useStore();
-
     // Get goals
-    const goals = metricsStore.getGoals();
+    const goals = props.store.getGoals();
 
     if(goals === undefined) {
         return (
@@ -29,9 +31,11 @@ const Goals = () => {
     }
 
     const handleClick = () => {
-        metricsStore.setSetGoals(goals.set);
-        metricsStore.setGoalsDialogue(true);
-        navigate('/track/goals');
+        if (props.store instanceof MetricsStore) {
+            props.store.setSetGoals(goals.set);
+            props.store.setGoalsDialogue(true);
+            navigate('/track/goals');
+        }
     }
 
     // Create strings
@@ -45,7 +49,7 @@ const Goals = () => {
 
     return (
         <Container>
-            <StyledButton onClick={handleClick}>Edit Goals</StyledButton>
+            {props.store instanceof MetricsStore && <StyledButton onClick={handleClick}>Edit Goals</StyledButton>}
             <GoalsContainer>
                 <Goal borderColor={chartBorderColors.green} goal={yearlyGoalString} value={goals.percentage.yearly} title="Yearly" color={chartColors.green}/>
                 <Goal borderColor={chartBorderColors.pink} goal={monthlyGoalString} value={goals.percentage.monthly} title="Monthly" color={chartColors.pink}/>
@@ -73,10 +77,6 @@ const Container = styled.div`
   }
 `
 
-const StyledButton = styled(Button)`
-  align-self: end;
-`
-
 const GoalsContainer = styled.div`
   display: flex;
   gap: 10px;
@@ -88,4 +88,8 @@ const GoalsContainer = styled.div`
     align-items: center;
     justify-content: center;
   }
+`
+
+const StyledButton = styled(Button)`
+  align-self: end;
 `

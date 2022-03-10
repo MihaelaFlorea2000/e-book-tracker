@@ -14,7 +14,7 @@ import {BookInterface} from "../../../config/interfaces";
 import { useStore } from "../../../stores/RootStore";
 import {faTrophy} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {BookRating} from "../../../utils/components/BookRating";
+import {BookRating} from "../../../utils/components/Book/BookRating";
 import axiosConfig from "../../../config/axiosConfig";
 import {useNavigate} from "react-router-dom";
 

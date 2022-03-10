@@ -84,7 +84,9 @@ const ReadInfo = (props: Props) => {
                     :
                     <TimeRead>Book not read yet</TimeRead>
                 }
-                <AddButton size="medium" onClick={handleAdd}/>
+                {bookStore.isOwner() &&
+                    <AddButton size="medium" onClick={handleAdd}/>
+                }
             </ReadHeaderContainer>
             <ReadNodesContainer>
                 {readNodes}

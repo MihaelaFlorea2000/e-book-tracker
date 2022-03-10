@@ -1,10 +1,9 @@
 import React from "react";
 import styled from "@emotion/styled";
-import {useStore} from "../../../../stores/RootStore";
-import {CircularLoading} from "../../../../utils/components/CircularLoading";
+import {CircularLoading} from "../CircularLoading";
 import {observer} from "mobx-react";
-import {getTime} from "../../../../utils/components/TimeString";
-import formatDateLong from "../../../../config/formatDateLong";
+import {getTime} from "../TimeString";
+import formatDateLong from "../../../config/formatDateLong";
 import {
     faBook,
     faBookOpen,
@@ -13,17 +12,21 @@ import {
     faHourglassHalf,
     faStopwatch
 } from "@fortawesome/free-solid-svg-icons";
-import IconDetail from "../../../../utils/components/IconDetail";
-import {border} from "../../../../utils/style/themeConfig";
-import { device } from "../../../../config/config";
-import {chartBorderColors, chartColors} from "../../helpers/ChartSettings";
+import IconDetail from "../IconDetail";
+import {border} from "../../style/themeConfig";
+import { device } from "../../../config/config";
+import {chartBorderColors, chartColors} from "../../../pages/Track/helpers/ChartSettings";
+import MetricsStore from "../../../stores/MetricsStore";
+import ProfileStore from "../../../stores/ProfileStore";
 
-const Numbers = () => {
+interface Props {
+    store: MetricsStore | ProfileStore
+}
 
-    const { metricsStore } = useStore();
+const Numbers = (props: Props) => {
 
     // Get numbers
-    const numbers = metricsStore.getNumbers();
+    const numbers = props.store.getNumbers();
 
     if (numbers === undefined) {
         return (

@@ -3,20 +3,29 @@ import styled from "@emotion/styled";
 import Book from "../../../utils/components/Book/Book";
 import Grid from "@mui/material/Grid";
 import {observer} from "mobx-react";
-import {SimpleBookInterface} from "../../../config/interfaces";
+import ProfileStore from "../../../stores/ProfileStore";
+import {CircularLoading} from "../../../utils/components/CircularLoading";
 
 interface Props {
-    books: SimpleBookInterface[]
+    store: ProfileStore
 }
 
-const BookResults = (props: Props) => {
+const UserBooks = (props: Props) => {
+
+    const books = props.store.getBooks();
+
+    if (books === undefined) {
+        return (
+            <CircularLoading />
+        )
+    }
 
     let bookNodes: ReactNode[] = [];
 
-    props.books.forEach((elem, index) => {
+    books.forEach((elem, index) => {
         bookNodes.push(
             <Grid item xs={6} sm={4} md={3} lg={2} key={index}>
-                <Book read={true} book={elem} width="157px"/>
+                <Book read={false} book={elem} width="147px"/>
             </Grid>
         )
     })
@@ -24,7 +33,7 @@ const BookResults = (props: Props) => {
 
     return (
         <Container>
-            <Title>Books</Title>
+            <Title>Latest Books</Title>
             <Grid container spacing={3}>
                 {bookNodes}
             </Grid>
@@ -32,7 +41,7 @@ const BookResults = (props: Props) => {
     )
 }
 
-export default observer(BookResults);
+export default observer(UserBooks);
 
 const Container = styled.div`
 `

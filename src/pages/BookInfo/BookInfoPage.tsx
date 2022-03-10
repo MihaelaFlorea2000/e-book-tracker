@@ -20,20 +20,25 @@ import ReadInfo from "./components/ReadInfo/ReadInfo";
 const BookInfoPage = () => {
 
     // Get stores access
-    const { bookStore, deleteStore } = useStore();
+    const { bookStore, deleteStore, userStore } = useStore();
 
     // Get book
     const params = useParams();
     const bookId = Number(params.bookId);
 
     const book = bookStore.getBook(bookId);
+    const user = userStore.getCurrentUser();
 
-    if (book === undefined || book.id === undefined) {
+    if (book === undefined || book.id === undefined || user === undefined) {
         return (
             <Page>
                 <CircularLoading />
             </Page>
         )
+    }
+
+    if (book.userId === user.id) {
+        bookStore.setIsOwner(true);
     }
 
     const error = deleteStore.getError();
@@ -45,52 +50,56 @@ const BookInfoPage = () => {
     return (
         <Page>
             <Container>
-                <ButtonsContainerDesktop>
-                    <NavLink to={`/book/edit/${book.id}`}>
-                        <Button
-                            type="button"
-                            variant="contained"
-                            size="medium"
-                            startIcon={<FontAwesomeIcon className="fa-fw" icon={faEdit}/>}
-                        >
-                            Edit
-                        </Button>
-                    </NavLink>
-                    <NavLink to={`/book/reader/${book.id}`}>
-                        <Button
-                            type="button"
-                            variant="contained"
-                            size="medium"
-                            startIcon={<FontAwesomeIcon className="fa-fw" icon={faBookReader}/>}
-                        >
-                            Read
-                        </Button>
-                    </NavLink>
-                    <ConfirmBox bookId={book.id} />
-                </ButtonsContainerDesktop>
-                <ButtonsContainerMobile>
-                    <NavLink to={`/book/edit/${book.id}`}>
-                        <Button
-                            type="button"
-                            variant="contained"
-                            size="large"
-                        >
-                            <FontAwesomeIcon className="fa-fw" icon={faEdit}/>
-                        </Button>
-                    </NavLink>
-                    <NavLink to={`/book/reader/${book.id}`}>
-                        <Button
-                            type="button"
-                            variant="contained"
-                            size="large"
-                        >
-                            <FontAwesomeIcon className="fa-fw" icon={faBookReader}/>
-                        </Button>
-                    </NavLink>
-                    <ConfirmBox bookId={book.id}/>
-                </ButtonsContainerMobile>
-                {error !== '' && <ErrorContainer><Alert severity="error">{error}</Alert></ErrorContainer>}
-                {fromEdit !== null && <Alert severity="success">Book successfully updated</Alert> }
+                {bookStore.isOwner() &&
+                    <>
+                        <ButtonsContainerDesktop>
+                            <NavLink to={`/book/edit/${book.id}`}>
+                                <Button
+                                    type="button"
+                                    variant="contained"
+                                    size="medium"
+                                    startIcon={<FontAwesomeIcon className="fa-fw" icon={faEdit}/>}
+                                >
+                                    Edit
+                                </Button>
+                            </NavLink>
+                            <NavLink to={`/book/reader/${book.id}`}>
+                                <Button
+                                    type="button"
+                                    variant="contained"
+                                    size="medium"
+                                    startIcon={<FontAwesomeIcon className="fa-fw" icon={faBookReader}/>}
+                                >
+                                    Read
+                                </Button>
+                            </NavLink>
+                            <ConfirmBox bookId={book.id} />
+                        </ButtonsContainerDesktop>
+                        <ButtonsContainerMobile>
+                            <NavLink to={`/book/edit/${book.id}`}>
+                                <Button
+                                    type="button"
+                                    variant="contained"
+                                    size="large"
+                                >
+                                    <FontAwesomeIcon className="fa-fw" icon={faEdit}/>
+                                </Button>
+                            </NavLink>
+                            <NavLink to={`/book/reader/${book.id}`}>
+                                <Button
+                                    type="button"
+                                    variant="contained"
+                                    size="large"
+                                >
+                                    <FontAwesomeIcon className="fa-fw" icon={faBookReader}/>
+                                </Button>
+                            </NavLink>
+                            <ConfirmBox bookId={book.id}/>
+                        </ButtonsContainerMobile>
+                        {error !== '' && <ErrorContainer><Alert severity="error">{error}</Alert></ErrorContainer>}
+                        {fromEdit !== null && <Alert severity="success">Book successfully updated</Alert> }
+                    </>
+                }
                 <MetadataInfo book={book} />
             </Container>
             <ReadInfo book={book}/>

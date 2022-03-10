@@ -1,6 +1,6 @@
 import {makeAutoObservable, runInAction} from "mobx";
 import {
-    BookSearchInterface,
+    SimpleBookInterface,
     UserSearchInterface
 } from "../config/interfaces";
 import axiosConfig from "../config/axiosConfig";
@@ -8,7 +8,7 @@ import axiosConfig from "../config/axiosConfig";
 export default class SearchStore {
 
     private users: UserSearchInterface[] | undefined = undefined;
-    private books: BookSearchInterface[] | undefined = undefined;
+    private books: SimpleBookInterface[] | undefined = undefined;
 
 
     public constructor() {
@@ -28,7 +28,7 @@ export default class SearchStore {
         return this.users;
     }
 
-    public getBooks():BookSearchInterface[] | undefined {
+    public getBooks():SimpleBookInterface[] | undefined {
         return this.books;
     }
 }

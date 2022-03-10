@@ -1,16 +1,15 @@
 import {makeAutoObservable, runInAction} from "mobx";
-import {BookInterface, ReadInterface, SessionInterface} from "../config/interfaces";
+import {BookInterface, ReadInterface} from "../config/interfaces";
 import axiosConfig from "../config/axiosConfig";
 
 export default class BookStore {
 
     private book: BookInterface | undefined = undefined;
     private reads: ReadInterface[] | undefined = undefined;
-    private sessions: SessionInterface[] | undefined;
+    private owner: boolean = false;
 
     private requestedBook: boolean = false;
     private requestedReads: boolean = false;
-    private requestedSessions: boolean = false;
 
 
     public constructor() {
@@ -77,6 +76,17 @@ export default class BookStore {
                 this.reads = data.data;
                 this.requestedReads = false;
             })
+        })
+    }
+
+    // Is the user highlighting something?
+    public isOwner():boolean {
+        return this.owner;
+    }
+
+    public setIsOwner(owner:boolean) {
+        runInAction(() => {
+            this.owner = owner;
         })
     }
 }

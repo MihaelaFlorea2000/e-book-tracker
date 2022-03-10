@@ -6,8 +6,8 @@ import {
     Chart as ChartJS,
     ArcElement
 } from 'chart.js';
-import {chartColors} from "../../helpers/ChartSettings";
-import { device } from "../../../../config/config";
+import {chartColors} from "../../../pages/Track/helpers/ChartSettings";
+import { device } from "../../../config/config";
 
 /**
  * Some code for chart settings is taken from

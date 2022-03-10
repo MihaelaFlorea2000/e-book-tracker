@@ -106,7 +106,7 @@ export default class MetricsStore {
         })
     }
 
-    // Goals Dialog
+    // Metrics Dialog
     public isGoalsDialogue():boolean {
         return this.goalsDialogue;
     }

@@ -7,14 +7,14 @@ import axiosConfig from "../../config/axiosConfig";
 import {Button} from "@mui/material";
 import {StyledTextField} from "../../utils/style/styledComponents";
 import Sessions from "./components/Sessions";
-import {BookRating} from "../../utils/components/BookRating";
+import {BookRating} from "../../utils/components/Book/BookRating";
 import LoadingButton from "@mui/lab/LoadingButton";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCheckCircle, faTimesCircle} from "@fortawesome/free-solid-svg-icons";
 import {observer} from "mobx-react";
 import styled from "@emotion/styled";
 import EditDialogue from "./components/EditDialogue";
-import BookCover from "../../utils/components/BookCover";
+import BookCover from "../../utils/components/Book/BookCover";
 import {
     Form,
     FormContainer,

@@ -4,13 +4,15 @@ import styled from "@emotion/styled";
 import Button from "@mui/material/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBookReader, faInfo } from "@fortawesome/free-solid-svg-icons";
-import {BookInterface, BookSearchInterface} from "../../config/interfaces";
-import { border } from "../style/themeConfig";
+import {BookInterface, SimpleBookInterface} from "../../../config/interfaces";
+import { border } from "../../style/themeConfig";
 // @ts-ignore
-import defaultCoverImage from "../images/defaultCoverImage.jpeg";
+import defaultCoverImage from "../../images/defaultCoverImage.jpeg";
 
 interface Props {
-    book: BookInterface | BookSearchInterface;
+    book: BookInterface | SimpleBookInterface;
+    read: boolean,
+    width: string
 }
 
 const Book = (props: Props) => {
@@ -22,18 +24,20 @@ const Book = (props: Props) => {
     return (
         <BookContainer >
             <CoverContainer>
-                <BookImage image={coverImage} />
+                <BookImage image={coverImage} width={props.width}/>
                 {showTitle && <Title>{props.book.title}</Title>}
             </CoverContainer>
             <OptionsOverlay>
                 <ButtonContainer>
-                    <NavLink to={`/book/reader/${props.book.id}`}>
-                        <StyledButton
-                            variant="contained"
-                            size="small"
-                            startIcon={<FontAwesomeIcon className="fa-fw" icon={faBookReader}/>}
-                        > Read </StyledButton>
-                    </NavLink>
+                    {props.read &&
+                        <NavLink to={`/book/reader/${props.book.id}`}>
+                            <StyledButton
+                                variant="contained"
+                                size="small"
+                                startIcon={<FontAwesomeIcon className="fa-fw" icon={faBookReader}/>}
+                            > Read </StyledButton>
+                        </NavLink>
+                    }
                     <NavLink to={`/book/${props.book.id}`}>
                         <StyledButton
                             variant="contained"
@@ -74,13 +78,13 @@ const CoverContainer = styled.div`
   position: relative;
 `
 
-const BookImage = styled.div<{image: string}>`
+const BookImage = styled.div<{image: string, width: string}>`
   border-radius: ${border.borderRadius};
   position: relative;
-  width: 157px;
-  height: calc(157px * 1.6);
+  width: ${props => props.width};
+  height: calc(${props => props.width} * 1.6);
   background-image: url(${props => props.image});
-  background-size: 157px calc(157px * 1.6);
+  background-size: ${props => props.width} calc(${props => props.width} * 1.6);
   background-repeat: no-repeat;
 `
 

@@ -4,7 +4,7 @@ import { observer } from "mobx-react";
 import styled from "@emotion/styled";
 import Grid from "@mui/material/Grid";
 import Alert from "@mui/material/Alert";
-import Book from "../../utils/components/Book";
+import Book from "../../utils/components/Book/Book";
 import { CircularLoading } from "../../utils/components/CircularLoading";
 import { useStore } from "../../stores/RootStore";
 import {AddButton} from "../../utils/components/AddButton";
@@ -41,7 +41,7 @@ const LibraryPage = () => {
     books.forEach((elem, index) => {
         bookNodes.push(
             <Grid item xs={6} sm={4} md={3} lg={2} key={index}>
-                <Book book={elem} />
+                <Book read={true} book={elem} width="157px"/>
             </Grid>
         )
     })

@@ -1,6 +1,6 @@
 import React, {ReactNode} from "react";
 import styled from "@emotion/styled";
-import {BookRating} from "../../../../utils/components/BookRating";
+import {BookRating} from "../../../../utils/components/Book/BookRating";
 import ReadMore from "./ReadMore";
 import IconDetail from "../../../../utils/components/IconDetail";
 import {faBookOpen, faCalendar, faLanguage} from "@fortawesome/free-solid-svg-icons";

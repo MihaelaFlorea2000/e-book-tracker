@@ -38,7 +38,7 @@ export interface BookInterface {
     location: string
 }
 
-export interface BookSearchInterface {
+export interface SimpleBookInterface {
     id: number,
     title: string,
     coverImage: string

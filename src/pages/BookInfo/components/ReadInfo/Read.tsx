@@ -11,7 +11,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {ReadInterface} from "../../../../config/interfaces";
-import {BookRating} from "../../../../utils/components/BookRating";
+import {BookRating} from "../../../../utils/components/Book/BookRating";
 import {DeleteIconContainer, EditIconContainer } from "../../../../utils/style/styledComponents";
 import axiosConfig from "../../../../config/axiosConfig";
 import {useStore} from "../../../../stores/RootStore";
@@ -75,21 +75,23 @@ const Read = (props: Props) => {
 
     return (
         <Container>
-            <ChangeIconsContainer>
-                {props.current
-                    ?
-                    <EditIconContainer onClick={handleFinish}>
-                        <FontAwesomeIcon className="fa-fw" icon={faFlagCheckered}/>
-                    </EditIconContainer>
-                    :
-                    <EditIconContainer onClick={handleEdit}>
-                        <FontAwesomeIcon className="fa-fw" icon={faEdit}/>
-                    </EditIconContainer>
-                }
-                <DeleteIconContainer onClick={handleDelete}>
-                    <FontAwesomeIcon icon={faTimes}/>
-                </DeleteIconContainer>
-            </ChangeIconsContainer>
+            {bookStore.isOwner() &&
+                <ChangeIconsContainer>
+                    {props.current
+                        ?
+                        <EditIconContainer onClick={handleFinish}>
+                            <FontAwesomeIcon className="fa-fw" icon={faFlagCheckered}/>
+                        </EditIconContainer>
+                        :
+                        <EditIconContainer onClick={handleEdit}>
+                            <FontAwesomeIcon className="fa-fw" icon={faEdit}/>
+                        </EditIconContainer>
+                    }
+                    <DeleteIconContainer onClick={handleDelete}>
+                        <FontAwesomeIcon icon={faTimes}/>
+                    </DeleteIconContainer>
+                </ChangeIconsContainer>
+            }
             <DateContainer>
                 {startDate} - {endDate}
             </DateContainer>
