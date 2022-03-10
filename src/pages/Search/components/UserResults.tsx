@@ -4,6 +4,7 @@ import Grid from "@mui/material/Grid";
 import {observer} from "mobx-react";
 import User from "./User";
 import {UserSearchInterface} from "../../../config/interfaces";
+import { NavLink } from "react-router-dom";
 
 interface Props {
     users: UserSearchInterface[]
@@ -16,7 +17,7 @@ const UserResults = (props: Props) => {
     props.users.forEach((elem, index) => {
         userNodes.push(
             <Grid item xs={6} sm={4} md={3} lg={2} key={index}>
-                <User user={elem} />
+                <NavLink to={`/profile/${elem.id}`}><User user={elem} /></NavLink>
             </Grid>
         )
     })

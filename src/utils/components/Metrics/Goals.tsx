@@ -67,11 +67,9 @@ const Container = styled.div`
   display: flex;
   flex-flow: column;
   gap: 20px;
-  width: 50vw;
   border-radius: ${border.borderRadius};
 
   @media only screen and ${device.tablet} {
-    width: 90vw;
     align-items: center;
     justify-content: center;
   }

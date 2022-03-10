@@ -4,7 +4,7 @@ import {
     SimpleBookInterface,
     GoalsInterface,
     NumbersInterface,
-    UserInterface
+    UserInterface, ProfileSettingsInterface, SettingsInterface
 } from "../config/interfaces";
 
 export default class ProfileStore {
@@ -13,12 +13,16 @@ export default class ProfileStore {
     private user: UserInterface | undefined = undefined;
     private goals: GoalsInterface | undefined = undefined;
     private numbers: NumbersInterface | undefined = undefined;
-    private books: SimpleBookInterface[] | undefined = undefined
+    private books: SimpleBookInterface[] | undefined = undefined;
+    private profileSettings: ProfileSettingsInterface | undefined = undefined;
+
 
     private requestedUser: boolean = false;
     private requestedGoals: boolean = false;
     private requestedNumbers: boolean = false;
     private requestedBooks: boolean = false;
+    private requestedProfileSettings: boolean = false;
+
 
     public constructor(id: number) {
         makeAutoObservable(this);
@@ -138,6 +142,34 @@ export default class ProfileStore {
             runInAction(() => {
                 this.books = data.data;
                 this.requestedBooks = false
+            })
+        })
+    }
+
+    // Settings
+    public getProfileSettings(): ProfileSettingsInterface | undefined {
+        if (this.profileSettings === undefined) {
+            this.requestProfileSettings();
+
+            return undefined;
+        } else {
+            return this.profileSettings;
+        }
+    }
+
+    // Request current user books
+    public requestProfileSettings() {
+        if (!this.requestedProfileSettings) {
+            runInAction(() => {
+                this.requestedProfileSettings = true;
+            })
+        } else {
+            return;
+        }
+
+        axiosConfig().get(`/pg/users/settings`).then(data => {
+            runInAction(() => {
+                this.profileSettings = data.data;
             })
         })
     }

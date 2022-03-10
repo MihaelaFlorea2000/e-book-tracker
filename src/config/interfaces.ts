@@ -140,3 +140,10 @@ export interface SettingsInterface {
     showBooks: boolean,
     showNumbers: boolean
 }
+
+export interface ProfileSettingsInterface {
+    profileVisibility: string,
+    showGoals: boolean,
+    showBooks: boolean,
+    showNumbers: boolean
+}

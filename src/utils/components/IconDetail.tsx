@@ -36,10 +36,10 @@ const Detail = styled.div<{size: string}>`
   border-left: 2px solid ${props => props.theme.palette.primary.light};
   border-right: 2px solid ${props => props.theme.palette.primary.light};
   
-  width: ${props => props.size === 'large' ? '15vw' : '13.2vw'};
+  width: ${props => props.size === 'large' ? '15vw' : props.size === 'medium' ? '13.2vw' : '12vw'};
 
   @media only screen and ${device.tablet} {
-    width: ${props => props.size === 'large' ? '80vw' : '40vw'};
+    width: ${props => props.size === 'large' ? '80vw' : props.size === 'medium' ? '40vw' : '35vw'};
     border: 0;
     border-top: 2px solid ${props => props.theme.palette.primary.light};
     border-bottom: 2px solid ${props => props.theme.palette.primary.light};
@@ -47,7 +47,7 @@ const Detail = styled.div<{size: string}>`
 `
 
 const DetailTitle = styled.div`
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   color: ${props => props.theme.palette.info.main}
 `
 

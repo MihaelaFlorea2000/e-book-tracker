@@ -39,8 +39,8 @@ const PrivacySettings = (props: Props) => {
     const [notifications, setNotifications] = useState<boolean>(props.settings.notifications);
     const [profileVisibility, setProfileVisibility] = useState<string>(props.settings.profileVisibility);
     const [goals, setGoals] = useState<boolean>(props.settings.showGoals);
-    const [numbers, setNumbers] = useState<boolean>(props.settings.showBooks);
-    const [books, setBooks] = useState<boolean>(props.settings.showNumbers);
+    const [numbers, setNumbers] = useState<boolean>(props.settings.showNumbers);
+    const [books, setBooks] = useState<boolean>(props.settings.showBooks);
 
 
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
