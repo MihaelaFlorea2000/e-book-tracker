@@ -82,9 +82,12 @@ const EditDialog = (props:Props) => {
             }
         }
 
+        const noHours = newSession.time.hours.toString() === '0' || !hours;
+        const noMinutes = newSession.time.minutes.toString() === '0' || !minutes;
+
         // Check session has some time
-        if ((newSession.time.hours === 0 && newSession.time.minutes === 0 )) {
-            editReadStore.setErrorMessage('Session time required');
+        if (noMinutes && noHours) {
+            editReadStore.setErrorMessage('Session time required')
             return
         }
 

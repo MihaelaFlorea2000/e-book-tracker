@@ -172,11 +172,11 @@ const BookReader = (props: Props) => {
             <BottomContainer backgroundColor={getTheme(isThemeOn).backgroundColor} color={getTheme(isThemeOn).color}>
                 <SettingsContainer>
                     <Button onClick={() => changeSize(Math.max(80, fontSize - 10))}>
-                        <FontAwesomeIcon className="fa-fw" icon={faMinus}/>
+                        <FontSizeIcon color={pageColor.buttonsColor}><FontAwesomeIcon className="fa-fw" icon={faMinus}/></FontSizeIcon>
                     </Button>
-                    <span><FontSizeText>Font size: </FontSizeText>{fontSize}%</span>
+                    <FontSizeSpan color={pageColor.color}><FontSizeText>Font size: </FontSizeText>{fontSize}%</FontSizeSpan>
                     <Button onClick={() => changeSize(Math.min(200, fontSize + 10))}>
-                        <FontAwesomeIcon className="fa-fw" icon={faPlus}/>
+                        <FontSizeIcon color={pageColor.buttonsColor}><FontAwesomeIcon className="fa-fw" icon={faPlus}/></FontSizeIcon>
                     </Button>
                 </SettingsContainer>
                 <PageContainer>
@@ -229,8 +229,16 @@ const SettingsContainer = styled.div`
 const PageContainer = styled.div`
 `
 
+const FontSizeSpan = styled.span<{color: string}>`
+  color: ${props => props.color}
+`
+
 const FontSizeText = styled.span`
   @media only screen and ${device.mobileL} {
     display: none;
   }
+`
+
+const FontSizeIcon = styled.div<{color: string}>`
+    color: ${props => props.color}
 `

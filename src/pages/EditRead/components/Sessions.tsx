@@ -70,8 +70,12 @@ const Sessions = () => {
             return
         }
 
+
+        const noHours = hours.toString() === '0' || !hours;
+        const noMinutes = minutes.toString() === '0' || !minutes;
+
         // Check session has some time
-        if (hours === 0 && minutes === 0 ) {
+        if (noMinutes && noHours) {
             editReadStore.setErrorMessage('Session time required')
             return
         }
