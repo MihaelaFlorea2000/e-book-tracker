@@ -3,7 +3,6 @@ import styled from "@emotion/styled";
 import {useParams} from "react-router-dom";
 import ProfileStore from "../../stores/ProfileStore";
 import {observer} from "mobx-react";
-import {border} from "../../utils/style/themeConfig";
 import Profile from "./components/Profile";
 
 const ProfilePage = () => {

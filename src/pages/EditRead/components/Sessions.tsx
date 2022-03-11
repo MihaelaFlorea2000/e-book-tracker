@@ -5,7 +5,7 @@ import styled from "@emotion/styled";
 import {useStore} from "../../../stores/RootStore";
 import Session from "./Session";
 import { StyledTextField } from "../../../utils/style/styledComponents";
-import {AddButton} from "../../../utils/components/AddButton";
+import {AddButton} from "../../../utils/components/Buttons/AddButton";
 import {CircularLoading} from "../../../utils/components/CircularLoading";
 import axiosConfig from "../../../config/axiosConfig";
 import {

@@ -36,11 +36,17 @@ const Profile = (props: Props) => {
     const size = profileSettings.showNumbers ? '50vw' : '100%';
     const isMyProfile = currentUser.id === user.id;
 
+    const showProfileInfo =
+        profileSettings.profileVisibility === 'all'
+        || isMyProfile
+        || (profileSettings.profileVisibility === 'friends'
+            && user.isFriend)
+
     return (
         <Page>
             <Container>
                 <ProfileDetails user={user}/>
-                {profileSettings.profileVisibility === 'all' || isMyProfile &&
+                {showProfileInfo &&
                     <ProfileInfo>
                         <MetricsContainer>
                             {profileSettings.showGoals &&
@@ -69,7 +75,7 @@ const Profile = (props: Props) => {
                         This profile is private.
                     </PrivateProfile>
                 }
-                {profileSettings.profileVisibility === 'friends'
+                {profileSettings.profileVisibility === 'friends' && !user.isFriend
                     &&
                     <PrivateProfile>
                         <IconContainer>

@@ -263,7 +263,6 @@ const AccountSettings = (props: Props) => {
                         </SubmitButtons>
                     </FormContainer>
                 </DetailsContainer>
-
             </AccordionDetails>
         </Accordion>
     )

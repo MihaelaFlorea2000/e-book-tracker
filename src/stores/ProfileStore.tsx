@@ -3,14 +3,13 @@ import axiosConfig from "../config/axiosConfig";
 import {
     SimpleBookInterface,
     GoalsInterface,
-    NumbersInterface,
-    UserInterface, ProfileSettingsInterface, SettingsInterface
+    NumbersInterface, ProfileSettingsInterface, UserProfileInterface
 } from "../config/interfaces";
 
 export default class ProfileStore {
 
     private id: number;
-    private user: UserInterface | undefined = undefined;
+    private user: UserProfileInterface | undefined = undefined;
     private goals: GoalsInterface | undefined = undefined;
     private numbers: NumbersInterface | undefined = undefined;
     private books: SimpleBookInterface[] | undefined = undefined;
@@ -31,7 +30,7 @@ export default class ProfileStore {
     }
 
     // Get current user information
-    public getUser(): UserInterface | undefined {
+    public getUser(): UserProfileInterface | undefined {
         if (this.user === undefined) {
             this.requestUser();
 

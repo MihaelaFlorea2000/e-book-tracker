@@ -7,7 +7,7 @@ import Alert from "@mui/material/Alert";
 import Book from "../../utils/components/Book/Book";
 import { CircularLoading } from "../../utils/components/CircularLoading";
 import { useStore } from "../../stores/RootStore";
-import {AddButton} from "../../utils/components/AddButton";
+import {AddButton} from "../../utils/components/Buttons/AddButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faSortAlphaDown} from "@fortawesome/free-solid-svg-icons";
 import {useTheme} from "@mui/material";

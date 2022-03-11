@@ -12,6 +12,17 @@ export interface UserInterface {
     profileImage: string
 }
 
+export interface UserProfileInterface {
+    id: number,
+    firstName: string,
+    lastName: string,
+    email: string,
+    profileImage: string,
+    isFriend: boolean,
+    sentRequest: boolean,
+    receivedRequest: boolean
+}
+
 export interface SimpleUserInterface {
     id: number,
     firstName: string,

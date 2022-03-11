@@ -9,7 +9,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {BookInterface} from "../../../../config/interfaces";
 import {CircularLoading} from "../../../../utils/components/CircularLoading";
-import {AddButton} from "../../../../utils/components/AddButton";
+import {AddButton} from "../../../../utils/components/Buttons/AddButton";
 import {useStore} from "../../../../stores/RootStore";
 import Read from "./Read";
 
