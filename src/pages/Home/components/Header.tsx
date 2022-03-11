@@ -52,7 +52,7 @@ const Header = () => {
     const handleSubmit = (event:React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         if (query && event.key === "Enter") {
             searchStore.requestSearch(query);
-            setQuery('')
+            setQuery('');
             navigate('/search');
         }
     };
@@ -71,6 +71,7 @@ const Header = () => {
                 <SideMenu color={theme.palette.primary.main} fontSize="1.7rem" direction="left" icon={faBars} buttonSize="large" menu={<MenuBar />}/>
             </HamburgerContainer>
             <SearchBar
+                value={query}
                 onChange={(e:any) => setQuery(e.target.value)}
                 onKeyDown={(e:any) => {
                     handleSubmit(e);

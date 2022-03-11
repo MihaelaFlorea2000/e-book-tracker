@@ -9,7 +9,8 @@ import IconButton from "../../../utils/components/Buttons/IconButton";
 import Alert from "@mui/material/Alert";
 
 interface Props {
-    user: UserProfileInterface
+    user: UserProfileInterface,
+    isMyProfile: boolean
 }
 
 const ProfileDetails = (props: Props) => {
@@ -111,7 +112,7 @@ const ProfileDetails = (props: Props) => {
                     </NameContainer>
                 </DetailsContainer>
                 <ButtonsContainer>
-                    {!friends && !sentRequest && !receivedRequest &&
+                    {!friends && !sentRequest && !receivedRequest && !props.isMyProfile &&
                         <IconButton
                             loadingCondition={isSubmitting}
                             icon={faUserPlus}
@@ -120,7 +121,7 @@ const ProfileDetails = (props: Props) => {
                         />
                     }
 
-                    {!friends && sentRequest && !receivedRequest &&
+                    {!friends && sentRequest && !receivedRequest && !props.isMyProfile &&
                         <IconButton
                             loadingCondition={isSubmitting}
                             icon={faCommentSlash}
@@ -129,7 +130,7 @@ const ProfileDetails = (props: Props) => {
                         />
                     }
 
-                    {friends &&
+                    {friends && !props.isMyProfile &&
                         <IconButton
                             loadingCondition={isSubmitting}
                             icon={faUserMinus}
@@ -138,7 +139,7 @@ const ProfileDetails = (props: Props) => {
                         />
                     }
 
-                    {receivedRequest &&
+                    {receivedRequest && !props.isMyProfile &&
                         <>
                             <IconButton
                                 loadingCondition={accepting}

@@ -45,7 +45,7 @@ const Profile = (props: Props) => {
     return (
         <Page>
             <Container>
-                <ProfileDetails user={user}/>
+                <ProfileDetails user={user} isMyProfile={isMyProfile}/>
                 {showProfileInfo &&
                     <ProfileInfo>
                         <MetricsContainer>
