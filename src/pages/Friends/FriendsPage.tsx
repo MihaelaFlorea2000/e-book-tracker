@@ -1,18 +1,37 @@
 import React from "react";
 import styled from "@emotion/styled";
+import { useStore } from "../../stores/RootStore";
+import {CircularLoading} from "../../utils/components/CircularLoading";
+import { Title } from "../../utils/components/Title";
+import UsersList from "../../utils/components/User/UsersList";
+import { observer } from "mobx-react";
 
 const FriendsPage = () => {
 
+    const { friendsStore } = useStore();
+
+    const friends = friendsStore.getFriends();
+
+    if (friends === undefined) {
+        return (
+            <Page>
+                <Title text="Friends" />
+               <CircularLoading />
+            </Page>
+        )
+    }
+
     return (
         <Page>
-            Friends Page
+            <Title text="Friends" />
+            <UsersList users={friends} />
         </Page>
     )
 }
 
-export default FriendsPage;
+export default observer(FriendsPage);
 
 const Page = styled.div`
-    padding: 20px;
+  padding: 20px;
   color: ${props => props.theme.palette.secondary.dark}
 `

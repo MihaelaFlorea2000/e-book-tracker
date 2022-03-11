@@ -1,13 +1,13 @@
 import {makeAutoObservable, runInAction} from "mobx";
 import {
     SimpleBookInterface,
-    UserSearchInterface
+    SimpleUserInterface
 } from "../config/interfaces";
 import axiosConfig from "../config/axiosConfig";
 
 export default class SearchStore {
 
-    private users: UserSearchInterface[] | undefined = undefined;
+    private users: SimpleUserInterface[] | undefined = undefined;
     private books: SimpleBookInterface[] | undefined = undefined;
 
 
@@ -24,7 +24,7 @@ export default class SearchStore {
         })
     }
 
-    public getUsers():UserSearchInterface[] | undefined {
+    public getUsers():SimpleUserInterface[] | undefined {
         return this.users;
     }
 

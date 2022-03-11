@@ -11,6 +11,7 @@ import AddReadStore from "./AddReadStore";
 import EditReadStore from "./EditReadStore";
 import SearchStore from "./SearchStore";
 import SettingsStore from "./SettingsStore";
+import FriendsStore from "./FriendsStore";
 
 interface Store {
     userStore: UserStore,
@@ -24,7 +25,8 @@ interface Store {
     deleteStore: DeleteStore,
     metricsStore: MetricsStore,
     searchStore: SearchStore,
-    settingsStore: SettingsStore
+    settingsStore: SettingsStore,
+    friendsStore: FriendsStore
 }
 
 export const store: Store = {
@@ -39,8 +41,8 @@ export const store: Store = {
     deleteStore: new DeleteStore(),
     metricsStore: new MetricsStore(),
     searchStore: new SearchStore(),
-    settingsStore: new SettingsStore()
-
+    settingsStore: new SettingsStore(),
+    friendsStore: new FriendsStore()
 }
 
 export const StoreContext = createContext(store);

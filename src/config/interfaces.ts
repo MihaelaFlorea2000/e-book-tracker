@@ -12,7 +12,7 @@ export interface UserInterface {
     profileImage: string
 }
 
-export interface UserSearchInterface {
+export interface SimpleUserInterface {
     id: number,
     firstName: string,
     lastName: string,

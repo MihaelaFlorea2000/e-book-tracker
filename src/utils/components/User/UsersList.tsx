@@ -3,14 +3,14 @@ import styled from "@emotion/styled";
 import Grid from "@mui/material/Grid";
 import {observer} from "mobx-react";
 import User from "./User";
-import {UserSearchInterface} from "../../../config/interfaces";
+import {SimpleUserInterface} from "../../../config/interfaces";
 import { NavLink } from "react-router-dom";
 
 interface Props {
-    users: UserSearchInterface[]
+    users: SimpleUserInterface[]
 }
 
-const UserResults = (props: Props) => {
+const UsersList = (props: Props) => {
 
     let userNodes: ReactNode[] = [];
 
@@ -33,7 +33,7 @@ const UserResults = (props: Props) => {
     )
 }
 
-export default observer(UserResults);
+export default observer(UsersList);
 
 const Container = styled.div`
 `

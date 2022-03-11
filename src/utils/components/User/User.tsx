@@ -1,18 +1,17 @@
 import React from "react";
 import styled from "@emotion/styled";
-import {UserSearchInterface} from "../../../config/interfaces";
-import {ProfileImage} from "../../../utils/components/ProfileImage";
-import {theme} from "../../../utils/style/themeConfig";
+import {SimpleUserInterface} from "../../../config/interfaces";
+import {ProfileImage} from "../ProfileImage";
 
 interface Props {
-    user: UserSearchInterface;
+    user: SimpleUserInterface;
 }
 
 const User = (props: Props) => {
 
     return (
         <Container>
-            <ProfileImage size="large" image={props.user.profileImage} />
+            <ProfileImage size="medium" image={props.user.profileImage} />
             <Name>{props.user.firstName} {props.user.lastName}</Name>
         </Container>
     )
