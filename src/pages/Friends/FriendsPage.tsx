@@ -24,7 +24,7 @@ const FriendsPage = () => {
     return (
         <Page>
             <Title text="Friends" />
-            <UsersList users={friends} />
+            <UsersList users={friends} showTitle={false}/>
         </Page>
     )
 }

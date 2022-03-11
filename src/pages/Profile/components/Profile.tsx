@@ -66,7 +66,7 @@ const Profile = (props: Props) => {
                         }
                     </ProfileInfo>
                 }
-                {profileSettings.profileVisibility === 'none'
+                {profileSettings.profileVisibility === 'none' && !isMyProfile
                     &&
                     <PrivateProfile>
                         <IconContainer>
@@ -75,7 +75,7 @@ const Profile = (props: Props) => {
                         This profile is private.
                     </PrivateProfile>
                 }
-                {profileSettings.profileVisibility === 'friends' && !user.isFriend
+                {profileSettings.profileVisibility === 'friends' && !user.isFriend && !isMyProfile
                     &&
                     <PrivateProfile>
                         <IconContainer>

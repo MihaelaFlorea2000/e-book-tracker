@@ -35,7 +35,7 @@ const SearchPage = () => {
         <Page>
             <Title text="Search Results" />
             {books.length > 0 && <BookResults books={books}/>}
-            {users.length > 0 &&  <UserResults users={users}/>}
+            {users.length > 0 &&  <UserResults users={users} showTitle={true}/>}
         </Page>
     )
 }

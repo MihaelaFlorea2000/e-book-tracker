@@ -7,7 +7,8 @@ import {SimpleUserInterface} from "../../../config/interfaces";
 import { NavLink } from "react-router-dom";
 
 interface Props {
-    users: SimpleUserInterface[]
+    users: SimpleUserInterface[],
+    showTitle: boolean
 }
 
 const UsersList = (props: Props) => {
@@ -25,7 +26,7 @@ const UsersList = (props: Props) => {
 
     return (
         <Container>
-            <Title>Users</Title>
+            {props.showTitle && <Title>Users</Title>}
             <Grid container spacing={3}>
                 {userNodes}
             </Grid>
