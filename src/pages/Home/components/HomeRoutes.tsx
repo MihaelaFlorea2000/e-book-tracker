@@ -16,6 +16,7 @@ import GoalsDialogue from "../../Track/components/Goals/GoalsDialogue";
 import AddReadPage from "../../AddRead/AddReadPage";
 import EditReadPage from "../../EditRead/EditReadPage";
 import SearchPage from "../../Search/SearchPage";
+import BadgesPage from "../../Badges/BadgesPage";
 
 const HomeRoutes = () => {
 
@@ -35,6 +36,7 @@ const HomeRoutes = () => {
             <Route path={ROUTES.read.add} element={<AddReadPage/>}/>
             <Route path={ROUTES.read.edit} element={<EditReadPage/>}/>
             <Route path={ROUTES.search} element={<SearchPage/>}/>
+            <Route path={ROUTES.badges} element={<BadgesPage/>}/>
         </Routes>
     );
 }

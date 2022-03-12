@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import React, {useState} from "react";
-import {faBars, faBell } from '@fortawesome/free-solid-svg-icons'
+import {faBars, faBell, faStickyNote} from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {border } from "../../../utils/style/themeConfig";
 import { observer } from "mobx-react";
@@ -17,6 +17,8 @@ import { useStore } from "../../../stores/RootStore";
 import { SearchBar } from "../../../utils/components/SearchBar";
 import {ProfileImage} from "../../../utils/components/ProfileImage";
 import {useTheme} from "@mui/material";
+import HighlightMenu from "../../Read/components/HighlightMenu";
+import NotificationsMenu from "./Notifications/NotificationsMenu";
 
 
 interface FormState {
@@ -78,7 +80,7 @@ const Header = () => {
                 }}
             />
             <TopRightContainer>
-                <NotificationContainer><FontAwesomeIcon icon={faBell}/></NotificationContainer>
+                <SideMenu buttonElement={<NotificationContainer><FontAwesomeIcon icon={faBell}/></NotificationContainer>} color={theme.palette.info.main} fontSize="1.6rem" buttonSize="medium" icon={faBell} direction="right" menu={<NotificationsMenu />} />
                 <Box sx={{ flexGrow: 0 }}>
                     <ProfileImage size="small" onClick={handleOpenUserMenu} image={user.profileImage}/>
                     <StyledMenu

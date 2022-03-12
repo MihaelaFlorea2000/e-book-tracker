@@ -12,6 +12,8 @@ import EditReadStore from "./EditReadStore";
 import SearchStore from "./SearchStore";
 import SettingsStore from "./SettingsStore";
 import FriendsStore from "./FriendsStore";
+import NotificationsStore from "./NotificationsStore";
+import BadgesStore from "./BadgesStore";
 
 interface Store {
     userStore: UserStore,
@@ -26,7 +28,9 @@ interface Store {
     metricsStore: MetricsStore,
     searchStore: SearchStore,
     settingsStore: SettingsStore,
-    friendsStore: FriendsStore
+    friendsStore: FriendsStore,
+    notificationsStore: NotificationsStore,
+    badgesStore: BadgesStore
 }
 
 export const store: Store = {
@@ -42,7 +46,9 @@ export const store: Store = {
     metricsStore: new MetricsStore(),
     searchStore: new SearchStore(),
     settingsStore: new SettingsStore(),
-    friendsStore: new FriendsStore()
+    friendsStore: new FriendsStore(),
+    notificationsStore: new NotificationsStore(),
+    badgesStore: new BadgesStore()
 }
 
 export const StoreContext = createContext(store);

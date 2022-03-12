@@ -9,7 +9,8 @@ import {
     faCog,
     faCompass,
     faHome,
-    faUserFriends
+    faUserFriends,
+    faAward
 } from "@fortawesome/free-solid-svg-icons";
 import { border } from "../../../../utils/style/themeConfig";
 import { device } from "../../../../config/config";
@@ -35,6 +36,14 @@ const MenuBar = () => {
                         <MenuLinkContent>
                             <IconContainer><FontAwesomeIcon className="fa-fw" icon={faChartBar}/></IconContainer>
                             <MenuText>Track</MenuText>
+                        </MenuLinkContent>
+                    </NavLink>
+                </MenuLink>
+                <MenuLink>
+                    <NavLink to={"/badges"}>
+                        <MenuLinkContent>
+                            <IconContainer><FontAwesomeIcon className="fa-fw" icon={faAward}/></IconContainer>
+                            <MenuText>Badges</MenuText>
                         </MenuLinkContent>
                     </NavLink>
                 </MenuLink>

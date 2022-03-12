@@ -158,3 +158,20 @@ export interface ProfileSettingsInterface {
     showBooks: boolean,
     showNumbers: boolean
 }
+
+export interface NotificationInterface {
+    senderId: number,
+    receiverId: number,
+    date: string,
+    type: string,
+    image: string | null,
+    firstName: string | null,
+    lastName: string | null
+}
+
+export interface BadgeInterface {
+    id: number,
+    type: string,
+    number: number,
+    done: boolean
+}

@@ -11,7 +11,8 @@ interface Props {
     menu: JSX.Element,
     buttonSize: "large" | "medium" | "small",
     color: string
-    fontSize: string
+    fontSize: string,
+    buttonElement?: JSX.Element
 }
 
 export const SideMenu = (props: Props) => {
@@ -34,19 +35,27 @@ export const SideMenu = (props: Props) => {
             setMenuOpen(!menuOpen);
         };
 
-
-    console.log(props.color)
-
     return (
         <HamburgerContainer>
-            <StyledIconButton
-                onClick={toggleDrawer()}
-                size={props.buttonSize}
-                color="inherit"
-                aria-label="menu"
-            >
-                <IconContainer color={props.color} fontSize={props.fontSize}><FontAwesomeIcon icon={props.icon}/></IconContainer>
-            </StyledIconButton>
+            {props.buttonElement ?
+                <Container
+                    onClick={toggleDrawer()}
+                    color="inherit"
+                    aria-label="menu"
+                >
+                    {props.buttonElement}
+                </Container>
+                :
+                <StyledIconButton
+                    onClick={toggleDrawer()}
+                    size={props.buttonSize}
+                    color="inherit"
+                    aria-label="menu"
+                >
+                    <IconContainer color={props.color} fontSize={props.fontSize}><FontAwesomeIcon icon={props.icon}/></IconContainer>
+                </StyledIconButton>
+            }
+
             <SwipeableDrawer
                 anchor={props.direction}
                 open={menuOpen}
@@ -81,4 +90,7 @@ const StyledIconButton = styled(IconButton)`
 `
 
 const HamburgerContainer = styled.div`
+`
+
+const Container = styled.div`
 `

@@ -17,6 +17,7 @@ export const ROUTES = {
     explore: '/explore',
     friends: '/friends',
     settings: '/settings',
+    badges: '/badges',
     profile: '/profile/:userId',
     book: {
         upload1: '/upload/1',
