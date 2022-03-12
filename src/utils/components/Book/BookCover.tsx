@@ -2,7 +2,6 @@ import React from "react";
 import {useStore} from "../../../stores/RootStore";
 import {useParams} from "react-router-dom";
 import {CircularLoading} from "../CircularLoading";
-// @ts-ignore
 import defaultCoverImage from "../../images/defaultCoverImage.jpeg";
 import { observer } from "mobx-react";
 import { CoverContainer, CoverTitle, Image } from "../../style/styledComponents";

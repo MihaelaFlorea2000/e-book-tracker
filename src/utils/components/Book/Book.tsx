@@ -6,7 +6,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBookReader, faInfo } from "@fortawesome/free-solid-svg-icons";
 import {BookInterface, SimpleBookInterface} from "../../../config/interfaces";
 import { border } from "../../style/themeConfig";
-// @ts-ignore
 import defaultCoverImage from "../../images/defaultCoverImage.jpeg";
 
 interface Props {

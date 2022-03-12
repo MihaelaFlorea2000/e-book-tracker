@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import React from "react";
+import { device } from "../../../config/config";
 
 interface Props {
     image: string,
@@ -17,13 +18,23 @@ export const BadgeImage = (props: Props) => {
 
 const Container = styled.div<{done: boolean}>`
   border-radius: 100%;
-  border: 1px solid black;
+  border: 1px solid ${props => props.theme.palette.secondary.dark};
+  box-shadow: rgba(99, 99, 99, 0.2) 0 2px 8px 0;
+  min-width: 80px;
+  min-height: 80px;
   width: 80px;
   height: 80px;
   display: flex;
   align-items: center;
   justify-content: center;
   background-color: ${props => props.done ? 'rgba(117,249,111,0.4)' : 'transparent'};
+
+  @media only screen and ${device.mobileL} {
+    min-width: 70px;
+    min-height: 70px;
+    width: 70px;
+    height: 70px;
+  }
 `
 
 const Image = styled.div<{image:string}>`
@@ -32,5 +43,4 @@ const Image = styled.div<{image:string}>`
   background-image: url(${props => props.image});
   background-size: contain;
   background-repeat: no-repeat;
-  cursor: pointer;
 `

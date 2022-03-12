@@ -3,8 +3,8 @@ import styled from "@emotion/styled";
 import { useStore } from "../../stores/RootStore";
 import {Title} from "../../utils/components/Title";
 import {CircularLoading} from "../../utils/components/CircularLoading";
-import NotificationElement from "../Home/components/Notifications/NotificationElement";
 import Badge from "./components/Badge";
+import { observer } from "mobx-react";
 
 const BadgesPage = () => {
 
@@ -40,7 +40,7 @@ const BadgesPage = () => {
     )
 }
 
-export default BadgesPage;
+export default observer(BadgesPage);
 
 const Page = styled.div`
   padding: 20px;

@@ -10,7 +10,6 @@ import {NavLink} from "react-router-dom";
  * Icon created on Flaticon by Vectors Market
  * https://www.flaticon.com/free-icons/medal
  */
-// @ts-ignore
 import badgeImage from "../../../../utils/images/badge.png";
 
 

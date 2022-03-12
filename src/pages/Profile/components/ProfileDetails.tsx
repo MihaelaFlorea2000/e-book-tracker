@@ -7,6 +7,7 @@ import {faUserPlus, faUserMinus, faUserTimes, faCommentSlash, faUserCheck} from 
 import axiosConfig from "../../../config/axiosConfig";
 import IconButton from "../../../utils/components/Buttons/IconButton";
 import Alert from "@mui/material/Alert";
+import { device } from "../../../config/config";
 
 interface Props {
     user: UserProfileInterface,
@@ -175,12 +176,21 @@ const ProfileContainer = styled.div`
     width: 120px;
     height: 50px;
   }
+
+  @media only screen and ${device.mobileL} {
+    flex-flow: column;
+  }
 `
 
 const NameContainer = styled.div`
   display: flex;
   flex-flow: column;
   gap: 5px;
+
+  @media only screen and ${device.mobileL} {
+    align-items: center;
+    justify-content: center;
+  }
 `
 
 const ButtonsContainer = styled.div`
@@ -192,11 +202,20 @@ const ButtonsContainer = styled.div`
     width: 120px;
     height: 50px;
   }
+
+  @media only screen and ${device.mobileL} {
+    flex-flow: row;
+    gap: 10px;
+  }
 `
 
 const Name = styled.h1`
   margin: 0;
   padding: 0;
+
+  @media only screen and ${device.mobileL} {
+    text-align: center;
+  }
 `
 
 const Email = styled.div`
@@ -207,6 +226,11 @@ const DetailsContainer = styled.div`
   display: flex;
   gap: 20px;
   align-items: center;
+
+  @media only screen and ${device.mobileL} {
+    flex-flow: column;
+    justify-content: center; 
+  }
 `
 
 const Container = styled.div`

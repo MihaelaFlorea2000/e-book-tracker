@@ -43,11 +43,11 @@ const Detail = styled.div<{size: string}>`
     border: 0;
     border-top: 2px solid ${props => props.theme.palette.primary.light};
     border-bottom: 2px solid ${props => props.theme.palette.primary.light};
-  }
+  } 
 `
 
 const DetailTitle = styled.div`
-  font-size: 0.75rem;
+  font-size: 0.70rem;
   color: ${props => props.theme.palette.info.main}
 `
 

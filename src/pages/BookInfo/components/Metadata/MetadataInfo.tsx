@@ -6,7 +6,6 @@ import IconDetail from "../../../../utils/components/IconDetail";
 import {faBookOpen, faCalendar, faLanguage} from "@fortawesome/free-solid-svg-icons";
 import {device} from "../../../../config/config";
 import {BookInterface} from "../../../../config/interfaces";
-// @ts-ignore
 import defaultCoverImage from "../../../../utils/images/defaultCoverImage.jpeg";
 import Chip from "@mui/material/Chip";
 import { CoverContainer, CoverTitle, Image } from "../../../../utils/style/styledComponents";

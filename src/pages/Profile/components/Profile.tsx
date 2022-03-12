@@ -12,6 +12,7 @@ import React from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faLock} from "@fortawesome/free-solid-svg-icons";
 import {useStore} from "../../../stores/RootStore";
+import { device } from "../../../config/config";
 
 interface Props {
     store: ProfileStore;
@@ -111,6 +112,11 @@ const MetricsContainer = styled.div`
   display: flex;
   gap: 10px;
   align-items: center;
+
+
+  @media only screen and ${device.tablet} {
+    flex-flow: column;
+  }
 `
 
 const GoalsContainer = styled.div<{size: string}>`
@@ -119,6 +125,13 @@ const GoalsContainer = styled.div<{size: string}>`
   gap: 30px;
   align-items: center;
   width: ${props => props.size};
+
+  @media only screen and ${device.tablet} {
+    flex-flow: row;
+    flex-wrap: wrap;
+    width: 100%;
+    padding: 10px;
+  }
 `
 
 const BooksContainer = styled.div`

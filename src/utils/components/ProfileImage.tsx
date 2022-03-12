@@ -21,8 +21,8 @@ export const ProfileImage = (props: Props) => {
 }
 
 const Container = styled.div<{image:string, size: string}>`
-  width: ${props => props.size === 'small' ? '55px': props.size === 'large' ? '120px' : '80px' };
-  height: ${props => props.size === 'small' ? '55px': props.size === 'large' ? '120px' : '80px' };;
+  min-width: ${props => props.size === 'small' ? '55px': props.size === 'large' ? '120px' : '80px' };
+  min-height: ${props => props.size === 'small' ? '55px': props.size === 'large' ? '120px' : '80px' };;
   border-radius: 100%;
   background-image: url(${props => props.image});
   background-size: cover;
