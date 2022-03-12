@@ -32,6 +32,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import axiosConfig from "../../../config/axiosConfig";
 import {observer} from "mobx-react";
 import { device } from "../../../config/config";
+import ConfirmBox from "./ConfirmBox";
 
 // Data submitted in the form
 interface FormState {
@@ -260,6 +261,7 @@ const AccountSettings = (props: Props) => {
                                     Cancel
                                 </Button>
                             }
+                            <ConfirmBox bookId={1}/>
                         </SubmitButtons>
                     </FormContainer>
                 </DetailsContainer>
