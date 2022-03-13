@@ -14,6 +14,8 @@ import SettingsStore from "./SettingsStore";
 import FriendsStore from "./FriendsStore";
 import NotificationsStore from "./NotificationsStore";
 import BadgesStore from "./BadgesStore";
+import ExploreStore from "./ExploreStore";
+import ExploreTagsStore from "./ExploreTagsStore";
 
 interface Store {
     userStore: UserStore,
@@ -30,7 +32,8 @@ interface Store {
     settingsStore: SettingsStore,
     friendsStore: FriendsStore,
     notificationsStore: NotificationsStore,
-    badgesStore: BadgesStore
+    badgesStore: BadgesStore,
+    exploreTagsStore: ExploreTagsStore
 }
 
 export const store: Store = {
@@ -48,7 +51,8 @@ export const store: Store = {
     settingsStore: new SettingsStore(),
     friendsStore: new FriendsStore(),
     notificationsStore: new NotificationsStore(),
-    badgesStore: new BadgesStore()
+    badgesStore: new BadgesStore(),
+    exploreTagsStore: new ExploreTagsStore()
 }
 
 export const StoreContext = createContext(store);

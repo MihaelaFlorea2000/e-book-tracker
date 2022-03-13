@@ -7,16 +7,17 @@ import {SimpleBookInterface} from "../../../config/interfaces";
 
 interface Props {
     books: SimpleBookInterface[],
+    title: string
 }
 
-const BookResults = (props: Props) => {
+const BooksList = (props: Props) => {
 
     let bookNodes: ReactNode[] = [];
 
     props.books.forEach((elem, index) => {
         bookNodes.push(
             <Grid item xs={6} sm={4} md={3} lg={2} key={index}>
-                <Book read={true} book={elem} width="157px" fromAPI={false}/>
+                <Book read={false} book={elem} width="157px" fromAPI={true}/>
             </Grid>
         )
     })
@@ -24,7 +25,7 @@ const BookResults = (props: Props) => {
 
     return (
         <Container>
-            <Title>Books</Title>
+            <Title>{props.title}</Title>
             <Grid container spacing={3}>
                 {bookNodes}
             </Grid>
@@ -32,7 +33,7 @@ const BookResults = (props: Props) => {
     )
 }
 
-export default observer(BookResults);
+export default observer(BooksList);
 
 const Container = styled.div`
 `

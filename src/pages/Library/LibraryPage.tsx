@@ -41,7 +41,7 @@ const LibraryPage = () => {
     books.forEach((elem, index) => {
         bookNodes.push(
             <Grid item xs={6} sm={4} md={3} lg={2} key={index}>
-                <Book read={true} book={elem} width="157px"/>
+                <Book read={true} book={elem} width="157px" fromAPI={false}/>
             </Grid>
         )
     })

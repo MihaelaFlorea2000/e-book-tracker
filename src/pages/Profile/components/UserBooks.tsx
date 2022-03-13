@@ -25,7 +25,7 @@ const UserBooks = (props: Props) => {
     books.forEach((elem, index) => {
         bookNodes.push(
             <Grid item xs={6} sm={4} md={3} lg={2} key={index}>
-                <Book read={false} book={elem} width="147px"/>
+                <Book read={false} book={elem} width="147px" fromAPI={false}/>
             </Grid>
         )
     })

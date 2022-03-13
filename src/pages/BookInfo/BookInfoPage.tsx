@@ -6,7 +6,8 @@ import Button from "@mui/material/Button";
 import Alert from "@mui/material/Alert";
 import {
     faEdit,
-    faBookReader
+    faBookReader,
+    faAngleRight
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ConfirmBox from "./components/Metadata/ConfirmBox";
@@ -22,11 +23,18 @@ const BookInfoPage = () => {
     // Get stores access
     const { bookStore, deleteStore, userStore } = useStore();
 
+    // Is the user on this page after a book edit?
+    let url = new URL(window.location.href);
+    let fromEdit = url.searchParams.get('fromEdit');
+
+    // Is this a google book?
+    let fromAPI = url.searchParams.get('fromAPI');
+
     // Get book
     const params = useParams();
-    const bookId = Number(params.bookId);
 
-    const book = bookStore.getBook(bookId);
+    const book = fromAPI !== null ? bookStore.getAPIBook(String(params.bookId)) : bookStore.getBook(Number(params.bookId));
+
     const user = userStore.getCurrentUser();
 
     if (book === undefined || book.id === undefined || user === undefined) {
@@ -43,14 +51,10 @@ const BookInfoPage = () => {
 
     const error = deleteStore.getError();
 
-    // Is the user on this page after a book edit?
-    let url = new URL(window.location.href);
-    let fromEdit = url.searchParams.get('fromEdit');
-
     return (
         <Page>
             <Container>
-                {bookStore.isOwner() &&
+                {bookStore.isOwner() && fromAPI === null &&
                     <>
                         <ButtonsContainerDesktop>
                             <NavLink to={`/book/edit/${book.id}`}>
@@ -100,9 +104,23 @@ const BookInfoPage = () => {
                         {fromEdit !== null && <Alert severity="success">Book successfully updated</Alert> }
                     </>
                 }
+                {fromAPI !== null &&
+                    <a href={book.link ? book.link : ''} target="_blank">
+                        <Button
+                            type="button"
+                            variant="contained"
+                            size="medium"
+                            startIcon={<FontAwesomeIcon className="fa-fw" icon={faAngleRight}/>}
+                        >
+                            More
+                        </Button>
+                    </a>
+                }
                 <MetadataInfo book={book} />
             </Container>
-            <ReadInfo book={book}/>
+            {fromAPI === null &&
+                <ReadInfo book={book}/>
+            }
         </Page>
     )
 }

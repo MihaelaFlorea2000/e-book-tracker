@@ -11,7 +11,8 @@ import defaultCoverImage from "../../images/defaultCoverImage.jpeg";
 interface Props {
     book: BookInterface | SimpleBookInterface;
     read: boolean,
-    width: string
+    width: string,
+    fromAPI: boolean
 }
 
 const Book = (props: Props) => {
@@ -19,6 +20,8 @@ const Book = (props: Props) => {
     // Handle books without covers
     const coverImage = props.book.coverImage !== null ? props.book.coverImage : defaultCoverImage;
     const showTitle = props.book.coverImage === null;
+
+    const bookLink = props.fromAPI ? `/book/${props.book.id}?fromAPI` : `/book/${props.book.id}`
 
     return (
         <BookContainer >
@@ -37,7 +40,7 @@ const Book = (props: Props) => {
                             > Read </StyledButton>
                         </NavLink>
                     }
-                    <NavLink to={`/book/${props.book.id}`}>
+                    <NavLink to={bookLink}>
                         <StyledButton
                             variant="contained"
                             size="small"
@@ -75,6 +78,7 @@ const CoverContainer = styled.div`
   align-items: center;
   justify-content: center;
   position: relative;
+  overflow: hidden;
 `
 
 const BookImage = styled.div<{image: string, width: string}>`

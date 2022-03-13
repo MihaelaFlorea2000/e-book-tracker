@@ -1,14 +1,17 @@
-import {makeAutoObservable, runInAction} from "mobx";
-import {BookInterface, ReadInterface} from "../config/interfaces";
+import {makeAutoObservable, runInAction, toJS} from "mobx";
+import {BookInterface, ReadInterface, SimpleBookInterface} from "../config/interfaces";
 import axiosConfig from "../config/axiosConfig";
+import axios from "axios";
 
 export default class BookStore {
 
     private book: BookInterface | undefined = undefined;
+    private APIBook: BookInterface | undefined = undefined;
     private reads: ReadInterface[] | undefined = undefined;
     private owner: boolean = false;
 
     private requestedBook: boolean = false;
+    private requestedAPIBook: boolean = false;
     private requestedReads: boolean = false;
 
 
@@ -42,6 +45,57 @@ export default class BookStore {
             runInAction(() => {
                 this.book = data.data;
                 this.requestedBook = false;
+            })
+        })
+    }
+
+    // Get current user's books
+    public getAPIBook(bookId:string): BookInterface | undefined {
+        if (this.APIBook === undefined || this.APIBook.id === undefined || this.APIBook.id.toString() !== bookId) {
+            this.requestAPIBook(bookId);
+
+            return undefined;
+        } else {
+            return this.APIBook;
+        }
+    }
+
+    // Request current user books
+    public requestAPIBook(bookId:string) {
+        if (!this.requestedAPIBook) {
+            runInAction(() => {
+                this.requestedAPIBook = true;
+            })
+        } else {
+            return;
+        }
+
+        axios.get(`https://www.googleapis.com/books/v1/volumes/${bookId}`).then(data => {
+
+            const volumeInfo = data.data.volumeInfo
+
+            const book:BookInterface = {
+                id: data.data.id,
+                userId: data.data.id,
+                title: volumeInfo.title,
+                authors: volumeInfo.authors,
+                description: volumeInfo.description,
+                coverImage: volumeInfo.imageLinks ? volumeInfo.imageLinks.thumbnail : null,
+                tags: volumeInfo.categories,
+                publisher: volumeInfo.publisher,
+                pubDate: volumeInfo.publishedDate,
+                language: volumeInfo.language,
+                rating: volumeInfo.averageRating,
+                file: '',
+                fileName: '',
+                series: volumeInfo.subtitle,
+                location: '',
+                link: volumeInfo.previewLink
+            }
+
+            runInAction(() => {
+                this.APIBook = book;
+                this.requestedAPIBook = false;
             })
         })
     }

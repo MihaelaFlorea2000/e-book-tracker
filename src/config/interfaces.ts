@@ -46,7 +46,8 @@ export interface BookInterface {
     file: string,
     fileName: string,
     series: string,
-    location: string
+    location: string,
+    link?:string
 }
 
 export interface SimpleBookInterface {
