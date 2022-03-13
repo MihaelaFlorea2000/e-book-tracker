@@ -15,7 +15,10 @@ export const ROUTES = {
         goals: '/track/goals'
     },
     explore: '/explore',
-    friends: '/friends',
+    friends: {
+        all: '/friends',
+        mutual: '/friends/mutual/:userId'
+    },
     settings: '/settings',
     badges: '/badges',
     profile: '/profile/:userId',

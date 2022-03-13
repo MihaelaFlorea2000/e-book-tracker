@@ -8,14 +8,16 @@ import axiosConfig from "../../../config/axiosConfig";
 import IconButton from "../../../utils/components/Buttons/IconButton";
 import Alert from "@mui/material/Alert";
 import { device } from "../../../config/config";
+import ProfileStore from "../../../stores/ProfileStore";
+import MutualFriends from "./MutualFriends";
 
 interface Props {
+    store: ProfileStore,
     user: UserProfileInterface,
     isMyProfile: boolean
 }
 
 const ProfileDetails = (props: Props) => {
-
 
     // Friend status satate
     const [sentRequest, setSentRequest] = useState<boolean>(props.user.sentRequest);
@@ -33,7 +35,7 @@ const ProfileDetails = (props: Props) => {
         setErrorMessage('');
         try {
             const newRequest = {receiverId: props.user.id}
-            const res = await axiosConfig().post('/pg/friends/requests', newRequest)
+            await axiosConfig().post('/pg/friends/requests', newRequest)
             setSentRequest(true);
             setIsSubmitting(false);
         } catch (err:any) {
@@ -46,7 +48,7 @@ const ProfileDetails = (props: Props) => {
     const handleUnsendFriendRequest = async() => {
         setIsSubmitting(true);
         try {
-            const res = await axiosConfig().delete(`/pg/friends/requests/${props.user.id}`)
+            await axiosConfig().delete(`/pg/friends/requests/${props.user.id}`)
             setSentRequest(false);
             setIsSubmitting(false);
         } catch (err:any) {
@@ -60,7 +62,7 @@ const ProfileDetails = (props: Props) => {
         setIsSubmitting(true);
         setErrorMessage('');
         try {
-            const res = await axiosConfig().delete(`/pg/friends/${props.user.id}`)
+            await axiosConfig().delete(`/pg/friends/${props.user.id}`)
             setFriends(false);
             setIsSubmitting(false);
         } catch (err:any) {
@@ -74,7 +76,7 @@ const ProfileDetails = (props: Props) => {
         setAccepting(true);
         setErrorMessage('');
         try {
-            const res = await axiosConfig().post(`/pg/friends/requests/${props.user.id}`, {accept: true})
+            await axiosConfig().post(`/pg/friends/requests/${props.user.id}`, {accept: true})
             setFriends(true);
             setReceivedRequest(false);
             setAccepting(false);
@@ -90,7 +92,7 @@ const ProfileDetails = (props: Props) => {
         setRejecting(true);
         setErrorMessage('');
         try {
-            const res = await axiosConfig().post(`/pg/friends/requests/${props.user.id}`, {accept: false})
+            await axiosConfig().post(`/pg/friends/requests/${props.user.id}`, {accept: false})
             setFriends(false);
             setReceivedRequest(false);
             setRejecting(false);
@@ -110,6 +112,7 @@ const ProfileDetails = (props: Props) => {
                     <NameContainer>
                         <Name>{props.user.firstName} {props.user.lastName}</Name>
                         <Email>{props.user.email}</Email>
+                        <MutualFriends store={props.store} />
                     </NameContainer>
                 </DetailsContainer>
                 <ButtonsContainer>

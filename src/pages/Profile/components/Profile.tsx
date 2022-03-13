@@ -1,4 +1,3 @@
-import {useParams} from "react-router-dom";
 import ProfileStore from "../../../stores/ProfileStore";
 import {CircularLoading} from "../../../utils/components/CircularLoading";
 import ProfileDetails from "./ProfileDetails";
@@ -46,7 +45,7 @@ const Profile = (props: Props) => {
     return (
         <Page>
             <Container>
-                <ProfileDetails user={user} isMyProfile={isMyProfile}/>
+                <ProfileDetails store={profileStore} user={user} isMyProfile={isMyProfile}/>
                 {showProfileInfo &&
                     <ProfileInfo>
                         <MetricsContainer>

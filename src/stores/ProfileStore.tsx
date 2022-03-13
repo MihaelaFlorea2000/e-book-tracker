@@ -3,7 +3,7 @@ import axiosConfig from "../config/axiosConfig";
 import {
     SimpleBookInterface,
     GoalsInterface,
-    NumbersInterface, ProfileSettingsInterface, UserProfileInterface
+    NumbersInterface, ProfileSettingsInterface, UserProfileInterface, SimpleUserInterface
 } from "../config/interfaces";
 
 export default class ProfileStore {
@@ -14,6 +14,7 @@ export default class ProfileStore {
     private numbers: NumbersInterface | undefined = undefined;
     private books: SimpleBookInterface[] | undefined = undefined;
     private profileSettings: ProfileSettingsInterface | undefined = undefined;
+    private mutualFriends: SimpleUserInterface[] | undefined = undefined;
 
 
     private requestedUser: boolean = false;
@@ -21,6 +22,8 @@ export default class ProfileStore {
     private requestedNumbers: boolean = false;
     private requestedBooks: boolean = false;
     private requestedProfileSettings: boolean = false;
+    private requestedMutualFriends: boolean = false;
+
 
 
     public constructor(id: number) {
@@ -172,5 +175,35 @@ export default class ProfileStore {
             })
         })
     }
+
+    // Get current user information
+    public getMutualFriends(): SimpleUserInterface[] | undefined {
+        if (this.mutualFriends === undefined) {
+            this.requestMutualFriends();
+
+            return undefined;
+        } else {
+            return this.mutualFriends;
+        }
+    }
+
+    // Request current user information from the API
+    public requestMutualFriends() {
+        if (!this.requestedMutualFriends) {
+            runInAction(() => {
+                this.requestedMutualFriends = true;
+            })
+        } else {
+            return;
+        }
+
+        axiosConfig().get(`/pg/friends/mutual/${this.id}`).then(data => {
+            runInAction(() => {
+                this.mutualFriends = data.data;
+                this.requestedMutualFriends = false
+            })
+        })
+    }
+
 
 }

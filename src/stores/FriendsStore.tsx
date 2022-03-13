@@ -5,8 +5,10 @@ import axiosConfig from "../config/axiosConfig";
 export default class FriendsStore {
 
     private friends: SimpleUserInterface[] | undefined = undefined
+    private mutualFriends: SimpleUserInterface[] | undefined = undefined;
 
     private requested: boolean = false;
+    private requestedMutualFriends: boolean = false;
 
     public constructor() {
         makeAutoObservable(this);
@@ -37,6 +39,35 @@ export default class FriendsStore {
             runInAction(() => {
                 this.friends = data.data;
                 this.requested = false
+            })
+        })
+    }
+
+    // Get current user information
+    public getMutualFriends(userId:number): SimpleUserInterface[] | undefined {
+        if (this.mutualFriends === undefined) {
+            this.requestMutualFriends(userId);
+
+            return undefined;
+        } else {
+            return this.mutualFriends;
+        }
+    }
+
+    // Request current user information from the API
+    public requestMutualFriends(userId:number) {
+        if (!this.requestedMutualFriends) {
+            runInAction(() => {
+                this.requestedMutualFriends = true;
+            })
+        } else {
+            return;
+        }
+
+        axiosConfig().get(`/pg/friends/mutual/${userId}`).then(data => {
+            runInAction(() => {
+                this.mutualFriends = data.data;
+                this.requestedMutualFriends = false
             })
         })
     }
