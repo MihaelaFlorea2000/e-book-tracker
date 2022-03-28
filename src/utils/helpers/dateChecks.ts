@@ -1,14 +1,19 @@
 import {FrontSessionInterface, SessionInterface} from "../../config/interfaces";
 
 export const isBetween = (date:string, startDate:string, endDate:string):boolean => {
+
     // Check date is btw start and end
-    const startDateTime = new Date(startDate).getTime();
-    const endDateTime = new Date(endDate).getTime();
-    const dateTime = new Date(date).getTime();
+    const startDateTime = new Date(startDate).setHours(0,0,0,0);
+    const endDateTime = new Date(endDate).setHours(0,0,0,0);
+    const dateTime = new Date(date).setHours(0,0,0,0);
 
-    return !(startDateTime > dateTime || dateTime > endDateTime);
+    if (!(startDateTime <= dateTime && dateTime <= endDateTime)) {
+        console.log(startDateTime);
+        console.log(dateTime);
+        console.log(endDateTime);
+    }
 
-
+    return (startDateTime <= dateTime && dateTime <= endDateTime);
 }
 
 export const isOutside = (sessions:SessionInterface[] | FrontSessionInterface[], startDate:string, endDate:string):boolean => {

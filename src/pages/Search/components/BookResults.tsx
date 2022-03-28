@@ -24,7 +24,7 @@ const BookResults = (props: Props) => {
 
     return (
         <Container>
-            <Title>Books</Title>
+            <Title>From Your Library</Title>
             <Grid container spacing={3}>
                 {bookNodes}
             </Grid>

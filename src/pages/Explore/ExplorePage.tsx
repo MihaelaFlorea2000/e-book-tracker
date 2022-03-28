@@ -1,24 +1,11 @@
 import React, {ReactNode} from "react";
 import styled from "@emotion/styled";
-import {useStore} from "../../stores/RootStore";
 import {Title} from "../../utils/components/Title";
 import Genre from "./components/Genre";
 import {observer} from "mobx-react";
 import ExploreStore from "../../stores/ExploreStore";
-import TagBooks from "./components/TagBooks";
-import {CircularLoading} from "../../utils/components/CircularLoading";
 
 const ExplorePage = () => {
-
-    const { metricsStore } = useStore();
-
-    const tags = metricsStore.getTopTagsByBooks();
-
-    if (tags === undefined) {
-        return (
-            <CircularLoading />
-        )
-    }
 
     let genres = [
         'Fiction',
@@ -37,15 +24,11 @@ const ExplorePage = () => {
         genreNodes.push(
             <Genre key={index} genre={elem} store={new ExploreStore(elem)}/>
         )
-
     })
 
     return (
         <Page>
             <Title text="Explore" />
-            {/*{tags.labels.length > 0 &&*/}
-            {/*    <TagBooks tags={tags.labels}/>*/}
-            {/*}*/}
             <Subtitle> By Genre</Subtitle>
             <GenresContainer>
                 {genreNodes}

@@ -53,7 +53,8 @@ const Header = () => {
 
     const handleSubmit = (event:React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         if (query && event.key === "Enter") {
-            searchStore.requestSearch(query);
+            searchStore.requestSearch();
+            searchStore.requestGoogleSearch();
             setQuery('');
             navigate('/search');
         }
@@ -65,8 +66,6 @@ const Header = () => {
         )
     }
 
-    console.log(query)
-
     return (
         <Container>
             <HamburgerContainer>
@@ -74,7 +73,10 @@ const Header = () => {
             </HamburgerContainer>
             <SearchBar
                 value={query}
-                onChange={(e:any) => setQuery(e.target.value)}
+                onChange={(e:any) => {
+                    setQuery(e.target.value);
+                    searchStore.setQuery(e.target.value);
+                }}
                 onKeyDown={(e:any) => {
                     handleSubmit(e);
                 }}
