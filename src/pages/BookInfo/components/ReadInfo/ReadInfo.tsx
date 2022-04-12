@@ -7,7 +7,7 @@ import {
     faBookOpen
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {BookInterface} from "../../../../config/interfaces";
+import {BookInterface} from "../../../../utils/helpers/interfaces";
 import {CircularLoading} from "../../../../utils/components/CircularLoading";
 import {AddButton} from "../../../../utils/components/Buttons/AddButton";
 import {useStore} from "../../../../stores/RootStore";
@@ -17,18 +17,25 @@ interface Props {
     book: BookInterface
 }
 
+/**
+ * Component for displaying the Reads of this Book
+ * @param props
+ * @constructor
+ */
 const ReadInfo = (props: Props) => {
 
     const navigate = useNavigate();
 
+    // Get stores
     const { bookStore, addReadStore } = useStore();
 
-    // Get books
+    // Get reads
     const params = useParams();
     const bookId = Number(params.bookId);
 
     const reads = bookStore.getReads(bookId);
 
+    // Loading
     if (reads === undefined) {
         return (
             <Container>
@@ -54,6 +61,7 @@ const ReadInfo = (props: Props) => {
 
     const timesRead = readNodes.length;
 
+    // When user clicks on the + button
     const handleAdd = () => {
         addReadStore.setErrorMessage('');
         navigate(`/book/${props.book.id}/read/add`);
@@ -99,10 +107,12 @@ export default observer(ReadInfo);
 
 const Container = styled.div`
 `
+
 const TimeRead = styled.h3`
   padding: 0 10px;
   color: ${props => props.theme.palette.primary.main}
 `
+
 const BookIconContainer = styled.span`
     margin-right: 10px;
 `

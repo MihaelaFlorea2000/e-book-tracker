@@ -13,6 +13,11 @@ interface Props {
     [x: string]: any
 }
 
+/**
+ * Component for displaying and editing book rating
+ * @param props
+ * @constructor
+ */
 export const BookRating = (props: Props) => {
     const faEmptyStar = faStarOutline as IconProp;
 

@@ -3,12 +3,17 @@ import styled from "@emotion/styled";
 import Book from "../../../utils/components/Book/Book";
 import Grid from "@mui/material/Grid";
 import {observer} from "mobx-react";
-import {SimpleBookInterface} from "../../../config/interfaces";
+import {SimpleBookInterface} from "../../../utils/helpers/interfaces";
 
 interface Props {
     books: SimpleBookInterface[],
 }
 
+/**
+ * Component for displaying the book serach results
+ * @param props
+ * @constructor
+ */
 const BookResults = (props: Props) => {
 
     let bookNodes: ReactNode[] = [];

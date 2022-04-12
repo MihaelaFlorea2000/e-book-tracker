@@ -1,4 +1,6 @@
-export default function formatDateLong(date: string) {
+// Helper functions for working with dates
+
+export default function formatDate(date: string) {
     if (!date) return 'No Date'
 
     const options:Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' }

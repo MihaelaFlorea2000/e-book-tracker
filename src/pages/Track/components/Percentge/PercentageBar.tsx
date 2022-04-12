@@ -14,7 +14,7 @@ import {border} from "../../../../utils/style/themeConfig";
 import {CircularLoading} from "../../../../utils/components/CircularLoading";
 import {chartBorderColors, chartColors} from "../../helpers/ChartSettings";
 import {useMediaQuery} from "@mui/material";
-import {device} from "../../../../config/config";
+import {device} from "../../../../utils/helpers/constants";
 
 ChartJS.register(
     CategoryScale,
@@ -23,6 +23,8 @@ ChartJS.register(
 );
 
 /**
+ * Chart for displaying percentage of books read
+ *
  * Some code for chart settings is taken from
  * the react-chartjs-2 documentation
  * https://react-chartjs-2.js.org/examples/stacked-bar-chart

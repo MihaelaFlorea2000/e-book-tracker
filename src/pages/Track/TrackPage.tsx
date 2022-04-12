@@ -5,12 +5,16 @@ import PercentageBar from "./components/Percentge/PercentageBar";
 import LineCharts from "./components/LineCharts/LineCharts";
 import TagsCharts from "./components/Tags/TagsCharts";
 import ReadCalendar from "./components/Calendar/ReadCalendar";
-import { device } from "../../config/config";
+import { device } from "../../utils/helpers/constants";
 import {Title} from "../../utils/components/Title";
 import Goals from "../../utils/components/Metrics/Goals";
 import {useStore} from "../../stores/RootStore";
 import {border} from "../../utils/style/themeConfig";
 
+/**
+ * Page with all reading metrics
+ * @constructor
+ */
 const TrackPage = () => {
 
     const { metricsStore } = useStore();

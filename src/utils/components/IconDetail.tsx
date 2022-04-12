@@ -2,7 +2,7 @@ import React from "react";
 import styled from "@emotion/styled";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
-import { device } from "../../config/config";
+import { device } from "../helpers/constants";
 
 interface Props {
     title: string,
@@ -13,6 +13,11 @@ interface Props {
     borderColor: string
 }
 
+/**
+ * Component that displays some information along with an icon
+ * @param props
+ * @constructor
+ */
 const IconDetail = (props: Props) => {
 
     return (

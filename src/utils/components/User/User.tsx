@@ -1,12 +1,17 @@
 import React from "react";
 import styled from "@emotion/styled";
-import {SimpleUserInterface} from "../../../config/interfaces";
+import {SimpleUserInterface} from "../../helpers/interfaces";
 import {ProfileImage} from "../ProfileImage";
 
 interface Props {
     user: SimpleUserInterface;
 }
 
+/**
+ * User name and image
+ * @param props
+ * @constructor
+ */
 const User = (props: Props) => {
 
     return (

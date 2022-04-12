@@ -5,14 +5,18 @@ import Genre from "./components/Genre";
 import {observer} from "mobx-react";
 import ExploreStore from "../../stores/ExploreStore";
 
+/**
+ * Page with book recommendations based on genre
+ * @constructor
+ */
 const ExplorePage = () => {
 
+    // List of genres
     let genres = [
         'Fiction',
         'Crime',
         'Fantasy',
         'Science Fiction',
-        'Romance',
         'Thriller',
         'Poetry',
         'Classics'

@@ -5,7 +5,10 @@ import Header from "./components/Header";
 import HomeRoutes from "./components/HomeRoutes";
 import Menu from "./components/Menu/DesktopMenu";
 
-
+/**
+ * Entrypoint for a logged in user
+ * @constructor
+ */
 const HomePage = () => {
 
     return (

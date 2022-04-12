@@ -7,6 +7,11 @@ interface Props {
     icon: IconProp
 }
 
+/**
+ * Icon for each setting section
+ * @param props
+ * @constructor
+ */
 const SettingIcon = (props: Props) => {
 
     return (

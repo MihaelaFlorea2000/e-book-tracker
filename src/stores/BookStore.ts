@@ -1,13 +1,23 @@
-import {makeAutoObservable, runInAction, toJS} from "mobx";
-import {BookInterface, ReadInterface, SimpleBookInterface} from "../config/interfaces";
-import axiosConfig from "../config/axiosConfig";
+import {makeAutoObservable, runInAction} from "mobx";
+import {BookInterface, ReadInterface} from "../utils/helpers/interfaces";
+import axiosConfig from "../utils/helpers/axiosConfig";
 import axios from "axios";
 
+/**
+ * Class for managing state of a single book
+ */
 export default class BookStore {
 
+    // Book uploaded by the user on the app
     private book: BookInterface | undefined = undefined;
+
+    // Book from the Google Books API
     private APIBook: BookInterface | undefined = undefined;
+
+    // Book reads
     private reads: ReadInterface[] | undefined = undefined;
+
+    // Whether the current user owns this book
     private owner: boolean = false;
 
     private requestedBook: boolean = false;
@@ -19,7 +29,7 @@ export default class BookStore {
         makeAutoObservable(this);
     }
 
-    // Get current user's books
+    // Get a book by id
     public getBook(bookId:number): BookInterface | undefined {
         if (this.book === undefined || this.book.id !== bookId) {
             this.requestBook(bookId);
@@ -31,7 +41,7 @@ export default class BookStore {
         }
     }
 
-    // Request current user books
+    // Request current a book by id from backend
     public requestBook(bookId:number) {
         if (!this.requestedBook) {
             runInAction(() => {
@@ -41,7 +51,7 @@ export default class BookStore {
             return;
         }
 
-        axiosConfig().get(`/pg/books/${bookId}`).then(data => {
+        axiosConfig().get(`/books/${bookId}`).then(data => {
             runInAction(() => {
                 this.book = data.data;
                 this.requestedBook = false;
@@ -49,7 +59,7 @@ export default class BookStore {
         })
     }
 
-    // Get current user's books
+    // Get a book by id from Google Book API
     public getAPIBook(bookId:string): BookInterface | undefined {
         if (this.APIBook === undefined || this.APIBook.id === undefined || this.APIBook.id.toString() !== bookId) {
             this.requestAPIBook(bookId);
@@ -60,7 +70,7 @@ export default class BookStore {
         }
     }
 
-    // Request current user books
+    // Request a book by id from Google Book API
     public requestAPIBook(bookId:string) {
         if (!this.requestedAPIBook) {
             runInAction(() => {
@@ -74,6 +84,7 @@ export default class BookStore {
 
             const volumeInfo = data.data.volumeInfo
 
+            // Format data to fit BookInterface
             const book:BookInterface = {
                 id: data.data.id,
                 userId: data.data.id,
@@ -100,11 +111,12 @@ export default class BookStore {
         })
     }
 
+    // Reset book
     public resetBook() {
         this.book = undefined;
     }
 
-    // Get current user's books
+    // Get a book's reads
     public getReads(bookId:number): ReadInterface[] | undefined {
         if (this.reads === undefined) {
             this.requestReads(bookId);
@@ -115,7 +127,7 @@ export default class BookStore {
         }
     }
 
-    // Request current user books
+    // Request a book's reads from API
     public requestReads(bookId:number) {
         if (!this.requestedReads) {
             runInAction(() => {
@@ -125,7 +137,7 @@ export default class BookStore {
             return;
         }
 
-        axiosConfig().get(`/pg/reads/${bookId}`).then(data => {
+        axiosConfig().get(`/reads/${bookId}`).then(data => {
             runInAction(() => {
                 this.reads = data.data;
                 this.requestedReads = false;
@@ -133,11 +145,12 @@ export default class BookStore {
         })
     }
 
-    // Is the user highlighting something?
+    // Is the user the book owner?
     public isOwner():boolean {
         return this.owner;
     }
 
+    // Update whether the user is the owner of the book
     public setIsOwner(owner:boolean) {
         runInAction(() => {
             this.owner = owner;

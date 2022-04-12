@@ -6,6 +6,10 @@ import EditForm from "./components/EditForm";
 import { useStore } from "../../stores/RootStore";
 import { Title } from "../../utils/components/Title";
 
+/**
+ * Page for editing a book's metadata
+ * @constructor
+ */
 const EditPage = () => {
 
     // Get stores access
@@ -17,6 +21,7 @@ const EditPage = () => {
 
     const book = bookStore.getBook(bookId);
 
+    // Loading
     if (book === undefined || book.id === undefined) {
         return (
             <Page>

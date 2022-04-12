@@ -9,19 +9,25 @@ import {
     DialogTitle
 } from "@mui/material";
 import { StyledTextField } from "../../../utils/style/styledComponents";
-import { device } from "../../../config/config";
-import {BookInterface} from "../../../config/interfaces";
+import { device } from "../../../utils/helpers/constants";
+import {BookInterface} from "../../../utils/helpers/interfaces";
 import { useStore } from "../../../stores/RootStore";
 import {faTrophy} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {BookRating} from "../../../utils/components/Book/BookRating";
-import axiosConfig from "../../../config/axiosConfig";
+import axiosConfig from "../../../utils/helpers/axiosConfig";
 import {useNavigate} from "react-router-dom";
 
 interface Props {
     book: BookInterface
 }
 
+/**
+ * Dialog that appears when the user reaches
+ * the end of a book
+ * @param props
+ * @constructor
+ */
 const FinishedDialog = (props:Props) => {
 
     const navigate = useNavigate();
@@ -55,7 +61,7 @@ const FinishedDialog = (props:Props) => {
         }
 
         try {
-            const res = await axiosConfig().post(`/pg/books/${props.book.id}/finished`, data)
+            const res = await axiosConfig().post(`/books/${props.book.id}/finished`, data)
             console.log(res.data);
             metricsStore.trackRefresh();
             navigate('/');
@@ -120,6 +126,7 @@ const Container = styled(DialogContent)`
     min-width: 300px;
   }
 `
+
 const CongratsContainer = styled.div`
   display: flex;
   flex-flow: column;

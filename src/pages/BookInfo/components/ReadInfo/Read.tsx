@@ -10,13 +10,13 @@ import {
     faTimes
 } from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {ReadInterface} from "../../../../config/interfaces";
+import {ReadInterface} from "../../../../utils/helpers/interfaces";
 import {BookRating} from "../../../../utils/components/Book/BookRating";
 import {DeleteIconContainer, EditIconContainer } from "../../../../utils/style/styledComponents";
-import axiosConfig from "../../../../config/axiosConfig";
+import axiosConfig from "../../../../utils/helpers/axiosConfig";
 import {useStore} from "../../../../stores/RootStore";
 import {TimeString} from "../../../../utils/components/TimeString";
-import formatDateLong from "../../../../config/formatDateLong";
+import formatDate from "../../../../utils/helpers/formatDate";
 
 
 interface Props {
@@ -25,6 +25,11 @@ interface Props {
     current: boolean
 }
 
+/**
+ * Component displaying a Read of a Book
+ * @param props
+ * @constructor
+ */
 const Read = (props: Props) => {
 
     const navigate = useNavigate();
@@ -33,8 +38,8 @@ const Read = (props: Props) => {
     const { bookStore, editReadStore, metricsStore } = useStore();
 
     // Construct start and end date
-    const startDate = formatDateLong(props.read.startDate);
-    const endDate = props.read.endDate ? formatDateLong(props.read.endDate) : 'ongoing';
+    const startDate = formatDate(props.read.startDate);
+    const endDate = props.read.endDate ? formatDate(props.read.endDate) : 'ongoing';
 
     // Construct sessions
     let sessions: ReactNode;
@@ -48,9 +53,10 @@ const Read = (props: Props) => {
                     </TimeContainer>
     }
 
+    // On delete button click
     const handleDelete = async() => {
         try {
-            const res = await axiosConfig().delete(`/pg/reads/${props.bookId}/${props.read.id}`)
+            const res = await axiosConfig().delete(`/reads/${props.bookId}/${props.read.id}`)
             console.log(res);
             bookStore.requestReads(props.bookId);
             metricsStore.trackRefresh();
@@ -60,12 +66,14 @@ const Read = (props: Props) => {
         console.log(props.read.id)
     }
 
+    // On edit button click
     const handleEdit = () => {
         editReadStore.setErrorMessage('');
         editReadStore.setCurrentRead(props.read);
         navigate(`/book/${props.bookId}/read/${props.read.id}/edit`);
     }
 
+    // On finish button click
     const handleFinish = () => {
         editReadStore.setErrorMessage('');
         editReadStore.setIsFinished(true);
@@ -128,6 +136,7 @@ const Container = styled.div`
   border: 3px solid ${props => props.theme.palette.primary.light};
   border-radius: ${border.borderRadius};
 `
+
 const ChangeIconsContainer = styled.div`
   display: flex;
   justify-content: space-between;

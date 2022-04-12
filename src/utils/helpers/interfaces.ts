@@ -1,8 +1,3 @@
-export interface TokenInterface {
-    iat: number
-    id: number
-}
-
 // Current user information
 export interface UserInterface {
     id: number,
@@ -12,6 +7,7 @@ export interface UserInterface {
     profileImage: string
 }
 
+// User profile information
 export interface UserProfileInterface {
     id: number,
     firstName: string,
@@ -23,6 +19,7 @@ export interface UserProfileInterface {
     receivedRequest: boolean
 }
 
+// Simplified user information need for search
 export interface SimpleUserInterface {
     id: number,
     firstName: string,
@@ -50,12 +47,14 @@ export interface BookInterface {
     link?:string
 }
 
+// Simplified book information need for search
 export interface SimpleBookInterface {
     id: number,
     title: string,
     coverImage: string
 }
 
+// Highlight Information
 export interface HighlightInterface {
     id?: number,
     text: string,
@@ -64,11 +63,13 @@ export interface HighlightInterface {
     color: string
 }
 
+// Book Search Results
 export interface SearchResultInterface {
     cfi: string,
     excerpt: string
 }
 
+// Time interval interface
 export interface IntervalInterface {
     years?: number,
     months?: number,
@@ -79,6 +80,8 @@ export interface IntervalInterface {
     milliseconds?: number
 }
 
+// Information about a Read
+// start of book - finish of book
 export interface ReadInterface {
     id: number,
     startDate: string,
@@ -89,12 +92,15 @@ export interface ReadInterface {
     sessions: number
 }
 
+// Session Information
+// open book - close book
 export interface SessionInterface {
     id?: number,
     startDate: string,
     time: IntervalInterface
 }
 
+// Front end session
 export interface FrontSessionInterface {
     id: string | undefined,
     startDate: string,
@@ -102,6 +108,7 @@ export interface FrontSessionInterface {
     minutes: number,
 }
 
+// Data for numbered metrics
 export interface NumbersInterface {
     booksRead: number,
     booksCurrRead: number,
@@ -111,12 +118,14 @@ export interface NumbersInterface {
     bestDay: string
 }
 
+// Data for percentage of books read chart
 export interface PercentInterface {
     booksRead: number,
     totalBooks: number,
     value: number
 }
 
+// Goals set by the user
 export interface NumberGoalsInterface {
     yearly: number,
     monthly: number,
@@ -124,24 +133,27 @@ export interface NumberGoalsInterface {
     dailyMinutes: number
 }
 
+// Data for goal metrics
 export interface PercentageGoalsInterface {
     yearly: number,
     monthly: number,
     daily: number
 }
 
+// Data for goals (doughnut) charts
 export interface GoalsInterface {
     set: NumberGoalsInterface,
     done: NumberGoalsInterface,
     percentage: PercentageGoalsInterface
 }
 
+// Data for line and bar charts
 export interface ChartDataInterface {
     labels: string[],
     dataValues: number[],
 }
 
-
+// All Settings
 export interface SettingsInterface {
     darkTheme: boolean,
     fontSize: number,
@@ -153,6 +165,7 @@ export interface SettingsInterface {
     showNumbers: boolean
 }
 
+// Profile Settings
 export interface ProfileSettingsInterface {
     profileVisibility: string,
     showGoals: boolean,
@@ -160,6 +173,7 @@ export interface ProfileSettingsInterface {
     showNumbers: boolean
 }
 
+// Notification Interface
 export interface NotificationInterface {
     senderId: number,
     receiverId: number,
@@ -170,6 +184,7 @@ export interface NotificationInterface {
     lastName: string | null
 }
 
+// Badge Information
 export interface BadgeInterface {
     id: number,
     type: string,

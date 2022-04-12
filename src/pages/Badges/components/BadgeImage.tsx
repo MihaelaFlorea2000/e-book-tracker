@@ -1,12 +1,17 @@
 import styled from "@emotion/styled";
 import React from "react";
-import { device } from "../../../config/config";
+import { device } from "../../../utils/helpers/constants";
 
 interface Props {
     image: string,
     done: boolean
 }
 
+/**
+ * Component for displaying the badge image
+ * @param props
+ * @constructor
+ */
 export const BadgeImage = (props: Props) => {
 
     return (

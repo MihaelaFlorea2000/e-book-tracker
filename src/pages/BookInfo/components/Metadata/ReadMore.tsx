@@ -6,6 +6,12 @@ interface Props {
     text: string
 }
 
+/**
+ * Component for displaying part of a long text
+ * and a Read More button
+ * @param props
+ * @constructor
+ */
 const ReadMore = (props:Props) => {
 
     const [isReadMore, setIsReadMore] = useState<boolean>(true);

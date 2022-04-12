@@ -4,12 +4,18 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faSearch} from "@fortawesome/free-solid-svg-icons";
 import {StyledTextField} from "../style/styledComponents";
 import InputAdornment from "@mui/material/InputAdornment";
-import {device} from "../../config/config";
+import {device} from "../helpers/constants";
 
 interface Props {
     [x: string]: any
 }
 
+/**
+ * Search bar used for search within a book and
+ * search for users or books in the app
+ * @param props
+ * @constructor
+ */
 export const SearchBar = (props: Props) => {
 
     const {...otherProps} = props;

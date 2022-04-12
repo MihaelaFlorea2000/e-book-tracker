@@ -6,8 +6,8 @@ import { faTimes, faEdit } from "@fortawesome/free-solid-svg-icons";
 import { border, theme } from "../../../utils/style/themeConfig";
 import { getHoverColor } from "../helpers/ReaderColors";
 import { useStore } from "../../../stores/RootStore";
-import { HighlightInterface } from "../../../config/interfaces";
-import axiosConfig from "../../../config/axiosConfig";
+import { HighlightInterface } from "../../../utils/helpers/interfaces";
+import axiosConfig from "../../../utils/helpers/axiosConfig";
 import {DeleteIconContainer, EditIconContainer } from "../../../utils/style/styledComponents";
 
 interface Props {
@@ -16,6 +16,11 @@ interface Props {
     selections: HighlightInterface[]
 }
 
+/**
+ * Component for displaying a highlight in the menu
+ * @param props
+ * @constructor
+ */
 const Highlight = (props: Props) => {
 
     // Get ReaderStore
@@ -35,7 +40,7 @@ const Highlight = (props: Props) => {
     const handleDelete = async() => {
         if (props.bookId) {
             try {
-                const res = await axiosConfig().delete(`/pg/highlights/${props.bookId}/${props.selection.id}`)
+                const res = await axiosConfig().delete(`/highlights/${props.bookId}/${props.selection.id}`)
                 rendition.annotations.remove(props.selection.cfiRange, 'highlight');
                 readerStore.requestSelections(props.bookId);
             } catch (err) {

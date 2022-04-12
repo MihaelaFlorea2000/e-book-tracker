@@ -1,5 +1,8 @@
 import {makeAutoObservable} from "mobx";
 
+/**
+ * Class for managing state when deleting a book
+ */
 export default class DeleteStore {
 
     private error: string = ""

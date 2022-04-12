@@ -1,8 +1,13 @@
+/**
+ * Styled components used across multiple pages
+ */
+
 import styled from "@emotion/styled";
 import TextField from "@mui/material/TextField";
 import {border} from "./themeConfig";
-import {device} from "../../config/config";
+import {device} from "../helpers/constants";
 
+// Text field
 export const StyledTextField = styled(TextField)`
   background-color: ${props => props.theme.palette.info.light};
   border-radius: ${border.borderRadius};
@@ -14,7 +19,7 @@ export const StyledTextField = styled(TextField)`
     font-family: 'PoppinsRegular', sans-serif;
   }
 `
-
+// Icon buttons
 export const DeleteIconContainer = styled.div`
   color: ${props => props.theme.palette.primary.main};
   transition: color 0.5s;
@@ -38,6 +43,8 @@ export const EditIconContainer = styled.div`
   }
 `
 
+
+// Style for book without cover
 export const CoverContainer = styled.div`
   display: flex;
   align-items: center;

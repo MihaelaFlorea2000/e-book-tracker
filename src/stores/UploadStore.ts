@@ -1,8 +1,12 @@
 import {makeAutoObservable} from "mobx";
-import axiosConfig from "../config/axiosConfig";
+import axiosConfig from "../utils/helpers/axiosConfig";
 
+/**
+ * Class for managing state when uploading a new book
+ */
 export default class UploadStore {
 
+    // Book Information
     private title: string = '';
     private authors: string[] = [];
     private description: string = '';
@@ -18,7 +22,6 @@ export default class UploadStore {
     private series: string = '';
     private metadataStatus: boolean = false;
 
-    //private metadata: MetadataInterface | undefined;
 
     public constructor() {
         makeAutoObservable(this);
@@ -48,10 +51,6 @@ export default class UploadStore {
 
     public removeAuthor(author: string) {
         this.authors.splice(this.authors.indexOf(author), 1);
-    }
-
-    public removeLastAuthor() {
-        this.authors.slice(0, this.tags.length - 1)
     }
 
     // Description
@@ -134,10 +133,6 @@ export default class UploadStore {
         return this.rating;
     }
 
-    public setRating(rating: number) {
-        this.rating = rating;
-    }
-
     // File
     public getFile(): File {
         return this.file;
@@ -190,10 +185,11 @@ export default class UploadStore {
         this.metadataStatus = false;
     }
 
+    // Upload book cover and epub file
     public uploadFiles (bookId: number) {
         const filesData = new FormData();
         filesData.append('file', this.getFile());
         filesData.append('coverImage', this.getCoverImage())
-        return axiosConfig().post( `/pg/books/${bookId}/edit/upload`, filesData);
+        return axiosConfig().post( `/books/${bookId}/edit/upload`, filesData);
     }
 }

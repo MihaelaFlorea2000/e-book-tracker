@@ -7,7 +7,7 @@ import {
     ArcElement
 } from 'chart.js';
 import {chartColors} from "../../../pages/Track/helpers/ChartSettings";
-import { device } from "../../../config/config";
+import { device } from "../../helpers/constants";
 
 /**
  * Some code for chart settings is taken from
@@ -26,6 +26,11 @@ interface Props {
     borderColor: string
 }
 
+/**
+ * One Goal ring used on Track and Profile pages
+ * @param props
+ * @constructor
+ */
 const Goal = (props: Props) => {
 
     // Chart options

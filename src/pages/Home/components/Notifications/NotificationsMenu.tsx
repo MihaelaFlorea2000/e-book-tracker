@@ -1,16 +1,22 @@
 import React, { ReactNode } from "react";
 import { observer } from "mobx-react";
 import styled from "@emotion/styled";
-import { device } from "../../../../config/config";
+import { device } from "../../../../utils/helpers/constants";
 import {useStore} from "../../../../stores/RootStore";
 import {CircularLoading} from "../../../../utils/components/CircularLoading";
 import NotificationElement from "./NotificationElement";
 
+/**
+ * Side menu for displaying user notifications
+ * @constructor
+ */
 const NotificationsMenu = () => {
 
+    // Get notifications
     const { notificationsStore } = useStore();
     const notifications = notificationsStore.getNotifications();
 
+    // Loading
     if (notifications === undefined) {
         return (
             <NotificationsContainer>

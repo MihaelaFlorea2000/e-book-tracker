@@ -1,4 +1,4 @@
-import {IntervalInterface} from "../../config/interfaces";
+import {IntervalInterface} from "../helpers/interfaces";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faStopwatch} from "@fortawesome/free-solid-svg-icons";
 import React from "react";
@@ -8,6 +8,7 @@ interface Props {
     time: IntervalInterface
 }
 
+// Format time interval
 export const getTime = (time: IntervalInterface) => {
     if (!time) return '0h'
 
@@ -23,6 +24,11 @@ export const getTime = (time: IntervalInterface) => {
 
 }
 
+/**
+ * Component displaying a time interval
+ * (the time it took to read a book)
+ * @param props
+ */
 export const TimeString = (props: Props) => {
 
     const timeString = getTime(props.time);

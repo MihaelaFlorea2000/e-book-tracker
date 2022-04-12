@@ -5,6 +5,10 @@ import ProfileStore from "../../stores/ProfileStore";
 import {observer} from "mobx-react";
 import Profile from "./components/Profile";
 
+/**
+ * User profile page
+ * @constructor
+ */
 const ProfilePage = () => {
 
     let params = useParams();

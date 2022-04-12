@@ -13,8 +13,12 @@ import {
     faAward
 } from "@fortawesome/free-solid-svg-icons";
 import { border } from "../../../../utils/style/themeConfig";
-import { device } from "../../../../config/config";
+import { device } from "../../../../utils/helpers/constants";
 
+/**
+ * App menu with links to the other pages
+ * @constructor
+ */
 const MenuBar = () => {
 
     return (

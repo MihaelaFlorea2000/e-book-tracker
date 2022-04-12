@@ -3,7 +3,7 @@ import {useStore} from "../../stores/RootStore";
 import React, {ChangeEvent, useState} from "react";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup/dist/yup";
-import axiosConfig from "../../config/axiosConfig";
+import axiosConfig from "../../utils/helpers/axiosConfig";
 import {Button} from "@mui/material";
 import {StyledTextField} from "../../utils/style/styledComponents";
 import Sessions from "./components/Sessions";
@@ -14,9 +14,9 @@ import {faCheckCircle, faTimesCircle} from "@fortawesome/free-solid-svg-icons";
 import {observer} from "mobx-react";
 import styled from "@emotion/styled";
 import {border} from "../../utils/style/themeConfig";
-import {device} from "../../config/config";
+import {device} from "../../utils/helpers/constants";
 import BookCover from "../../utils/components/Book/BookCover";
-import {FrontSessionInterface} from "../../config/interfaces";
+import {FrontSessionInterface} from "../../utils/helpers/interfaces";
 import {
     Form,
     FormContainer,
@@ -28,7 +28,7 @@ import {
 import Alert from "@mui/material/Alert";
 import FormHelperText from "@mui/material/FormHelperText";
 import { readSchema } from "../../utils/helpers/schemas";
-import { formatDateStringISO } from "../../config/formatDateLong";
+import { formatDateStringISO } from "../../utils/helpers/formatDate";
 import {isOutside} from "../../utils/helpers/dateChecks";
 import { Title } from "../../utils/components/Title";
 
@@ -39,6 +39,10 @@ interface FormInterface {
     notes: string
 }
 
+/**
+ * Add Read form
+ * @constructor
+ */
 const AddReadPage = () => {
 
     const navigate = useNavigate();
@@ -70,9 +74,10 @@ const AddReadPage = () => {
         navigate(`/book/${bookId}`);
     };
 
+    // Add Read
     const addRead = async(newRead:object) => {
         try {
-            const res = await axiosConfig().post(`/pg/reads/${bookId}`, newRead);
+            const res = await axiosConfig().post(`/reads/${bookId}`, newRead);
             console.log(res);
             return res.data.id;
         } catch (err:any) {
@@ -82,6 +87,7 @@ const AddReadPage = () => {
         }
     }
 
+    // Add Session to this Read
     const addSession = async(session:FrontSessionInterface, readId:number) => {
         const newSession = {
             startDate: session.startDate,
@@ -92,7 +98,7 @@ const AddReadPage = () => {
         }
 
         try {
-            const res = await axiosConfig().post(`/pg/sessions/${readId}`, newSession);
+            const res = await axiosConfig().post(`/sessions/${readId}`, newSession);
             console.log(res);
         } catch (err:any) {
             console.log(err);
@@ -137,6 +143,7 @@ const AddReadPage = () => {
             await addSession(session, readId);
         }
 
+        // Update state
         addReadStore.setSessions([]);
         bookStore.requestBook(bookId);
         bookStore.requestReads(bookId);

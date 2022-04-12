@@ -6,8 +6,8 @@ import {chartBorderColors, chartColors} from "../../helpers/ChartSettings";
 import {useStore} from "../../../../stores/RootStore";
 import {border} from "../../../../utils/style/themeConfig";
 import {CircularLoading} from "../../../../utils/components/CircularLoading";
-import { device } from "../../../../config/config";
-import {formatDateISO} from "../../../../config/formatDateLong";
+import { device } from "../../../../utils/helpers/constants";
+import {formatDateISO} from "../../../../utils/helpers/formatDate";
 
 /**
  * The following tutorial helped with adding

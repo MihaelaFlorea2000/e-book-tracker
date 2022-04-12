@@ -25,12 +25,15 @@ interface Props {
     isTablet: boolean
 }
 /**
+ * Chart with reading time in total
+ *
  * Some code for chart settings is taken from
  * the react-chartjs-2 documentation
  * https://react-chartjs-2.js.org/examples/line-chart
  */
 const TotalChart = (props: Props) => {
 
+    // Get stores
     const { metricsStore, settingsStore } = useStore();
 
     // Get data

@@ -1,5 +1,8 @@
+/**
+ * Styled components shared by the Edit Book and Upload Book forms
+ */
 import styled from "@emotion/styled";
-import {device} from "../../config/config";
+import {device} from "../helpers/constants";
 import {border} from "./themeConfig";
 
 export const Container = styled.div`

@@ -26,6 +26,9 @@ interface Props {
 }
 
 /**
+ *
+ * Chart with reading time over the past week
+ *
  * Some code for chart settings is taken from
  * the react-chartjs-2 documentation
  * https://react-chartjs-2.js.org/examples/line-chart

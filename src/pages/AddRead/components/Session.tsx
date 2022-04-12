@@ -5,17 +5,16 @@ import {
     faTimes
 } from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {IntervalInterface, FrontSessionInterface} from "../../../config/interfaces";
+import {IntervalInterface, FrontSessionInterface} from "../../../utils/helpers/interfaces";
 import {DeleteIconContainer } from "../../../utils/style/styledComponents";
 import {TimeString} from "../../../utils/components/TimeString";
-import formatDateLong from "../../../config/formatDateLong";
-import { device } from "../../../config/config";
+import formatDate from "../../../utils/helpers/formatDate";
+import { device } from "../../../utils/helpers/constants";
 import {
     SessionDateContainer,
     SessionTimeContainer,
     SessionButtonsContainer
 } from "../../../utils/style/readFormStyle";
-
 
 interface Props {
     session: FrontSessionInterface,
@@ -23,8 +22,15 @@ interface Props {
     handleDelete: any,
 }
 
+/**
+ * Component for displaying an individual session
+ * in the Add Read form
+ * @param props
+ * @constructor
+ */
 const Session = (props: Props) => {
 
+    // Session duration
     const time:IntervalInterface = {
         hours: props.session.hours,
         minutes: props.session.minutes
@@ -39,7 +45,7 @@ const Session = (props: Props) => {
     return (
         <Container>
             <SessionDateContainer>
-                {formatDateLong(props.session.startDate)}
+                {formatDate(props.session.startDate)}
             </SessionDateContainer>
             <SessionTimeContainer>
                 <TimeString time={time}/>

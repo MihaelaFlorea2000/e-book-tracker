@@ -2,26 +2,31 @@ import {makeAutoObservable, runInAction} from "mobx";
 import {
     SimpleBookInterface,
     SimpleUserInterface
-} from "../config/interfaces";
-import axiosConfig from "../config/axiosConfig";
+} from "../utils/helpers/interfaces";
+import axiosConfig from "../utils/helpers/axiosConfig";
 import axios from "axios";
 
+/**
+ * Class for managing searching within the app
+ */
 export default class SearchStore {
 
+    // Results can be users, book from the current
+    // user or books from the Google Books API
     private users: SimpleUserInterface[] | undefined = undefined;
     private books: SimpleBookInterface[] | undefined = undefined;
     private googleBooks: SimpleBookInterface[] | undefined = undefined;
-    private query: string = '';
 
-    private requestedSearch:boolean = false;
-    private requestedGoogleSearch:boolean = false;
+    // Search query
+    private query: string = '';
 
     public constructor() {
         makeAutoObservable(this);
     }
 
+    // Search the app
     public requestSearch() {
-        axiosConfig().get(`/pg/search?query=${this.query}`).then(data => {
+        axiosConfig().get(`/search?query=${this.query}`).then(data => {
             runInAction(() => {
                 this.users = data.data.users;
                 this.books = data.data.books;
@@ -29,6 +34,7 @@ export default class SearchStore {
         })
     }
 
+    // Search Google Books
     public requestGoogleSearch() {
         if (this.query === '') {
             runInAction(() => {
@@ -57,16 +63,14 @@ export default class SearchStore {
         })
     }
 
-    public getQuery():string {
-        return this.query;
-    }
-
+    // Set user query
     public setQuery(query:string) {
         runInAction(() => {
             this.query = query;
         })
     }
 
+    // Get current user's books that match query
     public getBooks(): SimpleBookInterface[] | undefined {
         if (this.books === undefined) {
             this.requestSearch();
@@ -77,6 +81,7 @@ export default class SearchStore {
         }
     }
 
+    // Get users that match query
     public getUsers(): SimpleUserInterface[] | undefined {
         if (this.users === undefined) {
             this.requestSearch();
@@ -87,6 +92,7 @@ export default class SearchStore {
         }
     }
 
+    // Get Google Books that match query
     public getGoogleBooks():SimpleBookInterface[] | undefined {
         if (this.googleBooks === undefined) {
             this.requestGoogleSearch();

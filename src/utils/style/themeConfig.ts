@@ -1,3 +1,7 @@
+/**
+ * Light and dark theme color palettes
+ */
+
 import { createTheme } from "@mui/material/styles"
 import {Theme} from "@emotion/react";
 

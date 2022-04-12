@@ -30,8 +30,14 @@ interface Props {
     isTablet: boolean
 }
 
+/**
+ * Chart with reading time over the past month
+ * @param props
+ * @constructor
+ */
 const MonthlyChart = (props: Props) => {
 
+    // Get stores
     const { metricsStore, settingsStore } = useStore();
 
     // Get data

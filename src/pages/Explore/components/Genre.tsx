@@ -5,13 +5,18 @@ import { observer } from "mobx-react";
 import {CircularLoading} from "../../../utils/components/CircularLoading";
 import BooksList from "./BooksList";
 import { border } from "../../../utils/style/themeConfig";
-import {device} from "../../../config/config";
+import {device} from "../../../utils/helpers/constants";
 
 interface Props {
     genre: string,
     store: ExploreStore
 }
 
+/**
+ * Component for displaying book recommendations for a genre
+ * @param props
+ * @constructor
+ */
 const Genre = (props: Props) => {
 
     const exploreStore = props.store;

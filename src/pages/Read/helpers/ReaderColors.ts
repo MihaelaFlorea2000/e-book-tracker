@@ -43,6 +43,7 @@ export const getHoverColor = (color:string):string => {
     }
 }
 
+// Colors for each e-reader theme
 export const pageColors = {
     light: {
         color: "#000",

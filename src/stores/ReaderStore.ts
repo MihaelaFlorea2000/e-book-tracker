@@ -1,32 +1,47 @@
 import { EpubCFI } from "epubjs";
 import Rendition from "epubjs/types/rendition";
 import {makeAutoObservable, runInAction} from "mobx";
-import axiosConfig from "../config/axiosConfig";
-import {HighlightInterface, SearchResultInterface} from "../config/interfaces";
+import axiosConfig from "../utils/helpers/axiosConfig";
+import {HighlightInterface, SearchResultInterface} from "../utils/helpers/interfaces";
 
+/**
+ * Class for managing state in the E-book Reader
+ */
 export default class ReaderStore {
 
+    // E-book rendition
     public rendition: Rendition | undefined = undefined;
+
+    // Location within the book (CFI string)
     private location: string | number | undefined = undefined;
-    private highlightMenu: boolean = false;
+
+    // Highlights in a book
     public selections: HighlightInterface[] | undefined = undefined;
     public currentSelection: HighlightInterface | null = null;
+
+    // Whether side menus and dialogs are open
+    private highlightMenu: boolean = false;
     private highlightDialog: boolean = false;
     private finishedDialog: boolean = false;
     private finishedDialogDouble: boolean = false;
 
+    // Search Results
+    private searchResults: SearchResultInterface[] | undefined = undefined
+
+    // Is this the first time the book is open?
     private firstRender: boolean = true;
+
+    // Highlight info
     private highlightOn: boolean = false;
     private requested: boolean = false;
     private editId: number | undefined = undefined;
-    private searchResults: SearchResultInterface[] | undefined = undefined
 
+    // Reader theme
     private themeOn: boolean = false;
 
     public constructor() {
         makeAutoObservable(this);
     }
-
 
     // Rendition
     public getRendition():Rendition | undefined {
@@ -67,12 +82,6 @@ export default class ReaderStore {
         return this.highlightMenu;
     }
 
-    public setHighlightMenu(highlightMenu:boolean) {
-        runInAction(() => {
-            this.highlightMenu = highlightMenu;
-        })
-    }
-
     // Highlights
     public getSelections(bookIdUrl:number):HighlightInterface[] | undefined{
         if (this.selections === undefined) {
@@ -89,7 +98,7 @@ export default class ReaderStore {
         return c.compare(selection1.cfiRange, selection2.cfiRange);
     }
 
-    // Request current book highlights
+    // Request current book highlights from backend
     public requestSelections(bookId:number) {
         if (!this.requested) {
             runInAction(() => {
@@ -99,7 +108,7 @@ export default class ReaderStore {
             return;
         }
 
-        axiosConfig().get(`/pg/highlights/${bookId}`).then(data => {
+        axiosConfig().get(`/highlights/${bookId}`).then(data => {
             runInAction(() => {
                 this.selections = data.data.sort(ReaderStore.compareSelections);
                 this.requested = false
@@ -201,15 +210,9 @@ export default class ReaderStore {
         })
     }
 
-    // Is the theme on
+    // Is the theme on?
     public isThemeOn():boolean {
         return this.themeOn;
-    }
-
-    public setIsThemeOn(value:boolean) {
-        runInAction(() => {
-            this.themeOn = value;
-        })
     }
 
     // Reset state btw renders

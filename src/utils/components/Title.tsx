@@ -5,6 +5,10 @@ interface Props {
     text: string
 }
 
+/**
+ * Title component that adapts to theme change
+ * @param props
+ */
 export const Title = (props: Props) => {
 
     return (

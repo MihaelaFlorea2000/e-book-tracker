@@ -4,7 +4,7 @@ import styled from "@emotion/styled";
 import Button from "@mui/material/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBookReader, faInfo } from "@fortawesome/free-solid-svg-icons";
-import {BookInterface, SimpleBookInterface} from "../../../config/interfaces";
+import {BookInterface, SimpleBookInterface} from "../../helpers/interfaces";
 import { border } from "../../style/themeConfig";
 import defaultCoverImage from "../../images/defaultCoverImage.jpeg";
 
@@ -15,6 +15,11 @@ interface Props {
     fromAPI: boolean
 }
 
+/**
+ * Component for displaying a book in the library
+ * @param props
+ * @constructor
+ */
 const Book = (props: Props) => {
 
     // Handle books without covers

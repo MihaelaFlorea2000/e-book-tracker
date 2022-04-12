@@ -18,7 +18,7 @@ import TextField from "@mui/material/TextField";
 import Alert from "@mui/material/Alert";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { theme } from "../../utils/style/themeConfig";
-import axiosConfig from "../../config/axiosConfig";
+import axiosConfig from "../../utils/helpers/axiosConfig";
 
 // Data submitted in the form
 interface FormState {
@@ -50,6 +50,10 @@ const registerSchema = yup.object({
         .oneOf([yup.ref('password')], 'Passwords must match')
 });
 
+/**
+ * Page with registration form
+ * @constructor
+ */
 const RegisterPage = () => {
 
     // For rerouting to Login Page
@@ -63,7 +67,7 @@ const RegisterPage = () => {
     const onSubmit = async (data : FormState) => {
         if (!!errors) {
             try {
-                const res = await axiosConfig().post( "/pg/users/register", data);
+                const res = await axiosConfig().post( "/users/register", data);
                 if (res.data.status) {
                     navigate('/login?fromRegister');
                 } else {

@@ -1,5 +1,9 @@
+/**
+ * Styled components shared by the Add Read and Edit Read forms
+ */
+
 import styled from "@emotion/styled";
-import {device} from "../../config/config";
+import {device} from "../helpers/constants";
 
 export const Subtitle = styled.div`
   padding-left: 2px;

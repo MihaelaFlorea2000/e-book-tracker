@@ -1,13 +1,17 @@
 import {makeAutoObservable, runInAction} from "mobx";
-import axiosConfig from "../config/axiosConfig";
+import axiosConfig from "../utils/helpers/axiosConfig";
 import {
     SimpleBookInterface,
     GoalsInterface,
     NumbersInterface, ProfileSettingsInterface, UserProfileInterface, SimpleUserInterface
-} from "../config/interfaces";
+} from "../utils/helpers/interfaces";
 
+/**
+ * Class for managing user profile state
+ */
 export default class ProfileStore {
 
+    // Profile Information
     private id: number;
     private user: UserProfileInterface | undefined = undefined;
     private goals: GoalsInterface | undefined = undefined;
@@ -23,7 +27,6 @@ export default class ProfileStore {
     private requestedBooks: boolean = false;
     private requestedProfileSettings: boolean = false;
     private requestedMutualFriends: boolean = false;
-
 
 
     public constructor(id: number) {
@@ -43,7 +46,7 @@ export default class ProfileStore {
         }
     }
 
-    // Request current user information from the API
+    // Request current user information from the backend
     public requestUser() {
         if (!this.requestedUser) {
             runInAction(() => {
@@ -53,7 +56,7 @@ export default class ProfileStore {
             return;
         }
 
-        axiosConfig().get(`/pg/users/${this.id}`).then(data => {
+        axiosConfig().get(`/users/${this.id}`).then(data => {
             runInAction(() => {
                 this.user = data.data;
                 this.requestedUser = false
@@ -72,7 +75,7 @@ export default class ProfileStore {
         }
     }
 
-    // Request goals metrics
+    // Request goals metrics from backend
     public requestGoals() {
         if (!this.requestedGoals) {
             runInAction(() => {
@@ -82,7 +85,7 @@ export default class ProfileStore {
             return;
         }
 
-        axiosConfig().get(`/pg/metrics/goals/${this.id}`).then(data => {
+        axiosConfig().get(`/metrics/goals/${this.id}`).then(data => {
             runInAction(() => {
                 this.goals = data.data;
                 this.requestedGoals = false;
@@ -101,7 +104,7 @@ export default class ProfileStore {
         }
     }
 
-    // Request track numbers
+    // Request track numbers from backend
     public requestNumbers() {
         if (!this.requestedNumbers) {
             runInAction(() => {
@@ -111,7 +114,7 @@ export default class ProfileStore {
             return;
         }
 
-        axiosConfig().get(`/pg/metrics/numbers/${this.id}`).then(data => {
+        axiosConfig().get(`/metrics/numbers/${this.id}`).then(data => {
             runInAction(() => {
                 this.numbers = data.data;
                 this.requestedNumbers = false;
@@ -119,7 +122,7 @@ export default class ProfileStore {
         })
     }
 
-    // Get current user's books
+    // Get user's books
     public getBooks(): SimpleBookInterface[] | undefined {
         if (this.books === undefined) {
             this.requestBooks();
@@ -130,7 +133,7 @@ export default class ProfileStore {
         }
     }
 
-    // Request current user books
+    // Request user books from backend
     public requestBooks() {
         if (!this.requestedBooks) {
             runInAction(() => {
@@ -140,7 +143,7 @@ export default class ProfileStore {
             return;
         }
 
-        axiosConfig().get(`/pg/users/${this.id}/books`).then(data => {
+        axiosConfig().get(`/users/${this.id}/books`).then(data => {
             runInAction(() => {
                 this.books = data.data;
                 this.requestedBooks = false
@@ -159,7 +162,7 @@ export default class ProfileStore {
         }
     }
 
-    // Request current user books
+    // Request user settings from backend
     public requestProfileSettings() {
         if (!this.requestedProfileSettings) {
             runInAction(() => {
@@ -169,14 +172,14 @@ export default class ProfileStore {
             return;
         }
 
-        axiosConfig().get(`/pg/users/settings/profile/${this.id}`).then(data => {
+        axiosConfig().get(`/users/settings/profile/${this.id}`).then(data => {
             runInAction(() => {
                 this.profileSettings = data.data;
             })
         })
     }
 
-    // Get current user information
+    // Get mutual friends with current user
     public getMutualFriends(): SimpleUserInterface[] | undefined {
         if (this.mutualFriends === undefined) {
             this.requestMutualFriends();
@@ -187,7 +190,7 @@ export default class ProfileStore {
         }
     }
 
-    // Request current user information from the API
+    // Request mutual friends with current user from backend
     public requestMutualFriends() {
         if (!this.requestedMutualFriends) {
             runInAction(() => {
@@ -197,7 +200,7 @@ export default class ProfileStore {
             return;
         }
 
-        axiosConfig().get(`/pg/friends/mutual/${this.id}`).then(data => {
+        axiosConfig().get(`/friends/mutual/${this.id}`).then(data => {
             runInAction(() => {
                 this.mutualFriends = data.data;
                 this.requestedMutualFriends = false

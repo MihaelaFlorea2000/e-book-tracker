@@ -7,7 +7,7 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import SettingIcon from "./SettingIcon";
 import {faCheckCircle, faLock, faTimesCircle} from "@fortawesome/free-solid-svg-icons";
 import {useStore} from "../../../stores/RootStore";
-import {SettingsInterface, UserInterface} from "../../../config/interfaces";
+import {SettingsInterface, UserInterface} from "../../../utils/helpers/interfaces";
 import {observer} from "mobx-react";
 import Switch from "@mui/material/Switch";
 import Button from "@mui/material/Button";
@@ -21,8 +21,8 @@ import MenuItem from "@mui/material/MenuItem";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormGroup from "@mui/material/FormGroup";
-import axiosConfig from "../../../config/axiosConfig";
-import { device } from "../../../config/config";
+import axiosConfig from "../../../utils/helpers/axiosConfig";
+import { device } from "../../../utils/helpers/constants";
 
 
 interface Props {
@@ -30,12 +30,19 @@ interface Props {
     settings: SettingsInterface
 }
 
+/**
+ * Privacy Settings section of the Settings page
+ * @param props
+ * @constructor
+ */
 const PrivacySettings = (props: Props) => {
 
     const navigate = useNavigate();
 
+    // Get stores
     const { settingsStore } = useStore();
 
+    // Local state
     const [notifications, setNotifications] = useState<boolean>(props.settings.notifications);
     const [profileVisibility, setProfileVisibility] = useState<string>(props.settings.profileVisibility);
     const [goals, setGoals] = useState<boolean>(props.settings.showGoals);
@@ -46,6 +53,7 @@ const PrivacySettings = (props: Props) => {
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const [isCancelling, setIsCancelling] = useState<boolean>(false);
 
+    // Update local state
     const handleNotifications = (e:React.ChangeEvent<HTMLInputElement>) => {
         setNotifications(e.target.checked);
     }
@@ -66,6 +74,7 @@ const PrivacySettings = (props: Props) => {
         setProfileVisibility(event.target.value as string);
     };
 
+    // Update state permanently
     const handleSubmit = async () => {
         setIsSubmitting(true);
 
@@ -77,10 +86,8 @@ const PrivacySettings = (props: Props) => {
             showNumbers: numbers
         }
 
-        console.log(newSettings);
-
         try {
-            const res = await axiosConfig().put('/pg/users/settings/privacy', newSettings)
+            const res = await axiosConfig().put('/users/settings/privacy', newSettings)
             console.log(res);
             setIsSubmitting(false);
             settingsStore.requestSettings();

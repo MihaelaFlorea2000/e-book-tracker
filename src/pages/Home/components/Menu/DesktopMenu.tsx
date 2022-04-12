@@ -2,8 +2,12 @@ import React from "react";
 import { observer } from "mobx-react";
 import styled from "@emotion/styled";
 import MenuBar from "./MenuBar";
-import { device } from "../../../../config/config";
+import { device } from "../../../../utils/helpers/constants";
 
+/**
+ * Component for displaying the menu on desktop
+ * @constructor
+ */
 const DesktopMenu = () => {
     return (
         <Container>

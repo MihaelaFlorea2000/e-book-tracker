@@ -17,7 +17,7 @@ import TextField from "@mui/material/TextField";
 import FormHelperText from "@mui/material/FormHelperText";
 import Alert from "@mui/material/Alert";
 import {Visibility, VisibilityOff } from "@mui/icons-material";
-import axiosConfig from "../../config/axiosConfig";
+import axiosConfig from "../../utils/helpers/axiosConfig";
 import { observer } from "mobx-react";
 import LoadingButton from "@mui/lab/LoadingButton";
 import LoginStore from "../../stores/LoginStore";
@@ -40,6 +40,10 @@ const loginSchema = yup.object({
         .required('Password is required')
 });
 
+/**
+ * Page with Login form
+ * @constructor
+ */
 const LoginPage = () => {
 
     // Get stores access
@@ -56,7 +60,7 @@ const LoginPage = () => {
         if (!!errors) {
             setIsSubmitting(true);
             try {
-                const res = await axiosConfig().post( "/pg/users/login", data);
+                const res = await axiosConfig().post( "/users/login", data);
                 if (res.data.status) {
                     LoginStore.login(res.data.token);
                     userStore.requestCurrentUser();

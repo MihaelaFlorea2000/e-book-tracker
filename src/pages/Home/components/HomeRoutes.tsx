@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 import { observer } from "mobx-react";
-import { ROUTES } from "../../../config/config";
+import { ROUTES } from "../../../utils/helpers/constants";
 import ExplorePage from "../../Explore/ExplorePage";
 import FriendsPage from "../../Friends/FriendsPage";
 import LibraryPage from "../../Library/LibraryPage";
@@ -19,10 +19,14 @@ import SearchPage from "../../Search/SearchPage";
 import BadgesPage from "../../Badges/BadgesPage";
 import MutualFriendsPage from "../../Friends/MutualFriendsPage";
 
+/**
+ * Router for a logged in user to
+ * all the pages in the app
+ * @constructor
+ */
 const HomeRoutes = () => {
 
     return (
-
         <Routes>
                 <Route path={ROUTES.library} element={<LibraryPage/>}/>
                 <Route path={ROUTES.track.main} element={<TrackPage/>}/>

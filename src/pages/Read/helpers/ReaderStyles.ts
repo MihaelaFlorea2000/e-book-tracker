@@ -1,7 +1,7 @@
 // @ts-ignore
 import {ReactReaderStyle} from "react-reader";
-import {getTheme} from "./ReaderColors";
 
+// Default reader style (used for desktop)
 export const defaultStyle = (pageColor:any) => {
     return {
         ...ReactReaderStyle,

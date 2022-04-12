@@ -1,7 +1,10 @@
 import {makeAutoObservable, runInAction} from "mobx";
-import {BookInterface, UserInterface} from "../config/interfaces";
-import axiosConfig from "../config/axiosConfig";
+import {BookInterface} from "../utils/helpers/interfaces";
+import axiosConfig from "../utils/helpers/axiosConfig";
 
+/**
+ * Class for managing current user's books state
+ */
 export default class BooksStore {
 
     private books: BookInterface[] | undefined = undefined
@@ -23,7 +26,7 @@ export default class BooksStore {
         }
     }
 
-    // Request current user books
+    // Request current user books from backend
     public requestBooks() {
         if (!this.requested) {
             runInAction(() => {
@@ -33,7 +36,7 @@ export default class BooksStore {
             return;
         }
 
-        axiosConfig().get('/pg/books').then(data => {
+        axiosConfig().get('/books').then(data => {
             runInAction(() => {
                 this.books = data.data;
                 this.requested = false
@@ -41,6 +44,7 @@ export default class BooksStore {
         })
     }
 
+    // Sort the books by title
     public sortBooks() {
         if (this.books) {
             this.books = this.books.sort((a,b) => (a.title > b.title) ? 1 : ((b.title > a.title) ? -1 : 0))

@@ -9,9 +9,9 @@ import {
     DialogTitle
 } from "@mui/material";
 import { StyledTextField } from "../../../utils/style/styledComponents";
-import { device } from "../../../config/config";
+import { device } from "../../../utils/helpers/constants";
 import { useStore } from "../../../stores/RootStore";
-import axiosConfig from "../../../config/axiosConfig";
+import axiosConfig from "../../../utils/helpers/axiosConfig";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCheckCircle, faTimesCircle} from "@fortawesome/free-solid-svg-icons";
 import Alert from "@mui/material/Alert";
@@ -36,6 +36,11 @@ interface Props {
     readId: number,
 }
 
+/**
+ * Dialogue for editing a Session
+ * @param props
+ * @constructor
+ */
 const EditDialog = (props:Props) => {
 
     // Get stores
@@ -101,7 +106,7 @@ const EditDialog = (props:Props) => {
 
         if (sessionId) {
             try {
-                const res = await axiosConfig().put(`/pg/sessions/${props.readId}/${sessionId}`, newSession);
+                const res = await axiosConfig().put(`/sessions/${props.readId}/${sessionId}`, newSession);
                 console.log(res);
                 editReadStore.requestSessions(props.readId);
             } catch (err) {

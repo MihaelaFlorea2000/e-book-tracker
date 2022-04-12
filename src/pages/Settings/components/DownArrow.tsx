@@ -3,6 +3,10 @@ import styled from "@emotion/styled";
 import {faAngleDown} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+/**
+ * Arrow Icon component next to each settings section
+ * @constructor
+ */
 const DownArrow = () => {
 
     return (

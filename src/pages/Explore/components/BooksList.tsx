@@ -3,13 +3,18 @@ import styled from "@emotion/styled";
 import Book from "../../../utils/components/Book/Book";
 import Grid from "@mui/material/Grid";
 import {observer} from "mobx-react";
-import {SimpleBookInterface} from "../../../config/interfaces";
+import {SimpleBookInterface} from "../../../utils/helpers/interfaces";
 
 interface Props {
     books: SimpleBookInterface[],
     title: string
 }
 
+/**
+ * List of books recommended
+ * @param props
+ * @constructor
+ */
 const BooksList = (props: Props) => {
 
     let bookNodes: ReactNode[] = [];

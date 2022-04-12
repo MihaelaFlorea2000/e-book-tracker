@@ -7,7 +7,7 @@ import Session from "./Session";
 import { StyledTextField } from "../../../utils/style/styledComponents";
 import {AddButton} from "../../../utils/components/Buttons/AddButton";
 import {CircularLoading} from "../../../utils/components/CircularLoading";
-import axiosConfig from "../../../config/axiosConfig";
+import axiosConfig from "../../../utils/helpers/axiosConfig";
 import {
     Subtitle,
     Label,
@@ -18,6 +18,10 @@ import {
 } from "../../../utils/style/readFormStyle";
 import {isBetween} from "../../../utils/helpers/dateChecks";
 
+/**
+ * Component displaying Sessions for the Read being edited
+ * @constructor
+ */
 const Sessions = () => {
 
     // Get stores
@@ -95,7 +99,7 @@ const Sessions = () => {
         }
 
         try {
-            const res = await axiosConfig().post(`/pg/sessions/${readId}`, newSession);
+            const res = await axiosConfig().post(`/sessions/${readId}`, newSession);
             console.log(res);
             editReadStore.requestSessions(readId);
 

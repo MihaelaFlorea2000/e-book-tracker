@@ -6,6 +6,10 @@ import { Title } from "../../utils/components/Title";
 import UsersList from "../../utils/components/User/UsersList";
 import { observer } from "mobx-react";
 
+/**
+ * Page displaying the current user's friends
+ * @constructor
+ */
 const FriendsPage = () => {
 
     const { friendsStore } = useStore();

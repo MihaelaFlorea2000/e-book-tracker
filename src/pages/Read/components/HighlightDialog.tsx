@@ -12,16 +12,21 @@ import {
 import { StyledTextField } from "../../../utils/style/styledComponents";
 import { border } from "../../../utils/style/themeConfig";
 import { readerColors } from "../helpers/ReaderColors";
-import { device } from "../../../config/config";
-import {BookInterface} from "../../../config/interfaces";
+import { device } from "../../../utils/helpers/constants";
+import {BookInterface} from "../../../utils/helpers/interfaces";
 import { useStore } from "../../../stores/RootStore";
-import axiosConfig from "../../../config/axiosConfig";
+import axiosConfig from "../../../utils/helpers/axiosConfig";
 
 interface Props {
     contents: Contents | undefined,
     book: BookInterface
 }
 
+/**
+ * Dialog for adding a highlight in a book
+ * @param props
+ * @constructor
+ */
 const HighlightDialog = (props:Props) => {
 
     // Get ReaderStore
@@ -57,7 +62,7 @@ const HighlightDialog = (props:Props) => {
     const addHighlight = async() => {
         try {
             if (props.book.id !== undefined) {
-                const res = await axiosConfig().post(`/pg/highlights/${props.book.id}`, currentSelection);
+                const res = await axiosConfig().post(`/highlights/${props.book.id}`, currentSelection);
                 console.log(res);
                 readerStore.requestSelections(props.book.id);
             }
@@ -70,7 +75,7 @@ const HighlightDialog = (props:Props) => {
     const editHighlight = async(editId:number) => {
         try {
             if (props.book.id !== undefined) {
-                const res = await axiosConfig().put(`/pg/highlights/${props.book.id}/${editId}`, currentSelection);
+                const res = await axiosConfig().put(`/highlights/${props.book.id}/${editId}`, currentSelection);
                 console.log(res);
                 readerStore.requestSelections(props.book.id);
             }

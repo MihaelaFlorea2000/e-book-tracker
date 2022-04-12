@@ -17,8 +17,8 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCheckCircle, faTimesCircle} from "@fortawesome/free-solid-svg-icons";
 import { useStore } from "../../../../stores/RootStore";
 import { StyledTextField } from "../../../../utils/style/styledComponents";
-import { device } from "../../../../config/config";
-import axiosConfig from "../../../../config/axiosConfig";
+import { device } from "../../../../utils/helpers/constants";
+import axiosConfig from "../../../../utils/helpers/axiosConfig";
 
 
 interface FormInterface {
@@ -36,6 +36,10 @@ const readSchema = yup.object().shape({
     dailyMinutes: yup.lazy((value) => (value === '' ? yup.string() : yup.number().moreThan(-1).lessThan(60))),
 });
 
+/**
+ * Dialog for editing the user goals
+ * @constructor
+ */
 const GoalsDialogue = () => {
 
     const navigate = useNavigate();
@@ -74,7 +78,7 @@ const GoalsDialogue = () => {
         setIsSubmitting(true);
 
         try {
-            const res = await axiosConfig().post(`/pg/users/goals`, data);
+            const res = await axiosConfig().post(`/users/goals`, data);
             console.log(res);
             metricsStore.requestGoals();
         } catch (err) {

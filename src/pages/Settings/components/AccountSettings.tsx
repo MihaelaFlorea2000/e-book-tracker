@@ -22,16 +22,16 @@ import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup/dist/yup";
 import * as yup from "yup";
 import {useStore} from "../../../stores/RootStore";
-import {UserInterface} from "../../../config/interfaces";
+import {UserInterface} from "../../../utils/helpers/interfaces";
 import {
     ButtonContainer,
     SubmitButtons
 } from "../../../utils/style/metadataFormStyle";
 import LoadingButton from "@mui/lab/LoadingButton";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import axiosConfig from "../../../config/axiosConfig";
+import axiosConfig from "../../../utils/helpers/axiosConfig";
 import {observer} from "mobx-react";
-import { device } from "../../../config/config";
+import { device } from "../../../utils/helpers/constants";
 import ConfirmBox from "./ConfirmBox";
 
 // Data submitted in the form
@@ -67,10 +67,16 @@ const registerSchema = yup.object({
         .transform((value) => !!value ? value : null)
 });
 
+/**
+ * Account Settings section of the Settings page
+ * @param props
+ * @constructor
+ */
 const AccountSettings = (props: Props) => {
 
     const navigate = useNavigate();
 
+    // Get stores
     const { userStore, settingsStore } = useStore();
 
     // Handling form submission
@@ -104,7 +110,7 @@ const AccountSettings = (props: Props) => {
         if(!!errors) {
             try {
                 // Update details
-                const res = await axiosConfig().put('/pg/users/profile/edit', data)
+                const res = await axiosConfig().put('/users/profile/edit', data)
 
                 if (!res.data.status) {
                     setIsSubmitting(false);

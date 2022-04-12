@@ -5,7 +5,7 @@ import {border} from "../../style/themeConfig";
 import {CircularLoading} from "../CircularLoading";
 import Button from "@mui/material/Button";
 import {useNavigate} from "react-router-dom";
-import { device } from "../../../config/config";
+import { device } from "../../helpers/constants";
 import ProfileStore from "../../../stores/ProfileStore";
 import Goal from "./Goal";
 import {chartBorderColors, chartColors} from "../../../pages/Track/helpers/ChartSettings";
@@ -15,6 +15,11 @@ interface Props {
     store: ProfileStore | MetricsStore,
 }
 
+/**
+ * Goals rings used on Track and Profile pages
+ * @param props
+ * @constructor
+ */
 const Goals = (props: Props) => {
 
     const navigate = useNavigate();

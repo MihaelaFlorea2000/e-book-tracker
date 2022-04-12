@@ -1,7 +1,11 @@
 import {makeAutoObservable, runInAction} from "mobx";
-import {SimpleBookInterface} from "../config/interfaces";
+import {SimpleBookInterface} from "../utils/helpers/interfaces";
 import axios from "axios";
 
+/**
+ * Class for managing state on the Explore page
+ * (book recommendations)
+ */
 export default class ExploreStore {
 
     private books: SimpleBookInterface[] | undefined = undefined
@@ -16,7 +20,7 @@ export default class ExploreStore {
         this.genre = genre;
     }
 
-    // Get current user's books
+    // Get book recommendations
     public getBooks(): SimpleBookInterface[] | undefined {
         if (this.books === undefined) {
             this.requestBooks();
@@ -27,7 +31,8 @@ export default class ExploreStore {
         }
     }
 
-    // Request current user books
+    // Request book recommendations from
+    // Google Books API by genre
     public requestBooks() {
         if (!this.requested) {
             runInAction(() => {

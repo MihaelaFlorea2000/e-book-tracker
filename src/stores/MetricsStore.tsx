@@ -5,15 +5,15 @@ import {
     PercentInterface,
     GoalsInterface,
     ChartDataInterface
-} from "../config/interfaces";
-import axiosConfig from "../config/axiosConfig";
+} from "../utils/helpers/interfaces";
+import axiosConfig from "../utils/helpers/axiosConfig";
 
+/**
+ * Class for managing metrics for Track page
+ */
 export default class MetricsStore {
 
-    private numbers: NumbersInterface | undefined = undefined;
-    private percent: PercentInterface | undefined = undefined;
-    private goalsDialogue: boolean = false;
-    private goals: GoalsInterface | undefined = undefined;
+    // User goals
     private setGoals: NumberGoalsInterface = {
         yearly: 0,
         monthly: 0,
@@ -21,14 +21,25 @@ export default class MetricsStore {
         dailyMinutes: 0
     }
 
+    // Open edit goals dialog?
+    private goalsDialogue: boolean = false;
+
+    // Data for each type of chart
+    private numbers: NumbersInterface | undefined = undefined;
+    private percent: PercentInterface | undefined = undefined;
+    private goals: GoalsInterface | undefined = undefined;
+
+    // Line charts
     private weeklyProgress: ChartDataInterface | undefined;
     private monthlyProgress: ChartDataInterface | undefined;
     private yearlyProgress: ChartDataInterface | undefined;
     private totalProgress: ChartDataInterface | undefined;
 
+    // Bar charts
     private topTagsByRead: ChartDataInterface | undefined;
     private topTagsByBooks: ChartDataInterface | undefined;
 
+    // Calendar Chart
     private calendarDays: string[] | undefined;
 
     private requestedNumbers: boolean = false;
@@ -38,10 +49,8 @@ export default class MetricsStore {
     private requestedMonthlyProgress: boolean = false;
     private requestedYearlyProgress: boolean = false;
     private requestedTotalProgress: boolean = false;
-
     private requestedTopTagsByRead: boolean = false;
     private requestedTopTagsByBooks: boolean = false;
-
     private requestedCalendarDays: boolean = false;
 
     public constructor() {
@@ -59,7 +68,7 @@ export default class MetricsStore {
         }
     }
 
-    // Request track numbers
+    // Request track numbers from backend
     public requestNumbers() {
         if (!this.requestedNumbers) {
             runInAction(() => {
@@ -69,7 +78,7 @@ export default class MetricsStore {
             return;
         }
 
-        axiosConfig().get(`/pg/metrics/numbers`).then(data => {
+        axiosConfig().get(`/metrics/numbers`).then(data => {
             runInAction(() => {
                 this.numbers = data.data;
                 this.requestedNumbers = false;
@@ -88,7 +97,7 @@ export default class MetricsStore {
         }
     }
 
-    // Request percent of books read
+    // Request percent of books read from backend
     public requestPercent() {
         if (!this.requestedPercent) {
             runInAction(() => {
@@ -98,7 +107,7 @@ export default class MetricsStore {
             return;
         }
 
-        axiosConfig().get(`/pg/metrics/percentage`).then(data => {
+        axiosConfig().get(`/metrics/percentage`).then(data => {
             runInAction(() => {
                 this.percent = data.data;
                 this.requestedPercent = false;
@@ -128,7 +137,7 @@ export default class MetricsStore {
         }
     }
 
-    // Request goals metrics
+    // Request goals metrics from backend
     public requestGoals() {
         if (!this.requestedGoals) {
             runInAction(() => {
@@ -138,7 +147,7 @@ export default class MetricsStore {
             return;
         }
 
-        axiosConfig().get(`/pg/metrics/goals`).then(data => {
+        axiosConfig().get(`/metrics/goals`).then(data => {
             runInAction(() => {
                 this.goals = data.data;
                 this.requestedGoals = false;
@@ -146,12 +155,12 @@ export default class MetricsStore {
         })
     }
 
-    // Get current user's books
+    // Get current user's goals
     public getSetGoals(): NumberGoalsInterface {
         return this.setGoals;
     }
 
-    // Request current user books
+    // Set current user goals
     public setSetGoals(value: NumberGoalsInterface) {
         runInAction(() => {
             this.setGoals = value;
@@ -169,7 +178,7 @@ export default class MetricsStore {
         }
     }
 
-    // Request weekly reading metrics
+    // Request weekly reading metrics from backend
     public requestWeeklyProgress() {
         if (!this.requestedWeeklyProgress) {
             runInAction(() => {
@@ -179,7 +188,7 @@ export default class MetricsStore {
             return;
         }
 
-        axiosConfig().get(`/pg/metrics/weekly`).then(data => {
+        axiosConfig().get(`/metrics/weekly`).then(data => {
             runInAction(() => {
                 this.weeklyProgress = data.data;
                 this.requestedWeeklyProgress = false;
@@ -198,7 +207,7 @@ export default class MetricsStore {
         }
     }
 
-    // Request monthly reading metrics
+    // Request monthly reading metrics from backend
     public requestMonthlyProgress() {
         if (!this.requestedMonthlyProgress) {
             runInAction(() => {
@@ -208,7 +217,7 @@ export default class MetricsStore {
             return;
         }
 
-        axiosConfig().get(`/pg/metrics/monthly`).then(data => {
+        axiosConfig().get(`/metrics/monthly`).then(data => {
             runInAction(() => {
                 this.monthlyProgress = data.data;
                 this.requestedMonthlyProgress = false;
@@ -227,7 +236,7 @@ export default class MetricsStore {
         }
     }
 
-    // Request yearly reading metrics
+    // Request yearly reading metrics from backend
     public requestYearlyProgress() {
         if (!this.requestedYearlyProgress) {
             runInAction(() => {
@@ -237,7 +246,7 @@ export default class MetricsStore {
             return;
         }
 
-        axiosConfig().get(`/pg/metrics/yearly`).then(data => {
+        axiosConfig().get(`/metrics/yearly`).then(data => {
             runInAction(() => {
                 this.yearlyProgress = data.data;
                 this.requestedYearlyProgress = false;
@@ -256,7 +265,7 @@ export default class MetricsStore {
         }
     }
 
-    // Request total reading metrics
+    // Request total reading metrics from backend
     public requestTotalProgress() {
         if (!this.requestedTotalProgress) {
             runInAction(() => {
@@ -266,7 +275,7 @@ export default class MetricsStore {
             return;
         }
 
-        axiosConfig().get(`/pg/metrics/total`).then(data => {
+        axiosConfig().get(`/metrics/total`).then(data => {
             runInAction(() => {
                 this.totalProgress = data.data;
                 this.requestedTotalProgress = false;
@@ -285,7 +294,7 @@ export default class MetricsStore {
         }
     }
 
-    // Request top tags by reading time
+    // Request top tags by reading time from backend
     public requestTopTagsByRead() {
         if (!this.requestedTopTagsByRead) {
             runInAction(() => {
@@ -295,7 +304,7 @@ export default class MetricsStore {
             return;
         }
 
-        axiosConfig().get(`/pg/metrics/tags/read`).then(data => {
+        axiosConfig().get(`/metrics/tags/read`).then(data => {
             runInAction(() => {
                 this.topTagsByRead = data.data;
                 this.requestedTopTagsByRead = false;
@@ -314,7 +323,7 @@ export default class MetricsStore {
         }
     }
 
-    // Request top tags by number of books
+    // Request top tags by number of books from backend
     public requestTopTagsByBooks() {
         if (!this.requestedTopTagsByBooks) {
             runInAction(() => {
@@ -324,7 +333,7 @@ export default class MetricsStore {
             return;
         }
 
-        axiosConfig().get(`/pg/metrics/tags/books`).then(data => {
+        axiosConfig().get(`/metrics/tags/books`).then(data => {
             runInAction(() => {
                 this.topTagsByBooks = data.data;
                 this.requestedTopTagsByBooks = false;
@@ -343,7 +352,7 @@ export default class MetricsStore {
         }
     }
 
-    // Request calendar days
+    // Request calendar days from backend
     public requestCalendarDays() {
         if (!this.requestedCalendarDays) {
             runInAction(() => {
@@ -353,7 +362,7 @@ export default class MetricsStore {
             return;
         }
 
-        axiosConfig().get(`/pg/metrics/calendar`).then(data => {
+        axiosConfig().get(`/metrics/calendar`).then(data => {
             runInAction(() => {
                 this.calendarDays = data.data;
                 this.requestedCalendarDays = false;
@@ -361,6 +370,7 @@ export default class MetricsStore {
         })
     }
 
+    // Refresh all metrics
     public trackRefresh() {
         this.requestNumbers();
         this.requestPercent();

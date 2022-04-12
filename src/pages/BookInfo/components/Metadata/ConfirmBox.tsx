@@ -10,14 +10,19 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faTrash} from "@fortawesome/free-solid-svg-icons";
-import {device} from "../../../../config/config";
-import axiosConfig from "../../../../config/axiosConfig";
+import {device} from "../../../../utils/helpers/constants";
+import axiosConfig from "../../../../utils/helpers/axiosConfig";
 import {useStore} from "../../../../stores/RootStore";
 
 interface Props {
     bookId: number;
 }
 
+/**
+ * Dialog confirming if the user wants to delete the book
+ * @param props
+ * @constructor
+ */
 const ConfirmBox = (props:Props) => {
 
     const navigate = useNavigate();
@@ -39,7 +44,7 @@ const ConfirmBox = (props:Props) => {
     const handleYes = async () => {
         // Delete Book
         try {
-            const res = await axiosConfig().delete(`/pg/books/${props.bookId}`)
+            const res = await axiosConfig().delete(`/books/${props.bookId}`)
 
             if (res.data.status) {
                 booksStore.requestBooks();

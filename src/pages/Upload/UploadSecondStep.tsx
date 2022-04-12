@@ -7,6 +7,10 @@ import { CircularLoading } from "../../utils/components/CircularLoading";
 import { useStore } from "../../stores/RootStore";
 import { Title } from "../../utils/components/Title";
 
+/**
+ * Page for updating book metadata
+ * @constructor
+ */
 const UploadSecondStep = () => {
 
     const navigate = useNavigate();

@@ -16,7 +16,7 @@ import {
     faTimesCircle
 } from "@fortawesome/free-solid-svg-icons";
 import TagsInput from "../../../utils/components/TagsInput";
-import axiosConfig from "../../../config/axiosConfig";
+import axiosConfig from "../../../utils/helpers/axiosConfig";
 import { StyledTextField } from "../../../utils/style/styledComponents";
 import { BookRating } from "../../../utils/components/Book/BookRating";
 import {
@@ -63,6 +63,11 @@ const metadataSchema = yup.object().shape({
     language: yup.string()
 });
 
+/**
+ * Form for editing book metadata
+ * @param props
+ * @constructor
+ */
 const EditForm = (props:Props) => {
 
     const navigate = useNavigate();
@@ -116,7 +121,7 @@ const EditForm = (props:Props) => {
             }
 
             // Update metadata
-            const editMetadataRes = await axiosConfig().put( `/pg/books/${props.bookId}/edit`, book);
+            const editMetadataRes = await axiosConfig().put( `/books/${props.bookId}/edit`, book);
 
             if (!editMetadataRes.data.status) {
                 setIsSubmitting(false);

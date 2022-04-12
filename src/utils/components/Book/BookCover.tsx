@@ -6,6 +6,9 @@ import defaultCoverImage from "../../images/defaultCoverImage.jpeg";
 import { observer } from "mobx-react";
 import { CoverContainer, CoverTitle, Image } from "../../style/styledComponents";
 
+/**
+ * Component for book cover or default cover and title
+ */
 const BookCover = () => {
 
     // Get stores

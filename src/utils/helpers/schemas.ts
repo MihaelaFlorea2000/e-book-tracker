@@ -1,3 +1,7 @@
+/**
+ * Yup form validation schemas
+ */
+
 import * as yup from "yup";
 
 export const readSchema = yup.object().shape({

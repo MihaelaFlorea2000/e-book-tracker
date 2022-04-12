@@ -14,8 +14,10 @@ import SettingsStore from "./SettingsStore";
 import FriendsStore from "./FriendsStore";
 import NotificationsStore from "./NotificationsStore";
 import BadgesStore from "./BadgesStore";
-import ExploreStore from "./ExploreStore";
-import ExploreTagsStore from "./ExploreTagsStore";
+
+/**
+ * Initializing all the stores used for managing app state
+ */
 
 interface Store {
     userStore: UserStore,
@@ -33,7 +35,6 @@ interface Store {
     friendsStore: FriendsStore,
     notificationsStore: NotificationsStore,
     badgesStore: BadgesStore,
-    exploreTagsStore: ExploreTagsStore
 }
 
 export const store: Store = {
@@ -51,8 +52,7 @@ export const store: Store = {
     settingsStore: new SettingsStore(),
     friendsStore: new FriendsStore(),
     notificationsStore: new NotificationsStore(),
-    badgesStore: new BadgesStore(),
-    exploreTagsStore: new ExploreTagsStore()
+    badgesStore: new BadgesStore()
 }
 
 export const StoreContext = createContext(store);

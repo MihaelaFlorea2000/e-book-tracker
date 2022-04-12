@@ -3,7 +3,7 @@ import {useStore} from "../../stores/RootStore";
 import React, {ChangeEvent, useEffect, useState} from "react";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup/dist/yup";
-import axiosConfig from "../../config/axiosConfig";
+import axiosConfig from "../../utils/helpers/axiosConfig";
 import {Button} from "@mui/material";
 import {StyledTextField} from "../../utils/style/styledComponents";
 import Sessions from "./components/Sessions";
@@ -24,11 +24,11 @@ import {
     ButtonsContainer
 } from "../../utils/style/readFormStyle";
 import {border} from "../../utils/style/themeConfig";
-import {device} from "../../config/config";
+import {device} from "../../utils/helpers/constants";
 import FormHelperText from "@mui/material/FormHelperText";
 import Alert from "@mui/material/Alert";
 import { readSchema } from "../../utils/helpers/schemas";
-import { formatDateStringISO } from "../../config/formatDateLong";
+import { formatDateStringISO } from "../../utils/helpers/formatDate";
 import { isOutside } from "../../utils/helpers/dateChecks";
 import {Title} from "../../utils/components/Title";
 
@@ -39,6 +39,10 @@ interface FormInterface {
     notes: string
 }
 
+/**
+ * Page for editing a book Read
+ * @constructor
+ */
 const EditReadPage = () => {
 
     const navigate = useNavigate();
@@ -128,9 +132,9 @@ const EditReadPage = () => {
             let res;
 
             if (editReadStore.isFinished()) {
-                res = await axiosConfig().post(`/pg/reads/${bookId}/${readId}/finished`, newRead);
+                res = await axiosConfig().post(`/reads/${bookId}/${readId}/finished`, newRead);
             } else {
-                res = await axiosConfig().put(`/pg/reads/${bookId}/${readId}`, newRead);
+                res = await axiosConfig().put(`/reads/${bookId}/${readId}`, newRead);
             }
 
             console.log(res);

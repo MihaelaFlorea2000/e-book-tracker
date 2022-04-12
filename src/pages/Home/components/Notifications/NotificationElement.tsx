@@ -1,7 +1,7 @@
 import React from "react";
 import { observer } from "mobx-react";
 import styled from "@emotion/styled";
-import { NotificationInterface} from "../../../../config/interfaces";
+import { NotificationInterface} from "../../../../utils/helpers/interfaces";
 import {ProfileImage} from "../../../../utils/components/ProfileImage";
 import {border} from "../../../../utils/style/themeConfig";
 import {NavLink} from "react-router-dom";
@@ -16,12 +16,20 @@ import badgeImage from "../../../../utils/images/badge.png";
 interface Props {
     notification: NotificationInterface;
 }
+
+/**
+ * Component for displaying one notification
+ * @param props
+ * @constructor
+ */
 const NotificationElement = (props: Props) => {
 
     let text;
     let image;
     let link;
 
+    // Logic based on notification type
+    // (friend or badge)
     if (props.notification.type === 'friend') {
         text = <Text><Bold>{props.notification.firstName} {props.notification.lastName}</Bold> wants to be your friend!</Text>
         image = props.notification.image;

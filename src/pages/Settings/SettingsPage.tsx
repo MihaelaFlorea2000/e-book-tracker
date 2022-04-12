@@ -9,8 +9,13 @@ import {Title} from "../../utils/components/Title";
 import PrivacySettings from "./components/PrivacySettings";
 import Alert from "@mui/material/Alert";
 
+/**
+ * Page for editing user settings
+ * @constructor
+ */
 const SettingsPage = () => {
 
+    // Get stores
     const { userStore, settingsStore } = useStore();
 
     const user = userStore.getCurrentUser();

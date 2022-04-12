@@ -12,8 +12,11 @@ interface Props {
 }
 
 /**
-    Adapted from:
-    https://codesandbox.io/s/material-ui-input-with-chips-0s2j4?from-embed=&file=/src/TagsInput.js:229-263
+ * Form input for adding and editing book tags and authors
+ * Code adapted from:
+ * https://codesandbox.io/s/material-ui-input-with-chips-0s2j4?from-embed=&file=/src/TagsInput.js:229-263
+ * @param props
+ * @constructor
  */
 const TagsInput = (props:Props) => {
 
@@ -21,6 +24,7 @@ const TagsInput = (props:Props) => {
     const [tags, setTags] = useState<string[]>(props.list);
     const [inputValue, setInputValue] = useState<string>("");
 
+    // Delete tag
     const handleDelete = (tag:string) => () => {
         const newTags = [...tags];
         newTags.splice(newTags.indexOf(tag), 1);
@@ -28,10 +32,12 @@ const TagsInput = (props:Props) => {
         props.getTags(newTags);
     };
 
+    // Load tags
     useEffect(() => {
         props.getTags(tags);
     }, []);
 
+    // Add new tag
     const addTag = () => {
         let newTags = [...tags];
         const duplicatedValues = newTags.indexOf(
@@ -50,6 +56,7 @@ const TagsInput = (props:Props) => {
         props.getTags(newTags);
     }
 
+    // Add tag on enter
     const handleKeyDown = (event:React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         if (event.key === "Enter") {
             addTag();
@@ -61,6 +68,7 @@ const TagsInput = (props:Props) => {
         }
     }
 
+    // Update input as the user types
     const handleInputChange = (event:ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         if(event !== null) {
             setInputValue(event.target.value);

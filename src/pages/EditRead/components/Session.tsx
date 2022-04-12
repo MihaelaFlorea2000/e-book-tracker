@@ -6,12 +6,12 @@ import {
     faTimes
 } from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {SessionInterface} from "../../../config/interfaces";
+import {SessionInterface} from "../../../utils/helpers/interfaces";
 import {DeleteIconContainer, EditIconContainer } from "../../../utils/style/styledComponents";
 import {TimeString} from "../../../utils/components/TimeString";
-import formatDateLong from "../../../config/formatDateLong";
-import { device } from "../../../config/config";
-import axiosConfig from "../../../config/axiosConfig";
+import formatDate from "../../../utils/helpers/formatDate";
+import { device } from "../../../utils/helpers/constants";
+import axiosConfig from "../../../utils/helpers/axiosConfig";
 import {useStore} from "../../../stores/RootStore";
 import {
     SessionDateContainer,
@@ -24,6 +24,11 @@ interface Props {
     readId: number
 }
 
+/**
+ * Component displaying a Session of the Read being edited
+ * @param props
+ * @constructor
+ */
 const Session = (props: Props) => {
 
     const { editReadStore } = useStore();
@@ -31,7 +36,7 @@ const Session = (props: Props) => {
     // Delete session
     const handleDelete = async () => {
         try {
-            const res = await axiosConfig().delete(`/pg/sessions/${props.readId}/${props.session.id}`);
+            const res = await axiosConfig().delete(`/sessions/${props.readId}/${props.session.id}`);
             console.log(res);
             editReadStore.requestSessions(props.readId);
         } catch (err) {
@@ -49,7 +54,7 @@ const Session = (props: Props) => {
     return (
         <Container>
             <SessionDateContainer>
-                {formatDateLong(props.session.startDate)}
+                {formatDate(props.session.startDate)}
             </SessionDateContainer>
             <SessionTimeContainer>
                 <TimeString time={props.session.time}/>

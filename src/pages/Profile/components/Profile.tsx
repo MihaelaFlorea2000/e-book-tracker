@@ -11,12 +11,18 @@ import React from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faLock} from "@fortawesome/free-solid-svg-icons";
 import {useStore} from "../../../stores/RootStore";
-import { device } from "../../../config/config";
+import { device } from "../../../utils/helpers/constants";
 
 interface Props {
     store: ProfileStore;
 }
 
+/**
+ * Component for displaying profile page based on user preferences
+ * and friend status
+ * @param props
+ * @constructor
+ */
 const Profile = (props: Props) => {
 
     const { userStore } = useStore();

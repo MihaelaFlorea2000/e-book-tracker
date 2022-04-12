@@ -7,6 +7,10 @@ import UsersList from "../../utils/components/User/UsersList";
 import { observer } from "mobx-react";
 import {useParams} from "react-router-dom";
 
+/**
+ * Component displaying mutual friends with another user
+ * @constructor
+ */
 const MutualFriendsPage = () => {
 
     const params = useParams();

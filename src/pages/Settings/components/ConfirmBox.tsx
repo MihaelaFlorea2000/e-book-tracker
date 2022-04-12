@@ -10,8 +10,8 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faTrash} from "@fortawesome/free-solid-svg-icons";
-import {device} from "../../../config/config";
-import axiosConfig from "../../../config/axiosConfig";
+import {device} from "../../../utils/helpers/constants";
+import axiosConfig from "../../../utils/helpers/axiosConfig";
 import {useStore} from "../../../stores/RootStore";
 import LoginStore from "../../../stores/LoginStore";
 
@@ -19,6 +19,11 @@ interface Props {
     bookId: number;
 }
 
+/**
+ * Box for confirming if the user wants to delete their account
+ * @param props
+ * @constructor
+ */
 const ConfirmBox = (props:Props) => {
 
     const navigate = useNavigate();
@@ -40,7 +45,7 @@ const ConfirmBox = (props:Props) => {
     const handleYes = async () => {
         // Delete Account
         try {
-            const res = await axiosConfig().delete(`/pg/users/settings/delete`)
+            const res = await axiosConfig().delete(`/users/settings/delete`)
 
             if (res.data.status) {
                 LoginStore.logout();

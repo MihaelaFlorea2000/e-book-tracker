@@ -1,7 +1,10 @@
 import {makeAutoObservable, runInAction} from "mobx";
-import {UserInterface} from "../config/interfaces";
-import axiosConfig from "../config/axiosConfig";
+import {UserInterface} from "../utils/helpers/interfaces";
+import axiosConfig from "../utils/helpers/axiosConfig";
 
+/**
+ * Class for managing current user state and information
+ */
 export default class UserStore {
 
     private currentUser: UserInterface | undefined = undefined
@@ -23,7 +26,7 @@ export default class UserStore {
         }
     }
 
-    // Request current user information from the API
+    // Request current user information from the backend
     public requestCurrentUser() {
         if (!this.requested) {
             runInAction(() => {
@@ -33,7 +36,7 @@ export default class UserStore {
             return;
         }
 
-        axiosConfig().get('/pg/users/currentUser').then(data => {
+        axiosConfig().get('/users/currentUser').then(data => {
             runInAction(() => {
                 this.currentUser = data.data;
                 this.requested = false

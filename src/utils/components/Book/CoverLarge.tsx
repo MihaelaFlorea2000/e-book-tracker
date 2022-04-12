@@ -7,6 +7,12 @@ interface Props {
     width: string
 }
 
+/**
+ * Large cover on the left of the page for displaying
+ * and editing book and read information
+ * @param props
+ * @constructor
+ */
 export const CoverLarge = (props: Props) => {
     return (
         <CoverContainer width={props.width}>

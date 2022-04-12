@@ -9,6 +9,10 @@ import {NoResult} from "../../utils/components/NoResult";
 import { observer } from "mobx-react";
 import BooksList from "../Explore/components/BooksList";
 
+/**
+ * Page with search results when searching in the app
+ * @constructor
+ */
 const SearchPage = () => {
 
     const { searchStore } = useStore();

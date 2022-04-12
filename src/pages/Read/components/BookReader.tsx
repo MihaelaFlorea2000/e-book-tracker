@@ -7,8 +7,8 @@ import Button from "@mui/material/Button";
 import { useMediaQuery } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
-import {BookInterface, HighlightInterface, SettingsInterface} from "../../../config/interfaces";
-import { device } from "../../../config/config";
+import {BookInterface, HighlightInterface, SettingsInterface} from "../../../utils/helpers/interfaces";
+import { device } from "../../../utils/helpers/constants";
 import { defaultStyle, mobileStyle } from "../helpers/ReaderStyles";
 import {getReaderStyles, getTheme, readerColors} from "../helpers/ReaderColors";
 import HighlightDialog from "./HighlightDialog";
@@ -30,6 +30,11 @@ interface Toc {
     parent: string | undefined
 }
 
+/**
+ * Component for rendering the e-book
+ * @param props
+ * @constructor
+ */
 const BookReader = (props: Props) => {
 
     // Get ReaderStore
@@ -51,6 +56,7 @@ const BookReader = (props: Props) => {
     const [page, setPage] = useState('')
     const renditionRef = useRef<Rendition | null>(null);
 
+    // When the user changes page
     const locationChanged = (epubcifi:string | number ) => {
         if (renditionRef.current) {
             const { displayed } = renditionRef.current.location.start
@@ -71,22 +77,10 @@ const BookReader = (props: Props) => {
         console.log(rendition.book.spine)
         const spine_get = rendition.book.spine.get.bind(rendition.book.spine);
         rendition.book.spine.get = function(target) {
-            // let t = spine_get(target);
-            // console.log(target)
-            // console.log(t)
-            // // @ts-ignore
-            // while ((t === null) && target.startsWith("../")) {
-            //     console.log(t)
-            //     // @ts-ignore
-            //     target = target.substring(3);
-            //     t = spine_get(target);
-            // }
-            // return t
             return spine_get(target);
         }
 
-
-
+        // Edit reader default theme
         rendition.themes.register('custom', {
             "body": {
                 "background-color": pageColor.backgroundColor,

@@ -3,7 +3,7 @@ import styled from "@emotion/styled";
 import {CircularLoading} from "../CircularLoading";
 import {observer} from "mobx-react";
 import {getTime} from "../TimeString";
-import formatDateLong from "../../../config/formatDateLong";
+import formatDate from "../../helpers/formatDate";
 import {
     faBook,
     faBookOpen,
@@ -14,7 +14,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import IconDetail from "../IconDetail";
 import {border} from "../../style/themeConfig";
-import { device } from "../../../config/config";
+import { device } from "../../helpers/constants";
 import {chartBorderColors, chartColors} from "../../../pages/Track/helpers/ChartSettings";
 import MetricsStore from "../../../stores/MetricsStore";
 import ProfileStore from "../../../stores/ProfileStore";
@@ -24,6 +24,11 @@ interface Props {
     size: string
 }
 
+/**
+ * Number metrics used on Track and Profile pages
+ * @param props
+ * @constructor
+ */
 const Numbers = (props: Props) => {
 
     // Get numbers
@@ -45,7 +50,7 @@ const Numbers = (props: Props) => {
             </IconDetailContainer>
             <IconDetailContainer>
                 <IconDetail borderColor={chartBorderColors.pink} color={chartColors.pink} size={props.size} title="Currently Reading" detail={`${numbers.booksCurrRead.toString()} book${numbers.booksCurrRead === 1 ? '' : 's'}`} icon={faBookOpen}/>
-                <IconDetail borderColor={chartBorderColors.pink} color={chartColors.pink} size={props.size} title="Best Day (time)" detail={formatDateLong(numbers.bestDay)} icon={faCalendar}/>
+                <IconDetail borderColor={chartBorderColors.pink} color={chartColors.pink} size={props.size} title="Best Day (time)" detail={formatDate(numbers.bestDay)} icon={faCalendar}/>
             </IconDetailContainer>
             <IconDetailContainer>
                 <IconDetail borderColor={chartBorderColors.blue} color={chartColors.blue} size={props.size} title="Longest Session" detail={getTime(numbers.longestSession)} icon={faHourglassHalf}/>

@@ -1,7 +1,10 @@
 import {makeAutoObservable, runInAction} from "mobx";
-import {NotificationInterface} from "../config/interfaces";
-import axiosConfig from "../config/axiosConfig";
+import {NotificationInterface} from "../utils/helpers/interfaces";
+import axiosConfig from "../utils/helpers/axiosConfig";
 
+/**
+ * Class for managing notifications
+ */
 export default class NotificationsStore {
 
     private notifications: NotificationInterface[] | undefined = undefined
@@ -12,7 +15,7 @@ export default class NotificationsStore {
         makeAutoObservable(this);
     }
 
-    // Get current user's books
+    // Get current user's notifications
     public getNotifications(): NotificationInterface[] | undefined {
         if (this.notifications === undefined) {
             this.requestNotifications();
@@ -23,7 +26,7 @@ export default class NotificationsStore {
         }
     }
 
-    // Request current user books
+    // Request current user notifications from backend
     public requestNotifications() {
         if (!this.requested) {
             runInAction(() => {
@@ -33,7 +36,7 @@ export default class NotificationsStore {
             return;
         }
 
-        axiosConfig().get('/pg/notifications').then(data => {
+        axiosConfig().get('/notifications').then(data => {
             runInAction(() => {
                 this.notifications = data.data;
                 this.requested = false

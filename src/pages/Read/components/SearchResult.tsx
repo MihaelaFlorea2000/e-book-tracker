@@ -3,12 +3,17 @@ import { observer } from "mobx-react";
 import styled from "@emotion/styled";
 import { border } from "../../../utils/style/themeConfig";
 import { useStore } from "../../../stores/RootStore";
-import {SearchResultInterface} from "../../../config/interfaces";
+import {SearchResultInterface} from "../../../utils/helpers/interfaces";
 
 interface Props {
     searchResult: SearchResultInterface
 }
 
+/**
+ * Component for displaying an individual search result
+ * @param props
+ * @constructor
+ */
 const SearchResult = (props: Props) => {
 
     // Get ReaderStore

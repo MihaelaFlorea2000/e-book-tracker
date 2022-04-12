@@ -1,10 +1,16 @@
 import {makeAutoObservable, runInAction} from "mobx";
-import {SimpleUserInterface} from "../config/interfaces";
-import axiosConfig from "../config/axiosConfig";
+import {SimpleUserInterface} from "../utils/helpers/interfaces";
+import axiosConfig from "../utils/helpers/axiosConfig";
 
+/**
+ * Class for managing friends state
+ */
 export default class FriendsStore {
 
+    // Current user's friends
     private friends: SimpleUserInterface[] | undefined = undefined
+
+    // Current user's mutual friends with another user
     private mutualFriends: SimpleUserInterface[] | undefined = undefined;
 
     private requested: boolean = false;
@@ -14,7 +20,7 @@ export default class FriendsStore {
         makeAutoObservable(this);
     }
 
-    // Get current user's books
+    // Get current user's friends
     public getFriends(): SimpleUserInterface[] | undefined {
         if (this.friends === undefined) {
             this.requestFriends();
@@ -25,7 +31,7 @@ export default class FriendsStore {
         }
     }
 
-    // Request current user books
+    // Request current user friends from backend
     public requestFriends() {
         if (!this.requested) {
             runInAction(() => {
@@ -35,7 +41,7 @@ export default class FriendsStore {
             return;
         }
 
-        axiosConfig().get('/pg/friends').then(data => {
+        axiosConfig().get('/friends').then(data => {
             runInAction(() => {
                 this.friends = data.data;
                 this.requested = false
@@ -43,7 +49,7 @@ export default class FriendsStore {
         })
     }
 
-    // Get current user information
+    // Get mutual friends with another user
     public getMutualFriends(userId:number): SimpleUserInterface[] | undefined {
         if (this.mutualFriends === undefined) {
             this.requestMutualFriends(userId);
@@ -54,7 +60,7 @@ export default class FriendsStore {
         }
     }
 
-    // Request current user information from the API
+    // Request mutual friends with another user from backend
     public requestMutualFriends(userId:number) {
         if (!this.requestedMutualFriends) {
             runInAction(() => {
@@ -64,7 +70,7 @@ export default class FriendsStore {
             return;
         }
 
-        axiosConfig().get(`/pg/friends/mutual/${userId}`).then(data => {
+        axiosConfig().get(`/friends/mutual/${userId}`).then(data => {
             runInAction(() => {
                 this.mutualFriends = data.data;
                 this.requestedMutualFriends = false

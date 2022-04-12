@@ -1,9 +1,12 @@
 import {makeAutoObservable, runInAction} from "mobx";
 import {
     BadgeInterface,
-} from "../config/interfaces";
-import axiosConfig from "../config/axiosConfig";
+} from "../utils/helpers/interfaces";
+import axiosConfig from "../utils/helpers/axiosConfig";
 
+/**
+ * Class for managing state for displaying badges
+ */
 export default class BadgesStore {
 
     private badges: BadgeInterface[] | undefined = undefined
@@ -14,7 +17,7 @@ export default class BadgesStore {
         makeAutoObservable(this);
     }
 
-    // Get current user's books
+    // Get current user's badges
     public getBadges(): BadgeInterface[] | undefined {
         if (this.badges === undefined) {
             this.requestBadges();
@@ -25,7 +28,7 @@ export default class BadgesStore {
         }
     }
 
-    // Request current user books
+    // Request current user badges from the backend
     public requestBadges() {
         if (!this.requested) {
             runInAction(() => {
@@ -35,7 +38,7 @@ export default class BadgesStore {
             return;
         }
 
-        axiosConfig().get('/pg/badges').then(data => {
+        axiosConfig().get('/badges').then(data => {
             runInAction(() => {
                 this.badges = data.data;
                 this.requested = false

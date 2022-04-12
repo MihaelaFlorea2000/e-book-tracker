@@ -13,12 +13,16 @@ import {faSortAlphaDown} from "@fortawesome/free-solid-svg-icons";
 import {useTheme} from "@mui/material";
 import { Title } from "../../utils/components/Title";
 
-
+/**
+ * Library page with all the user's books
+ * @constructor
+ */
 const LibraryPage = () => {
 
     // Get BooksStore
     const { booksStore } = useStore();
 
+    // Check theme
     const theme = useTheme();
 
     // Is the user coming after registration?
@@ -26,16 +30,19 @@ const LibraryPage = () => {
     let fromUpload = url.searchParams.get('fromUpload');
     let fromDelete = url.searchParams.get('fromDelete');
 
+    // Get books
     const books = booksStore.getBooks();
 
     const [isSortOn, setSortOn] = useState<boolean>(false);
 
+    // Loading
     if (books === undefined) {
         return (
             <CircularLoading />
         )
     }
 
+    // Create book nodes
     let bookNodes: ReactNode[] = [];
 
     books.forEach((elem, index) => {
@@ -46,6 +53,7 @@ const LibraryPage = () => {
         )
     })
 
+    // If the user clicks the sort button
     const handleSort = () => {
         const newSort = !isSortOn;
         setSortOn(newSort);
@@ -55,7 +63,6 @@ const LibraryPage = () => {
         } else {
             booksStore.requestBooks();
         }
-
     }
 
     return (
@@ -103,6 +110,7 @@ const ButtonsContainer = styled.div`
   align-items: center;
   justify-content: center;
 `
+
 const SortButton = styled.div<{color: string}>`
   display: flex;
   gap: 20px;

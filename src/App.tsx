@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react';
 import React, { useEffect } from 'react';
 import {Route, Routes, useLocation, useNavigate} from 'react-router-dom';
-import { ROUTES } from './config/config';
+import { ROUTES } from './utils/helpers/constants';
 import HomePage from './pages/Home/HomePage';
 import LoginPage from './pages/Login/LoginPage';
 import RegisterPage from './pages/Register/RegisterPage';
@@ -12,10 +12,9 @@ import {darkTheme, darkThemeMUI, lightThemeMui, theme} from './utils/style/theme
 import {useStore} from "./stores/RootStore";
 import {ThemeProvider as MuiThemeProvider} from "@mui/material";
 import {ThemeProvider} from "@emotion/react";
-// import { ThemeProvider } from '@mui/material/styles';
 
 
-// Are we coming from the edit page
+// Check if coming from the edit page?
 const isEditRead = (path:string) => {
     const pathArray = path.split('/');
 
@@ -29,6 +28,9 @@ const isEditRead = (path:string) => {
 function App() {
     const { settingsStore } = useStore();
 
+    // Reroute when Upload or Edit Read pages are refreshed
+    // These are multi-step form pages so
+    // should go to step 1 when refreshed
     const location = useLocation();
     const navigate = useNavigate();
     useEffect(() => {
@@ -44,6 +46,7 @@ function App() {
             <MuiThemeProvider theme={settingsStore.isDarkThemeOn() ? darkThemeMUI : lightThemeMui}>
                 <Routes>
                     {
+                        // Route to Login and Register if user is not logged in
                         MainStore.isAuth() ?
                             <>
                                 <Route path={ROUTES.library} element={<HomePage/>} />

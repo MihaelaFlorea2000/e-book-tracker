@@ -6,7 +6,7 @@ import {useStore} from "../../../stores/RootStore";
 import Session from "./Session";
 import { StyledTextField } from "../../../utils/style/styledComponents";
 import {AddButton} from "../../../utils/components/Buttons/AddButton";
-import {FrontSessionInterface} from "../../../config/interfaces";
+import {FrontSessionInterface} from "../../../utils/helpers/interfaces";
 import {
     Subtitle,
     Label,
@@ -17,7 +17,11 @@ import {
 } from "../../../utils/style/readFormStyle";
 import {isBetween} from "../../../utils/helpers/dateChecks";
 
-
+/**
+ * Component in the Add Read form for adding sessions
+ * to the Read
+ * @constructor
+ */
 const Sessions = () => {
 
     // Get stores
@@ -32,7 +36,7 @@ const Sessions = () => {
     const [hours, setHours] = useState<number>(0);
     const [minutes, setMinutes] = useState<number>(0);
 
-
+    // Get sessions
     const sessions = addReadStore.getSessions();
 
     // Add session
@@ -76,6 +80,7 @@ const Sessions = () => {
         newSessions.push(newSession);
         addReadStore.setSessions(newSessions);
 
+        // Reset state
         setDate(new Date().toLocaleDateString());
         setHours(0);
         setMinutes(0);

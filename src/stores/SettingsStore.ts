@@ -1,16 +1,22 @@
 import {makeAutoObservable, runInAction} from "mobx";
-import axiosConfig from "../config/axiosConfig";
-import {SettingsInterface} from "../config/interfaces";
+import axiosConfig from "../utils/helpers/axiosConfig";
+import {SettingsInterface} from "../utils/helpers/interfaces";
 
+/**
+ * Class for managing user settings
+ */
 export default class SettingsStore {
 
+    // Profile settings
     private profileImageUrl: string = '';
     private profileImage: File = {} as File;
     private settings: SettingsInterface | undefined = undefined;
     private requestedSettings: boolean = false;
 
+    // Appearance Settings
     private darkThemeOn: boolean = false;
 
+    // Whether a section of the settings page is expanded
     private expandAccount: boolean = true;
     private expandAppearance: boolean = false;
     private expandPrivacy: boolean = false;
@@ -43,7 +49,7 @@ export default class SettingsStore {
     public uploadProfileImage () {
         const filesData = new FormData();
         filesData.append('profileImage', this.getProfileImage())
-        return axiosConfig().post( `/pg/users/profile/edit/upload`, filesData);
+        return axiosConfig().post( `/users/profile/edit/upload`, filesData);
     }
 
     // Settings
@@ -57,7 +63,7 @@ export default class SettingsStore {
         }
     }
 
-    // Request current user books
+    // Request current user settings from backend
     public requestSettings() {
         if (!this.requestedSettings) {
             runInAction(() => {
@@ -67,7 +73,7 @@ export default class SettingsStore {
             return;
         }
 
-        axiosConfig().get(`/pg/users/settings`).then(data => {
+        axiosConfig().get(`/users/settings`).then(data => {
             runInAction(() => {
                 this.settings = data.data;
                 localStorage.setItem('darkTheme', data.data.darkTheme);
@@ -92,20 +98,8 @@ export default class SettingsStore {
         return this.expandAccount;
     }
 
-    public setExpandAccount(value: boolean) {
-        runInAction(() => {
-            this.expandAccount = value;
-        })
-    }
-
     public getExpandPrivacy(): boolean {
         return this.expandPrivacy;
-    }
-
-    public setExpandPrivacy(value: boolean) {
-        runInAction(() => {
-            this.expandPrivacy = value;
-        })
     }
 
     public getExpandAppearance(): boolean {
@@ -114,7 +108,6 @@ export default class SettingsStore {
 
     public setExpandAppearance(value: boolean) {
         runInAction(() => {
-
             this.expandAppearance = value;
         })
     }

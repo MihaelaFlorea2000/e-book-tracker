@@ -14,9 +14,9 @@ import Alert from "@mui/material/Alert";
 import { faFileUpload } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {border } from "../../utils/style/themeConfig";
-import { device } from "../../config/config";
+import { device } from "../../utils/helpers/constants";
 import { useStore } from "../../stores/RootStore";
-import { formatDateStringISO } from "../../config/formatDateLong";
+import { formatDateStringISO } from "../../utils/helpers/formatDate";
 import {Title} from "../../utils/components/Title";
 
 interface UploadFormInterface {
@@ -44,6 +44,10 @@ const uploadSchema = yup.object().shape({
         })
 });
 
+/**
+ * Page for uploading an epub file
+ * @constructor
+ */
 const UploadFirstStep = () => {
 
     const navigate = useNavigate();

@@ -1,7 +1,10 @@
 import {makeAutoObservable, runInAction} from "mobx";
-import {FrontSessionInterface} from "../config/interfaces";
-import { formatDateStringISO } from "../config/formatDateLong";
+import {FrontSessionInterface} from "../utils/helpers/interfaces";
+import { formatDateStringISO } from "../utils/helpers/formatDate";
 
+/**
+ * Class for managing state for adding a Read
+ */
 export default class AddReadStore {
 
     // Sessions
@@ -19,15 +22,16 @@ export default class AddReadStore {
         makeAutoObservable(this);
     }
 
-   public getSessions():FrontSessionInterface[] {
+    // Getters and setters
+    public getSessions():FrontSessionInterface[] {
         return this.sessions;
-   }
+    }
 
-   public setSessions(value:FrontSessionInterface[]) {
+    public setSessions(value:FrontSessionInterface[]) {
        runInAction(() => {
            this.sessions = value;
        })
-   }
+    }
 
     public getStartDate():string {
         return this.startDate;

@@ -1,13 +1,15 @@
 import {makeAutoObservable} from "mobx";
 import jwt_decode from "jwt-decode";
 
+/**
+ * Class for managing Login functionality
+ */
 class LoginStore {
 
     private authStatus: boolean = false;
 
     public constructor() {
         makeAutoObservable(this);
-
         this.setAuthStatus();
     }
 

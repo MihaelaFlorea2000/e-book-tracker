@@ -1,10 +1,8 @@
 import React from "react";
-import styled from "@emotion/styled";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import LoadingButton from "@mui/lab/LoadingButton";
 import Button from "@mui/material/Button";
-import {faCommentSlash} from "@fortawesome/free-solid-svg-icons";
 
 interface Props {
     loadingCondition: boolean
@@ -13,6 +11,11 @@ interface Props {
     [x: string]: any
 }
 
+/**
+ * Any Button with an icon in front
+ * @param props
+ * @constructor
+ */
 const IconButton = (props: Props) => {
 
     const {loadingCondition, icon, name, ...otherProps} = props

@@ -6,10 +6,14 @@ import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import ByReadChart from "./ByReadChart";
 import ByBooksChart from "./ByBooksChart";
 import {border} from "../../../../utils/style/themeConfig";
-import { device } from "../../../../config/config";
+import { device } from "../../../../utils/helpers/constants";
 import {useMediaQuery} from "@mui/material";
 
-
+/**
+ * Component for all tag bar charts
+ * and toggling between them
+ * @constructor
+ */
 const TagsCharts = () => {
 
     // Choose which chart to see

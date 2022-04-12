@@ -9,8 +9,13 @@ import YearlyChart from "./YearlyChart";
 import MonthlyChart from "./MonthlyChart";
 import TotalChart from "./TotalChart";
 import {useMediaQuery} from "@mui/material";
-import {device} from "../../../../config/config";
+import {device} from "../../../../utils/helpers/constants";
 
+/**
+ * Component for all the progress over time line charts
+ * and toggling between them
+ * @constructor
+ */
 const LineCharts = () => {
 
     // Choose which chart to see

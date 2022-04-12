@@ -13,11 +13,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ConfirmBox from "./components/Metadata/ConfirmBox";
 import { CircularLoading } from "../../utils/components/CircularLoading";
 import { border } from "../../utils/style/themeConfig";
-import { device } from "../../config/config";
+import { device } from "../../utils/helpers/constants";
 import { useStore } from "../../stores/RootStore";
 import MetadataInfo from "./components/Metadata/MetadataInfo";
 import ReadInfo from "./components/ReadInfo/ReadInfo";
 
+/**
+ * Page displaying book metadata and metrics
+ * @constructor
+ */
 const BookInfoPage = () => {
 
     // Get stores access
@@ -32,11 +36,12 @@ const BookInfoPage = () => {
 
     // Get book
     const params = useParams();
-
     const book = fromAPI !== null ? bookStore.getAPIBook(String(params.bookId)) : bookStore.getBook(Number(params.bookId));
 
+    // Get current user
     const user = userStore.getCurrentUser();
 
+    // Loading
     if (book === undefined || book.id === undefined || user === undefined) {
         return (
             <Page>
@@ -45,6 +50,7 @@ const BookInfoPage = () => {
         )
     }
 
+    // Is this the current user's book
     if (book.userId === user.id) {
         bookStore.setIsOwner(true);
     }

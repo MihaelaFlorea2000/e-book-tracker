@@ -2,7 +2,7 @@ import React from "react";
 import { observer } from "mobx-react";
 import styled from "@emotion/styled";
 import {border} from "../../../utils/style/themeConfig";
-import {BadgeInterface} from "../../../config/interfaces";
+import {BadgeInterface} from "../../../utils/helpers/interfaces";
 import { BadgeImage } from "./BadgeImage";
 
 /**
@@ -27,6 +27,11 @@ interface Props {
     badge: BadgeInterface;
 }
 
+/**
+ * Component for displaying an individual badge
+ * @param props
+ * @constructor
+ */
 const Badge = (props: Props) => {
 
     const {settingsStore } = useStore();
@@ -35,6 +40,7 @@ const Badge = (props: Props) => {
     let subtext;
     let image;
 
+    // Based on badge type
     switch (props.badge.type) {
         case 'books':
             text = <Text>Finish <Bold>{props.badge.number}</Bold> books</Text>

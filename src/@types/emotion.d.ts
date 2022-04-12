@@ -1,5 +1,6 @@
 import '@emotion/react';
 
+// Types for emotion theme
 declare module '@emotion/react' {
     export interface Theme {
         palette: {

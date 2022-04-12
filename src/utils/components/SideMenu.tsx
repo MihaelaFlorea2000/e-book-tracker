@@ -15,6 +15,12 @@ interface Props {
     buttonElement?: JSX.Element
 }
 
+/**
+ * Component for displaying any component in a side menu
+ * used for Search, Highlight, Notifications etc.
+ * @param props
+ * @constructor
+ */
 export const SideMenu = (props: Props) => {
 
     // Is menu open?

@@ -8,7 +8,7 @@ import Box from "@mui/material/Box";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import {NavLink, useNavigate} from "react-router-dom";
-import { device } from "../../../config/config";
+import { device } from "../../../utils/helpers/constants";
 import {CircularLoading} from "../../../utils/components/CircularLoading";
 import SideMenu from "../../../utils/components/SideMenu";
 import MenuBar from "./Menu/MenuBar";
@@ -17,25 +17,37 @@ import { useStore } from "../../../stores/RootStore";
 import { SearchBar } from "../../../utils/components/SearchBar";
 import {ProfileImage} from "../../../utils/components/ProfileImage";
 import {useTheme} from "@mui/material";
-import HighlightMenu from "../../Read/components/HighlightMenu";
 import NotificationsMenu from "./Notifications/NotificationsMenu";
 
-
-interface FormState {
-    query: string
-}
-
+/**
+ * Header of the app
+ * @constructor
+ */
 const Header = () => {
 
     const navigate = useNavigate();
     const theme = useTheme();
 
+    // Get stores
     const { userStore, searchStore, settingsStore } = useStore();
 
+    // Get current user
     let user = userStore.getCurrentUser();
 
-    const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
+    // Search query
     const [query, setQuery] = useState<string>('');
+
+    const handleSubmit = (event:React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        if (query && event.key === "Enter") {
+            searchStore.requestSearch();
+            searchStore.requestGoogleSearch();
+            setQuery('');
+            navigate('/search');
+        }
+    };
+
+    // User menu
+    const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
     const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElUser(event.currentTarget);
@@ -51,15 +63,7 @@ const Header = () => {
         handleCloseUserMenu();
     };
 
-    const handleSubmit = (event:React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        if (query && event.key === "Enter") {
-            searchStore.requestSearch();
-            searchStore.requestGoogleSearch();
-            setQuery('');
-            navigate('/search');
-        }
-    };
-
+    // Loading
     if (user === undefined) {
         return (
             <CircularLoading />
@@ -129,9 +133,6 @@ const Container = styled.div`
   @media only screen and ${device.tablet} {
     padding: 15px 10px;
   }
-`
-
-const SearchForm = styled.form`
 `
 
 const TopRightContainer = styled.div`

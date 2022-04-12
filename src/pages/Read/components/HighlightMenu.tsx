@@ -2,14 +2,19 @@ import React from "react";
 import { observer } from "mobx-react";
 import styled from "@emotion/styled";
 import Highlight from "./Highlight";
-import { device } from "../../../config/config";
-import {BookInterface, HighlightInterface} from "../../../config/interfaces";
+import { device } from "../../../utils/helpers/constants";
+import {BookInterface, HighlightInterface} from "../../../utils/helpers/interfaces";
 
 interface Props {
     book: BookInterface,
     selections: HighlightInterface[]
 }
 
+/**
+ * Menu with all book highlights
+ * @param props
+ * @constructor
+ */
 const HighlightMenu = (props:Props) => {
 
     return (

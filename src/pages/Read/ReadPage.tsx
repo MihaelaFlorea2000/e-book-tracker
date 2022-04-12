@@ -11,20 +11,21 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { CircularLoading } from "../../utils/components/CircularLoading";
 import SideMenu from "../../utils/components/SideMenu";
-import { device } from "../../config/config";
+import { device } from "../../utils/helpers/constants";
 import HighlightMenu from "./components/HighlightMenu";
 import BookReader from "./components/BookReader";
 import { useStore } from "../../stores/RootStore";
 import SearchMenu from "./components/SearchMenu";
-import axiosConfig from "../../config/axiosConfig";
-import {getReaderStyles, getTheme} from "./helpers/ReaderColors";
-import {useTheme} from "@mui/material";
+import axiosConfig from "../../utils/helpers/axiosConfig";
+import {getReaderStyles} from "./helpers/ReaderColors";
 
+/**
+ * E-book reader
+ * @constructor
+ */
 const ReadPage = () => {
 
     const navigate = useNavigate();
-
-    const theme = useTheme();
 
     // Get stores access
     const { readerStore, bookStore, booksStore, metricsStore, settingsStore } = useStore();
@@ -50,7 +51,7 @@ const ReadPage = () => {
     const bookOpened = async() => {
         if (bookId !== undefined) {
             try {
-                const res = await axiosConfig().post(`/pg/books/${bookId}/opened`)
+                const res = await axiosConfig().post(`/books/${bookId}/opened`)
                 console.log(res.data);
             } catch (err:any) {
                 console.log(err.response.data.message)
@@ -68,7 +69,7 @@ const ReadPage = () => {
             console.log(`${bookId}, ${data.location}`);
 
             try {
-                const res = await axiosConfig().post(`/pg/books/${bookId}/closed`, data)
+                const res = await axiosConfig().post(`/books/${bookId}/closed`, data)
                 console.log(res.data);
                 bookStore.requestBook(bookId);
                 bookStore.requestReads(bookId);

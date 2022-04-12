@@ -10,6 +10,11 @@ interface Props {
     store: ProfileStore
 }
 
+/**
+ * Component for displaying books on a user's profile page
+ * @param props
+ * @constructor
+ */
 const UserBooks = (props: Props) => {
 
     const books = props.store.getBooks();

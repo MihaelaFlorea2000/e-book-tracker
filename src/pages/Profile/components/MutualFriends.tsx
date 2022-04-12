@@ -3,14 +3,18 @@ import styled from "@emotion/styled";
 import ProfileStore from "../../../stores/ProfileStore";
 import {CircularLoading} from "../../../utils/components/CircularLoading";
 import {observer} from "mobx-react";
-import { device } from "../../../config/config";
+import { device } from "../../../utils/helpers/constants";
 import {NavLink, useParams} from "react-router-dom";
 
 interface Props {
     store: ProfileStore,
 }
 
-
+/**
+ * Component for displaying mutual friends on profile page
+ * @param props
+ * @constructor
+ */
 const MutualFriends = (props: Props) => {
 
     // Get book

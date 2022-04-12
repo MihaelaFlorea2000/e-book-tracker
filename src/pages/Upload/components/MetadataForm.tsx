@@ -15,8 +15,8 @@ import {
     faCheckCircle,
     faTimesCircle
 } from "@fortawesome/free-solid-svg-icons";
-import { UserInterface } from "../../../config/interfaces";
-import axiosConfig from "../../../config/axiosConfig";
+import { UserInterface } from "../../../utils/helpers/interfaces";
+import axiosConfig from "../../../utils/helpers/axiosConfig";
 import TagsInput from "../../../utils/components/TagsInput";
 import { StyledTextField } from "../../../utils/style/styledComponents";
 import { BookRating } from "../../../utils/components/Book/BookRating";
@@ -66,6 +66,11 @@ const metadataSchema = yup.object().shape({
     language: yup.string()
 });
 
+/**
+ * Form for uploading a book
+ * @param props
+ * @constructor
+ */
 const MetadataForm = (props:Props) => {
 
     // Get stores access
@@ -122,7 +127,7 @@ const MetadataForm = (props:Props) => {
             }
 
             // Upload metadata
-            const uploadMetadataRes = await axiosConfig().post( "/pg/books", book);
+            const uploadMetadataRes = await axiosConfig().post( "/books", book);
             let bookId;
             if (uploadMetadataRes.data.id) {
                 bookId = uploadMetadataRes.data.id;

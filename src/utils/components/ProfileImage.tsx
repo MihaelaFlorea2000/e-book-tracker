@@ -1,8 +1,4 @@
 import styled from "@emotion/styled";
-import {faStar as faStarOutline} from "@fortawesome/free-regular-svg-icons";
-import {IconProp} from "@fortawesome/fontawesome-svg-core";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faStar} from "@fortawesome/free-solid-svg-icons";
 import React from "react";
 
 interface Props {
@@ -11,6 +7,11 @@ interface Props {
     [x: string]: any
 }
 
+/**
+ * User profile image
+ * @param props
+ * @constructor
+ */
 export const ProfileImage = (props: Props) => {
 
     const {image, size, ...otherProps} = props

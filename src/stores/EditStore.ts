@@ -1,10 +1,14 @@
 import {makeAutoObservable} from "mobx";
-import axiosConfig from "../config/axiosConfig";
-import {BookInterface} from "../config/interfaces";
-import { formatDateStringISO } from "../config/formatDateLong";
+import axiosConfig from "../utils/helpers/axiosConfig";
+import {BookInterface} from "../utils/helpers/interfaces";
+import { formatDateStringISO } from "../utils/helpers/formatDate";
 
+/**
+ * Class for managing editing a book state
+ */
 export default class EditStore {
 
+    // Initialise Book properties
     private title: string = '';
     private authors: string[] = [];
     private description: string = '';
@@ -49,18 +53,9 @@ export default class EditStore {
         this.authors.splice(this.authors.indexOf(author), 1);
     }
 
-    public removeLastAuthor() {
-        this.authors.slice(0, this.tags.length - 1)
-    }
-
     // Description
     public getDescription(): string {
         return this.description;
-    }
-
-
-    public setDescription(description: string) {
-        this.description = description;
     }
 
     // Cover Image
@@ -106,10 +101,6 @@ export default class EditStore {
         return this.publisher;
     }
 
-    public setPublisher(publisher: string) {
-        this.publisher = publisher;
-    }
-
     // PubDate
     public getPubDate(): string {
         return this.pubDate;
@@ -124,17 +115,9 @@ export default class EditStore {
         return this.language;
     }
 
-    public setLanguage(language: string) {
-        this.language = language;
-    }
-
     // Rating
     public getRating(): number {
         return this.rating;
-    }
-
-    public setRating(rating: number) {
-        this.rating = rating;
     }
 
     // Series
@@ -147,33 +130,14 @@ export default class EditStore {
     }
 
     // Metadata
-    public isMetadataSet(): boolean {
-        return this.metadataStatus;
-    }
-
     public setMetadataStatus(status: boolean) {
         this.metadataStatus = status;
-    }
-
-    public resetMetadata() {
-        this.title = '';
-        this.authors = [];
-        this.description = '';
-        this.coverImageUrl = '';
-        this.coverImage = {} as File;
-        this.tags = [];
-        this.publisher = '';
-        this.pubDate = '';
-        this.language = '';
-        this.rating = 0;
-        this.series = '';
-        this.metadataStatus = false;
     }
 
     public uploadCoverImage (bookId: number) {
         const filesData = new FormData();
         filesData.append('coverImage', this.getCoverImage())
-        return axiosConfig().post( `/pg/books/${bookId}/edit/upload`, filesData);
+        return axiosConfig().post( `/books/${bookId}/edit/upload`, filesData);
     }
 
     public setMetadata (book:BookInterface) {

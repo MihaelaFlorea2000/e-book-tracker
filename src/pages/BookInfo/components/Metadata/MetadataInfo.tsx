@@ -4,8 +4,8 @@ import {BookRating} from "../../../../utils/components/Book/BookRating";
 import ReadMore from "./ReadMore";
 import IconDetail from "../../../../utils/components/IconDetail";
 import {faBookOpen, faCalendar, faLanguage} from "@fortawesome/free-solid-svg-icons";
-import {device} from "../../../../config/config";
-import {BookInterface} from "../../../../config/interfaces";
+import {device} from "../../../../utils/helpers/constants";
+import {BookInterface} from "../../../../utils/helpers/interfaces";
 import defaultCoverImage from "../../../../utils/images/defaultCoverImage.jpeg";
 import Chip from "@mui/material/Chip";
 import { CoverContainer, CoverTitle, Image } from "../../../../utils/style/styledComponents";
@@ -15,9 +15,16 @@ interface Props {
     book: BookInterface;
 }
 
+/**
+ * Component displaying a book's metadata
+ * @param props
+ * @constructor
+ */
 const MetadataInfo = (props: Props) => {
 
+    // Check which theme is used
     const theme = useTheme();
+
     // Handle books with no cover image
     const coverImage = props.book.coverImage !== null ? props.book.coverImage : defaultCoverImage;
     const showTitle = props.book.coverImage === null;
@@ -132,7 +139,6 @@ const Title = styled.h1`
   @media only screen and ${device.tablet} {
     margin-top: 0;
   }
-  
 `
 
 const Series = styled.div`

@@ -6,12 +6,18 @@ import {CircularLoading} from "../../utils/components/CircularLoading";
 import Badge from "./components/Badge";
 import { observer } from "mobx-react";
 
+/**
+ * Displaying user badges
+ * @constructor
+ */
 const BadgesPage = () => {
 
     const { badgesStore } = useStore();
 
+    // Get badges
     const badges = badgesStore.getBadges();
 
+    // Loading
     if (badges === undefined) {
         return (
             <Page>

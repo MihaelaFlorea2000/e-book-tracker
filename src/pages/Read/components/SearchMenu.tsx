@@ -1,7 +1,7 @@
 import React from "react";
 import { observer } from "mobx-react";
 import styled from "@emotion/styled";
-import { device } from "../../../config/config";
+import { device } from "../../../utils/helpers/constants";
 import { useForm } from "react-hook-form";
 import InputAdornment from "@mui/material/InputAdornment";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -17,6 +17,10 @@ interface SearchInterface {
     errorMessage: string
 }
 
+/**
+ * Menu for searching within a book
+ * @constructor
+ */
 const SearchMenu = () => {
 
     const { readerStore } = useStore();
@@ -110,12 +114,4 @@ const IconContainer = styled.div`
   > .Mui-focused{
     color: black;
   }
-`
-
-const List = styled.div`
-  display: flex;
-  flex-flow: column;
-  align-items: center;
-  justify-content: center;
-  gap: 15px;
 `

@@ -2,14 +2,15 @@ import React from "react";
 import styled from "@emotion/styled";
 import CircularProgress from "@mui/material/CircularProgress";
 
-export class CircularLoading extends React.Component<{}> {
-    public render(): React.ReactNode {
-        return (
-            <LoadingContainer>
-                <CircularProgress color="primary" size={50} thickness={8}/>
-            </LoadingContainer>
-        );
-    }
+/**
+ * Component displayed while the page is loading
+ */
+export const CircularLoading = () => {
+    return (
+        <LoadingContainer>
+            <CircularProgress color="primary" size={50} thickness={8}/>
+        </LoadingContainer>
+    );
 }
 
 const LoadingContainer = styled.div`

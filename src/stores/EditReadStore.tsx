@@ -3,10 +3,13 @@ import {
     IntervalInterface,
     ReadInterface,
     SessionInterface
-} from "../config/interfaces";
-import axiosConfig from "../config/axiosConfig";
-import { formatDateStringISO } from "../config/formatDateLong";
+} from "../utils/helpers/interfaces";
+import axiosConfig from "../utils/helpers/axiosConfig";
+import { formatDateStringISO } from "../utils/helpers/formatDate";
 
+/**
+ * Class for managing state when editing a book read
+ */
 export default class EditReadStore {
 
     // Read
@@ -14,7 +17,6 @@ export default class EditReadStore {
     private endDate: string = '';
     public rating: number = 0;
     private notes: string = '';
-
 
     // Sessions
     private sessions: SessionInterface[] = [];
@@ -65,7 +67,7 @@ export default class EditReadStore {
         return this.notes;
     }
 
-    // Read
+    // Currently Reading
     public setCurrentRead(read:ReadInterface) {
         runInAction(() => {
             this.startDate = formatDateStringISO(read.startDate);
@@ -90,7 +92,7 @@ export default class EditReadStore {
         }
     }
 
-    // Request current read sessions
+    // Request current read sessions from backend
     public requestSessions(readId:number) {
         if (!this.requestedSessions) {
             runInAction(() => {
@@ -100,7 +102,7 @@ export default class EditReadStore {
             return;
         }
 
-        axiosConfig().get(`/pg/sessions/${readId}`).then(data => {
+        axiosConfig().get(`/sessions/${readId}`).then(data => {
             runInAction(() => {
                 this.sessions = data.data;
                 this.requestedSessions = false;
@@ -145,7 +147,7 @@ export default class EditReadStore {
         })
     }
 
-    // Is read finished
+    // Is read finished?
     public isFinished():boolean {
         return this.finished;
     }
@@ -156,7 +158,7 @@ export default class EditReadStore {
         })
     }
 
-    // Edit Dialog
+    // Edit Dialog for session
     public isEditDialogue():boolean {
         return this.editDialogue;
     }

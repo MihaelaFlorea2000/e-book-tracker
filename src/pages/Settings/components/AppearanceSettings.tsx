@@ -7,8 +7,8 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import SettingIcon from "./SettingIcon";
 import {faCheckCircle, faMinus, faPalette, faPlus, faTimesCircle} from "@fortawesome/free-solid-svg-icons";
 import {useStore} from "../../../stores/RootStore";
-import {SettingsInterface, UserInterface} from "../../../config/interfaces";
-import axiosConfig from "../../../config/axiosConfig";
+import {SettingsInterface, UserInterface} from "../../../utils/helpers/interfaces";
+import axiosConfig from "../../../utils/helpers/axiosConfig";
 import {observer} from "mobx-react";
 import Switch from "@mui/material/Switch";
 import Button from "@mui/material/Button";
@@ -16,15 +16,19 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import LoadingButton from "@mui/lab/LoadingButton";
 import {SubmitButtons} from "../../../utils/style/metadataFormStyle";
 import {useNavigate} from "react-router-dom";
-import {device} from "../../../config/config";
+import {device} from "../../../utils/helpers/constants";
 import {pageColors} from "../../Read/helpers/ReaderColors";
-
 
 interface Props {
     user: UserInterface,
     settings: SettingsInterface
 }
 
+/**
+ * Appearance settings section on settings page
+ * @param props
+ * @constructor
+ */
 const AppearanceSettings = (props: Props) => {
 
     const navigate = useNavigate();
@@ -55,7 +59,7 @@ const AppearanceSettings = (props: Props) => {
                 readerTheme: readerTheme
             }
 
-            const res = await axiosConfig().put('/pg/users/settings/appearance', newSettings)
+            const res = await axiosConfig().put('/users/settings/appearance', newSettings)
             console.log(res);
             setIsSubmitting(false);
             settingsStore.requestSettings();

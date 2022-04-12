@@ -8,6 +8,11 @@ interface Props {
     [x: string]: any
 }
 
+/**
+ * Round Plus button
+ * @param props
+ * @constructor
+ */
 export const AddButton = (props: Props) => {
 
     const { size, ...otherProps} = props

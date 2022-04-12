@@ -14,6 +14,8 @@ import {CircularLoading} from "../../../../utils/components/CircularLoading";
 import {chartBorderColors, chartColors, getBarChartOptions} from "../../helpers/ChartSettings";
 
 /**
+ * Chart of top 5 tags by the books owned
+ *
  * Some code for chart settings is taken from
  * the react-chartjs-2 documentation
  * https://react-chartjs-2.js.org/examples/horizontal-bar-chart

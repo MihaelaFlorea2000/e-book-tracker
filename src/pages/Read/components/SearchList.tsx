@@ -1,11 +1,15 @@
 import React from "react";
 import { observer } from "mobx-react";
 import styled from "@emotion/styled";
-import {SearchResultInterface} from "../../../config/interfaces";
+import {SearchResultInterface} from "../../../utils/helpers/interfaces";
 import {useStore} from "../../../stores/RootStore";
 import SearchResult from "./SearchResult";
 import {NoResult} from "../../../utils/components/NoResult";
 
+/**
+ * List of search results when searching in a book
+ * @constructor
+ */
 const SearchList = () => {
 
     const { readerStore } = useStore();
@@ -26,7 +30,6 @@ const SearchList = () => {
             </List>
         )
     }
-
 
     return (
         <Container>

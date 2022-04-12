@@ -3,6 +3,10 @@ import styled from "@emotion/styled";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faSadTear} from "@fortawesome/free-solid-svg-icons";
 
+/**
+ * Component displayed when there are no search results
+ * @constructor
+ */
 export const NoResult = () => {
 
     return (

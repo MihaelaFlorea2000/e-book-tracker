@@ -26,12 +26,15 @@ interface Props {
 }
 
 /**
+ * Chart with reading time over the past year
+ *
  * Some code for chart settings is taken from
  * the react-chartjs-2 documentation
  * https://react-chartjs-2.js.org/examples/line-chart
  */
 const YearlyChart = (props: Props) => {
 
+    // Get stores
     const { metricsStore, settingsStore } = useStore();
 
     // Get data
