@@ -18,6 +18,7 @@ import { device } from "../../utils/helpers/constants";
 import { useStore } from "../../stores/RootStore";
 import { formatDateStringISO } from "../../utils/helpers/formatDate";
 import {Title} from "../../utils/components/Title";
+import {toJS} from "mobx";
 
 interface UploadFormInterface {
     files: FileList,
@@ -110,7 +111,6 @@ const UploadFirstStep = () => {
         if (!!errors) {
             setIsSubmitting(true);
             try {
-                console.log(data.files[0]);
                 await getMetadata(data.files[0]);
                 setIsSubmitting(false);
                 navigate('/upload/2');

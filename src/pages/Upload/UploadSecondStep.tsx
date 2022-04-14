@@ -6,6 +6,7 @@ import MetadataForm from "./components/MetadataForm";
 import { CircularLoading } from "../../utils/components/CircularLoading";
 import { useStore } from "../../stores/RootStore";
 import { Title } from "../../utils/components/Title";
+import {toJS} from "mobx";
 
 /**
  * Page for updating book metadata
@@ -35,6 +36,8 @@ const UploadSecondStep = () => {
     // Get epub metadata
     let isMetadataSet = uploadStore.isMetadataSet();
     let user = userStore.getCurrentUser();
+
+    console.log(toJS(uploadStore.getTitle()))
 
     if (!isMetadataSet || user === undefined) {
         return (
