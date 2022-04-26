@@ -110,7 +110,7 @@ const Read = (props: Props) => {
             {!props.current &&
                 <>
                     <RatingContainer>
-                        {props.read.rating && <BookRating value={props.read.rating} size="small" readOnly={true} />}
+                        <BookRating value={props.read.rating} size="small" readOnly={true} />
                     </RatingContainer>
                     <NotesContainer>
                         {props.read.notes &&
