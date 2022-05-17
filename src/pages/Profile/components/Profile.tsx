@@ -87,7 +87,7 @@ const Profile = (props: Props) => {
                         <IconContainer>
                             <FontAwesomeIcon icon={faLock}/>
                         </IconContainer>
-                        This profile is private. You must become friends to view their profile
+                        This profile is private. You must become friends to view their profile.
                     </PrivateProfile>
                 }
             </Container>

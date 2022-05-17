@@ -152,6 +152,7 @@ const HighlightDialog = (props:Props) => {
                     placeholder="Note"
                     variant="outlined"
                     type="text"
+                    value={currentSelection.note}
                     onChange={handleNoteChange}
                     multiline
                     rows={10}

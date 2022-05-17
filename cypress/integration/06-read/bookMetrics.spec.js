@@ -81,7 +81,7 @@ describe('Book Reads', () => {
         cy.get(':nth-child(1) > .css-nt43tc > :nth-child(2)').click()
         cy.get(':nth-child(2) > .css-nt43tc > :nth-child(2)').click()
         cy.get(':nth-child(3) > .css-nt43tc > :nth-child(2)').click()
-        cy.get(':nth-child(4) > .css-nt43tc > :nth-child(2)').click()
+        // cy.get(':nth-child(4) > .css-nt43tc > :nth-child(2)').click()
 
         // Add valid sessions
         cy.addValidSessions()

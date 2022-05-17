@@ -1,4 +1,4 @@
-describe('Settings Page', () => {
+describe('Search Page', () => {
     before(() => {
         cy.login('john_d@yahoo.com', '12345678')
         cy.saveLocalStorage()

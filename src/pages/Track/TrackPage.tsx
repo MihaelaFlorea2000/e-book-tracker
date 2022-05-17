@@ -62,7 +62,7 @@ const GoalsContainer = styled.div`
   display: flex;
   flex-flow: column;
   gap: 20px;
-  width: 50vw;
+  width: 53vw;
   border-radius: ${border.borderRadius};
 
   @media only screen and ${device.tablet} {
