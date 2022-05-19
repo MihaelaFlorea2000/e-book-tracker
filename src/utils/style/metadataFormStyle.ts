@@ -153,6 +153,7 @@ export const SubmitButtons = styled.div`
   }
 
   @media only screen and ${device.tablet} {
+    flex-flow: column;
     gap: 30px;
 
     button {

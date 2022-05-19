@@ -156,7 +156,7 @@ const BookReader = (props: Props) => {
             <ReaderContainer>
                 <ReactReader
                     url={props.book.file}
-                    title={props.book.title}
+                    title={isMobile ? '' : props.book.title}
                     location={location}
                     locationChanged={locationChanged}
                     getRendition={getRendition}
@@ -214,6 +214,7 @@ const BottomContainer = styled.div<{backgroundColor: string, color: string}>`
 
   @media only screen and ${device.mobileL} {
     font-size: 0.8rem;
+    align-items: center;
   }
 `
 
