@@ -1,6 +1,10 @@
 # E-book Reading Tracker
 
-An E-book reading tracking application created with [Create React App](https://github.com/facebook/create-react-app).
+An E-book reading tracking application. 
+
+Nowadays, people’s habits are changing as they tend to incorporate technology into more aspects of their everyday lives. When it comes to reading, a lot of users switched to ebooks and e-content, especially in light of the COVID-19 pandemic. Moreover, the popularity of fitness devices has increased peoples’ interest in self-tracking as a means of recording or improving various habits.
+
+However, despite this growing interest in e-reading and self-tracking, there are currently limited automatic solutions for users to keep track of their reading progress over time. Therefore, this platform aims to improve the readers’ experience by combining e-reading, tracking and social networking features. 
 
 ## Available Scripts
 
