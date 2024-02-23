@@ -6,6 +6,8 @@ Nowadays, people’s habits are changing as they tend to incorporate technology 
 
 However, despite this growing interest in e-reading and self-tracking, there are currently limited automatic solutions for users to keep track of their reading progress over time. Therefore, this platform aims to improve the readers’ experience by combining e-reading, tracking and social networking features. 
 
+The backend code is available at https://github.com/MihaelaFlorea2000/e-book-tracker-backend 
+
 ## Available Scripts
 
 In the project directory, you can run:
